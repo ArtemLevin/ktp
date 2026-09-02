@@ -4,322 +4,118 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light" />
-<title>KTP 2.0 — календарно-тематическое планирование 2026/27</title>
-<style>
-:root{
-  --brand:#4f46e5; --brand2:#7c3aed; --ink:#101828; --muted:#667085;
-  --paper:#f5f7fb; --card:#fff; --line:#e4e7ec; --line2:#d0d5dd;
-  --accent:#f59e0b; --success:#16a34a; --successSoft:#ecfdf3;
-  --label:258px; --half:23px; --radius:20px;
-  --shadow:0 20px 60px rgba(16,24,40,.09),0 2px 8px rgba(16,24,40,.04);
-}
-*{box-sizing:border-box} html{scroll-behavior:smooth}
-body{margin:0;min-width:320px;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-background:radial-gradient(circle at 8% 0%,rgba(124,58,237,.09),transparent 26rem),
-radial-gradient(circle at 92% 7%,rgba(79,70,229,.08),transparent 28rem),
-linear-gradient(180deg,#fafbff 0%,var(--paper) 55%,#eef2f8 100%)}
-button,input,select{font:inherit} button,select{touch-action:manipulation}
-.app{min-height:100vh;padding:18px 18px 30px}
-.shell{max-width:1800px;margin:0 auto}
-.hero{position:relative;overflow:hidden;margin-bottom:14px;padding:28px 32px 30px;border-radius:28px;color:#fff;
-background:linear-gradient(125deg,#111827 0%,#1e1b4b 48%,#4338ca 100%);box-shadow:0 28px 80px rgba(49,46,129,.18)}
-.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
-.hero:before{width:420px;height:420px;right:-110px;top:-250px;background:radial-gradient(circle,rgba(196,181,253,.38),transparent 68%)}
-.hero:after{width:300px;height:300px;right:20%;bottom:-230px;background:radial-gradient(circle,rgba(129,140,248,.32),transparent 70%)}
-.hero>*{position:relative;z-index:1}
-.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
-.eyebrow{display:inline-flex;align-items:center;gap:7px;min-height:29px;padding:5px 10px;border:1px solid rgba(255,255,255,.2);
-border-radius:999px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);color:#e0e7ff;font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
-.version{padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.1);font-size:11px;font-weight:750;color:#eef2ff}
-h1{max-width:1200px;margin:12px 0 0;font-size:clamp(28px,3.35vw,52px);font-weight:860;line-height:1.02;letter-spacing:-.045em;text-wrap:balance}
-.sub{margin:14px 0 0;color:rgba(238,242,255,.8);font-size:14px;font-weight:560}
-.toolbar{position:relative;z-index:20;margin-bottom:10px;padding:10px;display:grid;grid-template-columns:minmax(280px,1.55fr) repeat(3,minmax(145px,.5fr)) auto;
-gap:8px;align-items:center;border:1px solid rgba(208,213,221,.8);border-radius:18px;background:rgba(255,255,255,.86);box-shadow:0 8px 26px rgba(16,24,40,.07);backdrop-filter:blur(18px)}
-.control,.btn{min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);transition:.16s ease}
-.control{padding:0 13px;font-size:13px;font-weight:620;outline:none}.control:hover{border-color:#c7cbd4}.control:focus,.btn:focus-visible{border-color:#a5b4fc;outline:none;box-shadow:0 0 0 4px rgba(79,70,229,.12)}
-.search{position:relative}.search input{width:100%;padding-left:40px}.search svg{position:absolute;left:13px;top:13px;width:18px;height:18px;color:#98a2b3;pointer-events:none}
-.btn{padding:0 13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;font-size:13px;font-weight:760}
-.btn:hover{border-color:#c7cbd4;background:#f9fafb;transform:translateY(-1px)}.btn:active{transform:none}
-.btn.primary{border-color:transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 7px 18px rgba(79,70,229,.24)}
-.toolbar-actions{display:flex;gap:8px}
-.monthbar{display:flex;align-items:center;gap:7px;margin-bottom:10px;overflow:auto;padding:2px 1px 4px;scrollbar-width:none}.monthbar::-webkit-scrollbar{display:none}
-.month-chip{border:1px solid var(--line);background:rgba(255,255,255,.8);color:#667085;border-radius:999px;padding:7px 11px;cursor:pointer;font-size:11.5px;font-weight:750;white-space:nowrap;transition:.15s ease}
-.month-chip:hover{border-color:#c7d2fe;color:#4338ca}.month-chip.active{border-color:#c7d2fe;background:#eef2ff;color:#4338ca;box-shadow:0 3px 12px rgba(79,70,229,.08)}
-.stats{display:grid;grid-template-columns:repeat(4,max-content) 1fr;gap:8px;align-items:center;margin-bottom:10px}
-.stat{min-height:34px;display:inline-flex;align-items:center;gap:4px;padding:7px 11px;border:1px solid rgba(228,231,236,.92);border-radius:10px;background:rgba(255,255,255,.74);color:#667085;font-size:11.5px;font-weight:650;box-shadow:0 2px 8px rgba(16,24,40,.025)}
-.stat strong{color:#344054;font-weight:850}.focus-banner{justify-self:end;display:none;align-items:center;gap:8px;padding:6px 8px 6px 11px;border:1px solid #c7d2fe;border-radius:999px;background:#eef2ff;color:#4338ca;font-size:11.5px;font-weight:760}.focus-banner.show{display:flex}.focus-banner button{border:0;background:#fff;border-radius:999px;width:26px;height:26px;cursor:pointer;color:#4338ca}
-.schedule-wrap{position:relative;overflow:auto;max-height:calc(100vh - 330px);border:1px solid rgba(208,213,221,.92);border-radius:var(--radius);background:rgba(255,255,255,.98);box-shadow:var(--shadow);scrollbar-color:#c7cdd8 transparent;scrollbar-width:thin}
-.schedule-wrap::-webkit-scrollbar{width:10px;height:10px}.schedule-wrap::-webkit-scrollbar-track{background:transparent}.schedule-wrap::-webkit-scrollbar-thumb{background:#cbd1dc;border:3px solid #fff;border-radius:999px}
-.schedule{min-width:calc(var(--label) + 68 * var(--half));width:max-content}
-.schedule-head{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.97);box-shadow:0 8px 18px rgba(16,24,40,.05);backdrop-filter:blur(16px)}
-.head-row,.subject-row,.grade-group{display:grid;grid-template-columns:var(--label) calc(68 * var(--half))}
-.head-row{min-height:40px}.subject-row{min-height:56px}
-.head-label,.subject-label,.grade-label{position:sticky;left:0;z-index:16;display:flex;align-items:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.98)}
-.head-label{justify-content:flex-start;padding:8px 14px;color:#475467;font-size:10.5px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;background:#f8f9fc}
-.head-row.month .head-label{color:#4338ca;background:#eef2ff}.head-row.week .head-label{color:#b54708;background:#fff7ed}
-.timeline{position:relative;display:grid;grid-template-columns:repeat(68,var(--half));border-bottom:1px solid var(--line);background:#fff}
-.timeline>.cell{position:relative;z-index:2;min-width:0;border-right:1px solid #eef0f4;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px 6px;overflow:hidden;color:#344054;font-size:11px;line-height:1.18}
-.month-cell{background:linear-gradient(180deg,#eef2ff,#f5f3ff);color:#4338ca!important;font-weight:850}.date-cell{background:#fbfcfe;color:#667085!important;font-weight:750}.week-cell{background:#fffaf5;color:#9a3412!important;font-weight:800}
-.time-progress{position:absolute;z-index:6;left:0;top:0;bottom:0;pointer-events:none;background:rgba(15,23,42,.028);border-right:2px solid var(--accent);box-shadow:1px 0 0 rgba(255,255,255,.8)}
-.time-progress:after{content:"";position:absolute;right:-4px;top:0;width:6px;height:6px;border-radius:50%;background:var(--accent)}
-.date-cell.current,.week-cell.current{color:#7c2d12!important;background:linear-gradient(180deg,#fef3c7,#fff7ed)}
-.grade-group{min-height:40px;background:#f8f9fc}.grade-label{z-index:18;gap:8px;padding:7px 12px;background:#f8f9fc;color:#344054;font-size:12px;font-weight:850}
-.grade-toggle{width:26px;height:26px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;color:#667085;font-weight:900}.grade-title{display:flex;align-items:center;gap:7px}.grade-count{color:#98a2b3;font-size:10px;font-weight:700}
-.grade-timeline{position:relative;display:flex;align-items:center;gap:10px;padding:0 14px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#fafbff,#fff);color:#667085;font-size:11px;font-weight:650}
-.grade-progress{width:150px;height:5px;border-radius:99px;background:#eaecf0;overflow:hidden}.grade-progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:inherit}
-.subject-label{z-index:14;gap:9px;padding:8px 10px;box-shadow:6px 0 18px rgba(16,24,40,.025);transition:.16s ease}.subject-row:hover .subject-label{background:#fcfcfd}
-.grade-badge{display:inline-grid;place-items:center;width:30px;height:30px;flex:0 0 30px;border:1px solid #dcdffb;border-radius:9px;background:#eef2ff;color:#4338ca;font-size:12px;font-weight:900}
-.subject-row[data-subject="Геометрия"] .grade-badge{border-color:#bae6fd;background:#f0f9ff;color:#0369a1}.subject-row[data-subject="Математика"] .grade-badge{border-color:#bbf7d0;background:#f0fdf4;color:#15803d}
-.subject-info{min-width:0;flex:1}.subject-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#344054;font-size:11.5px;font-weight:800}.subject-meta{margin-top:2px;color:#98a2b3;font-size:9.5px;font-weight:650}
-.row-progress{display:flex;align-items:center;gap:6px;margin-top:5px}.row-progress-track{height:4px;flex:1;border-radius:99px;background:#eaecf0;overflow:hidden}.row-progress-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#6366f1,#8b5cf6)}.row-progress span{min-width:28px;color:#98a2b3;font-size:9px;font-weight:800;text-align:right}
-.focus-btn{width:29px;height:29px;flex:0 0 29px;border:1px solid var(--line);border-radius:9px;background:#fff;color:#667085;cursor:pointer;font-size:13px}.focus-btn:hover{border-color:#c7d2fe;color:#4338ca;background:#f8f7ff}
-.topic{position:relative;z-index:2;margin:4px 2px;border:1px solid transparent;border-radius:9px;background:#fff;cursor:pointer;color:#344054!important;font-weight:620;transition:.14s ease}
-.topic:hover{z-index:5;border-color:#c7d2fe;background:#f8f7ff;box-shadow:0 4px 12px rgba(79,70,229,.09);transform:translateY(-1px)}
-.topic.initial{border-color:#bbf7d0;background:linear-gradient(180deg,#f0fdf4,#ecfdf3);color:#166534!important}.topic.search-match{border-color:#fbbf24;background:#fffbeb;box-shadow:0 0 0 2px rgba(245,158,11,.13)}
-.topic.done{border-color:#bbf7d0;background:linear-gradient(180deg,#f0fdf4,#ecfdf3);padding-right:19px}.topic.done:after{content:"✓";position:absolute;right:5px;top:4px;display:grid;place-items:center;width:14px;height:14px;border-radius:50%;background:#dcfce7;color:#15803d;font-size:9px;font-weight:950}
-.topic.current-hit{border-color:#fdba74;box-shadow:inset 0 0 0 1px rgba(245,158,11,.16)}
-.subject-row[hidden],.grade-group[hidden]{display:none}.empty{padding:54px 28px;text-align:center;color:var(--muted);display:none;font-size:14px}.empty.show{display:block}
-.minimap{margin-top:9px;padding:10px 12px;border:1px solid rgba(228,231,236,.9);border-radius:14px;background:rgba(255,255,255,.76);box-shadow:0 4px 18px rgba(16,24,40,.035)}
-.mini-label{display:flex;justify-content:space-between;margin-bottom:7px;color:#98a2b3;font-size:10px;font-weight:750}.mini-track{position:relative;height:22px;border-radius:8px;overflow:hidden;background:#eef2f7;cursor:pointer;user-select:none;touch-action:none}
-.mini-months{position:absolute;inset:0;display:flex}.mini-month{height:100%;border-right:1px solid rgba(255,255,255,.8);background:#e9e7ff}.mini-month:nth-child(even){background:#eef2ff}
-.mini-past{position:absolute;left:0;top:0;bottom:0;background:rgba(15,23,42,.08);pointer-events:none}.mini-today{position:absolute;top:0;bottom:0;width:2px;background:var(--accent);pointer-events:none}
-.mini-viewport{position:absolute;top:2px;bottom:2px;border:2px solid #4f46e5;border-radius:6px;background:rgba(79,70,229,.08);box-shadow:0 2px 7px rgba(79,70,229,.16);cursor:grab}.mini-viewport.dragging{cursor:grabbing}
-.footer{padding:14px 2px 0;color:#667085;font-size:11.5px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.legend{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap}.legend-item{display:inline-flex;align-items:center;gap:7px}.swatch{width:12px;height:12px;border:1px solid #d0d5dd;border-radius:4px;background:#fff}.swatch.green{border-color:#bbf7d0;background:#ecfdf3}.swatch.today{border-color:#fdba74;background:#fff7ed}.swatch.done{border-color:#86efac;background:#dcfce7}
-.drawer-backdrop{position:fixed;inset:0;z-index:40;display:none;background:rgba(15,23,42,.34);backdrop-filter:blur(5px)}.drawer-backdrop.open{display:block}
-.drawer{position:fixed;right:14px;top:14px;bottom:14px;z-index:50;width:min(440px,calc(100vw - 28px));padding:24px;overflow:auto;border:1px solid rgba(255,255,255,.72);border-radius:24px;background:rgba(255,255,255,.97);box-shadow:-18px 20px 70px rgba(16,24,40,.22);transform:translateX(calc(100% + 30px));transition:transform .24s cubic-bezier(.2,.75,.2,1);backdrop-filter:blur(18px)}.drawer.open{transform:translateX(0)}
-.drawer-close{float:right;width:38px;height:38px;border:1px solid var(--line);border-radius:11px;background:#f9fafb;color:#475467;cursor:pointer;font-size:21px}.drawer .eyebrow{border-color:#e0e7ff;background:#eef2ff;color:#4338ca}.drawer h2{margin:12px 0 8px;font-size:26px;line-height:1.1;letter-spacing:-.025em}.drawer .rowname{margin-bottom:20px;color:#667085;font-size:13px;font-weight:600}.drawer dl{display:grid;grid-template-columns:125px 1fr;gap:0;margin:0;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:13px}.drawer dt,.drawer dd{padding:11px 13px;border-bottom:1px solid #f0f1f3}.drawer dt{color:#667085;background:#fcfcfd}.drawer dd{margin:0;color:#344054;font-weight:750}.drawer-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.drawer .mark{grid-column:1/-1;min-height:48px}
-body.compact{--label:224px;--half:20px}body.compact .subject-row{min-height:46px}body.compact .subject-label{padding:5px 8px}body.compact .grade-badge{width:26px;height:26px;flex-basis:26px}body.compact .topic{margin:2px 1px;font-size:10.5px}
-@media(max-width:1080px){.toolbar{grid-template-columns:1fr 1fr}.search{grid-column:1/-1}.toolbar-actions{grid-column:1/-1}.stats{grid-template-columns:repeat(2,max-content) 1fr}.focus-banner{grid-column:1/-1;justify-self:start}.schedule-wrap{max-height:calc(100vh - 400px)}}
-@media(max-width:680px){:root{--label:188px;--half:19px}.app{padding:10px}.hero{padding:24px 20px 25px;border-radius:22px}.version{display:none}.toolbar{grid-template-columns:1fr}.search{grid-column:auto}.toolbar-actions{grid-column:auto;display:grid;grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.stat{justify-content:center}.schedule-wrap{max-height:calc(100vh - 485px)}.subject-name{font-size:10.5px}.row-progress{display:none}.focus-btn{display:none}.drawer{right:8px;top:8px;bottom:8px;width:calc(100vw - 16px)}}
-@media print{body{background:#fff}.hero,.toolbar,.monthbar,.stats,.minimap,.footer{display:none!important}.app{padding:0}.schedule-wrap{border:0;box-shadow:none;max-height:none;overflow:visible}.schedule{transform:scale(.70);transform-origin:top left}.schedule-head,.head-label,.subject-label,.grade-label{position:static}.drawer,.drawer-backdrop{display:none!important}.time-progress{display:none}}
-</style>
+<title>KTP 3.0 — план / факт / корректировка</title>
+<link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
 <div class="app">
   <div class="shell">
     <header class="hero">
-      <div class="hero-top"><div class="eyebrow">Календарно-тематическое планирование</div><div class="version">KTP 2.0</div></div>
-      <h1>Учебный год 2026/27</h1>
-      <p class="sub">Математика, алгебра и геометрия · 5–11 классы · интерактивная шкала на 34 учебные недели</p>
+      <div class="hero-top"><div class="eyebrow">Календарно-тематическое планирование</div><div class="version">KTP 3.0</div></div>
+      <h1>План → факт → корректировка</h1>
+      <p class="sub">Учебный год 2026/27 · 5–11 классы · планирование, фактический прогресс, резерв и прогноз окончания программы</p>
     </header>
+
+    <section class="workspace-bar" aria-label="Режим отображения">
+      <div class="view-tabs" role="tablist">
+        <button class="view-tab" data-view="dashboard" type="button">Обзор</button>
+        <button class="view-tab active" data-view="timeline" type="button">КТП</button>
+        <button class="view-tab" data-view="today" type="button">Сегодня</button>
+      </div>
+      <div class="workspace-actions">
+        <button id="historyUndoBtn" class="btn ghost" type="button" title="Отменить последнее перепланирование">↶ Отменить</button>
+        <button id="exportBtn" class="btn ghost" type="button">Экспорт</button>
+        <label class="btn ghost file-btn">Импорт<input id="importInput" type="file" accept="application/json,.json" hidden /></label>
+      </div>
+    </section>
 
     <section class="toolbar" aria-label="Фильтры КТП">
       <label class="search" aria-label="Поиск по темам">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-        <input id="search" class="control" type="search" placeholder="Найти тему, например «логарифм»…" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <input id="search" class="control" type="search" placeholder="Тема, класс или учебник…" />
       </label>
-      <select id="gradeFilter" class="control"><option value="all">Все классы</option></select>
-      <select id="subjectFilter" class="control"><option value="all">Все предметы</option><option>Математика</option><option>Алгебра</option><option>Геометрия</option></select>
-      <select id="bookFilter" class="control"><option value="all">Все линии</option></select>
+      <select id="gradeFilter" class="control" aria-label="Класс"><option value="all">Все классы</option></select>
+      <select id="subjectFilter" class="control" aria-label="Предмет"><option value="all">Все предметы</option><option>Математика</option><option>Алгебра</option><option>Геометрия</option></select>
+      <select id="bookFilter" class="control" aria-label="Учебник"><option value="all">Все линии</option></select>
       <div class="toolbar-actions">
-        <button id="todayBtn" class="btn primary" type="button">◎ Сегодня</button>
+        <button id="todayBtn" class="btn primary" type="button">◎ Текущая неделя</button>
+        <button id="replanBtn" class="btn" type="button">Перепланирование</button>
         <button id="densityBtn" class="btn" type="button">Плотность</button>
-        <button id="printBtn" class="btn" type="button">Печать</button>
       </div>
+    </section>
+
+    <section id="replanNotice" class="replan-notice" aria-live="polite">
+      <div><strong>Режим перепланирования.</strong> Перетащите тему вправо или влево. Первая тема учебного года закреплена.</div>
+      <label class="switch-label"><input id="shiftFollowing" type="checkbox" checked /> сдвигать последующие темы, используя резерв</label>
     </section>
 
     <nav id="monthbar" class="monthbar" aria-label="Переход по месяцам"></nav>
 
     <section class="stats" aria-live="polite">
-      <span class="stat"><strong id="visibleRows">17</strong> учебных линий</span>
-      <span class="stat"><strong>34</strong> недели</span>
-      <span class="stat">Пройдено: <strong id="doneCount">0</strong> тем</span>
+      <span class="stat"><strong id="visibleRows">17</strong> линий</span>
+      <span class="stat">Пройдено: <strong id="doneCount">0</strong></span>
+      <span class="stat">В работе: <strong id="workCount">0</strong></span>
+      <span class="stat">С отклонением: <strong id="riskCount">0</strong></span>
       <span class="stat" id="todayStat">Текущая дата вне диапазона КТП</span>
-      <div id="focusBanner" class="focus-banner"><span id="focusText"></span><button id="clearFocus" title="Выйти из режима фокуса">×</button></div>
+      <div id="focusBanner" class="focus-banner"><span id="focusText"></span><button id="clearFocus" type="button" aria-label="Выйти из режима фокуса">×</button></div>
     </section>
 
-    <main>
-      <div id="scheduleWrap" class="schedule-wrap" tabindex="0" aria-label="Интерактивное КТП">
-        <div id="schedule" class="schedule"></div>
-        <div id="empty" class="empty">По выбранным параметрам ничего не найдено.</div>
+    <section id="dashboardView" class="view-panel" hidden>
+      <div id="dashboardSummary" class="summary-grid"></div>
+      <div class="dashboard-layout">
+        <section class="panel-card">
+          <div class="panel-heading"><div><span class="kicker">План / факт</span><h2>Состояние учебных линий</h2></div></div>
+          <div class="table-scroll"><table class="dashboard-table"><thead><tr><th>Линия</th><th>Факт</th><th>План</th><th>Отклонение</th><th>Резерв</th><th>Прогноз</th></tr></thead><tbody id="dashboardRows"></tbody></table></div>
+        </section>
+        <section class="panel-card history-card">
+          <div class="panel-heading"><div><span class="kicker">Журнал</span><h2>Последние изменения</h2></div></div>
+          <div id="historyList" class="history-list"></div>
+        </section>
       </div>
-      <section class="minimap" aria-label="Мини-карта учебного года">
-        <div class="mini-label"><span>Навигация по учебному году</span><span>перетащите рамку или кликните по шкале</span></div>
-        <div id="miniTrack" class="mini-track"><div id="miniMonths" class="mini-months"></div><div id="miniPast" class="mini-past"></div><div id="miniToday" class="mini-today"></div><div id="miniViewport" class="mini-viewport"></div></div>
-      </section>
-    </main>
+    </section>
+
+    <section id="timelineView" class="view-panel">
+      <main>
+        <div id="scheduleWrap" class="schedule-wrap" tabindex="0" aria-label="Интерактивное КТП">
+          <div id="schedule" class="schedule"></div>
+          <div id="empty" class="empty">По выбранным параметрам ничего не найдено.</div>
+        </div>
+        <section class="minimap" aria-label="Мини-карта учебного года">
+          <div class="mini-label"><span>Навигация по учебному году</span><span>перетащите рамку или кликните по шкале</span></div>
+          <div id="miniTrack" class="mini-track"><div id="miniMonths" class="mini-months"></div><div id="miniPast" class="mini-past"></div><div id="miniToday" class="mini-today"></div><div id="miniViewport" class="mini-viewport"></div></div>
+        </section>
+      </main>
+    </section>
+
+    <section id="todayView" class="view-panel" hidden>
+      <div class="today-head">
+        <div><span class="kicker">Операционный экран</span><h2>Что происходит сейчас</h2></div>
+        <p>Плановая тема, фактическая работа, ближайшее действие и достаточность резерва.</p>
+      </div>
+      <div id="todayGrid" class="today-grid"></div>
+    </section>
 
     <footer class="footer">
       <div class="legend">
-        <span class="legend-item"><span class="swatch green"></span> стартовая тема</span>
+        <span class="legend-item"><span class="swatch planned"></span> запланировано</span>
+        <span class="legend-item"><span class="swatch work"></span> в работе</span>
+        <span class="legend-item"><span class="swatch done"></span> пройдено</span>
+        <span class="legend-item"><span class="swatch reserve"></span> резерв / повторение</span>
         <span class="legend-item"><span class="swatch today"></span> текущая позиция</span>
-        <span class="legend-item"><span class="swatch done"></span> выполнено</span>
       </div>
-      <div>Фокус — кнопка ⊙ у учебной линии · / — поиск · Esc — закрыть карточку/фокус</div>
+      <div>/ — поиск · Esc — закрыть карточку или фокус · статус и заметки сохраняются в браузере</div>
     </footer>
   </div>
 </div>
 
 <div id="drawerBackdrop" class="drawer-backdrop"></div>
-<aside id="drawer" class="drawer" aria-hidden="true">
-  <button id="drawerClose" class="drawer-close" aria-label="Закрыть">×</button>
+<aside id="drawer" class="drawer" aria-hidden="true" aria-label="Карточка темы">
+  <button id="drawerClose" class="drawer-close" type="button" aria-label="Закрыть">×</button>
   <div id="drawerContent"></div>
 </aside>
 
-<script>
-const dates=['2026-09-01','2026-09-07','2026-09-14','2026-09-21','2026-09-28','2026-10-05','2026-10-12','2026-10-19','2026-11-09','2026-11-16','2026-11-23','2026-11-30','2026-12-07','2026-12-14','2026-12-21','2026-12-28','2027-01-11','2027-01-18','2027-01-25','2027-02-01','2027-02-08','2027-02-15','2027-02-24','2027-03-01','2027-03-09','2027-03-15','2027-03-22','2027-04-05','2027-04-12','2027-04-19','2027-04-26','2027-05-04','2027-05-11','2027-05-17'];
-const dateLabels=['1','7','14','21','28','5','12','19','9','16','23','30','7','14','21','28','11','18','25','1','8','15','24','1','9','15','22','5','12','19','26','4','11','17'];
-const months=[['Сентябрь',0,10],['Октябрь',10,16],['Ноябрь',16,24],['Декабрь',24,32],['Январь',32,38],['Февраль',38,46],['Март',46,54],['Апрель',54,62],['Май',62,68]];
-const rows=[
-{grade:5,subject:'Математика',book:'Виленкин',title:'5 Математика · Виленкин',bounds:[0,7,14,20,25,29,35,39,43,47,52,57,60,68],topics:['Натуральные числа','Сложение и вычитание натуральных чисел','Умножение и деление натуральных чисел','Делители и кратные','Площадь и объём','Обыкновенные дроби','Сложение и вычитание дробей с одинаковыми знаменателями','Сложение и вычитание дробей с разными знаменателями','Умножение и деление обыкновенных дробей','Десятичные дроби','Умножение и деление десятичных дробей','Транспортир','Резерв и повторение']},
-{grade:6,subject:'Математика',book:'Виленкин',title:'6 Математика · Виленкин',bounds:[0,7,15,23,32,37,43,49,55,60,68],topics:['Вычисления и построения','Действия со смешанными числами','Умножение и деление смешанных чисел','Отношение и пропорции. Симметрия. Окружность и круг','Противоположные числа и модуль','Сложение и вычитание положительных и отрицательных чисел','Умножение и деление рациональных чисел','Решение уравнений','Координаты на плоскости','Резерв и повторение']},
-{grade:7,subject:'Алгебра',book:'Макарычев',title:'7 Алгебра · Макарычев',bounds:[0,12,19,27,39,51,60,68],topics:['Выражения, тождества, уравнения','Функции','Степень с натуральным показателем','Многочлены','Формулы сокращённого умножения','Системы линейных уравнений','Повторение (12 ч). Уроки 91–102']},
-{grade:7,subject:'Алгебра',book:'Конструктор',title:'7 Алгебра · Конструктор',bounds:[0,15,33,45,60,68],topics:['Числа и вычисления. Рациональные числа','Алгебраические выражения','Уравнения и неравенства','Координаты и графики. Функции','Повторение (12 ч). Уроки 91–102']},
-{grade:7,subject:'Геометрия',book:'Атанасян',hours:'68 ч',title:'7 Геометрия · Атанасян',bounds:[0,12,25,34,47,60,68],topics:['Начальные геометрические сведения','Треугольники','Параллельные прямые','Соотношения между сторонами и углами треугольника','Геометрические места точек. Симметрия','Повторение (8 ч). Уроки 61–68']},
-{grade:8,subject:'Алгебра',book:'Макарычев',title:'8 Алгебра · Макарычев',bounds:[0,10,20,38,46,55,60,68],topics:['Рациональные дроби','Квадратные корни','Квадратные уравнения и системы уравнений','Неравенства','Функции','Степень с целым показателем','Повторение (12 ч). Уроки 91–102']},
-{grade:8,subject:'Алгебра',book:'Конструктор',title:'8 Алгебра · Конструктор',bounds:[0,10,15,18,28,43,51,60,68],topics:['Квадратные корни','Степень с целым показателем','Квадратный трёхчлен','Алгебраическая дробь','Квадратные уравнения и системы уравнений','Неравенства','Функции','Повторение (12 ч). Уроки 91–102']},
-{grade:8,subject:'Геометрия',book:'Атанасян',hours:'68 ч',title:'8 Геометрия · Атанасян',bounds:[0,13,27,44,60,68],topics:['Четырёхугольники','Площадь','Подобные треугольники','Окружность','Повторение (8 ч). Уроки 61–68']},
-{grade:9,subject:'Алгебра',book:'Макарычев',title:'9 Алгебра · Макарычев',bounds:[0,12,23,36,49,60,68],topics:['Числа и вычисления','Функции и графики','Уравнения и неравенства с одной переменной','Уравнения и неравенства с двумя переменными','Арифметическая и геометрическая прогрессии','Повторение (12 ч). Уроки 91–102']},
-{grade:9,subject:'Алгебра',book:'Конструктор',title:'9 Алгебра · Конструктор',bounds:[0,6,15,25,35,46,56,68],topics:['Действительные числа','Уравнения с одной переменной','Системы уравнений','Неравенства','Функции','Числовые последовательности','Резерв и повторение']},
-{grade:9,subject:'Геометрия',book:'Атанасян',hours:'68 ч',title:'9 Геометрия · Атанасян',bounds:[0,10,18,32,42,51,60,68],topics:['Векторы','Метод координат','Соотношения между сторонами и углами треугольника. Скалярное произведение векторов','Длина окружности и площадь круга','Движения','Подобие фигур','Повторение (8 ч). Уроки 61–68']},
-{grade:10,subject:'Алгебра',book:'Алимов',hours:'102 ч',title:'10 Алгебра · Алимов',bounds:[0,7,14,21,30,41,50,60,68],topics:['Действительные числа (11 ч). Уроки 1–11','Степенная функция (10 ч). Уроки 12–21','Показательная функция (10 ч). Уроки 22–31','Логарифмическая функция (14 ч). Уроки 32–45','Тригонометрические формулы (16 ч). Уроки 46–61','Тригонометрические уравнения (14 ч). Уроки 62–75','Тригонометрические функции (15 ч). Уроки 76–90','Повторение (12 ч). Уроки 91–102']},
-{grade:10,subject:'Алгебра',book:'Конструктор',title:'10 Алгебра · Конструктор',bounds:[0,13,19,35,55,60,68],topics:['Множества рациональных и действительных чисел. Рациональные уравнения и неравенства (13 ч). Уроки 1–13','Функции (6 ч). Уроки 14–19','Арифметический корень n-й степени (16 ч). Уроки 20–35','Формулы тригонометрии. Тригонометрические уравнения (20 ч). Уроки 36–55','Последовательности и прогрессии (5 ч). Уроки 56–60','Повторение (8 ч). Уроки 61–68']},
-{grade:10,subject:'Геометрия',book:'Атанасян',hours:'68 ч',title:'10 Геометрия · Атанасян',bounds:[0,4,23,42,60,68],topics:['Повторение (4 ч). Уроки 1–4','Параллельность прямых и плоскостей (19 ч). Уроки 5–23','Перпендикулярность прямых и плоскостей (19 ч). Уроки 24–42','Многогранники (18 ч). Уроки 43–60','Повторение (8 ч). Уроки 61–68']},
-{grade:11,subject:'Алгебра',book:'Алимов',title:'11 Алгебра · Алимов',bounds:[0,11,21,30,37,43,50,68],topics:['Производная и её геометрический смысл (16 ч). Уроки 1–16','Применение производной к исследованию функций (16 ч). Уроки 17–32','Интеграл (13 ч). Уроки 33–45','Комбинаторика (10 ч). Уроки 46–55','Элементы теории вероятностей (8 ч). Уроки 56–63','Статистика (12 ч). Уроки 64–75','Повторение (27 ч). Уроки 76–102']},
-{grade:11,subject:'Алгебра',book:'Конструктор',title:'11 Алгебра · Конструктор',bounds:[0,8,16,22,38,44,52,56,68],topics:['Показательная функция','Логарифмическая функция','Тригонометрические функции','Производная. Применение производной','Интеграл','Системы уравнений','Целые числа','Резерв и повторение']},
-{grade:11,subject:'Геометрия',book:'Атанасян',title:'11 Геометрия · Атанасян',bounds:[0,11,21,32,44,56,68],topics:['Цилиндр, конус, шар','Объёмы многогранников','Объёмы тел вращения','Векторы в пространстве','Метод координат в пространстве. Движения','Резерв и повторение']}
-];
-
-const fmt=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',year:'numeric'});
-const parseLocal=iso=>{const[y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d)};
-const doneKey='ktp-2026-27-done-v1', collapseKey='ktp-2026-27-collapsed-v2', densityKey='ktp-2026-27-density-v2';
-let done=new Set(JSON.parse(localStorage.getItem(doneKey)||'[]'));
-let collapsed=new Set(JSON.parse(localStorage.getItem(collapseKey)||'[]'));
-let focusRow=null, activeTopic=null;
-
-function getNowPosition(){
-  const now=new Date(), first=parseLocal(dates[0]), last=new Date(parseLocal(dates.at(-1)).getTime()+7*86400000);
-  if(now<first||now>=last)return null;
-  let idx=0; for(let i=0;i<dates.length;i++){if(now>=parseLocal(dates[i]))idx=i;else break}
-  const start=parseLocal(dates[idx]), frac=Math.max(0,Math.min(1,(now-start)/(7*86400000)));
-  return {week:idx+1,half:idx*2+frac*2};
-}
-const nowPos=getNowPosition();
-
-function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
-function gridCell(cls,text,start,end){const c=el('div','cell '+cls,text);c.style.gridColumn=`${start+1}/${end+1}`;return c}
-function addTimeOverlay(tl){
-  if(!nowPos)return;
-  const o=el('div','time-progress');o.style.width=`calc(${nowPos.half} * var(--half))`;tl.append(o);
-}
-function halfToWeek(h){return Math.max(1,Math.min(34,Math.floor(h/2)+1))}
-function rangeText(a,b){const sw=halfToWeek(a),ew=Math.max(sw,Math.ceil(b/2));return{sw,ew,start:fmt.format(parseLocal(dates[sw-1])),end:fmt.format(parseLocal(dates[ew-1]))}}
-function topicId(ri,ti){return`r${ri}-t${ti}`}
-function rowProgress(ri){const r=rows[ri],n=r.topics.filter((_,ti)=>done.has(topicId(ri,ti))).length;return{n,total:r.topics.length,p:Math.round(100*n/r.topics.length)}}
-function gradeProgress(g){const ids=rows.map((r,ri)=>({r,ri})).filter(x=>x.r.grade===g);let n=0,total=0;ids.forEach(x=>{const p=rowProgress(x.ri);n+=p.n;total+=p.total});return{n,total,p:total?Math.round(100*n/total):0}}
-function saveDone(){localStorage.setItem(doneKey,JSON.stringify([...done]))}
-function saveCollapsed(){localStorage.setItem(collapseKey,JSON.stringify([...collapsed]))}
-
-function buildHeader(){
-  const head=el('div','schedule-head');
-  const defs=[['month','Месяц'],['date','Дата'],['week','Номер недели']];
-  defs.forEach(([type,label])=>{
-    const row=el('div','head-row '+type);row.append(el('div','head-label',label));const tl=el('div','timeline');
-    if(type==='month')months.forEach(([name,a,b])=>tl.append(gridCell('month-cell',name,a,b)));
-    if(type==='date')dateLabels.forEach((d,i)=>tl.append(gridCell('date-cell'+(nowPos?.week===i+1?' current':''),d,i*2,i*2+2)));
-    if(type==='week')dates.forEach((_,i)=>tl.append(gridCell('week-cell'+(nowPos?.week===i+1?' current':''),String(i+1),i*2,i*2+2)));
-    addTimeOverlay(tl);row.append(tl);head.append(row);
-  });return head;
-}
-function buildGradeHeader(g){
-  const box=el('section','grade-group');box.dataset.grade=g;
-  const label=el('div','grade-label');const btn=el('button','grade-toggle',collapsed.has(String(g))?'＋':'−');btn.type='button';btn.title='Свернуть/развернуть класс';
-  const title=el('div','grade-title');title.innerHTML=`<span>${g} класс</span><span class="grade-count">${rows.filter(r=>r.grade===g).length} линии</span>`;
-  label.append(btn,title);const tl=el('div','grade-timeline');const p=gradeProgress(g);const track=el('div','grade-progress');track.innerHTML=`<i style="width:${p.p}%"></i>`;tl.append(track,el('span','',`${p.p}% тем отмечено`));box.append(label,tl);
-  const toggle=()=>{const key=String(g);collapsed.has(key)?collapsed.delete(key):collapsed.add(key);saveCollapsed();render()};
-  btn.addEventListener('click',e=>{e.stopPropagation();toggle()});label.addEventListener('click',toggle);return box;
-}
-function buildSubjectRow(r,ri){
-  const row=el('section','subject-row');row.dataset.row=ri;row.dataset.grade=r.grade;row.dataset.subject=r.subject;row.dataset.book=r.book;
-  const label=el('div','subject-label');const badge=el('span','grade-badge',String(r.grade));const info=el('div','subject-info');
-  info.innerHTML=`<div class="subject-name">${r.subject} · ${r.book}</div><div class="subject-meta">${r.hours||`${r.topics.length} тематических блоков`}</div>`;
-  const p=rowProgress(ri),prog=el('div','row-progress');prog.innerHTML=`<div class="row-progress-track"><i style="width:${p.p}%"></i></div><span>${p.p}%</span>`;info.append(prog);
-  const focus=el('button','focus-btn','⊙');focus.type='button';focus.title='Режим фокуса';focus.addEventListener('click',e=>{e.stopPropagation();setFocus(ri)});
-  label.append(badge,info,focus);label.addEventListener('dblclick',()=>setFocus(ri));row.append(label);
-  const tl=el('div','timeline');
-  r.topics.forEach((name,ti)=>{const a=r.bounds[ti],b=r.bounds[ti+1],c=gridCell('topic'+(ti===0?' initial':''),name,a,b);c.dataset.topic=name.toLowerCase();c.dataset.id=topicId(ri,ti);c.title=name;
-    if(done.has(c.dataset.id))c.classList.add('done');if(nowPos&&a<nowPos.half&&b>nowPos.half)c.classList.add('current-hit');c.addEventListener('click',()=>openDrawer(ri,ti));tl.append(c)});
-  addTimeOverlay(tl);row.append(tl);return row;
-}
-function render(){
-  const s=document.getElementById('schedule');s.innerHTML='';s.append(buildHeader());
-  [...new Set(rows.map(r=>r.grade))].forEach(g=>{s.append(buildGradeHeader(g));rows.forEach((r,ri)=>{if(r.grade===g)s.append(buildSubjectRow(r,ri))})});
-  applyFilters();updateStats();updateMini();
-}
-function fillFilters(){
-  const grade=document.getElementById('gradeFilter');[...new Set(rows.map(r=>r.grade))].forEach(v=>{const o=el('option','',`${v} класс`);o.value=v;grade.append(o)});
-  const book=document.getElementById('bookFilter');[...new Set(rows.map(r=>r.book))].forEach(v=>{const o=el('option','',v);o.value=v;book.append(o)});
-}
-function applyFilters(){
-  const q=document.getElementById('search').value.trim().toLowerCase(),grade=document.getElementById('gradeFilter').value,subject=document.getElementById('subjectFilter').value,book=document.getElementById('bookFilter').value;
-  let visible=0;const gradeVisible=new Map();
-  document.querySelectorAll('.subject-row').forEach(row=>{
-    const ri=+row.dataset.row,cells=[...row.querySelectorAll('.topic')];
-    const base=(grade==='all'||row.dataset.grade===grade)&&(subject==='all'||row.dataset.subject===subject)&&(book==='all'||row.dataset.book===book)&&(focusRow===null||ri===focusRow);
-    let match=!q;cells.forEach(c=>{const yes=!!q&&c.dataset.topic.includes(q);c.classList.toggle('search-match',yes);if(yes)match=true});
-    const isCollapsed=collapsed.has(row.dataset.grade)&&focusRow===null;
-    row.hidden=!(base&&match)||isCollapsed;if(!row.hidden){visible++;gradeVisible.set(row.dataset.grade,true)}
-  });
-  document.querySelectorAll('.grade-group').forEach(g=>{const gradeMatch=(grade==='all'||g.dataset.grade===grade);g.hidden=focusRow!==null||!gradeMatch||(!gradeVisible.get(g.dataset.grade)&&!collapsed.has(g.dataset.grade))});
-  document.getElementById('visibleRows').textContent=visible;document.getElementById('empty').classList.toggle('show',visible===0);
-  syncUrl();
-}
-function updateStats(){document.getElementById('doneCount').textContent=done.size}
-function setFocus(ri){
-  focusRow=ri;const b=document.getElementById('focusBanner'),t=document.getElementById('focusText');
-  if(ri===null){b.classList.remove('show');t.textContent=''}else{b.classList.add('show');t.textContent=`Фокус: ${rows[ri].grade} класс · ${rows[ri].subject} · ${rows[ri].book}`}
-  applyFilters();
-}
-function openDrawer(ri,ti){
-  activeTopic={ri,ti};const r=rows[ri],name=r.topics[ti],a=r.bounds[ti],b=r.bounds[ti+1],x=rangeText(a,b),id=topicId(ri,ti);
-  document.getElementById('drawerContent').innerHTML=`<div class="eyebrow">${r.grade} класс · ${r.subject}</div><h2>${name}</h2><div class="rowname">${r.book}${r.hours?' · '+r.hours:''}</div><dl><dt>Блок</dt><dd>${ti+1} из ${r.topics.length}</dd><dt>Недели</dt><dd>${x.sw}–${x.ew}</dd><dt>Начало</dt><dd>${x.start}</dd><dt>Ориентир конца</dt><dd>${x.end}</dd></dl><div class="drawer-actions"><button id="prevTopic" class="btn" type="button">← Ранее</button><button id="nextTopic" class="btn" type="button">Далее →</button><button id="markBtn" class="btn primary mark" type="button">${done.has(id)?'Снять отметку «выполнено»':'Отметить тему выполненной'}</button></div>`;
-  document.getElementById('prevTopic').disabled=ti===0;document.getElementById('nextTopic').disabled=ti===r.topics.length-1;
-  document.getElementById('prevTopic').onclick=()=>ti>0&&openDrawer(ri,ti-1);document.getElementById('nextTopic').onclick=()=>ti<r.topics.length-1&&openDrawer(ri,ti+1);document.getElementById('markBtn').onclick=()=>toggleDone(ri,ti);
-  document.getElementById('drawer').classList.add('open');document.getElementById('drawerBackdrop').classList.add('open');document.getElementById('drawer').setAttribute('aria-hidden','false');
-}
-function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerBackdrop').classList.remove('open');document.getElementById('drawer').setAttribute('aria-hidden','true');activeTopic=null}
-function toggleDone(ri,ti){const id=topicId(ri,ti);done.has(id)?done.delete(id):done.add(id);saveDone();render();updateStats();openDrawer(ri,ti)}
-function scrollToHalf(half,smooth=true){const wrap=document.getElementById('scheduleWrap'),cs=getComputedStyle(document.documentElement),unit=parseFloat(cs.getPropertyValue('--half')),label=parseFloat(cs.getPropertyValue('--label'));wrap.scrollTo({left:Math.max(0,label+half*unit-wrap.clientWidth*.35),behavior:smooth?'smooth':'auto'})}
-function scrollToCurrent(){if(!nowPos){alert('Сегодняшняя дата находится вне диапазона учебного года 2026/27.');return}scrollToHalf(nowPos.half)}
-function buildMonthbar(){
-  const nav=document.getElementById('monthbar');months.forEach(([name,a],i)=>{const b=el('button','month-chip',name);b.type='button';b.dataset.month=i;b.onclick=()=>scrollToHalf(a);nav.append(b)});
-}
-function updateActiveMonth(){
-  const wrap=document.getElementById('scheduleWrap'),unit=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--half')),label=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--label'));
-  const half=Math.max(0,(wrap.scrollLeft+wrap.clientWidth*.38-label)/unit);let idx=months.findIndex(([,a,b])=>half>=a&&half<b);if(idx<0)idx=months.length-1;
-  document.querySelectorAll('.month-chip').forEach((b,i)=>b.classList.toggle('active',i===idx));
-}
-function buildMini(){
-  const mm=document.getElementById('miniMonths');months.forEach(([,a,b])=>{const d=el('div','mini-month');d.style.width=`${(b-a)/68*100}%`;mm.append(d)});
-  const tr=document.getElementById('miniTrack'),vp=document.getElementById('miniViewport');let drag=false,offset=0;
-  const moveTo=e=>{const r=tr.getBoundingClientRect(),x=Math.max(0,Math.min(r.width,e.clientX-r.left-offset)),maxLeft=r.width-vp.offsetWidth,ratio=maxLeft?x/maxLeft:0;const wrap=document.getElementById('scheduleWrap');wrap.scrollLeft=ratio*Math.max(0,wrap.scrollWidth-wrap.clientWidth)};
-  vp.addEventListener('pointerdown',e=>{drag=true;vp.classList.add('dragging');vp.setPointerCapture(e.pointerId);offset=e.clientX-vp.getBoundingClientRect().left});
-  vp.addEventListener('pointermove',e=>{if(drag)moveTo(e)});vp.addEventListener('pointerup',()=>{drag=false;vp.classList.remove('dragging')});
-  tr.addEventListener('pointerdown',e=>{if(e.target===vp)return;offset=vp.offsetWidth/2;moveTo(e)});
-}
-function updateMini(){
-  const wrap=document.getElementById('scheduleWrap'),vp=document.getElementById('miniViewport'),track=document.getElementById('miniTrack');if(!track.clientWidth)return;
-  const width=Math.max(7,Math.min(100,wrap.clientWidth/wrap.scrollWidth*100));vp.style.width=width+'%';const maxScroll=Math.max(1,wrap.scrollWidth-wrap.clientWidth),maxLeft=100-width;vp.style.left=(wrap.scrollLeft/maxScroll*maxLeft)+'%';
-  const past=nowPos?Math.min(100,nowPos.half/68*100):0;document.getElementById('miniPast').style.width=past+'%';document.getElementById('miniToday').style.left=past+'%';
-}
-function syncUrl(){
-  const p=new URLSearchParams(),g=document.getElementById('gradeFilter').value,s=document.getElementById('subjectFilter').value,b=document.getElementById('bookFilter').value,q=document.getElementById('search').value.trim();
-  if(g!=='all')p.set('grade',g);if(s!=='all')p.set('subject',s);if(b!=='all')p.set('book',b);if(q)p.set('q',q);if(focusRow!==null)p.set('focus',focusRow);
-  history.replaceState(null,'',location.pathname+(p.toString()?'?'+p:''));
-}
-function restoreUrl(){
-  const p=new URLSearchParams(location.search);for(const[id,key]of[['gradeFilter','grade'],['subjectFilter','subject'],['bookFilter','book']]){const v=p.get(key);if(v&&[...document.getElementById(id).options].some(o=>o.value===v))document.getElementById(id).value=v}
-  if(p.get('q'))document.getElementById('search').value=p.get('q');if(p.has('focus')){const ri=+p.get('focus');if(rows[ri])focusRow=ri}
-}
-function toggleDensity(){document.body.classList.toggle('compact');localStorage.setItem(densityKey,document.body.classList.contains('compact')?'compact':'comfortable');render();updateMini()}
-
-fillFilters();buildMonthbar();buildMini();if(localStorage.getItem(densityKey)==='compact')document.body.classList.add('compact');restoreUrl();render();if(focusRow!==null)setFocus(focusRow);
-['search','gradeFilter','subjectFilter','bookFilter'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',applyFilters));
-document.getElementById('todayBtn').onclick=scrollToCurrent;document.getElementById('densityBtn').onclick=toggleDensity;document.getElementById('printBtn').onclick=()=>window.print();document.getElementById('clearFocus').onclick=()=>setFocus(null);
-document.getElementById('drawerClose').onclick=closeDrawer;document.getElementById('drawerBackdrop').onclick=closeDrawer;
-const wrap=document.getElementById('scheduleWrap');wrap.addEventListener('scroll',()=>{updateMini();updateActiveMonth()},{passive:true});window.addEventListener('resize',updateMini);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('drawer').classList.contains('open'))closeDrawer();else if(focusRow!==null)setFocus(null)}if(e.key==='/'&&!['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();document.getElementById('search').focus()}});
-const todayStat=document.getElementById('todayStat');if(nowPos){todayStat.innerHTML=`Сегодня: <strong>${nowPos.week}-я неделя</strong> · ${fmt.format(parseLocal(dates[nowPos.week-1]))}`;setTimeout(()=>{scrollToCurrent();updateMini();updateActiveMonth()},220)}
-</script>
+<script src="js/data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
