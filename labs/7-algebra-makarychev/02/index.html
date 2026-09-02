@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Лаборатория: линейная функция · KTP 3.0</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-shell">
+<a class="back" href="../../../topics/7-algebra-makarychev/02.html">← Вернуться к теме «Функции»</a>
+<header class="hero"><div class="eyebrow">Цифровая лаборатория · 7 класс</div><h1>Как k и b меняют график y = kx + b?</h1><p>Меняйте параметры, наблюдайте наклон и вертикальное положение прямой, затем сформулируйте закономерности.</p></header>
+<section class="workspace">
+<aside class="panel controls" aria-label="Параметры функции">
+<h2>Параметры</h2>
+<label>Коэффициент k <output id="kOut">1</output><input id="k" type="range" min="-4" max="4" step="0.5" value="1"></label>
+<label>Свободный член b <output id="bOut">0</output><input id="b" type="range" min="-5" max="5" step="0.5" value="0"></label>
+<button id="reset" type="button">Сбросить</button>
+<div class="formula" id="formula">y = x</div>
+<div class="observations" id="observations"></div>
+</aside>
+<section class="panel graph-card">
+<h2>График</h2>
+<svg id="graph" viewBox="0 0 640 480" role="img" aria-label="График линейной функции"></svg>
+<div class="points" id="points"></div>
+</section>
+</section>
+<section class="panel tasks"><h2>Исследовательские задания</h2><ol>
+<li>Установите b = 0. Меняйте k. Через какую точку проходит прямая при любом k?</li>
+<li>Зафиксируйте k = 2. Сравните b = −3, 0 и 3. Что меняется и что остаётся прежним?</li>
+<li>Сравните k = 2 и k = −2 при одинаковом b. Как меняется направление наклона?</li>
+<li>Установите k = 0. Как выглядит график и от чего теперь зависит его положение?</li>
+</ol></section>
+<section class="panel conclusion"><h2>Что стоит заметить</h2><p><b>k</b> управляет наклоном прямой, <b>b</b> задаёт её пересечение с осью Oy. При b = 0 получаем прямую пропорциональность y = kx, и график проходит через начало координат.</p></section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+(function(){
+'use strict';
+const svg=document.getElementById('graph'),kInput=document.getElementById('k'),bInput=document.getElementById('b'),kOut=document.getElementById('kOut'),bOut=document.getElementById('bOut'),formula=document.getElementById('formula'),points=document.getElementById('points'),obs=document.getElementById('observations');
+const W=640,H=480,xMin=-6,xMax=6,yMin=-6,yMax=6;
+const X=x=>(x-xMin)/(xMax-xMin)*W,Y=y=>H-(y-yMin)/(yMax-yMin)*H;
+const n=v=>Number(v),fmt=v=>Number.isInteger(v)?String(v):String(v).replace('.',',');
+function lineText(k,b){let s='y = ';if(k===0)s+='';else if(k===1)s+='x';else if(k===-1)s+='−x';else s+=`${fmt(k)}x`;if(k===0)s+=fmt(b);else if(b>0)s+=` + ${fmt(b)}`;else if(b<0)s+=` − ${fmt(Math.abs(b))}`;return s;}
+function draw(){const k=n(kInput.value),b=n(bInput.value);kOut.textContent=fmt(k);bOut.textContent=fmt(b);formula.textContent=lineText(k,b);let html='';for(let x=-6;x<=6;x++){html+=`<line x1="${X(x)}" y1="0" x2="${X(x)}" y2="${H}" stroke="#eaecf0" stroke-width="1"/>`;}for(let y=-6;y<=6;y++){html+=`<line x1="0" y1="${Y(y)}" x2="${W}" y2="${Y(y)}" stroke="#eaecf0" stroke-width="1"/>`;}html+=`<line x1="0" y1="${Y(0)}" x2="${W}" y2="${Y(0)}" stroke="#667085" stroke-width="2"/><line x1="${X(0)}" y1="0" x2="${X(0)}" y2="${H}" stroke="#667085" stroke-width="2"/>`;const y1=k*xMin+b,y2=k*xMax+b;html+=`<line x1="${X(xMin)}" y1="${Y(y1)}" x2="${X(xMax)}" y2="${Y(y2)}" stroke="#4f46e5" stroke-width="4"/>`;[-2,0,2].forEach(x=>{const y=k*x+b;if(y>=yMin&&y<=yMax)html+=`<circle cx="${X(x)}" cy="${Y(y)}" r="5" fill="#7c3aed"/>`;});svg.innerHTML=html;points.textContent=[-2,0,2].map(x=>`(${fmt(x)}; ${fmt(k*x+b)})`).join(' · ');let note=k>0?'Прямая возрастает.':k<0?'Прямая убывает.':'Прямая горизонтальна.';note+=` Пересечение с Oy: (0; ${fmt(b)}).`;if(b===0)note+=' Это прямая пропорциональность.';obs.textContent=note;}
+kInput.addEventListener('input',draw);bInput.addEventListener('input',draw);document.getElementById('reset').addEventListener('click',()=>{kInput.value='1';bInput.value='0';draw();});draw();
+})();
