@@ -4,7 +4,8 @@ const body=document.body;
 if(body.dataset.row!=='7-algebra-makarychev')return;
 const configs={
   0:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/01/index.html'},
-  1:{count:11,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/02/index.html'}
+  1:{count:11,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/02/index.html'},
+  2:{count:12,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/03/index.html'}
 };
 const cfg=configs[Number(body.dataset.topic)];
 if(!cfg)return;
