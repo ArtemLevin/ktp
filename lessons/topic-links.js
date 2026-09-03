@@ -7,7 +7,8 @@ const configs={
   1:{count:11,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/02/index.html'},
   2:{count:12,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/03/index.html'},
   3:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/04/index.html'},
-  4:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/05/index.html'}
+  4:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/05/index.html'},
+  5:{count:13,weeks:'5 учебных недель',href:'../../lessons/7-algebra-makarychev/06/index.html'}
 };
 const cfg=configs[Number(body.dataset.topic)];
 if(!cfg)return;

@@ -3,35 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Лаборатория: системы линейных уравнений · KTP 3.0</title>
+<title>Лаборатория: системы и пересечение прямых · KTP 3.0</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main class="lab-shell">
 <a class="back" href="../../../topics/7-algebra-makarychev/06.html">← Вернуться к теме «Системы линейных уравнений»</a>
-<header class="hero"><div class="eyebrow">Цифровая лаборатория · 7 класс</div><h1>Когда система имеет одно, ни одного или бесконечно много решений?</h1><p>Исследуйте две прямые вида y = kx + b. Их взаимное расположение сразу показывает число решений системы.</p></header>
+<header class="hero">
+<div class="eyebrow">Цифровая лаборатория · 7 класс · глава VI</div>
+<h1>Системы и пересечение прямых</h1>
+<p>Исследуйте два линейных уравнения общего вида <strong>ax + by = c</strong>. Лаборатория показывает обычные, вертикальные и горизонтальные прямые, а также вырожденные случаи, и связывает график с числом решений системы.</p>
+</header>
+<section class="presets" aria-label="Готовые сценарии">
+<button type="button" data-preset="one">1 решение</button><button type="button" data-preset="none">0 решений</button><button type="button" data-preset="many">∞ решений</button><button type="button" data-preset="vertical">Вертикаль × горизонталь</button><button type="button" data-preset="plane">Вся плоскость</button>
+</section>
 <section class="workspace">
 <aside class="panel controls">
-<h2>Первая прямая</h2>
-<label>k₁ <output id="k1Out">1</output><input id="k1" type="range" min="-4" max="4" step="0.5" value="1"></label>
-<label>b₁ <output id="b1Out">1</output><input id="b1" type="range" min="-5" max="5" step="0.5" value="1"></label>
-<h2>Вторая прямая</h2>
-<label>k₂ <output id="k2Out">-1</output><input id="k2" type="range" min="-4" max="4" step="0.5" value="-1"></label>
-<label>b₂ <output id="b2Out">3</output><input id="b2" type="range" min="-5" max="5" step="0.5" value="3"></label>
-<button id="reset" type="button">Сбросить</button>
-<div class="system" id="system"></div>
-<div class="result" id="result"></div>
+<h2>Уравнение 1</h2><div class="coef-grid">
+<label>a₁ <output id="a1Out"></output><input id="a1" type="range" min="-5" max="5" step="1" value="1"></label>
+<label>b₁ <output id="b1Out"></output><input id="b1" type="range" min="-5" max="5" step="1" value="1"></label>
+<label>c₁ <output id="c1Out"></output><input id="c1" type="range" min="-12" max="12" step="1" value="4"></label></div>
+<div class="equation" id="eq1"></div><div class="equation-note" id="eq1Note"></div>
+<h2>Уравнение 2</h2><div class="coef-grid">
+<label>a₂ <output id="a2Out"></output><input id="a2" type="range" min="-5" max="5" step="1" value="1"></label>
+<label>b₂ <output id="b2Out"></output><input id="b2" type="range" min="-5" max="5" step="1" value="-1"></label>
+<label>c₂ <output id="c2Out"></output><input id="c2" type="range" min="-12" max="12" step="1" value="0"></label></div>
+<div class="equation" id="eq2"></div><div class="equation-note" id="eq2Note"></div>
+<div class="result" id="result" aria-live="polite"></div><div class="reason" id="reason"></div><div class="check" id="check"></div>
 </aside>
-<section class="panel graph-card"><h2>Графическая модель</h2><svg id="graph" viewBox="0 0 640 480" role="img" aria-label="Две прямые и их пересечение"></svg></section>
+<section class="panel graph-card"><div class="graph-head"><h2>Графическая модель</h2><span>−8 ≤ x,y ≤ 8</span></div><svg id="graph" viewBox="0 0 640 480" role="img" aria-label="Графики двух линейных уравнений и их общие точки"></svg><p class="graph-note">Красная точка — точное решение, если оно попадает в видимую область. При совпадении прямых графики накладываются друг на друга.</p></section>
 </section>
-<section class="panel tasks"><h2>Исследовательские задания</h2><ol>
-<li>Установите k₁ = k₂, но b₁ ≠ b₂. Что происходит с числом решений?</li>
-<li>Сделайте k₁ = k₂ и b₁ = b₂. Чем этот случай отличается от предыдущего?</li>
-<li>Выберите разные k. Изменяйте b₂. Как перемещается точка пересечения?</li>
-<li>Подберите систему с целочисленной точкой пересечения и проверьте найденную пару подстановкой.</li>
-</ol></section>
-<section class="panel conclusion"><h2>Связь с теорией</h2><p>Решение системы — общая точка графиков. Разные наклоны дают одну точку пересечения. Одинаковый наклон и разные b дают параллельные прямые и 0 решений. Полностью совпадающие коэффициенты дают одну и ту же прямую и бесконечно много решений.</p></section>
-</main>
-<script src="app.js"></script>
-</body>
-</html>
+<section class="panel method"><h2>Как читать результат</h2><div class="method-grid"><article><strong>1 решение</strong><p>Две различные непараллельные прямые пересекаются в одной точке.</p></article><article><strong>0 решений</strong><p>Разные параллельные прямые общих точек не имеют.</p></article><article><strong>∞ решений</strong><p>Совпадающие прямые имеют все точки общими. Если одно уравнение задаёт всю плоскость, решения определяет второе.</p></article></div></section>
+<section class="panel tasks"><h2>Исследовательские задания</h2><ol><li>Выберите пресет «1 решение». Изменяйте только c₂. Как движется точка пересечения?</li><li>Получите две разные параллельные прямые. Какие коэффициенты должны оставаться пропорциональными?</li><li>Сделайте второе уравнение точной копией первого, умноженной на −2. Сколько решений останется?</li><li>Постройте систему x = 2, y = 3 и объясните, почему форма y = kx + b здесь недостаточна для первой прямой.</li><li>Установите a₁=b₁=c₁=0. Что означает первое уравнение 0=0 и как теперь определяется множество решений системы?</li><li>Подберите систему с целочисленной точкой пересечения, затем вручную проверьте пару подстановкой в оба уравнения.</li></ol></section>
+<section class="panel conclusion"><h2>Что нужно вынести из лаборатории</h2><p>Решение системы — общая точка графиков. График каждого невырожденного линейного уравнения ax+by=c является прямой. Взаимное расположение двух прямых полностью определяет, имеет система одно решение, ни одного или бесконечно много решений. Алгебраические методы подстановки и сложения должны приводить к тому же выводу.</p></section>
+</main><script src="app.js"></script></body></html>
