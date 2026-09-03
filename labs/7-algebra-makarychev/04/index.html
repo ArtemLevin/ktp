@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Лаборатория: распределительная сетка — KTP 3.0</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-page">
+  <nav class="topbar">
+    <a href="../../../topics/7-algebra-makarychev/04.html">← Страница темы</a>
+    <a href="../../../lessons/7-algebra-makarychev/04/index.html">18 уроков</a>
+  </nav>
+
+  <header class="hero">
+    <span class="kicker">Цифровая лаборатория · Многочлены</span>
+    <h1>Распределительная сетка</h1>
+    <p>Исследуйте произведение <strong>(ax + b)(cx + d)</strong>. Сетка показывает все четыре обязательных попарных произведения и сборку результата в стандартный многочлен.</p>
+  </header>
+
+  <section class="panel controls" aria-labelledby="controls-title">
+    <div>
+      <h2 id="controls-title">1. Задайте два двучлена</h2>
+      <p class="muted">Меняйте коэффициенты. Нулевые значения разрешены: так можно увидеть, как двучлен вырождается в одночлен.</p>
+    </div>
+    <div class="inputs">
+      <label>a <input id="a" type="number" value="2" step="1"></label>
+      <label>b <input id="b" type="number" value="-3" step="1"></label>
+      <label>c <input id="c" type="number" value="1" step="1"></label>
+      <label>d <input id="d" type="number" value="4" step="1"></label>
+    </div>
+    <div class="expression" id="expression" aria-live="polite"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="grid-title">
+    <div class="section-head">
+      <div><span class="step">2</span><h2 id="grid-title">Заполните 2×2 произведения</h2></div>
+      <button id="toggleHints" type="button">Скрыть подсказки</button>
+    </div>
+    <div class="grid-wrap">
+      <div class="dist-grid" id="distGrid" aria-live="polite"></div>
+    </div>
+    <p class="hint" id="countHint">У двучлена 2 члена и у второго двучлена 2 члена: ожидаем 2·2 = 4 промежуточных произведения.</p>
+  </section>
+
+  <section class="panel result-panel" aria-labelledby="result-title">
+    <span class="step">3</span>
+    <h2 id="result-title">Соберите подобные члены</h2>
+    <div class="result-chain">
+      <div><span>До приведения:</span><strong id="expanded"></strong></div>
+      <div><span>После приведения:</span><strong id="standard"></strong></div>
+    </div>
+    <div class="diagnostics">
+      <article><span>Коэффициент при x²</span><strong id="coef2"></strong><small>ac</small></article>
+      <article><span>Коэффициент при x</span><strong id="coef1"></strong><small>ad + bc</small></article>
+      <article><span>Свободный член</span><strong id="coef0"></strong><small>bd</small></article>
+    </div>
+  </section>
+
+  <section class="panel check-panel" aria-labelledby="check-title">
+    <div>
+      <span class="step">4</span>
+      <h2 id="check-title">Проверьте числом</h2>
+      <p class="muted">Одинаковое значение исходного произведения и полученного многочлена — сильная проверка вычислений.</p>
+    </div>
+    <label class="x-control">x = <input id="x" type="range" min="-6" max="6" value="2" step="1"> <output id="xOut">2</output></label>
+    <div class="check-values">
+      <div><span>Исходное произведение</span><strong id="sourceValue"></strong></div>
+      <div><span>Полученный многочлен</span><strong id="polyValue"></strong></div>
+      <div class="status" id="status"></div>
+    </div>
+  </section>
+
+  <section class="panel tasks">
+    <h2>Исследуйте</h2>
+    <ol>
+      <li>Поставьте <strong>b = 0</strong>. Какие две ячейки сетки становятся нулевыми?</li>
+      <li>Выберите <strong>a = c = 1</strong>. Проверьте, почему средний коэффициент равен <strong>b + d</strong>.</li>
+      <li>Сделайте один свободный член отрицательным. Проследите, какие произведения меняют знак.</li>
+      <li>Подберите коэффициенты так, чтобы средний член результата исчез: <strong>ad + bc = 0</strong>.</li>
+      <li>Сформулируйте правило самопроверки через число промежуточных произведений.</li>
+    </ol>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
