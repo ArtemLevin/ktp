@@ -1,0 +1,23 @@
+(function(){
+'use strict';
+window.KTP_LESSON_SERIES={
+  meta:{
+    rowId:'7-algebra-makarychev',
+    topicIndex:3,
+    topicId:'7-algebra-makarychev::3',
+    topicNumber:4,
+    grade:7,
+    subject:'Алгебра',
+    book:'Макарычев',
+    topicTitle:'Многочлены',
+    schoolYear:'2026/27',
+    plannedWeeks:'15–20',
+    totalLessons:18,
+    topicHref:'../../../topics/7-algebra-makarychev/04.html',
+    ktpHref:'../../../index.html?focus=7-algebra-makarychev&view=timeline',
+    catalogHref:'index.html'
+  },
+  corrections:{},
+  lessons:[]
+};
+})();
