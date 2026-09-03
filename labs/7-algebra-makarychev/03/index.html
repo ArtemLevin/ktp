@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Лаборатория: квадрат и куб — KTP 3.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-page">
+  <nav class="topbar"><a href="../../../topics/7-algebra-makarychev/03.html">← Страница темы</a><a href="../../../lessons/7-algebra-makarychev/03/index.html">12 уроков</a></nav>
+  <header class="hero">
+    <div class="eyebrow">7 класс · Алгебра · цифровая лаборатория</div>
+    <h1>Квадрат, куб и число решений</h1>
+    <p>Исследуйте графики <b>y=x²</b> и <b>y=x³</b>: меняйте аргумент и горизонтальный уровень <b>y=c</b>, наблюдайте симметрию и число точек пересечения.</p>
+  </header>
+  <section class="workspace">
+    <aside class="controls" aria-label="Параметры исследования">
+      <h2>Параметры</h2>
+      <label class="range-label" for="xRange"><span>Аргумент x</span><output id="xOut">1</output></label>
+      <input id="xRange" type="range" min="-3" max="3" value="1" step="0.1">
+      <label class="range-label" for="cRange"><span>Уровень c</span><output id="cOut">2</output></label>
+      <input id="cRange" type="range" min="-8" max="8" value="2" step="0.5">
+      <fieldset><legend>Показывать</legend>
+        <label><input id="showSquare" type="checkbox" checked> y=x²</label>
+        <label><input id="showCube" type="checkbox" checked> y=x³</label>
+        <label><input id="showLevel" type="checkbox" checked> y=c</label>
+      </fieldset>
+      <div class="readout" aria-live="polite">
+        <div><span>x²</span><strong id="squareOut">1</strong></div>
+        <div><span>x³</span><strong id="cubeOut">1</strong></div>
+        <div><span>x²=c</span><strong id="squareRoots">2 решения</strong></div>
+        <div><span>x³=c</span><strong id="cubeRoots">1 решение</strong></div>
+      </div>
+      <button id="resetBtn" type="button">Сбросить параметры</button>
+    </aside>
+    <section class="plot-card">
+      <div class="plot-head"><div><span class="kicker">Визуальный результат</span><h2>Графики и уровень y=c</h2></div><div class="legend"><span>y=x²</span><span>y=x³</span><span>y=c</span></div></div>
+      <canvas id="plot" width="900" height="560" aria-label="Графики функций y равно x в квадрате и y равно x в кубе"></canvas>
+      <p class="hint">Точки на кривых соответствуют выбранному x. Горизонтальная линия показывает уровень c.</p>
+    </section>
+  </section>
+  <section class="research">
+    <span class="kicker">Исследовательские задания</span><h2>Что проверить</h2>
+    <div class="cards">
+      <article><b>1.</b><p>Поставьте x=1,5, затем x=−1,5. Что происходит со значением x²? Что происходит с x³?</p></article>
+      <article><b>2.</b><p>Меняйте c от отрицательных значений к положительным. Сколько пересечений имеет y=x² с y=c?</p></article>
+      <article><b>3.</b><p>Проверьте несколько отрицательных и положительных c. Сколько пересечений имеет y=x³ с y=c?</p></article>
+      <article><b>4.</b><p>Найдите по графику решения x²=4 и x³=−8, затем подтвердите их подстановкой.</p></article>
+    </div>
+  </section>
+  <section class="conclusion">
+    <span class="kicker">Что заметили</span><h2>Связь с теорией</h2>
+    <ul>
+      <li>У противоположных аргументов квадраты равны, поэтому график y=x² симметричен относительно Oy.</li>
+      <li>Кубы противоположных чисел противоположны, поэтому график y=x³ симметричен относительно начала координат.</li>
+      <li>x²=c имеет два решения при c&gt;0, одно при c=0 и ни одного при c&lt;0.</li>
+      <li>x³=c имеет одно действительное решение при любом действительном c.</li>
+    </ul>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
