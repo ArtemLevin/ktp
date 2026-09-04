@@ -14,9 +14,9 @@ const cleanText=value=>{
     .replace(/−\s*1([A-Za-z])/g,'−$1')
     .replace(/-\s*1([A-Za-z])/g,'−$1')
     .replace(/(^|[=\s(+,;:])1([A-Za-z])/g,'$1$2')
-    .replace(/\+\s*−/g,'− ')
-    .replace(/\+\s*-/g,'− ')
-    .replace(/−\s*−/g,'+ ');
+    .replace(/\+\s*−\s*/g,'− ')
+    .replace(/\+\s*-\s*/g,'− ')
+    .replace(/−\s*−\s*/g,'+ ');
 };
 const normalizeTask=task=>{
   ['text','answer','solution'].forEach(key=>{
