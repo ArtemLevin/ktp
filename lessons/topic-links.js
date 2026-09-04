@@ -1,17 +1,21 @@
 (function(){
 'use strict';
 const body=document.body;
-if(body.dataset.row!=='7-algebra-makarychev')return;
-const configs={
-  0:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/01/index.html'},
-  1:{count:11,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/02/index.html'},
-  2:{count:12,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/03/index.html'},
-  3:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/04/index.html'},
-  4:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/05/index.html'},
-  5:{count:13,weeks:'5 учебных недель',href:'../../lessons/7-algebra-makarychev/06/index.html'},
-  6:{count:12,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/07/index.html'}
+const configsByRow={
+  '7-algebra-makarychev':{
+    0:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/01/index.html'},
+    1:{count:11,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/02/index.html'},
+    2:{count:12,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/03/index.html'},
+    3:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/04/index.html'},
+    4:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/05/index.html'},
+    5:{count:13,weeks:'5 учебных недель',href:'../../lessons/7-algebra-makarychev/06/index.html'},
+    6:{count:12,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/07/index.html'}
+  },
+  '8-algebra-makarychev':{
+    0:{count:15,weeks:'5 учебных недель',href:'../../lessons/8-algebra-makarychev/01/index.html'}
+  }
 };
-const cfg=configs[Number(body.dataset.topic)];
+const cfg=configsByRow[body.dataset.row]?.[Number(body.dataset.topic)];
 if(!cfg)return;
 const side=document.querySelector('.side-stack');
 if(!side)return;
