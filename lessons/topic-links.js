@@ -12,7 +12,8 @@ const configsByRow={
     6:{count:12,weeks:'4 учебные недели',href:'../../lessons/7-algebra-makarychev/07/index.html'}
   },
   '8-algebra-makarychev':{
-    0:{count:15,weeks:'5 учебных недель',href:'../../lessons/8-algebra-makarychev/01/index.html'}
+    0:{count:15,weeks:'5 учебных недель',href:'../../lessons/8-algebra-makarychev/01/index.html'},
+    1:{count:15,weeks:'5 учебных недель',href:'../../lessons/8-algebra-makarychev/02/index.html'}
   }
 };
 const cfg=configsByRow[body.dataset.row]?.[Number(body.dataset.topic)];
