@@ -21,6 +21,7 @@ async function loadScript(src){return new Promise((resolve,reject)=>{const s=doc
   }
   await loadScript(document.body.dataset.page==='lesson-index'?'../../lesson-index.js':'../../lesson-page.js');
   await loadScript('../../series-adapter.js');
+  await loadScript('../../global-numbering.js');
  }catch(error){console.error(error);fail(error.message);}
 })();
 })();
