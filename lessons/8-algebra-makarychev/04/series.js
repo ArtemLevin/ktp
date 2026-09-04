@@ -1,0 +1,25 @@
+(function(){
+'use strict';
+window.KTP_LESSON_SERIES={
+  meta:{
+    rowId:'8-algebra-makarychev',
+    topicIndex:3,
+    topicId:'8-algebra-makarychev::3',
+    topicNumber:4,
+    grade:8,
+    subject:'Алгебра',
+    book:'Макарычев',
+    topicTitle:'Неравенства',
+    schoolYear:'2026/27',
+    plannedWeeks:'20–23',
+    totalLessons:12,
+    courseLessonStart:58,
+    courseLessonEnd:69,
+    topicHref:'../../../topics/8-algebra-makarychev/04.html',
+    ktpHref:'../../../index.html?focus=8-algebra-makarychev&view=timeline',
+    catalogHref:'index.html'
+  },
+  corrections:{},
+  lessons:[]
+};
+})();
