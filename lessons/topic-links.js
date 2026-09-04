@@ -25,7 +25,8 @@ const configsByRow={
   },
   '11-algebra-alimov':{
     0:{count:16,weeks:'первые 16 уроков курса',href:'../../lessons/11-algebra-alimov/01/index.html'},
-    1:{count:16,weeks:'уроки 17–32 курса',href:'../../lessons/11-algebra-alimov/02/index.html'}
+    1:{count:16,weeks:'уроки 17–32 курса',href:'../../lessons/11-algebra-alimov/02/index.html'},
+    2:{count:13,weeks:'уроки 33–45 курса',href:'../../lessons/11-algebra-alimov/03/index.html'}
   }
 };
 const cfg=configsByRow[body.dataset.row]?.[Number(body.dataset.topic)];
