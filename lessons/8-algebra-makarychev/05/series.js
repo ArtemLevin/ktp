@@ -1,0 +1,25 @@
+(function(){
+'use strict';
+window.KTP_LESSON_SERIES={
+  meta:{
+    rowId:'8-algebra-makarychev',
+    topicIndex:4,
+    topicId:'8-algebra-makarychev::4',
+    topicNumber:5,
+    grade:8,
+    subject:'Алгебра',
+    book:'Макарычев',
+    topicTitle:'Функции',
+    schoolYear:'2026/27',
+    plannedWeeks:'24–28',
+    totalLessons:13,
+    courseLessonStart:70,
+    courseLessonEnd:82,
+    topicHref:'../../../topics/8-algebra-makarychev/05.html',
+    ktpHref:'../../../index.html?focus=8-algebra-makarychev&view=timeline',
+    catalogHref:'index.html'
+  },
+  corrections:{},
+  lessons:[]
+};
+})();
