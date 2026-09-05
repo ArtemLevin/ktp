@@ -1,0 +1,33 @@
+(function(){
+'use strict';
+const $=id=>document.getElementById(id),svg=$('plot');
+const els={mode:$('mode'),a:$('a'),m:$('m'),n:$('n'),b:$('b'),c:$('c'),family:$('family'),k:$('k')};
+const out={a:$('aOut'),m:$('mOut'),n:$('nOut'),b:$('bOut'),c:$('cOut'),k:$('kOut')};
+const fmt=x=>Math.abs(x)<1e-9?'0':String(Number(x.toFixed(2))).replace('.',',').replace('-','−');
+const escSign=x=>x<0?'−':'+';
+const controls=name=>document.querySelector(`[data-control="${name}"]`);
+const W=760,H=520,xmin=-10,xmax=10,ymin=-10,ymax=10;
+const X=x=>(x-xmin)/(xmax-xmin)*W,Y=y=>H-(y-ymin)/(ymax-ymin)*H;
+function values(){return Object.fromEntries(['a','m','n','b','c','k'].map(k=>[k,Number(els[k].value)]));}
+function quadratic(){const v=values();if(els.mode.value==='general'){return{x:(x)=>v.a*x*x+v.b*x+v.c,a:v.a,b:v.b,c:v.c,m:-v.b/(2*v.a),n:null};}return{x:(x)=>v.a*(x-v.m)*(x-v.m)+v.n,a:v.a,b:-2*v.a*v.m,c:v.a*v.m*v.m+v.n,m:v.m,n:v.n};}
+function familyFn(){const f=els.family.value;if(f==='even')return{x:x=>x*x+1,formula:'y = x² + 1',sym:'чётная'};if(f==='odd')return{x:x=>x*x*x-2*x,formula:'y = x³ − 2x',sym:'нечётная'};return{x:x=>x*x+x+1,formula:'y = x² + x + 1',sym:'ни чётная, ни нечётная'};}
+function roots(a,b,c){const D=b*b-4*a*c;if(D<-1e-9)return[];if(Math.abs(D)<1e-9)return[-b/(2*a)];const s=Math.sqrt(D);return[(-b-s)/(2*a),(-b+s)/(2*a)].sort((x,y)=>x-y);}
+function grid(){let s='';for(let x=-10;x<=10;x++){s+=`<line class="${x===0?'axis':'grid-line'}" x1="${X(x)}" y1="0" x2="${X(x)}" y2="${H}"/>`;if(x!==0&&x%2===0)s+=`<text class="tick" x="${X(x)+3}" y="${Y(0)-5}">${x}</text>`;}for(let y=-10;y<=10;y++){s+=`<line class="${y===0?'axis':'grid-line'}" x1="0" y1="${Y(y)}" x2="${W}" y2="${Y(y)}"/>`;if(y!==0&&y%2===0)s+=`<text class="tick" x="${X(0)+5}" y="${Y(y)-3}">${y}</text>`;}return s;}
+function pathOf(fn){let d='',open=false;for(let px=0;px<=W;px+=2){const x=xmin+px/W*(xmax-xmin),y=fn(x);if(!Number.isFinite(y)||y<ymin-3||y>ymax+3){open=false;continue;}const cmd=open?'L':'M';d+=`${cmd}${px.toFixed(1)},${Y(y).toFixed(1)} `;open=true;}return d;}
+function render(){const mode=els.mode.value;['a','m','n','b','c','family','k'].forEach(n=>{const c=controls(n);if(c)c.hidden=true;});$('levelLegend').hidden=true;let fn,formula,passport={};let extra='';
+ if(mode==='symmetry'){
+   controls('family').hidden=false;const f=familyFn();fn=f.x;formula=f.formula;passport={domain:'R',range:f.sym==='чётная'?'[1;+∞)':f.sym==='нечётная'?'R':'[3/4;+∞)',vertex:f.sym==='ни чётная, ни нечётная'?'(−0,5;0,75)':'—',axis:f.sym==='чётная'?'ось Oy':f.sym==='нечётная'?'центр O(0;0)':'симметрии такого типа нет',zeros:f.sym==='нечётная'?'−√2; 0; √2':'нет',sign:f.sym==='нечётная'?'меняется по нулям':'положительна',mono:'считывайте по графику',extreme:f.sym==='чётная'?'минимум 1':f.sym==='нечётная'?'нет глобального экстремума':'минимум 0,75'};
+   $('researchQuestion').textContent='Как алгебраическое равенство f(−x)=±f(x) проявляется в симметрии графика?';$('researchHint').textContent='Сравнивайте точки с абсциссами x и −x и следите, какие координаты меняют знак.';$('prompt').textContent='Какая симметрия должна быть у выбранной функции?';$('answer').textContent=f.sym==='чётная'?'Отражение относительно Oy.':f.sym==='нечётная'?'Центральная симметрия относительно начала координат.':'График не обладает ни одной из этих двух симметрий.';
+ } else {
+   controls('a').hidden=false;const q=quadratic();if(Math.abs(q.a)<1e-9){els.a.value='0.5';return render();}fn=q.x;let m=q.m,n=q.n==null?q.x(q.m):q.n;const rr=roots(q.a,q.b,q.c);if(mode==='general'){controls('b').hidden=false;controls('c').hidden=false;formula=`y = ${fmt(q.a)}x² ${escSign(q.b)} ${fmt(Math.abs(q.b))}x ${escSign(q.c)} ${fmt(Math.abs(q.c))}`;}else{controls('m').hidden=false;controls('n').hidden=false;formula=`y = ${fmt(q.a)}(x ${m>=0?'−':'+'} ${fmt(Math.abs(m))})² ${n>=0?'+':'−'} ${fmt(Math.abs(n))}`;}
+   if(mode==='level'){controls('k').hidden=false;$('levelLegend').hidden=false;extra=`<line class="level-path" x1="0" y1="${Y(Number(els.k.value))}" x2="${W}" y2="${Y(Number(els.k.value))}"/>`;const D=(q.b*q.b-4*q.a*(q.c-Number(els.k.value)));$('researchQuestion').textContent='Как положение уровня y=k относительно вершины определяет число решений f(x)=k?';$('researchHint').textContent='Перемещайте k через экстремальное значение n и считайте точки пересечения.';$('prompt').textContent='Сколько решений имеет f(x)=k сейчас?';$('answer').textContent=D<0?'0 решений.':Math.abs(D)<1e-9?'1 решение: горизонталь касается параболы.':'2 решения.';}else if(mode==='general'){$('researchQuestion').textContent='Как из коэффициентов a,b,c восстановить вершину и ось параболы?';$('researchHint').textContent='Проверяйте m=−b/(2a), n=f(m) и симметрию точек m±1.';$('prompt').textContent='Какая координата вершины вычисляется напрямую из a и b?';$('answer').textContent='Абсцисса m=−b/(2a); затем n=f(m).';}else{$('researchQuestion').textContent='Как параметры a, m, n меняют параболу?';$('researchHint').textContent='Меняйте по одному параметру и фиксируйте, что меняется, а что сохраняется.';$('prompt').textContent='Предскажите вершину, направление ветвей и экстремум до взгляда на паспорт.';$('answer').textContent=`Вершина (${fmt(m)};${fmt(n)}), ветви ${q.a>0?'вверх':'вниз'}, ${q.a>0?'минимум':'максимум'} ${fmt(n)}.`;}
+   const z=rr.length?rr.map(fmt).join('; '):'нет';let sign;if(rr.length===2)sign=q.a>0?`+ при x<${fmt(rr[0])} и x>${fmt(rr[1])}; − между корнями`:`− при x<${fmt(rr[0])} и x>${fmt(rr[1])}; + между корнями`;else if(rr.length===1)sign=q.a>0?'f(x)≥0, нуль в вершине':'f(x)≤0, нуль в вершине';else sign=q.a>0?'f(x)>0 для всех x':'f(x)<0 для всех x';
+   passport={domain:'R',range:q.a>0?`[${fmt(n)};+∞)`:`(−∞;${fmt(n)}]`,vertex:`(${fmt(m)};${fmt(n)})`,axis:`x=${fmt(m)}`,zeros:z,sign,mono:q.a>0?`убывает (−∞;${fmt(m)}], возрастает [${fmt(m)};+∞)`:`возрастает (−∞;${fmt(m)}], убывает [${fmt(m)};+∞)`,extreme:`${q.a>0?'min':'max'} = ${fmt(n)} при x=${fmt(m)}`};
+   extra+=`<circle class="vertex-point" cx="${X(m)}" cy="${Y(n)}" r="5"/>`+rr.filter(x=>x>=xmin&&x<=xmax).map(x=>`<circle class="zero-point" cx="${X(x)}" cy="${Y(0)}" r="4"/>`).join('');
+ }
+ $('formula').textContent=formula;Object.entries(passport).forEach(([k,v])=>$(k).textContent=v);svg.innerHTML=grid()+extra+`<path class="curve-path" d="${pathOf(fn)}"/>`;
+ Object.entries(out).forEach(([k,o])=>{if(o)o.value=fmt(Number(els[k].value));});
+}
+Object.values(els).forEach(el=>el.addEventListener('input',render));$('reset').addEventListener('click',()=>{els.mode.value='vertex';els.a.value=1;els.m.value=0;els.n.value=0;els.b.value=-4;els.c.value=3;els.k.value=2;els.family.value='even';render();});
+render();
+})();
