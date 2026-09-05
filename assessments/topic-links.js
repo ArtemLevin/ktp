@@ -3,6 +3,7 @@
 const body=document.body;
 const rows={
   '7-algebra-makarychev':{min:0,max:6},
+  '8-algebra-makarychev':{min:0,max:6},
   '10-algebra-alimov':{min:0,max:7},
   '11-algebra-alimov':{min:0,max:6}
 };
