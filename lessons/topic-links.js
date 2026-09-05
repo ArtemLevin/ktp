@@ -28,7 +28,8 @@ const configsByRow={
     1:{count:16,weeks:'уроки 17–32 курса',href:'../../lessons/11-algebra-alimov/02/index.html'},
     2:{count:13,weeks:'уроки 33–45 курса',href:'../../lessons/11-algebra-alimov/03/index.html'},
     3:{count:10,weeks:'уроки 46–55 курса',href:'../../lessons/11-algebra-alimov/04/index.html'},
-    4:{count:8,weeks:'уроки 56–63 курса',href:'../../lessons/11-algebra-alimov/05/index.html'}
+    4:{count:8,weeks:'уроки 56–63 курса',href:'../../lessons/11-algebra-alimov/05/index.html'},
+    5:{count:12,weeks:'уроки 64–75 курса',href:'../../lessons/11-algebra-alimov/06/index.html'}
   }
 };
 const cfg=configsByRow[body.dataset.row]?.[Number(body.dataset.topic)];
