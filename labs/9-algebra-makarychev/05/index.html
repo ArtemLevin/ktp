@@ -1,0 +1,25 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Лаборатория прогрессий · KTP 3.0</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="lab-shell">
+<nav class="lab-nav"><a href="../../../topics/9-algebra-makarychev/05.html">← Страница темы</a><a href="../../../lessons/9-algebra-makarychev/05/index.html">16 уроков</a></nav>
+<header><div class="eyebrow">9 класс · Алгебра · Макарычев</div><h1>Лаборатория прогрессий</h1><p>Исследуйте, как одинаковая <b>прибавка</b> и одинаковый <b>множитель</b> создают принципиально разные последовательности. Точки графика соответствуют только натуральным номерам.</p></header>
+<section class="lab-grid">
+<form class="controls" id="controls">
+<label>Модель<select id="model"><option value="ap">Арифметическая прогрессия</option><option value="gp">Геометрическая прогрессия</option></select></label>
+<label>Первый член <output id="firstOut"></output><input id="first" type="range" min="-10" max="20" step="1" value="2"></label>
+<label><span id="stepLabel">Разность d</span> <output id="stepOut"></output><input id="step" type="range" min="-5" max="5" step="1" value="2"></label>
+<label>Число членов n <output id="nOut"></output><input id="count" type="range" min="2" max="16" step="1" value="8"></label>
+<label class="toggle"><input id="showSum" type="checkbox" checked> Показывать накопленную сумму Sₖ</label>
+<div class="formula-card"><div class="small">Текущая модель</div><div id="formula" class="formula"></div></div>
+<div id="insight" class="insight"></div>
+</form>
+<section class="visual"><canvas id="plot" width="900" height="500" aria-label="График членов последовательности"></canvas><div class="legend"><span>● член последовательности</span><span id="sumLegend">○ накопленная сумма</span></div></section>
+</section>
+<section class="table-card"><h2>Таблица исследования</h2><div class="table-wrap"><table><thead><tr><th>k</th><th id="memberHead">aₖ</th><th id="changeHead">Δ=aₖ−aₖ₋₁</th><th>Sₖ</th></tr></thead><tbody id="tbody"></tbody></table></div></section>
+<section class="research"><h2>Задания для исследования</h2><ol>
+<li>В режиме АП подберите два разных набора a₁ и d, у которых десятый член совпадает. Чем отличаются предыдущие члены?</li>
+<li>В режиме ГП сравните q=2, q=1/2 и q=−2. Как меняются модуль и знак членов?</li>
+<li>Найдите постоянную АП и постоянную ГП. Какие параметры для этого нужны?</li>
+<li>Сравните графики члена и накопленной суммы. Почему Sₖ может расти даже тогда, когда положительные члены при 0&lt;q&lt;1 уменьшаются?</li>
+<li>Установите b₁=0 или q=0 в режиме ГП. Почему лаборатория помечает модель как выходящую за определение учебника?</li>
+</ol></section>
+</main><script src="app.js"></script></body></html>
