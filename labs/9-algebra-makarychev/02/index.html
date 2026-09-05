@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Лаборатория: парабола и свойства функции · 9 класс</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<header class="hero">
+  <nav><a href="../../../topics/9-algebra-makarychev/02.html">← К теме «Функции и графики»</a><a href="../../../lessons/9-algebra-makarychev/02/index.html">16 уроков</a></nav>
+  <span class="eyebrow">Цифровая лаборатория · 9 класс · Макарычев</span>
+  <h1>Парабола и свойства функции</h1>
+  <p>Меняйте параметры, сначала формулируйте прогноз, затем проверяйте его по графику и паспорту функции. Цель — увидеть причинно-следственную связь между формулой и геометрией параболы.</p>
+</header>
+<section class="question panel">
+  <span class="eyebrow">Исследовательский вопрос</span>
+  <h2 id="researchQuestion">Как коэффициент a меняет направление и «ширину» параболы?</h2>
+  <p id="researchHint">Сравнивайте графики при одинаковых m и n. Следите за знаком a и величиной |a|.</p>
+</section>
+<section class="controls panel" aria-label="Параметры модели">
+  <label>Режим
+    <select id="mode">
+      <option value="vertex">y = a(x − m)² + n</option>
+      <option value="general">y = ax² + bx + c</option>
+      <option value="symmetry">Чётность и нечётность</option>
+      <option value="level">Пересечение с y = k</option>
+    </select>
+  </label>
+  <label data-control="a">a <input id="a" type="range" min="-4" max="4" step="0.5" value="1"><output id="aOut">1</output></label>
+  <label data-control="m">m <input id="m" type="range" min="-5" max="5" step="0.5" value="0"><output id="mOut">0</output></label>
+  <label data-control="n">n <input id="n" type="range" min="-6" max="6" step="0.5" value="0"><output id="nOut">0</output></label>
+  <label data-control="b" hidden>b <input id="b" type="range" min="-8" max="8" step="0.5" value="-4"><output id="bOut">−4</output></label>
+  <label data-control="c" hidden>c <input id="c" type="range" min="-8" max="8" step="0.5" value="3"><output id="cOut">3</output></label>
+  <label data-control="family" hidden>Функция
+    <select id="family"><option value="even">x² + 1</option><option value="odd">x³ − 2x</option><option value="neither">x² + x + 1</option></select>
+  </label>
+  <label data-control="k" hidden>k <input id="k" type="range" min="-6" max="8" step="0.5" value="2"><output id="kOut">2</output></label>
+  <button id="reset" type="button">Сбросить</button>
+</section>
+<section class="workspace">
+  <div class="panel graph-panel">
+    <div class="panel-head"><div><span class="eyebrow">График</span><h2 id="formula">y = x²</h2></div><div class="legend"><span><i class="curve"></i>f(x)</span><span id="levelLegend" hidden><i class="level"></i>y=k</span></div></div>
+    <svg id="plot" viewBox="0 0 760 520" role="img" aria-label="Интерактивный график функции"></svg>
+  </div>
+  <aside class="panel passport">
+    <span class="eyebrow">Паспорт функции</span>
+    <h2>Что следует из формулы</h2>
+    <dl>
+      <div><dt>D(f)</dt><dd id="domain"></dd></div>
+      <div><dt>E(f)</dt><dd id="range"></dd></div>
+      <div><dt>Вершина</dt><dd id="vertex"></dd></div>
+      <div><dt>Ось / симметрия</dt><dd id="axis"></dd></div>
+      <div><dt>Нули</dt><dd id="zeros"></dd></div>
+      <div><dt>Знак</dt><dd id="sign"></dd></div>
+      <div><dt>Монотонность</dt><dd id="mono"></dd></div>
+      <div><dt>Экстремум</dt><dd id="extreme"></dd></div>
+    </dl>
+    <div class="prediction">
+      <strong>Сначала спрогнозируйте</strong>
+      <p id="prompt"></p>
+      <details><summary>Сверить вывод</summary><p id="answer"></p></details>
+    </div>
+  </aside>
+</section>
+<section class="investigations panel">
+  <span class="eyebrow">Исследования</span>
+  <h2>Четыре коротких эксперимента</h2>
+  <ol>
+    <li><b>Знак и модуль a.</b> Поставьте m=n=0. Сравните a=0,5; 1; 3; −1. Запишите, что меняется и что сохраняется.</li>
+    <li><b>Параллельные переносы.</b> При a=1 меняйте только m, затем только n. Сформулируйте правило координат вершины.</li>
+    <li><b>Общий вид.</b> Переключитесь на ax²+bx+c. Сравните вычисленную вершину с графиком. Проверьте симметричные точки x=m−1 и x=m+1.</li>
+    <li><b>Число решений.</b> В режиме «Пересечение с y=k» двигайте уровень k через вершину. Найдите случаи 0, 1 и 2 пересечений и объясните их через экстремум.</li>
+  </ol>
+</section>
+<section class="conclusions panel">
+  <span class="eyebrow">Что должно получиться</span>
+  <h2>Выводы для самопроверки</h2>
+  <ul>
+    <li>знак a определяет направление ветвей, |a| — относительную крутизну;</li>
+    <li>в y=a(x−m)²+n вершина имеет координаты (m;n), ось симметрии x=m;</li>
+    <li>для ax²+bx+c абсцисса вершины m=−b/(2a), ордината n=f(m);</li>
+    <li>нули — пересечения с Ox, а решения f(x)=k — пересечения с горизонталью y=k;</li>
+    <li>при a>0 вершина задаёт минимум, при a<0 — максимум.</li>
+  </ul>
+  <p><a href="../../../lessons/9-algebra-makarychev/02/12.html">Вернуться к уроку о вершинной форме →</a></p>
+</section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
