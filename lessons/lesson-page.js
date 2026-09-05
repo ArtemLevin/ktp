@@ -38,7 +38,7 @@ const homework=lesson.homework||{};
 const milestone=lesson.milestone?`<span class="milestone">${esc(lesson.milestone)}</span>`:'';
 document.title=`Урок ${lesson.number}. ${lesson.title} — ${meta.grade} класс · KTP 3.0`;
 app.innerHTML=`<main class="lesson-page">
-  <nav class="topnav" aria-label="Верхняя навигация"><a href="${esc(meta.catalogHref||'index.html')}">← Все 18 уроков</a><div><a href="${esc(meta.topicHref||'#')}">Страница темы</a><a href="${esc(meta.ktpHref||'#')}">КТП 3.0</a></div></nav>
+  <nav class="topnav" aria-label="Верхняя навигация"><a href="${esc(meta.catalogHref||'index.html')}">← Все ${total} уроков</a><div><a href="${esc(meta.topicHref||'#')}">Страница темы</a><a href="${esc(meta.ktpHref||'#')}">КТП 3.0</a></div></nav>
   <header class="lesson-hero"><div class="eyebrow">${esc(meta.grade)} класс · ${esc(meta.subject)} · ${esc(meta.book)}</div><h1><span>Урок ${lesson.number}</span>${esc(lesson.title)}</h1><div class="hero-pills"><span>Тема ${esc(meta.topicNumber)}: ${esc(topicTitle)}</span><span>Неделя ${esc(lesson.week)}</span><span>${lesson.number} / ${total}</span>${milestone}</div><p>Поурочный модуль для самостоятельной работы: опорная теория, примеры, тренировка, домашнее задание и варианты проверки.</p></header>
   <nav class="quick-nav" aria-label="Разделы урока"><a href="#start">Перед началом</a><a href="#theory">Теория</a><a href="#examples">Примеры</a><a href="#practice">Тренировка</a><a href="#homework">Домашняя работа</a><a href="#independent">Самостоятельная</a><a href="#control">Контроль</a></nav>
   <div class="lesson-layout"><article class="lesson-main">
