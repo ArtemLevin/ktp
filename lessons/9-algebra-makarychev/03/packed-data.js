@@ -1,0 +1,1 @@
+(function(){'use strict';window.KTP_COMPRESSED_LESSONS=(window.KTP_COMPRESSED_PARTS||[]).join('');delete window.KTP_COMPRESSED_PARTS;})();
