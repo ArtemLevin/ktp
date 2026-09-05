@@ -3,7 +3,7 @@
 const body=document.body;
 const rows={
   '7-algebra-makarychev':{min:0,max:6},
-  '11-algebra-alimov':{min:0,max:5}
+  '11-algebra-alimov':{min:0,max:6}
 };
 const row=body.dataset.row,i=Number(body.dataset.topic),cfg=rows[row];
 if(!cfg||!Number.isInteger(i)||i<cfg.min||i>cfg.max)return;
