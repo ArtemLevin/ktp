@@ -25,7 +25,8 @@ const configsByRow={
     1:{count:16,weeks:'6 учебных недель',href:'../../lessons/9-algebra-makarychev/02/index.html'},
     2:{count:20,weeks:'7 учебных недель',href:'../../lessons/9-algebra-makarychev/03/index.html'},
     3:{count:20,weeks:'7 учебных недель',href:'../../lessons/9-algebra-makarychev/04/index.html'},
-    4:{count:16,weeks:'6 учебных недель',href:'../../lessons/9-algebra-makarychev/05/index.html'}
+    4:{count:16,weeks:'6 учебных недель',href:'../../lessons/9-algebra-makarychev/05/index.html'},
+    5:{count:12,weeks:'4 учебные недели',href:'../../lessons/9-algebra-makarychev/06/index.html'}
   },
   '10-algebra-alimov':{
     0:{count:11,weeks:'уроки 1–11 курса',href:'../../lessons/10-algebra-alimov/01/index.html'},
