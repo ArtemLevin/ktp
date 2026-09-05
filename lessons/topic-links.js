@@ -17,7 +17,11 @@ const configsByRow={
     2:{count:27,weeks:'9 учебных недель',href:'../../lessons/8-algebra-makarychev/03/index.html'},
     3:{count:12,weeks:'4 учебные недели',href:'../../lessons/8-algebra-makarychev/04/index.html'},
     4:{count:13,weeks:'5 учебных недель',href:'../../lessons/8-algebra-makarychev/05/index.html'},
-    5:{count:8,weeks:'3 учебные недели',href:'../../lessons/8-algebra-makarychev/06/index.html'}
+    5:{count:8,weeks:'3 учебные недели',href:'../../lessons/8-algebra-makarychev/06/index.html'},
+    6:{count:12,weeks:'4 учебные недели',href:'../../lessons/8-algebra-makarychev/07/index.html'}
+  },
+  '9-algebra-makarychev':{
+    0:{count:18,weeks:'6 учебных недель',href:'../../lessons/9-algebra-makarychev/01/index.html'}
   },
   '10-algebra-alimov':{
     0:{count:11,weeks:'уроки 1–11 курса',href:'../../lessons/10-algebra-alimov/01/index.html'},
@@ -31,7 +35,12 @@ const configsByRow={
   },
   '11-algebra-alimov':{
     0:{count:16,weeks:'первые 16 уроков курса',href:'../../lessons/11-algebra-alimov/01/index.html'},
-    1:{count:16,weeks:'уроки 17–32 курса',href:'../../lessons/11-algebra-alimov/02/index.html'}
+    1:{count:16,weeks:'уроки 17–32 курса',href:'../../lessons/11-algebra-alimov/02/index.html'},
+    2:{count:13,weeks:'уроки 33–45 курса',href:'../../lessons/11-algebra-alimov/03/index.html'},
+    3:{count:10,weeks:'уроки 46–55 курса',href:'../../lessons/11-algebra-alimov/04/index.html'},
+    4:{count:8,weeks:'уроки 56–63 курса',href:'../../lessons/11-algebra-alimov/05/index.html'},
+    5:{count:12,weeks:'уроки 64–75 курса',href:'../../lessons/11-algebra-alimov/06/index.html'},
+    6:{count:27,weeks:'уроки 76–102 курса',href:'../../lessons/11-algebra-alimov/07/index.html'}
   }
 };
 const cfg=configsByRow[body.dataset.row]?.[Number(body.dataset.topic)];
