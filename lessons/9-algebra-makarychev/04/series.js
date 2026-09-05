@@ -14,6 +14,8 @@ window.KTP_LESSON_SERIES={
     plannedWeeks:'19–25',
     totalLessons:20,
     courseLessonStart:55,
+    globalStart:55,
+    courseTotal:102,
     courseLessonEnd:74,
     topicHref:'../../../topics/9-algebra-makarychev/04.html',
     ktpHref:'../../../index.html?focus=9-algebra-makarychev&view=timeline',
