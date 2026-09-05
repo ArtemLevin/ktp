@@ -23,6 +23,16 @@ const configsByRow={
   '9-algebra-makarychev':{
     0:{count:18,weeks:'6 учебных недель',href:'../../lessons/9-algebra-makarychev/01/index.html'}
   },
+  '10-algebra-alimov':{
+    0:{count:11,weeks:'уроки 1–11 курса',href:'../../lessons/10-algebra-alimov/01/index.html'},
+    1:{count:10,weeks:'уроки 12–21 курса',href:'../../lessons/10-algebra-alimov/02/index.html'},
+    2:{count:10,weeks:'уроки 22–31 курса',href:'../../lessons/10-algebra-alimov/03/index.html'},
+    3:{count:14,weeks:'уроки 32–45 курса',href:'../../lessons/10-algebra-alimov/04/index.html'},
+    4:{count:16,weeks:'уроки 46–61 курса',href:'../../lessons/10-algebra-alimov/05/index.html'},
+    5:{count:14,weeks:'уроки 62–75 курса',href:'../../lessons/10-algebra-alimov/06/index.html'},
+    6:{count:15,weeks:'уроки 76–90 курса',href:'../../lessons/10-algebra-alimov/07/index.html'},
+    7:{count:12,weeks:'уроки 91–102 курса',href:'../../lessons/10-algebra-alimov/08/index.html'}
+  },
   '11-algebra-alimov':{
     0:{count:16,weeks:'первые 16 уроков курса',href:'../../lessons/11-algebra-alimov/01/index.html'},
     1:{count:16,weeks:'уроки 17–32 курса',href:'../../lessons/11-algebra-alimov/02/index.html'},

@@ -1,0 +1,48 @@
+name: Grade 10 Alimov QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/10-algebra-alimov/**'
+      - 'topics/10-algebra-alimov/**'
+      - 'lessons/10-algebra-alimov/**'
+      - 'lessons/compressed-loader.js'
+      - 'lessons/topic-links.js'
+      - 'assessments/10-algebra-alimov/**'
+      - 'assessments/compressed-loader.js'
+      - 'assessments/assessment-page.js'
+      - 'assessments/topic-links.js'
+      - 'labs/10-algebra-alimov/**'
+      - 'scripts/qa-grade10.mjs'
+      - '.github/workflows/grade10-alimov-qa.yml'
+  push:
+    branches:
+      - feature/grade10-alimov-lessons
+    paths:
+      - 'content/10-algebra-alimov/**'
+      - 'topics/10-algebra-alimov/**'
+      - 'lessons/10-algebra-alimov/**'
+      - 'lessons/compressed-loader.js'
+      - 'lessons/topic-links.js'
+      - 'assessments/10-algebra-alimov/**'
+      - 'assessments/compressed-loader.js'
+      - 'assessments/assessment-page.js'
+      - 'assessments/topic-links.js'
+      - 'labs/10-algebra-alimov/**'
+      - 'scripts/qa-grade10.mjs'
+      - '.github/workflows/grade10-alimov-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Grade 10 Alimov course
+        run: node scripts/qa-grade10.mjs
