@@ -1,0 +1,79 @@
+name: Completed Lines Regression QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/7-algebra-makarychev/**'
+      - 'content/8-algebra-makarychev/**'
+      - 'content/9-algebra-makarychev/**'
+      - 'content/10-algebra-alimov/**'
+      - 'content/11-algebra-alimov/**'
+      - 'topics/7-algebra-makarychev/**'
+      - 'topics/8-algebra-makarychev/**'
+      - 'topics/9-algebra-makarychev/**'
+      - 'topics/10-algebra-alimov/**'
+      - 'topics/11-algebra-alimov/**'
+      - 'lessons/**'
+      - 'assessments/**'
+      - 'labs/7-algebra-makarychev/**'
+      - 'labs/8-algebra-makarychev/**'
+      - 'labs/9-algebra-makarychev/**'
+      - 'labs/10-algebra-alimov/**'
+      - 'labs/11-algebra-alimov/**'
+      - 'scripts/qa-completed-lines.mjs'
+      - 'scripts/qa-browser.mjs'
+      - '.github/workflows/completed-lines-regression-qa.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/7-algebra-makarychev/**'
+      - 'content/8-algebra-makarychev/**'
+      - 'content/9-algebra-makarychev/**'
+      - 'content/10-algebra-alimov/**'
+      - 'content/11-algebra-alimov/**'
+      - 'topics/7-algebra-makarychev/**'
+      - 'topics/8-algebra-makarychev/**'
+      - 'topics/9-algebra-makarychev/**'
+      - 'topics/10-algebra-alimov/**'
+      - 'topics/11-algebra-alimov/**'
+      - 'lessons/**'
+      - 'assessments/**'
+      - 'labs/7-algebra-makarychev/**'
+      - 'labs/8-algebra-makarychev/**'
+      - 'labs/9-algebra-makarychev/**'
+      - 'labs/10-algebra-alimov/**'
+      - 'labs/11-algebra-alimov/**'
+      - 'scripts/qa-completed-lines.mjs'
+      - 'scripts/qa-browser.mjs'
+      - '.github/workflows/completed-lines-regression-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate five completed course lines
+        run: node scripts/qa-completed-lines.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Validate mobile rendering and print output
+        run: node scripts/qa-browser.mjs
