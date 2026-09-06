@@ -9,7 +9,8 @@ const configsByRow={
     3:{count:13,weeks:'уроки 51–63 курса',href:'../../lessons/5-math-vilenkin/04/index.html'},
     4:{count:10,weeks:'уроки 64–73 курса',href:'../../lessons/5-math-vilenkin/05/index.html'},
     5:{count:15,weeks:'уроки 74–88 курса',href:'../../lessons/5-math-vilenkin/06/index.html'},
-    6:{count:10,weeks:'уроки 89–98 курса',href:'../../lessons/5-math-vilenkin/07/index.html'}
+    6:{count:10,weeks:'уроки 89–98 курса',href:'../../lessons/5-math-vilenkin/07/index.html'},
+    7:{count:10,weeks:'уроки 99–108 курса',href:'../../lessons/5-math-vilenkin/08/index.html'}
   },
   '7-algebra-makarychev':{
     0:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/01/index.html'},
