@@ -1,6 +1,7 @@
 (function(){
 'use strict';
-window.KTP_LESSON_SERIES={
+let lessonStore=[];
+const series={
   meta:{
     rowId:'5-math-vilenkin',
     topicIndex:0,
@@ -20,7 +21,18 @@ window.KTP_LESSON_SERIES={
     ktpHref:'../../../index.html?focus=5-math-vilenkin&view=timeline',
     catalogHref:'index.html'
   },
-  corrections:{},
-  lessons:[]
+  corrections:{}
 };
+Object.defineProperty(series,'lessons',{
+  enumerable:true,
+  configurable:true,
+  get(){return lessonStore;},
+  set(value){
+    lessonStore=Array.isArray(value)?value.map(lesson=>{
+      if(lesson&&Object.prototype.hasOwnProperty.call(lesson,'milestone')&&lesson.milestone===undefined)delete lesson.milestone;
+      return lesson;
+    }):value;
+  }
+});
+window.KTP_LESSON_SERIES=series;
 })();
