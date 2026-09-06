@@ -49,13 +49,13 @@ function gunzip(bytes,file){
   }
 }
 function executeMaybeCompressed(source,context,filename){
-  if(source.includes('KTP_COMPRESSED_LESSONS')){
+  if(/KTP_COMPRESSED_LESSONS\s*=\s*['\"]/.test(source)){
     const payload=gunzip(extractCompressed(source,'KTP_COMPRESSED_LESSONS',filename),filename);
     compile(payload,`${filename}#payload`);
     execute(payload,context,`${filename}#payload`);
     return;
   }
-  if(source.includes('KTP_COMPRESSED_ASSESSMENT')){
+  if(/KTP_COMPRESSED_ASSESSMENT\s*=\s*['\"]/.test(source)){
     const payload=gunzip(extractCompressed(source,'KTP_COMPRESSED_ASSESSMENT',filename),filename);
     compile(payload,`${filename}#payload`);
     execute(payload,context,`${filename}#payload`);
@@ -116,6 +116,12 @@ function loadLessonSeries(row,topicIndex){
     assert(exists(file),`${indexFile}: missing local script ${src}`);
     executeMaybeCompressed(read(file),context,file);
   });
+  if(context.window.KTP_COMPRESSED_LESSONS){
+    const payload=gunzip(Buffer.from(context.window.KTP_COMPRESSED_LESSONS,'base64'),`${base}/packed-runtime`);
+    compile(payload,`${base}/packed-runtime#payload`);
+    execute(payload,context,`${base}/packed-runtime#payload`);
+    delete context.window.KTP_COMPRESSED_LESSONS;
+  }
   const series=context.window.KTP_LESSON_SERIES;
   assert(series,`${base}: KTP_LESSON_SERIES not created`);
   scanValues(series,base);
@@ -209,6 +215,12 @@ function loadThematicAssessment(config,topicIndex){
   for(const name of ['independent.html','control.html'])assert(/<meta\s+name=["']viewport["']/i.test(read(`${base}/${name}`)),`${base}/${name}: viewport meta missing`);
   const context=vm.createContext({window:{},console});
   executeMaybeCompressed(read(`${base}/data.js`),context,`${base}/data.js`);
+  if(context.window.KTP_COMPRESSED_ASSESSMENT){
+    const payload=gunzip(Buffer.from(context.window.KTP_COMPRESSED_ASSESSMENT,'base64'),`${base}/data.js`);
+    compile(payload,`${base}/data.js#payload`);
+    execute(payload,context,`${base}/data.js#payload`);
+    delete context.window.KTP_COMPRESSED_ASSESSMENT;
+  }
   const data=context.window.KTP_ASSESSMENT_DATA;
   assert(data,`${base}: KTP_ASSESSMENT_DATA not created`);
   scanValues(data,base);
