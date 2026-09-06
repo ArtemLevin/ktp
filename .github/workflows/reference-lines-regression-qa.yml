@@ -1,0 +1,93 @@
+name: Reference Lines Regression QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'js/**'
+      - 'content/7-algebra-makarychev/**'
+      - 'content/8-algebra-makarychev/**'
+      - 'content/9-algebra-makarychev/**'
+      - 'content/10-algebra-alimov/**'
+      - 'content/11-algebra-alimov/**'
+      - 'topics/7-algebra-makarychev/**'
+      - 'topics/8-algebra-makarychev/**'
+      - 'topics/9-algebra-makarychev/**'
+      - 'topics/10-algebra-alimov/**'
+      - 'topics/11-algebra-alimov/**'
+      - 'topics/topic-page.js'
+      - 'topics/topic-page.css'
+      - 'lessons/7-algebra-makarychev/**'
+      - 'lessons/8-algebra-makarychev/**'
+      - 'lessons/9-algebra-makarychev/**'
+      - 'lessons/10-algebra-alimov/**'
+      - 'lessons/11-algebra-alimov/**'
+      - 'lessons/*.js'
+      - 'lessons/*.css'
+      - 'assessments/7-algebra-makarychev/**'
+      - 'assessments/8-algebra-makarychev/**'
+      - 'assessments/9-algebra-makarychev/**'
+      - 'assessments/10-algebra-alimov/**'
+      - 'assessments/11-algebra-alimov/**'
+      - 'assessments/*.js'
+      - 'assessments/*.css'
+      - 'labs/7-algebra-makarychev/**'
+      - 'labs/8-algebra-makarychev/**'
+      - 'labs/9-algebra-makarychev/**'
+      - 'labs/10-algebra-alimov/**'
+      - 'labs/11-algebra-alimov/**'
+      - 'scripts/qa-reference-lines.mjs'
+      - '.github/workflows/reference-lines-regression-qa.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'js/**'
+      - 'content/7-algebra-makarychev/**'
+      - 'content/8-algebra-makarychev/**'
+      - 'content/9-algebra-makarychev/**'
+      - 'content/10-algebra-alimov/**'
+      - 'content/11-algebra-alimov/**'
+      - 'topics/7-algebra-makarychev/**'
+      - 'topics/8-algebra-makarychev/**'
+      - 'topics/9-algebra-makarychev/**'
+      - 'topics/10-algebra-alimov/**'
+      - 'topics/11-algebra-alimov/**'
+      - 'topics/topic-page.js'
+      - 'topics/topic-page.css'
+      - 'lessons/7-algebra-makarychev/**'
+      - 'lessons/8-algebra-makarychev/**'
+      - 'lessons/9-algebra-makarychev/**'
+      - 'lessons/10-algebra-alimov/**'
+      - 'lessons/11-algebra-alimov/**'
+      - 'lessons/*.js'
+      - 'lessons/*.css'
+      - 'assessments/7-algebra-makarychev/**'
+      - 'assessments/8-algebra-makarychev/**'
+      - 'assessments/9-algebra-makarychev/**'
+      - 'assessments/10-algebra-alimov/**'
+      - 'assessments/11-algebra-alimov/**'
+      - 'assessments/*.js'
+      - 'assessments/*.css'
+      - 'labs/7-algebra-makarychev/**'
+      - 'labs/8-algebra-makarychev/**'
+      - 'labs/9-algebra-makarychev/**'
+      - 'labs/10-algebra-alimov/**'
+      - 'labs/11-algebra-alimov/**'
+      - 'scripts/qa-reference-lines.mjs'
+      - '.github/workflows/reference-lines-regression-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate five reference lines
+        run: node scripts/qa-reference-lines.mjs
