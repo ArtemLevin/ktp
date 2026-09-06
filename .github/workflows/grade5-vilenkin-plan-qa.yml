@@ -1,0 +1,37 @@
+name: Grade 5 Vilenkin Plan QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'js/data.js'
+      - 'content/5-math-vilenkin/**'
+      - 'lessons/5-math-vilenkin/**'
+      - 'topics/5-math-vilenkin/**'
+      - 'scripts/qa-grade5-vilenkin-plan.mjs'
+      - '.github/workflows/grade5-vilenkin-plan-qa.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'js/data.js'
+      - 'content/5-math-vilenkin/**'
+      - 'lessons/5-math-vilenkin/**'
+      - 'topics/5-math-vilenkin/**'
+      - 'scripts/qa-grade5-vilenkin-plan.mjs'
+      - '.github/workflows/grade5-vilenkin-plan-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate grade 5 source map and lesson plan
+        run: node scripts/qa-grade5-vilenkin-plan.mjs
