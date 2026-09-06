@@ -4,7 +4,7 @@ const v=(id,tasks)=>({id,tasks});
 const independent=[],control=[];
 
 for(let i=1;i<=6;i++){
-  const a=i+2,d=i+1,q=i%2?2:3,n=i+4;
+  const a=i+2,d=i+1,q=i%2?2:-2,n=i+4;
   const apn=a+(n-1)*d;
   const aps=n*(2*a+(n-1)*d)/2;
   const gpn=a*q**(n-1);
