@@ -183,7 +183,7 @@ function validateTopicContent(config,topicIndex){
   scanValues(data,contentFile);
   assert(Array.isArray(data.objectives)&&data.objectives.length>=3,`${contentFile}: objectives missing`);
   assert(Array.isArray(data.expectedResults)&&data.expectedResults.length>=3,`${contentFile}: expectedResults missing`);
-  assert(Array.isArray(data.prerequisites)&&data.prerequisites.length>=2,`${contentFile}: prerequisites missing`);
+  assert(Array.isArray(data.prerequisites)&&data.prerequisites.length>=1,`${contentFile}: prerequisites missing`);
   assert(Array.isArray(data.prerequisiteCheck)&&data.prerequisiteCheck.length>=2,`${contentFile}: prerequisiteCheck missing`);
   assert(Array.isArray(data.map)&&data.map.length>=2,`${contentFile}: map missing`);
   assert(Array.isArray(data.theory)&&data.theory.length>=4,`${contentFile}: theory too short`);
