@@ -30,6 +30,10 @@ Object.defineProperty(series,'lessons',{
   set(value){
     lessonStore=Array.isArray(value)?value.map(lesson=>{
       if(lesson&&Object.prototype.hasOwnProperty.call(lesson,'milestone')&&lesson.milestone===undefined)delete lesson.milestone;
+      if(lesson?.number===1){
+        if(lesson.practice?.[0])lesson.practice[0].answer='тридцать семь тысяч четыреста восемь';
+        if(lesson.homework?.required?.[0])lesson.homework.required[0].answer='тридцать восемь тысяч четыреста восемь';
+      }
       return lesson;
     }):value;
   }
