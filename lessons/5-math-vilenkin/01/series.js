@@ -23,6 +23,21 @@ const series={
   },
   corrections:{}
 };
+function diversifyConceptVariants(lesson){
+  const blocks=[lesson.independent,lesson.control].filter(Boolean);
+  if(lesson.number===9){
+    const labels=['a','b','c','d','m','n'];
+    blocks.forEach(block=>block.variants?.forEach((variant,index)=>{
+      if(variant.tasks?.[0])variant.tasks[0].text=`Линия ${labels[index]} мысленно продолжается без конца в обе стороны. Как называется такая геометрическая фигура?`;
+    }));
+  }
+  if(lesson.number===10){
+    const names=['ABC','KLM','MNP','DEF','PQR','XYZ'];
+    blocks.forEach(block=>block.variants?.forEach((variant,index)=>{
+      if(variant.tasks?.[0])variant.tasks[0].text=`Назовите, из каких двух геометрических фигур состоит угол ${names[index]}.`;
+    }));
+  }
+}
 Object.defineProperty(series,'lessons',{
   enumerable:true,
   configurable:true,
@@ -39,6 +54,7 @@ Object.defineProperty(series,'lessons',{
         }
         if(lesson.homework?.required?.[0])lesson.homework.required[0].answer='тридцать восемь тысяч четыреста восемь';
       }
+      diversifyConceptVariants(lesson);
       return lesson;
     }):value;
   }
