@@ -1,7 +1,6 @@
 (function(){
 'use strict';
-let lessonStore=[];
-const series={
+window.KTP_LESSON_SERIES={
   meta:{
     rowId:'9-algebra-makarychev',
     topicIndex:3,
@@ -22,18 +21,7 @@ const series={
     ktpHref:'../../../index.html?focus=9-algebra-makarychev&view=timeline',
     catalogHref:'index.html'
   },
-  corrections:{}
+  corrections:{},
+  lessons:[]
 };
-Object.defineProperty(series,'lessons',{
-  enumerable:true,
-  configurable:true,
-  get(){return lessonStore;},
-  set(value){
-    lessonStore=Array.isArray(value)?value.map(lesson=>{
-      if(lesson&&Object.prototype.hasOwnProperty.call(lesson,'milestone')&&lesson.milestone===undefined)delete lesson.milestone;
-      return lesson;
-    }):value;
-  }
-});
-window.KTP_LESSON_SERIES=series;
 })();
