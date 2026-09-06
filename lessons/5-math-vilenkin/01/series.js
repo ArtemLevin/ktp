@@ -31,7 +31,12 @@ Object.defineProperty(series,'lessons',{
     lessonStore=Array.isArray(value)?value.map(lesson=>{
       if(lesson&&Object.prototype.hasOwnProperty.call(lesson,'milestone')&&lesson.milestone===undefined)delete lesson.milestone;
       if(lesson?.number===1){
-        if(lesson.practice?.[0])lesson.practice[0].answer='тридцать семь тысяч четыреста восемь';
+        const practiceAnswer='тридцать семь тысяч четыреста восемь';
+        if(lesson.practice?.[0])lesson.practice[0].answer=practiceAnswer;
+        if(lesson.examples?.[0]){
+          lesson.examples[0].answer=practiceAnswer;
+          lesson.examples[0].solution='Читаем число по классам: 37 | 408. Получаем: тридцать семь тысяч четыреста восемь.';
+        }
         if(lesson.homework?.required?.[0])lesson.homework.required[0].answer='тридцать восемь тысяч четыреста восемь';
       }
       return lesson;
