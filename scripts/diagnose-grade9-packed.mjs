@@ -27,5 +27,15 @@ for(let trim=0;trim<=8;trim++){
   }catch(e){console.log(`partial trim=${trim} failed: ${e.message}`);}
 }
 console.log(`best partial: trim=${best.trim}, length=${best.len}`);
-console.log(`TAIL>>>${JSON.stringify(best.text.slice(-1200))}<<<TAIL`);
+console.log(`HEAD>>>${JSON.stringify(best.text.slice(0,1600))}<<<HEAD`);
+const replacement=best.text.indexOf('\uFFFD');
+console.log(`first replacement char index=${replacement}`);
+const markers=[...best.text.matchAll(/(?:id|number|globalNumber)\s*:\s*["']?(\d{1,3})/g)].slice(-80);
+console.log('last numeric markers:',markers.map(m=>`${m[0]}@${m.index}`).join(' | '));
+const lessonIds=[...best.text.matchAll(/id\s*:\s*["'](\d{2})["']/g)];
+console.log(`lesson-like id matches=${lessonIds.length}; last=${lessonIds.slice(-30).map(m=>`${m[1]}@${m.index}`).join(', ')}`);
+const lessonNumbers=[...best.text.matchAll(/number\s*:\s*(\d{1,3})/g)];
+console.log(`number matches=${lessonNumbers.length}; last=${lessonNumbers.slice(-30).map(m=>`${m[1]}@${m.index}`).join(', ')}`);
+console.log(`last lessons token=${best.text.lastIndexOf('lessons')}, last summary token=${best.text.lastIndexOf('summary')}, last control token=${best.text.lastIndexOf('control')}`);
+console.log(`TAIL>>>${JSON.stringify(best.text.slice(-1800))}<<<TAIL`);
 try{new vm.Script(best.text,{filename:'partial-payload.js'});console.log('partial payload is syntactically complete');}catch(e){console.log(`partial syntax error: ${e.message}`);}
