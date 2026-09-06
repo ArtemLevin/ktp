@@ -3,7 +3,8 @@
 const body=document.body;
 const configsByRow={
   '5-math-vilenkin':{
-    0:{count:18,weeks:'уроки 1–18 курса',href:'../../lessons/5-math-vilenkin/01/index.html'}
+    0:{count:18,weeks:'уроки 1–18 курса',href:'../../lessons/5-math-vilenkin/01/index.html'},
+    1:{count:17,weeks:'уроки 19–35 курса',href:'../../lessons/5-math-vilenkin/02/index.html'}
   },
   '7-algebra-makarychev':{
     0:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/01/index.html'},
