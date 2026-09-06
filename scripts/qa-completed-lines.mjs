@@ -212,11 +212,19 @@ function validateTopics(line){
     compile(read(content),content);
   }
 }
-function registryHasRow(file,row,max){
-  const source=read(file);
-  const safe=row.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const re=new RegExp(`['\"]${safe}['\"]\\s*:\\s*\\{\\s*min\\s*:\\s*0\\s*,\\s*max\\s*:\\s*${max}\\s*\\}`);
-  assert(re.test(source),`${file}: ${row} expected min 0 max ${max}`);
+function validateLessonRegistry(line){
+  const source=read('lessons/topic-links.js');
+  assert(source.includes(`'${line.row}':{`),`lessons/topic-links.js: ${line.row} missing`);
+  for(let i=1;i<=line.topics;i++){
+    const n=String(i).padStart(2,'0');
+    assert(source.includes(`../../lessons/${line.row}/${n}/index.html`),`lessons/topic-links.js: ${line.row}/${n} link missing`);
+  }
+}
+function validateAssessmentRegistry(line){
+  const source=read('assessments/topic-links.js');
+  const safe=line.row.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re=new RegExp(`['\"]${safe}['\"]\\s*:\\s*\\{\\s*min\\s*:\\s*0\\s*,\\s*max\\s*:\\s*${line.topics-1}\\s*\\}`);
+  assert(re.test(source),`assessments/topic-links.js: ${line.row} expected min 0 max ${line.topics-1}`);
 }
 function walk(dir,predicate=()=>true,out=[]){
   if(!exists(dir))return out;
@@ -269,8 +277,8 @@ for(const file of ['lessons/topic-links.js','assessments/topic-links.js','lesson
   assert(exists(file),`${file}: missing`);compile(read(file),file);
 }
 for(const line of LINES){
-  registryHasRow('lessons/topic-links.js',line.row,line.topics-1);
-  registryHasRow('assessments/topic-links.js',line.row,line.topics-1);
+  validateLessonRegistry(line);
+  validateAssessmentRegistry(line);
   validateTopics(line);
   validateSeries(line);
   validateAssessments(line);
