@@ -13,6 +13,9 @@ window.KTP_LESSON_SERIES={
     schoolYear:'2026/27',
     plannedWeeks:'15–20',
     totalLessons:18,
+    courseLessonStart:42,
+    courseLessonEnd:59,
+    courseTotal:102,
     topicHref:'../../../topics/7-algebra-makarychev/04.html',
     ktpHref:'../../../index.html?focus=7-algebra-makarychev&view=timeline',
     catalogHref:'index.html'

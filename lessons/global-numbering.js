@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 const S=window.KTP_LESSON_SERIES;if(!S)return;
-const m=S.meta||{},start=Number(m.globalStart||1),courseTotal=Number(m.courseTotal||102);
+const m=S.meta||{},start=Number(m.globalStart||m.courseLessonStart||1),courseTotal=Number(m.courseTotal||102);
 if(start<=1)return;
 const globalNo=l=>Number(l.globalNumber||start+Number(l.number||1)-1);
 const page=document.body.dataset.page;
