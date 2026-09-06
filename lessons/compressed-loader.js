@@ -22,24 +22,30 @@ async function unpack(bytes){
   throw new Error(`Не удалось распаковать данные: ${gzipError.message}; резервная распаковка: ${lastError?.message||'не удалась'}`);
  }
 }
+async function bootRenderer(){
+ const meta=window.KTP_LESSON_SERIES?.meta||{};
+ if(meta.rowId&&!document.body.dataset.row)document.body.dataset.row=meta.rowId;
+ if(Number.isInteger(meta.topicIndex)&&!document.body.dataset.topic)document.body.dataset.topic=String(meta.topicIndex);
+ if(document.body.dataset.page==='lesson'&&!document.body.dataset.lesson){
+  const match=location.pathname.match(/\/(\d{2})\.html$/);
+  if(match)document.body.dataset.lesson=match[1];
+ }
+ await loadScript(document.body.dataset.page==='lesson-index'?'../../lesson-index.js':'../../lesson-page.js');
+ await loadScript('../../series-adapter.js');
+ await loadScript('../../global-numbering.js');
+}
 (async()=>{
  try{
-  const b64=window.KTP_COMPRESSED_LESSONS;
-  if(!b64)throw new Error('Сжатый пакет данных отсутствует.');
-  if(typeof DecompressionStream==='undefined')throw new Error('Браузер не поддерживает встроенную распаковку. Обновите браузер.');
-  const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
-  const source=await unpack(bytes);
-  new Function(source)();
-  const meta=window.KTP_LESSON_SERIES?.meta||{};
-  if(meta.rowId&&!document.body.dataset.row)document.body.dataset.row=meta.rowId;
-  if(Number.isInteger(meta.topicIndex)&&!document.body.dataset.topic)document.body.dataset.topic=String(meta.topicIndex);
-  if(document.body.dataset.page==='lesson'&&!document.body.dataset.lesson){
-    const match=location.pathname.match(/\/(\d{2})\.html$/);
-    if(match)document.body.dataset.lesson=match[1];
+  const preloaded=Array.isArray(window.KTP_LESSON_SERIES?.lessons)&&window.KTP_LESSON_SERIES.lessons.length>0;
+  if(!preloaded){
+   const b64=window.KTP_COMPRESSED_LESSONS;
+   if(!b64)throw new Error('Пакет данных урока отсутствует.');
+   if(typeof DecompressionStream==='undefined')throw new Error('Браузер не поддерживает встроенную распаковку. Обновите браузер.');
+   const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+   const source=await unpack(bytes);
+   new Function(source)();
   }
-  await loadScript(document.body.dataset.page==='lesson-index'?'../../lesson-index.js':'../../lesson-page.js');
-  await loadScript('../../series-adapter.js');
-  await loadScript('../../global-numbering.js');
+  await bootRenderer();
  }catch(error){console.error(error);fail(error.message);}
 })();
 })();
