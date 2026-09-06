@@ -22,6 +22,7 @@ on:
       - 'labs/11-algebra-alimov/**'
       - 'scripts/qa-completed-lines.mjs'
       - 'scripts/qa-browser.mjs'
+      - 'scripts/diagnose-g9-series04.mjs'
       - '.github/workflows/completed-lines-regression-qa.yml'
   push:
     branches:
@@ -46,6 +47,7 @@ on:
       - 'labs/11-algebra-alimov/**'
       - 'scripts/qa-completed-lines.mjs'
       - 'scripts/qa-browser.mjs'
+      - 'scripts/diagnose-g9-series04.mjs'
       - '.github/workflows/completed-lines-regression-qa.yml'
 
 permissions:
@@ -60,6 +62,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Diagnose legacy compressed payload
+        run: node scripts/diagnose-g9-series04.mjs
       - name: Validate five completed course lines
         run: node scripts/qa-completed-lines.mjs
 
