@@ -37,6 +37,7 @@ on:
       - 'labs/10-algebra-alimov/**'
       - 'labs/11-algebra-alimov/**'
       - 'scripts/qa-reference-lines.mjs'
+      - 'scripts/diagnose-grade9-packed.mjs'
       - '.github/workflows/reference-lines-regression-qa.yml'
   push:
     branches:
@@ -75,6 +76,7 @@ on:
       - 'labs/10-algebra-alimov/**'
       - 'labs/11-algebra-alimov/**'
       - 'scripts/qa-reference-lines.mjs'
+      - 'scripts/diagnose-grade9-packed.mjs'
       - '.github/workflows/reference-lines-regression-qa.yml'
 
 permissions:
@@ -89,5 +91,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Diagnose Grade 9 packed series 04
+        run: node scripts/diagnose-grade9-packed.mjs
       - name: Validate five reference lines
         run: node scripts/qa-reference-lines.mjs
