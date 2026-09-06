@@ -37,15 +37,19 @@ function extractCompressed(source,variable,file){
 function gunzip(bytes,file){
   try{return zlib.gunzipSync(bytes).toString('utf8');}
   catch(gzipError){
-    const plainGzip=bytes.length>18&&bytes[0]===0x1f&&bytes[1]===0x8b&&bytes[2]===0x08&&bytes[3]===0x00;
+    const plainGzip=bytes.length>10&&bytes[0]===0x1f&&bytes[1]===0x8b&&bytes[2]===0x08&&bytes[3]===0x00;
     if(!plainGzip)throw new Error(`${file}: invalid gzip payload: ${gzipError.message}`);
-    try{
-      const recovered=zlib.inflateRawSync(bytes.subarray(10,-8)).toString('utf8');
-      transportFallbacks.push(`${file}: gzip trailer/checksum invalid; raw DEFLATE recovered`);
-      return recovered;
-    }catch(rawError){
-      throw new Error(`${file}: invalid gzip payload (${gzipError.message}); raw recovery failed (${rawError.message})`);
+    const body=bytes.subarray(10),trims=[8,0,1,2,3,4,5,6,7];let lastError=null;
+    for(const trim of trims){
+      if(body.length<=trim)continue;
+      const raw=trim?body.subarray(0,body.length-trim):body;
+      try{
+        const recovered=zlib.inflateRawSync(raw).toString('utf8');
+        transportFallbacks.push(`${file}: gzip trailer/checksum invalid; raw DEFLATE recovered (trim=${trim})`);
+        return recovered;
+      }catch(error){lastError=error;}
     }
+    throw new Error(`${file}: invalid gzip payload (${gzipError.message}); raw recovery failed (${lastError?.message||'unknown error'})`);
   }
 }
 function executeMaybeCompressed(source,context,filename){
