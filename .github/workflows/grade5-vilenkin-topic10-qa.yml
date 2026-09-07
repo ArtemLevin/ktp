@@ -1,0 +1,41 @@
+name: Grade 5 Vilenkin Topic 10 QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'content/5-math-vilenkin/10.js'
+      - 'topics/5-math-vilenkin/10.html'
+      - 'lessons/5-math-vilenkin/10/**'
+      - 'assessments/5-math-vilenkin/10/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'scripts/qa-grade5-vilenkin-topic10.mjs'
+      - '.github/workflows/grade5-vilenkin-topic10-qa.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/5-math-vilenkin/10.js'
+      - 'topics/5-math-vilenkin/10.html'
+      - 'lessons/5-math-vilenkin/10/**'
+      - 'assessments/5-math-vilenkin/10/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'scripts/qa-grade5-vilenkin-topic10.mjs'
+      - '.github/workflows/grade5-vilenkin-topic10-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate grade 5 topic 10
+        run: node scripts/qa-grade5-vilenkin-topic10.mjs
