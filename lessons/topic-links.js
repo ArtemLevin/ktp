@@ -12,7 +12,8 @@ const configsByRow={
     6:{count:10,weeks:'уроки 89–98 курса',href:'../../lessons/5-math-vilenkin/07/index.html'},
     7:{count:10,weeks:'уроки 99–108 курса',href:'../../lessons/5-math-vilenkin/08/index.html'},
     8:{count:10,weeks:'уроки 109–118 курса',href:'../../lessons/5-math-vilenkin/09/index.html'},
-    9:{count:15,weeks:'уроки 119–133 курса',href:'../../lessons/5-math-vilenkin/10/index.html'}
+    9:{count:15,weeks:'уроки 119–133 курса',href:'../../lessons/5-math-vilenkin/10/index.html'},
+    10:{count:20,weeks:'уроки 134–153 курса',href:'../../lessons/5-math-vilenkin/11/index.html'}
   },
   '7-algebra-makarychev':{
     0:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/01/index.html'},
