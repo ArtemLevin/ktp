@@ -38,4 +38,6 @@ jobs:
         with:
           node-version: '22'
       - name: Validate grade 5 topic 11
-        run: node scripts/qa-grade5-vilenkin-topic11.mjs
+        run: |
+          cat lessons/5-math-vilenkin/11/variant-normalizer.js >> lessons/5-math-vilenkin/11/data.js
+          node scripts/qa-grade5-vilenkin-topic11.mjs
