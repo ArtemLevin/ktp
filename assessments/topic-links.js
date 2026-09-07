@@ -2,7 +2,7 @@
 'use strict';
 const body=document.body;
 const rows={
-  '5-math-vilenkin':{min:0,max:8},
+  '5-math-vilenkin':{min:0,max:9},
   '7-algebra-makarychev':{min:0,max:6},
   '8-algebra-makarychev':{min:0,max:6},
   '9-algebra-makarychev':{min:0,max:5},
