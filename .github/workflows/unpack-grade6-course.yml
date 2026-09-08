@@ -1,12 +1,13 @@
-# one-shot unpacker; second push intentionally triggers this workflow
+# one-shot unpacker; opening the course PR triggers extraction
 name: Unpack Grade 6 Course Payload
 
 on:
-  push:
+  pull_request:
     branches:
-      - feature/6-math-vilenkin-course
+      - main
     paths:
       - '.github/workflows/unpack-grade6-course.yml'
+      - 'scripts/.grade6-course-payload/**'
   workflow_dispatch:
 
 permissions:
@@ -19,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: feature/6-math-vilenkin-course
           fetch-depth: 0
       - name: Decode prepared payload
         shell: bash
