@@ -22,18 +22,96 @@ jobs:
           ref: feature/6-math-vilenkin-course
           fetch-depth: 0
 
-      - name: Decode prepared archive
+      - name: Decode and unpack prepared payload
         shell: bash
         run: |
           set -euo pipefail
-          : > /tmp/grade6.gz
-          for f in scripts/.grade6-course-payload/chunk_[0-9][0-9]; do
-            base64 -d "$f" >> /tmp/grade6.gz
-          done
-          gzip -dc /tmp/grade6.gz > /tmp/grade6.tar
-          file /tmp/grade6.tar || true
-          tar -tf /tmp/grade6.tar >/dev/null
-          tar -xf /tmp/grade6.tar -C .
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64
+          import gzip
+          import io
+          import json
+          import os
+          import tarfile
+
+          chunk_dir = Path('scripts/.grade6-course-payload')
+          paths = sorted(chunk_dir.glob('chunk_[0-9][0-9]'))
+          if not paths:
+              raise SystemExit('No payload chunks found')
+
+          parts = []
+          for path in paths:
+              text = ''.join(path.read_text(encoding='utf-8').split())
+              bad = sorted(set(ch for ch in text if ch not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=_-'))
+              print(path, 'chars=', len(text), 'mod4=', len(text) % 4, 'bad=', bad[:8])
+              parts.append(text)
+
+          def decode64(text):
+              padded = text + '=' * ((4 - len(text) % 4) % 4)
+              return base64.b64decode(padded.encode('ascii'), altchars=b'-_', validate=False)
+
+          candidates = []
+          try:
+              candidates.append(('joined-base64', decode64(''.join(parts))))
+          except Exception as exc:
+              print('joined decode failed:', exc)
+
+          try:
+              candidates.append(('per-chunk-base64', b''.join(decode64(part) for part in parts)))
+          except Exception as exc:
+              print('per-chunk decode failed:', exc)
+
+          payload = None
+          used = None
+          for label, raw in candidates:
+              try:
+                  payload = gzip.decompress(raw)
+                  used = label
+                  break
+              except Exception as exc:
+                  print(label, 'gzip failed:', exc)
+
+          if payload is None:
+              raise SystemExit('Unable to decode prepared payload')
+
+          out = Path('/tmp/grade6.payload')
+          out.write_bytes(payload)
+          print('Decoded with', used, 'bytes=', len(payload), 'prefix=', repr(payload[:120]))
+
+          repo = Path('.').resolve()
+          if tarfile.is_tarfile(out):
+              print('Payload format: tar archive')
+              with tarfile.open(out, 'r:*') as tf:
+                  members = tf.getmembers()
+                  for member in members:
+                      target = (repo / member.name).resolve()
+                      if target != repo and not str(target).startswith(str(repo) + os.sep):
+                          raise SystemExit(f'Unsafe tar path: {member.name}')
+                  tf.extractall(repo)
+              print('Extracted', len(members), 'archive entries')
+          else:
+              print('Payload format: JSON manifest')
+              data = json.loads(payload.decode('utf-8'))
+              items = data.get('files', data) if isinstance(data, dict) else data
+              if isinstance(items, dict):
+                  items = [{'path': k, 'content': v} for k, v in items.items()]
+              if not isinstance(items, list):
+                  raise SystemExit('Unsupported JSON manifest shape')
+              for item in items:
+                  path = Path(item['path'])
+                  target = (repo / path).resolve()
+                  if target != repo and not str(target).startswith(str(repo) + os.sep):
+                      raise SystemExit(f'Unsafe manifest path: {path}')
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  content = item.get('content', '')
+                  if item.get('encoding') == 'base64':
+                      target.write_bytes(base64.b64decode(content))
+                  else:
+                      target.write_text(content, encoding='utf-8')
+              print('Wrote', len(items), 'manifest entries')
+          PY
+
           rm -rf scripts/.grade6-course-payload
           rm -f scripts/_grade6_payload_01.txt
 
