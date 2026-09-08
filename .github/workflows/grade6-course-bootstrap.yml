@@ -1,0 +1,94 @@
+name: Grade 6 Course Bootstrap
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'scripts/.grade6-course-payload/**'
+      - 'scripts/_grade6_payload_01.txt'
+      - '.github/workflows/unpack-grade6-course.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  unpack-and-verify:
+    if: github.head_ref == 'feature/6-math-vilenkin-course'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/6-math-vilenkin-course
+          fetch-depth: 0
+      - name: Decode prepared payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat scripts/.grade6-course-payload/chunk_* > /tmp/grade6.b64
+          base64 -d /tmp/grade6.b64 > /tmp/grade6.gz
+          gzip -dc /tmp/grade6.gz > /tmp/grade6.payload
+          echo 'Decoded payload:'
+          file /tmp/grade6.payload || true
+          wc -c /tmp/grade6.payload
+          head -c 120 /tmp/grade6.payload | cat -v || true
+          echo
+
+          if tar -tf /tmp/grade6.payload >/dev/null 2>&1; then
+            echo 'Payload format: tar archive'
+            tar -xf /tmp/grade6.payload -C .
+          elif unzip -t /tmp/grade6.payload >/dev/null 2>&1; then
+            echo 'Payload format: zip archive'
+            unzip -o /tmp/grade6.payload -d .
+          elif head -c 2 /tmp/grade6.payload | grep -q '^{' || head -c 2 /tmp/grade6.payload | grep -q '^\['; then
+            echo 'Payload format: JSON manifest'
+            python3 - <<'PY'
+import json, base64
+from pathlib import Path
+p=Path('/tmp/grade6.payload')
+data=json.loads(p.read_text(encoding='utf-8'))
+items=data.get('files', data) if isinstance(data, dict) else data
+if isinstance(items, dict):
+    items=[{'path':k,'content':v} for k,v in items.items()]
+for item in items:
+    path=Path(item['path'])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    content=item.get('content','')
+    if item.get('encoding')=='base64':
+        path.write_bytes(base64.b64decode(content))
+    else:
+        path.write_text(content, encoding='utf-8')
+print(f'Wrote {len(items)} files from JSON manifest')
+PY
+          elif head -n 1 /tmp/grade6.payload | grep -Eq '^#!.*(bash|sh)'; then
+            echo 'Payload format: shell script'
+            bash /tmp/grade6.payload
+          elif head -n 1 /tmp/grade6.payload | grep -q '^# KTP-GRADE6-PAYLOAD'; then
+            echo 'Payload format: custom Python script body'
+            python3 /tmp/grade6.payload
+          else
+            echo 'Unsupported payload format' >&2
+            exit 2
+          fi
+
+          rm -rf scripts/.grade6-course-payload scripts/_grade6_payload_01.txt
+          rm -f .github/workflows/unpack-grade6-course.yml
+
+      - name: Verify generated tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f lessons/6-math-vilenkin/lesson-plan.md
+          test -f scripts/qa-grade6-vilenkin-course.mjs
+          node scripts/qa-grade6-vilenkin-course.mjs
+
+      - name: Commit generated course
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'KTP Course Builder'
+          git config user.email 'actions@users.noreply.github.com'
+          git add -A
+          git commit -m 'Complete grade 6 Vilenkin course'
+          git push origin HEAD:feature/6-math-vilenkin-course
