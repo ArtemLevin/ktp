@@ -22,94 +22,72 @@ jobs:
           ref: feature/6-math-vilenkin-course
           fetch-depth: 0
 
-      - name: Decode and unpack prepared payload
+      - name: Recover prepared course payload
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-          import base64
-          import gzip
-          import io
-          import json
-          import os
-          import tarfile
-
-          chunk_dir = Path('scripts/.grade6-course-payload')
-          paths = sorted(chunk_dir.glob('chunk_[0-9][0-9]'))
-          if not paths:
-              raise SystemExit('No payload chunks found')
-
-          parts = []
-          for path in paths:
-              text = ''.join(path.read_text(encoding='utf-8').split())
-              bad = sorted(set(ch for ch in text if ch not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=_-'))
-              print(path, 'chars=', len(text), 'mod4=', len(text) % 4, 'bad=', bad[:8])
-              parts.append(text)
-
-          def decode64(text):
-              padded = text + '=' * ((4 - len(text) % 4) % 4)
-              return base64.b64decode(padded.encode('ascii'), altchars=b'-_', validate=False)
-
-          candidates = []
-          try:
-              candidates.append(('joined-base64', decode64(''.join(parts))))
-          except Exception as exc:
-              print('joined decode failed:', exc)
-
-          try:
-              candidates.append(('per-chunk-base64', b''.join(decode64(part) for part in parts)))
-          except Exception as exc:
-              print('per-chunk decode failed:', exc)
-
-          payload = None
-          used = None
-          for label, raw in candidates:
-              try:
-                  payload = gzip.decompress(raw)
-                  used = label
-                  break
-              except Exception as exc:
-                  print(label, 'gzip failed:', exc)
-
-          if payload is None:
-              raise SystemExit('Unable to decode prepared payload')
-
-          out = Path('/tmp/grade6.payload')
-          out.write_bytes(payload)
-          print('Decoded with', used, 'bytes=', len(payload), 'prefix=', repr(payload[:120]))
+          import base64, gzip, json, os, tarfile
 
           repo = Path('.').resolve()
+          legacy = Path('scripts/_grade6_payload_01.txt')
+          chunks = sorted(Path('scripts/.grade6-course-payload').glob('chunk_[0-9][0-9]'))
+
+          def clean(path):
+              return ''.join(path.read_text(encoding='utf-8').split())
+
+          def dec64(text):
+              text += '=' * ((4 - len(text) % 4) % 4)
+              return base64.b64decode(text.encode('ascii'), altchars=b'-_', validate=False)
+
+          texts=[]
+          if legacy.exists():
+              text=clean(legacy)
+              print('legacy chars=',len(text),'mod4=',len(text)%4,'prefix=',text[:16],'suffix=',text[-16:])
+              texts.append(('legacy',text))
+          if chunks:
+              parts=[clean(p) for p in chunks]
+              print('chunks=',[(p.name,len(s),len(s)%4) for p,s in zip(chunks,parts)])
+              texts.append(('chunks-joined',''.join(parts)))
+
+          payload=None; used=None
+          for label,text in texts:
+              try:
+                  raw=dec64(text)
+                  print(label,'decoded bytes=',len(raw),'magic=',repr(raw[:8]))
+                  candidate=gzip.decompress(raw)
+                  print(label,'gzip success bytes=',len(candidate),'prefix=',repr(candidate[:100]))
+                  payload=candidate; used=label; break
+              except Exception as exc:
+                  print(label,'failed:',type(exc).__name__,str(exc))
+
+          if payload is None:
+              raise SystemExit('No recoverable payload candidate')
+
+          out=Path('/tmp/grade6.payload'); out.write_bytes(payload)
           if tarfile.is_tarfile(out):
-              print('Payload format: tar archive')
-              with tarfile.open(out, 'r:*') as tf:
-                  members = tf.getmembers()
-                  for member in members:
-                      target = (repo / member.name).resolve()
-                      if target != repo and not str(target).startswith(str(repo) + os.sep):
-                          raise SystemExit(f'Unsafe tar path: {member.name}')
+              with tarfile.open(out,'r:*') as tf:
+                  members=tf.getmembers()
+                  for m in members:
+                      target=(repo/m.name).resolve()
+                      if target!=repo and not str(target).startswith(str(repo)+os.sep):
+                          raise SystemExit(f'Unsafe archive path: {m.name}')
                   tf.extractall(repo)
-              print('Extracted', len(members), 'archive entries')
+              print('Extracted tar entries:',len(members),'using',used)
           else:
-              print('Payload format: JSON manifest')
-              data = json.loads(payload.decode('utf-8'))
-              items = data.get('files', data) if isinstance(data, dict) else data
-              if isinstance(items, dict):
-                  items = [{'path': k, 'content': v} for k, v in items.items()]
-              if not isinstance(items, list):
-                  raise SystemExit('Unsupported JSON manifest shape')
+              data=json.loads(payload.decode('utf-8'))
+              items=data.get('files',data) if isinstance(data,dict) else data
+              if isinstance(items,dict): items=[{'path':k,'content':v} for k,v in items.items()]
+              if not isinstance(items,list): raise SystemExit('Unsupported manifest shape')
               for item in items:
-                  path = Path(item['path'])
-                  target = (repo / path).resolve()
-                  if target != repo and not str(target).startswith(str(repo) + os.sep):
-                      raise SystemExit(f'Unsafe manifest path: {path}')
-                  target.parent.mkdir(parents=True, exist_ok=True)
-                  content = item.get('content', '')
-                  if item.get('encoding') == 'base64':
-                      target.write_bytes(base64.b64decode(content))
-                  else:
-                      target.write_text(content, encoding='utf-8')
-              print('Wrote', len(items), 'manifest entries')
+                  target=(repo/item['path']).resolve()
+                  if target!=repo and not str(target).startswith(str(repo)+os.sep):
+                      raise SystemExit(f"Unsafe manifest path: {item['path']}")
+                  target.parent.mkdir(parents=True,exist_ok=True)
+                  if item.get('encoding')=='base64': target.write_bytes(base64.b64decode(item.get('content','')))
+                  else: target.write_text(item.get('content',''),encoding='utf-8')
+              print('Extracted manifest entries:',len(items),'using',used)
           PY
 
           rm -rf scripts/.grade6-course-payload
