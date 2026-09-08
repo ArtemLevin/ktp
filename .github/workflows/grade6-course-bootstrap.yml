@@ -41,26 +41,33 @@ jobs:
               text += '=' * ((4 - len(text) % 4) % 4)
               return base64.b64decode(text.encode('ascii'), altchars=b'-_', validate=False)
 
-          texts=[]
-          if legacy.exists():
-              text=clean(legacy)
-              print('legacy chars=',len(text),'mod4=',len(text)%4,'prefix=',text[:16],'suffix=',text[-16:])
-              texts.append(('legacy',text))
-          if chunks:
-              parts=[clean(p) for p in chunks]
-              print('chunks=',[(p.name,len(s),len(s)%4) for p,s in zip(chunks,parts)])
-              texts.append(('chunks-joined',''.join(parts)))
+          legacy_text=clean(legacy) if legacy.exists() else ''
+          parts=[clean(p) for p in chunks]
+          print('legacy=',len(legacy_text),'chunks=',[(p.name,len(s)) for p,s in zip(chunks,parts)])
+
+          candidates=[]
+          if legacy_text:
+              candidates.append(('legacy',legacy_text))
+          if parts:
+              candidates.append(('chunks-joined',''.join(parts)))
+          if legacy_text and len(parts)>=3:
+              hybrid=legacy_text+''.join(parts[2:])
+              candidates.append(('legacy-plus-chunks-02+',hybrid))
+              alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+              if len(hybrid)%4==3:
+                  for ch in alphabet+'=':
+                      candidates.append((f'hybrid-tail-{ch}',hybrid+ch))
 
           payload=None; used=None
-          for label,text in texts:
+          for label,text in candidates:
               try:
                   raw=dec64(text)
-                  print(label,'decoded bytes=',len(raw),'magic=',repr(raw[:8]))
                   candidate=gzip.decompress(raw)
-                  print(label,'gzip success bytes=',len(candidate),'prefix=',repr(candidate[:100]))
+                  print('SUCCESS',label,'encoded=',len(text),'raw=',len(raw),'payload=',len(candidate))
                   payload=candidate; used=label; break
               except Exception as exc:
-                  print(label,'failed:',type(exc).__name__,str(exc))
+                  if label in ('legacy','chunks-joined','legacy-plus-chunks-02+'):
+                      print(label,'failed:',type(exc).__name__,str(exc))
 
           if payload is None:
               raise SystemExit('No recoverable payload candidate')
