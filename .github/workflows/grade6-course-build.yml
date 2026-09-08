@@ -25,21 +25,20 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
+          if test -f scripts/.grade6-builder/build.mjs; then
+            cp scripts/.grade6-builder/build.mjs /tmp/build-grade6.mjs
+          else
+            python3 - <<'PY'
           from pathlib import Path
           import base64
           parts=sorted(Path('scripts/.grade6-builder').glob('part_*'))
           if not parts:
-              raise SystemExit('No grade 6 builder parts found')
+              raise SystemExit('No grade 6 builder found')
           encoded=''.join(''.join(p.read_text(encoding='utf-8').split()) for p in parts)
-          print('parts=',[(p.name,p.stat().st_size) for p in parts])
-          print('encoded=',len(encoded),'mod4=',len(encoded)%4)
           encoded += '='*((4-len(encoded)%4)%4)
-          source=base64.b64decode(encoded,validate=False)
-          Path('/tmp/build-grade6.mjs').write_bytes(source)
-          print('builder bytes=',len(source))
-          print('tail=',source[-240:].decode('utf-8',errors='replace'))
+          Path('/tmp/build-grade6.mjs').write_bytes(base64.b64decode(encoded,validate=False))
           PY
+          fi
           node --check /tmp/build-grade6.mjs
           node /tmp/build-grade6.mjs
 
