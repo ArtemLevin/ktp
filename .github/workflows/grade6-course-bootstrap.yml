@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - 'scripts/.grade6-builder/**'
       - 'scripts/.grade6-course-payload/**'
       - 'scripts/_grade6_payload_01.txt'
 
@@ -12,91 +13,40 @@ permissions:
   contents: write
 
 jobs:
-  unpack-and-verify:
+  build-and-verify:
     if: github.head_ref == 'feature/6-math-vilenkin-course'
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
           ref: feature/6-math-vilenkin-course
           fetch-depth: 0
 
-      - name: Recover prepared course payload
+      - name: Assemble deterministic course builder
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-          import base64, gzip, json, os, tarfile
+          import base64
 
-          repo = Path('.').resolve()
-          legacy = Path('scripts/_grade6_payload_01.txt')
-          chunks = sorted(Path('scripts/.grade6-course-payload').glob('chunk_[0-9][0-9]'))
-
-          def clean(path):
-              return ''.join(path.read_text(encoding='utf-8').split())
-
-          def dec64(text):
-              text += '=' * ((4 - len(text) % 4) % 4)
-              return base64.b64decode(text.encode('ascii'), altchars=b'-_', validate=False)
-
-          legacy_text=clean(legacy) if legacy.exists() else ''
-          parts=[clean(p) for p in chunks]
-          print('legacy=',len(legacy_text),'chunks=',[(p.name,len(s)) for p,s in zip(chunks,parts)])
-
-          candidates=[]
-          if legacy_text:
-              candidates.append(('legacy',legacy_text))
-          if parts:
-              candidates.append(('chunks-joined',''.join(parts)))
-          if legacy_text and len(parts)>=3:
-              hybrid=legacy_text+''.join(parts[2:])
-              candidates.append(('legacy-plus-chunks-02+',hybrid))
-              alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-              if len(hybrid)%4==3:
-                  for ch in alphabet+'=':
-                      candidates.append((f'hybrid-tail-{ch}',hybrid+ch))
-
-          payload=None; used=None
-          for label,text in candidates:
-              try:
-                  raw=dec64(text)
-                  candidate=gzip.decompress(raw)
-                  print('SUCCESS',label,'encoded=',len(text),'raw=',len(raw),'payload=',len(candidate))
-                  payload=candidate; used=label; break
-              except Exception as exc:
-                  if label in ('legacy','chunks-joined','legacy-plus-chunks-02+'):
-                      print(label,'failed:',type(exc).__name__,str(exc))
-
-          if payload is None:
-              raise SystemExit('No recoverable payload candidate')
-
-          out=Path('/tmp/grade6.payload'); out.write_bytes(payload)
-          if tarfile.is_tarfile(out):
-              with tarfile.open(out,'r:*') as tf:
-                  members=tf.getmembers()
-                  for m in members:
-                      target=(repo/m.name).resolve()
-                      if target!=repo and not str(target).startswith(str(repo)+os.sep):
-                          raise SystemExit(f'Unsafe archive path: {m.name}')
-                  tf.extractall(repo)
-              print('Extracted tar entries:',len(members),'using',used)
-          else:
-              data=json.loads(payload.decode('utf-8'))
-              items=data.get('files',data) if isinstance(data,dict) else data
-              if isinstance(items,dict): items=[{'path':k,'content':v} for k,v in items.items()]
-              if not isinstance(items,list): raise SystemExit('Unsupported manifest shape')
-              for item in items:
-                  target=(repo/item['path']).resolve()
-                  if target!=repo and not str(target).startswith(str(repo)+os.sep):
-                      raise SystemExit(f"Unsafe manifest path: {item['path']}")
-                  target.parent.mkdir(parents=True,exist_ok=True)
-                  if item.get('encoding')=='base64': target.write_bytes(base64.b64decode(item.get('content','')))
-                  else: target.write_text(item.get('content',''),encoding='utf-8')
-              print('Extracted manifest entries:',len(items),'using',used)
+          parts = sorted(Path('scripts/.grade6-builder').glob('part_*'))
+          if not parts:
+              raise SystemExit('No builder parts found')
+          encoded = ''.join(''.join(p.read_text(encoding='utf-8').split()) for p in parts)
+          print('Builder parts:', [(p.name, p.stat().st_size) for p in parts])
+          print('Encoded chars:', len(encoded), 'mod4=', len(encoded) % 4)
+          encoded += '=' * ((4 - len(encoded) % 4) % 4)
+          source = base64.b64decode(encoded, validate=False)
+          Path('/tmp/build-grade6.mjs').write_bytes(source)
+          print('Builder bytes:', len(source))
+          print('Builder tail:', source[-180:].decode('utf-8', errors='replace'))
           PY
+          node --check /tmp/build-grade6.mjs
+          node /tmp/build-grade6.mjs
 
+          rm -rf scripts/.grade6-builder
           rm -rf scripts/.grade6-course-payload
           rm -f scripts/_grade6_payload_01.txt
 
@@ -115,5 +65,9 @@ jobs:
           git config user.name 'KTP Course Builder'
           git config user.email 'actions@users.noreply.github.com'
           git add -A
-          git commit -m 'Complete grade 6 Vilenkin course'
-          git push origin HEAD:feature/6-math-vilenkin-course
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+          else
+            git commit -m 'Complete grade 6 Vilenkin course'
+            git push origin HEAD:feature/6-math-vilenkin-course
+          fi
