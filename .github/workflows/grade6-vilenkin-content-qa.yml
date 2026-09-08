@@ -1,0 +1,33 @@
+name: Grade 6 Vilenkin Content QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'content/6-math-vilenkin/**'
+      - 'topics/6-math-vilenkin/**'
+      - 'scripts/qa-grade6-vilenkin-content.mjs'
+      - '.github/workflows/grade6-vilenkin-content-qa.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/6-math-vilenkin/**'
+      - 'topics/6-math-vilenkin/**'
+      - 'scripts/qa-grade6-vilenkin-content.mjs'
+      - '.github/workflows/grade6-vilenkin-content-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate grade 6 Vilenkin thematic content
+        run: node scripts/qa-grade6-vilenkin-content.mjs
