@@ -1,3 +1,4 @@
+# one-shot unpacker; second push intentionally triggers this workflow
 name: Unpack Grade 6 Course Payload
 
 on:
