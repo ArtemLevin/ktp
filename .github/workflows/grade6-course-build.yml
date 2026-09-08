@@ -1,0 +1,65 @@
+name: Build Grade 6 Vilenkin Course
+
+on:
+  push:
+    branches:
+      - feature/6-math-vilenkin-course
+    paths:
+      - '.github/workflows/grade6-course-build.yml'
+      - 'scripts/.grade6-builder/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/6-math-vilenkin-course
+          fetch-depth: 0
+
+      - name: Assemble and run builder
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64
+          parts=sorted(Path('scripts/.grade6-builder').glob('part_*'))
+          if not parts:
+              raise SystemExit('No grade 6 builder parts found')
+          encoded=''.join(''.join(p.read_text(encoding='utf-8').split()) for p in parts)
+          print('parts=',[(p.name,p.stat().st_size) for p in parts])
+          print('encoded=',len(encoded),'mod4=',len(encoded)%4)
+          encoded += '='*((4-len(encoded)%4)%4)
+          source=base64.b64decode(encoded,validate=False)
+          Path('/tmp/build-grade6.mjs').write_bytes(source)
+          print('builder bytes=',len(source))
+          print('tail=',source[-240:].decode('utf-8',errors='replace'))
+          PY
+          node --check /tmp/build-grade6.mjs
+          node /tmp/build-grade6.mjs
+
+      - name: Verify generated course
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f lessons/6-math-vilenkin/lesson-plan.md
+          test -f scripts/qa-grade6-vilenkin-course.mjs
+          node scripts/qa-grade6-vilenkin-course.mjs
+
+      - name: Remove bootstrap sources and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf scripts/.grade6-builder scripts/.grade6-course-payload
+          rm -f scripts/_grade6_payload_01.txt
+          rm -f .github/workflows/grade6-course-build.yml
+          git config user.name 'KTP Course Builder'
+          git config user.email 'actions@users.noreply.github.com'
+          git add -A
+          git commit -m 'Complete grade 6 Vilenkin course'
+          git push origin HEAD:feature/6-math-vilenkin-course
