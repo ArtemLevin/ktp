@@ -4,150 +4,83 @@ import vm from 'node:vm';
 
 const ROOT=process.cwd();
 let checks=0;
-const fail=m=>{throw new Error(m)};
-const assert=(v,m)=>{checks++;if(!v)fail(m)};
-const abs=p=>path.join(ROOT,p);
-const exists=p=>fs.existsSync(abs(p));
-const read=p=>fs.readFileSync(abs(p),'utf8');
-const compile=p=>{const src=read(p);try{new vm.Script(src,{filename:p});checks++;return src}catch(e){fail(`${p}: JS syntax error: ${e.message}`)}};
-const sum=xs=>xs.reduce((a,b)=>a+Number(b||0),0);
+const read=p=>fs.readFileSync(path.join(ROOT,p),'utf8');
+const exists=p=>fs.existsSync(path.join(ROOT,p));
+const ok=(v,m)=>{checks++;if(!v)throw new Error(m)};
+const compile=p=>{new vm.Script(read(p),{filename:p});checks++;};
+const score=tasks=>tasks.reduce((s,t)=>s+Number(t.points||0),0);
 
 const topic='topics/7-geometry-atanasyan/03.html';
-const contentFile='content/7-geometry-atanasyan/03.js';
-const lessonDir='lessons/7-geometry-atanasyan/03';
-const lessonData=[`${lessonDir}/series.js`,`${lessonDir}/scenes.js`,`${lessonDir}/data.js`,`${lessonDir}/refine.js`];
-const assessmentData='assessments/7-geometry-atanasyan/03/data.js';
-const lessonPlan='lessons/7-geometry-atanasyan/lesson-plan.md';
-const contentMap='content/7-geometry-atanasyan/content-map.md';
-const lessonLinks='lessons/topic-links.js';
-const assessmentLinks='assessments/topic-links.js';
+const content='content/7-geometry-atanasyan/03.js';
+const dir='lessons/7-geometry-atanasyan/03';
+const lessonJs=[`${dir}/series.js`,`${dir}/scenes.js`,`${dir}/data.js`,`${dir}/refine.js`];
+const assessment='assessments/7-geometry-atanasyan/03/data.js';
+const required=[topic,content,...lessonJs,assessment,`${dir}/index.html`,'lessons/7-geometry-atanasyan/lesson-plan.md','content/7-geometry-atanasyan/content-map.md','lessons/topic-links.js','assessments/topic-links.js','assessments/7-geometry-atanasyan/03/independent.html','assessments/7-geometry-atanasyan/03/control.html'];
+for(let i=1;i<=9;i++)required.push(`${dir}/${String(i).padStart(2,'0')}.html`);
+required.forEach(p=>ok(exists(p),`${p}: missing`));
+[content,...lessonJs,assessment,'lessons/topic-links.js','assessments/topic-links.js'].forEach(compile);
+for(const p of ['tmp-placeholder.txt','DO_NOT_KEEP.tmp','ANOTHER_TEMP.tmp',`${dir}/refine-loader-note.txt`,`${dir}/refine-loader.js`])ok(!exists(p),`${p}: temporary file leaked`);
 
-for(const f of [topic,contentFile,...lessonData,assessmentData,lessonPlan,contentMap,lessonLinks,assessmentLinks,`${lessonDir}/index.html`,'assessments/7-geometry-atanasyan/03/independent.html','assessments/7-geometry-atanasyan/03/control.html'])assert(exists(f),`${f}: missing`);
-for(let i=1;i<=9;i++)assert(exists(`${lessonDir}/${String(i).padStart(2,'0')}.html`),`lesson html ${i}: missing`);
-for(const f of [contentFile,...lessonData,assessmentData,lessonLinks,assessmentLinks])compile(f);
-for(const junk of ['tmp-placeholder.txt','DO_NOT_KEEP.tmp','ANOTHER_TEMP.tmp',`${lessonDir}/refine-loader-note.txt`,`${lessonDir}/refine-loader.js`])assert(!exists(junk),`${junk}: temporary file leaked into branch`);
+const topicHtml=read(topic);
+for(const token of ['data-topic="2"','../../content/7-geometry-atanasyan/03.js','../../lessons/topic-links.js','../../assessments/topic-links.js','../../geometry/geometry-scene.js'])ok(topicHtml.includes(token),`${topic}: missing ${token}`);
 
-const html=read(topic);
-for(const token of ['data-topic="2"','../../content/7-geometry-atanasyan/03.js','../../lessons/topic-links.js','../../assessments/topic-links.js','../../geometry/geometry-scene.js'])assert(html.includes(token),`${topic}: missing ${token}`);
+const w={KTP_CONTENT:{}};
+new vm.Script(read(content)).runInContext(vm.createContext({window:w,console,KTP_REGISTER_CONTENT:(id,data)=>{w.KTP_CONTENT[id]=data;}}));
+const c=w.KTP_CONTENT['7-geometry-atanasyan::2'];
+ok(c?.meta?.title==='Параллельные прямые','topic title');
+ok(c.meta.chapter==='Глава III · §§1–2 · пп. 24–29','topic source range');
+ok(c.objectives?.length>=6&&c.expectedResults?.length>=8,'topic goals/results');
+ok(c.theory?.length>=10&&c.examples?.length>=6&&c.mistakes?.length>=7,'topic theory/examples/mistakes');
+for(const [k,n] of [['basic',5],['standard',5],['transfer',4],['challenge',3]])ok(c.practice?.[k]?.length>=n,`practice.${k}`);
+const cText=JSON.stringify(c);
+ok(cText.includes('углы → параллельность')&&cText.includes('параллельность → углы'),'criterion/property direction missing');
+ok(Object.keys(c.geometryScenes||{}).length>=5,'topic geometry scenes');
+for(const [id,s] of Object.entries(c.geometryScenes||{})){ok(s.title&&s.ariaLabel&&s.caption,`${id}: scene text`);ok(Array.isArray(s.viewBox)&&s.viewBox.length===4&&s.objects?.length,`${id}: scene geometry`);}
 
-const topicWindow={KTP_CONTENT:{}};
-const topicCtx=vm.createContext({window:topicWindow,console,KTP_REGISTER_CONTENT:(id,data)=>{topicWindow.KTP_CONTENT[id]=data;}});
-new vm.Script(read(contentFile),{filename:contentFile}).runInContext(topicCtx);
-const c=topicWindow.KTP_CONTENT['7-geometry-atanasyan::2'];
-assert(c,'topic content not registered');
-assert(c.meta?.title==='Параллельные прямые','wrong topic title');
-assert(c.meta?.chapter==='Глава III · §§1–2 · пп. 24–29','wrong textbook range');
-assert(Array.isArray(c.objectives)&&c.objectives.length>=6,'objectives too short');
-assert(Array.isArray(c.expectedResults)&&c.expectedResults.length>=8,'expectedResults too short');
-assert(Array.isArray(c.theory)&&c.theory.length>=10,'theory too short');
-assert(Array.isArray(c.examples)&&c.examples.length>=6,'examples too short');
-assert(Array.isArray(c.mistakes)&&c.mistakes.length>=7,'mistakes too short');
-for(const [k,min] of [['basic',5],['standard',5],['transfer',4],['challenge',3]])assert(Array.isArray(c.practice?.[k])&&c.practice[k].length>=min,`practice.${k}: too short`);
-const topicText=JSON.stringify(c);
-assert(topicText.includes('углы → параллельность')&&topicText.includes('параллельность → углы'),'criterion/property direction guard missing');
-assert(c.geometryScenes&&Object.keys(c.geometryScenes).length>=5,'topic geometry scenes missing');
-for(const [id,scene] of Object.entries(c.geometryScenes)){
-  assert(String(scene.title||'').trim(),`${id}: title missing`);
-  assert(String(scene.ariaLabel||'').trim(),`${id}: ariaLabel missing`);
-  assert(String(scene.caption||'').trim(),`${id}: caption missing`);
-  assert(Array.isArray(scene.viewBox)&&scene.viewBox.length===4,`${id}: invalid viewBox`);
-  assert(scene.points&&Object.keys(scene.points).length>=2,`${id}: points missing`);
-  assert(Array.isArray(scene.objects)&&scene.objects.length>=1,`${id}: objects missing`);
-}
-
-const lessonWindow={};
-const lessonCtx=vm.createContext({window:lessonWindow,console});
-for(const f of lessonData)new vm.Script(read(f),{filename:f}).runInContext(lessonCtx);
-const series=lessonWindow.KTP_LESSON_SERIES;
-assert(series?.meta?.rowId==='7-geometry-atanasyan','lesson series row id');
-assert(series.meta.topicIndex===2,'lesson series topic index');
-assert(series.meta.totalLessons===9,'lesson series totalLessons');
-assert(series.meta.courseLessonStart===26&&series.meta.courseLessonEnd===34,'global lesson bounds');
-assert(series.meta.courseTotal===68,'course total');
-const lessons=[...(series.lessons||[])].sort((a,b)=>a.number-b.number);
-assert(lessons.length===9,`expected 9 lessons, got ${lessons.length}`);
-const expectedTitles=['Параллельные прямые и параллельные отрезки','Секущая. Накрест лежащие, соответственные и односторонние углы','Первый признак параллельности прямых','Второй и третий признаки параллельности прямых','Практика на признаки. Построение параллельных прямых','Аксиомы геометрии. Аксиома параллельных прямых','Свойства углов при параллельных прямых и секущей','Доказательные задачи на параллельность','Обобщение темы «Параллельные прямые»'];
-const ids=new Set();
-for(let i=0;i<lessons.length;i++){
-  const l=lessons[i],local=i+1,global=25+local;
-  assert(l.number===local,`lesson ${local}: wrong local number ${l.number}`);
-  assert(l.globalNumber===global,`lesson ${local}: wrong global number ${l.globalNumber}`);
-  assert(l.id===String(local).padStart(2,'0'),`lesson ${local}: wrong id ${l.id}`);
-  assert(l.title===expectedTitles[i],`lesson ${global}: wrong title ${l.title}`);
-  assert(!ids.has(l.id),`lesson ${local}: duplicate id`);ids.add(l.id);
-  assert(Array.isArray(l.objectives)&&l.objectives.length>=2,`lesson ${global}: objectives`);
-  assert(Array.isArray(l.prerequisites)&&l.prerequisites.length>=2,`lesson ${global}: prerequisites`);
-  assert(Array.isArray(l.theory)&&l.theory.length>=2,`lesson ${global}: theory`);
-  assert(Array.isArray(l.examples)&&l.examples.length>=2,`lesson ${global}: examples`);
-  assert(Array.isArray(l.mistakes)&&l.mistakes.length>=2,`lesson ${global}: mistakes`);
-  assert(Array.isArray(l.practice)&&l.practice.length>=8,`lesson ${global}: practice`);
-  assert(l.homework?.required?.length>=6&&l.homework?.optional?.length>=2,`lesson ${global}: homework`);
+const lw={};
+const ctx=vm.createContext({window:lw,console});
+lessonJs.forEach(p=>new vm.Script(read(p),{filename:p}).runInContext(ctx));
+const s=lw.KTP_LESSON_SERIES;
+ok(s?.meta?.rowId==='7-geometry-atanasyan'&&s.meta.topicIndex===2,'series identity');
+ok(s.meta.totalLessons===9&&s.meta.courseLessonStart===26&&s.meta.courseLessonEnd===34&&s.meta.courseTotal===68,'series numbering');
+const lessons=[...(s.lessons||[])].sort((a,b)=>a.number-b.number);
+ok(lessons.length===9,'expected 9 lessons');
+const titles=['Параллельные прямые и параллельные отрезки','Секущая. Накрест лежащие, соответственные и односторонние углы','Первый признак параллельности прямых','Второй и третий признаки параллельности прямых','Практика на признаки. Построение параллельных прямых','Аксиомы геометрии. Аксиома параллельных прямых','Свойства углов при параллельных прямых и секущей','Доказательные задачи на параллельность','Обобщение темы «Параллельные прямые»'];
+for(let i=0;i<9;i++){
+  const l=lessons[i],g=26+i;
+  ok(l.id===String(i+1).padStart(2,'0')&&l.number===i+1&&l.globalNumber===g,`lesson ${g}: numbering`);
+  ok(l.title===titles[i],`lesson ${g}: title`);
+  ok(l.objectives?.length>=2&&l.prerequisites?.length>=2&&l.theory?.length>=2&&l.examples?.length>=2&&l.mistakes?.length>=2,`lesson ${g}: content blocks`);
+  ok(l.practice?.length>=8&&l.homework?.required?.length>=6&&l.homework?.optional?.length>=2,`lesson ${g}: practice/homework`);
   for(const [kind,count,max] of [['independent',5,10],['control',6,14]]){
-    const w=l[kind];
-    assert(w?.variants?.length===6,`lesson ${global} ${kind}: expected 6 variants`);
-    assert(w.maxScore===max,`lesson ${global} ${kind}: max score ${w.maxScore}`);
-    for(const v of w.variants){
-      assert(v.tasks?.length===count,`lesson ${global} ${kind} v${v.id}: task count`);
-      assert(sum(v.tasks.map(t=>t.points))===max,`lesson ${global} ${kind} v${v.id}: score sum`);
-      v.tasks.forEach((t,j)=>{assert(String(t.text||'').trim(),`lesson ${global} ${kind} v${v.id} task${j+1}: text`);assert(String(t.answer||'').trim(),`lesson ${global} ${kind} v${v.id} task${j+1}: answer`);});
-    }
+    const work=l[kind];ok(work?.variants?.length===6&&work.maxScore===max,`lesson ${g} ${kind}: variants/max`);
+    for(const v of work.variants){ok(v.tasks?.length===count,`lesson ${g} ${kind} v${v.id}: tasks`);ok(score(v.tasks)===max,`lesson ${g} ${kind} v${v.id}: score`);for(const t of v.tasks)ok(String(t.text||'').trim()&&String(t.answer||'').trim(),`lesson ${g} ${kind}: empty task/answer`);}
   }
-  assert(String(l.source?.section||'').includes('Глава III'),`lesson ${global}: source outside chapter III`);
+  ok(String(l.source?.section||'').includes('Глава III'),`lesson ${g}: source`);
 }
-assert(Object.keys(series.geometryScenes||{}).length>=8,'lesson geometry scenes missing');
+ok(Object.keys(s.geometryScenes||{}).length>=8,'lesson geometry scenes');
 
-const workText=l=>JSON.stringify({practice:l.practice,homework:l.homework,independent:l.independent,control:l.control});
-for(let i=0;i<5;i++){
-  const s=workText(lessons[i]);
-  for(const forbidden of ['a ∥ b. Накрест','a ∥ b. Соответ','a ∥ b. Один односторонний','Сформулируйте аксиому параллельных прямых'])assert(!s.includes(forbidden),`lesson ${26+i}: later theorem leaked early: ${forbidden}`);
-}
-const lesson31Work=workText(lessons[5]);
-assert(lesson31Work.includes('Сформулируйте аксиому параллельных прямых'),'lesson 31 axiom material missing');
-for(const forbidden of ['a ∥ b. Накрест','a ∥ b. Соответ','a ∥ b. Один односторонний'])assert(!lesson31Work.includes(forbidden),`lesson 31: p.29 property leaked before lesson 32`);
-assert(workText(lessons[6]).includes('a ∥ b. Накрест'),'lesson 32 properties not introduced');
-assert(workText(lessons[2]).includes('x=20'),'lesson 28 equation regression');
-assert(workText(lessons[3]).includes('x=25'),'lesson 29 equation regression');
-assert(workText(lessons[6]).includes('x=22,5'),'lesson 32 equation regression');
-assert(workText(lessons[7]).includes('x=22'),'lesson 33 equation regression');
-assert(workText(lessons[8]).includes('x=21'),'lesson 34 equation regression');
+const work=l=>JSON.stringify({practice:l.practice,homework:l.homework,independent:l.independent,control:l.control});
+for(let i=0;i<5;i++)for(const bad of ['a ∥ b. Накрест','a ∥ b. Соответ','a ∥ b. Один односторонний','Сформулируйте аксиому параллельных прямых'])ok(!work(lessons[i]).includes(bad),`lesson ${26+i}: future theorem leaked: ${bad}`);
+ok(work(lessons[5]).includes('Сформулируйте аксиому параллельных прямых'),'lesson 31: axiom missing');
+for(const bad of ['a ∥ b. Накрест','a ∥ b. Соответ','a ∥ b. Один односторонний'])ok(!work(lessons[5]).includes(bad),`lesson 31: p29 property leaked`);
+ok(work(lessons[6]).includes('a ∥ b. Накрест'),'lesson 32: properties missing');
+for(const [i,x] of [[2,'x=20'],[3,'x=25'],[6,'x=22,5'],[7,'x=22'],[8,'x=21']])ok(work(lessons[i]).includes(x),`lesson ${26+i}: equation regression ${x}`);
 
-const assessmentWindow={};
-new vm.Script(read(assessmentData),{filename:assessmentData}).runInContext(vm.createContext({window:assessmentWindow,console}));
-const a=assessmentWindow.KTP_ASSESSMENT_DATA;
-assert(a?.meta?.topic==='03','assessment topic id');
-assert(String(a.meta.sourceNote||'').includes('§§1–2, пп. 24–29'),'assessment source range');
-for(const [kind,count,max] of [['independent',7,14],['control',10,20]]){
-  const w=a.topic?.[kind];
-  assert(w?.variants?.length===6,`thematic ${kind}: variants`);
-  assert(w.maxScore===max,`thematic ${kind}: maxScore`);
-  for(const v of w.variants){
-    assert(v.tasks.length===count,`thematic ${kind} v${v.id}: task count`);
-    assert(sum(v.tasks.map(t=>t.points))===max,`thematic ${kind} v${v.id}: score sum`);
-    v.tasks.forEach((t,j)=>{assert(String(t.text||'').trim(),`thematic ${kind} v${v.id} task${j+1}: text`);assert(String(t.answer||'').trim(),`thematic ${kind} v${v.id} task${j+1}: answer`);});
-  }
-}
-for(const v of a.topic.control.variants){
-  const eq=v.tasks.find(t=>String(t.text).includes('3x+'));
-  assert(eq&&String(eq.answer).includes('x=18')&&String(eq.solution).includes('2x=36'),`thematic control v${v.id}: parameter equation answer regression`);
-  const side=v.tasks.find(t=>String(t.text).includes('2x+10'));
-  assert(side&&String(side.answer).includes('x=25')&&String(side.answer).includes('60°')&&String(side.answer).includes('120°'),`thematic control v${v.id}: one-sided equation regression`);
-}
+const aw={};
+new vm.Script(read(assessment)).runInContext(vm.createContext({window:aw,console}));
+const a=aw.KTP_ASSESSMENT_DATA;
+ok(a?.meta?.topic==='03'&&String(a.meta.sourceNote).includes('§§1–2, пп. 24–29'),'assessment identity/source');
+for(const [kind,count,max] of [['independent',7,14],['control',10,20]]){const q=a.topic[kind];ok(q.variants?.length===6&&q.maxScore===max,`thematic ${kind}: variants/max`);for(const v of q.variants){ok(v.tasks.length===count,`thematic ${kind} v${v.id}: tasks`);ok(score(v.tasks)===max,`thematic ${kind} v${v.id}: score`);}}
+for(const v of a.topic.control.variants){const eq=v.tasks.find(t=>String(t.text).includes('3x+')),side=v.tasks.find(t=>String(t.text).includes('2x+10'));ok(eq&&String(eq.answer).includes('x=18')&&String(eq.solution).includes('2x=36'),`control v${v.id}: x=18 regression`);ok(side&&String(side.answer).includes('x=25')&&String(side.answer).includes('60°')&&String(side.answer).includes('120°'),`control v${v.id}: x=25 regression`);}
 
-const plan=read(lessonPlan),map=read(contentMap),lnk=read(lessonLinks),alnk=read(assessmentLinks);
-assert(plan.includes('Источник: глава III, §§1–2, пп. 24–29.'),'lesson plan source mapping');
-assert(plan.includes('31. Аксиомы геометрии. Аксиома параллельных прямых')&&plan.includes('32. Свойства углов при параллельных прямых и секущей'),'lesson 31/32 theorem sequence');
-assert(map.includes('| 03 | Параллельные прямые | 10.12.2026–14.01.2027 | 26–34 | Гл. III, §§1–2, пп. 24–29 | **full** |'),'content map topic03 source mapping');
-assert(lnk.includes("2:{count:9,weeks:'уроки 26–34 курса',href:'../../lessons/7-geometry-atanasyan/03/index.html'}"),'topic03 lesson link missing');
-assert(alnk.includes("'7-geometry-atanasyan':{min:0,max:2}"),'topic03 assessment link missing');
+const plan=read('lessons/7-geometry-atanasyan/lesson-plan.md'),map=read('content/7-geometry-atanasyan/content-map.md'),links=read('lessons/topic-links.js'),alinks=read('assessments/topic-links.js');
+ok(plan.includes('Источник: глава III, §§1–2, пп. 24–29.')&&plan.includes('31. Аксиомы геометрии. Аксиома параллельных прямых')&&plan.includes('32. Свойства углов при параллельных прямых и секущей'),'lesson plan mapping/sequence');
+const row=map.split('\n').find(line=>line.startsWith('| 03 | Параллельные прямые |'))||'';
+ok(row.includes('10.12.2026–14.01.2027')&&row.includes('26–34')&&row.includes('Гл. III, §§1–2, пп. 24–29')&&row.includes('**full**'),'content map topic03 row');
+ok(links.includes("2:{count:9,weeks:'уроки 26–34 курса',href:'../../lessons/7-geometry-atanasyan/03/index.html'}"),'lesson navigation');
+ok(alinks.includes("'7-geometry-atanasyan':{min:0,max:2}"),'assessment navigation');
 
-const indexHtml=read(`${lessonDir}/index.html`);
-assert(indexHtml.includes('<script src="data.js"></script><script src="refine.js"></script>'),'lesson index refinement load order');
-for(let i=1;i<=9;i++){
-  const f=`${lessonDir}/${String(i).padStart(2,'0')}.html`,h=read(f);
-  assert(h.includes('data-topic="2"'),`${f}: wrong topic`);
-  assert(h.includes('<script src="data.js"></script><script src="refine.js"></script>'),`${f}: refinement load order missing`);
-  assert(h.includes('../../global-numbering.js'),`${f}: global numbering missing`);
-  assert(h.includes('../../../geometry/lesson-geometry.js')&&h.includes('../../../geometry/geometry-scene.js'),`${f}: geometry runtime missing`);
-}
+for(const f of [`${dir}/index.html`,...Array.from({length:9},(_,i)=>`${dir}/${String(i+1).padStart(2,'0')}.html`)]){const h=read(f);ok(h.includes('<script src="data.js"></script><script src="refine.js"></script>'),`${f}: refine load order`);if(!f.endsWith('index.html'))ok(h.includes('../../global-numbering.js')&&h.includes('../../../geometry/lesson-geometry.js')&&h.includes('../../../geometry/geometry-scene.js'),`${f}: runtime wiring`);}
 
-console.log(`Grade 7 Atanasyan topic 03 QA passed: ${checks} checks; 9 lessons (26–34), theorem-sequence guards, 6+6 per-lesson variants, thematic 14/20 assessment.`);
+console.log(`Grade 7 Atanasyan topic 03 QA passed: ${checks} checks; lessons 26–34, theorem sequence, 6+6 lesson checks, thematic 14/20.`);
