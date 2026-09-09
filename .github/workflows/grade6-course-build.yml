@@ -3,10 +3,9 @@ name: Build Grade 6 Vilenkin Course
 on:
   push:
     branches:
-      - feature/6-math-vilenkin-course
+      - feature/6-math-vilenkin-course-final-release
     paths:
       - '.github/workflows/grade6-course-build.yml'
-      - 'scripts/.grade6-builder/**'
 
 permissions:
   contents: write
@@ -18,29 +17,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feature/6-math-vilenkin-course
+          ref: feature/6-math-vilenkin-course-final-release
           fetch-depth: 0
 
-      - name: Assemble and run builder
+      - name: Assemble corrected builder
         shell: bash
         run: |
           set -euo pipefail
-          if test -f scripts/.grade6-builder/build.mjs; then
-            cp scripts/.grade6-builder/build.mjs /tmp/build-grade6.mjs
-          else
-            python3 - <<'PY'
-          from pathlib import Path
-          import base64
-          parts=sorted(Path('scripts/.grade6-builder').glob('part_*'))
-          if not parts:
-              raise SystemExit('No grade 6 builder found')
-          encoded=''.join(''.join(p.read_text(encoding='utf-8').split()) for p in parts)
-          encoded += '='*((4-len(encoded)%4)%4)
-          Path('/tmp/build-grade6.mjs').write_bytes(base64.b64decode(encoded,validate=False))
-          PY
-          fi
-          node --check /tmp/build-grade6.mjs
-          node /tmp/build-grade6.mjs
+          cat scripts/.grade6-builder/final_* | tr -d '\n\r ' | base64 -d > /tmp/grade6-builder.tar.xz
+          tar -xJf /tmp/grade6-builder.tar.xz -C /tmp
+          test -f /tmp/g6builderpack/build.mjs
+          test -f /tmp/g6builderpack/common-template.js
+          cp /tmp/g6builderpack/common-template.js scripts/.grade6-builder/common-template.js
+          node --check /tmp/g6builderpack/build.mjs
+          node --check scripts/.grade6-builder/common-template.js
+          node /tmp/g6builderpack/build.mjs
 
       - name: Verify generated course
         shell: bash
@@ -50,15 +41,14 @@ jobs:
           test -f scripts/qa-grade6-vilenkin-course.mjs
           node scripts/qa-grade6-vilenkin-course.mjs
 
-      - name: Remove bootstrap sources and commit
+      - name: Commit generated course
         shell: bash
         run: |
           set -euo pipefail
           rm -rf scripts/.grade6-builder scripts/.grade6-course-payload
           rm -f scripts/_grade6_payload_01.txt
-          rm -f .github/workflows/grade6-course-build.yml
           git config user.name 'KTP Course Builder'
           git config user.email 'actions@users.noreply.github.com'
           git add -A
           git commit -m 'Complete grade 6 Vilenkin course'
-          git push origin HEAD:feature/6-math-vilenkin-course
+          git push origin HEAD:feature/6-math-vilenkin-course-final-release
