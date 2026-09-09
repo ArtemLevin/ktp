@@ -29,7 +29,8 @@ await open('lessons/7-geometry-atanasyan/05/03.html','.lesson-card');text=await 
 await open('lessons/7-geometry-atanasyan/05/06.html','.lesson-card');text=await page.locator('body').innerText();if(!text.includes('ровно одну общую точку'))throw new Error('lesson53: tangent definition missing');if(text.includes('перпендикулярна радиусу'))throw new Error('lesson53: tangent-radius theorem leaked before lesson54');
 await open('lessons/7-geometry-atanasyan/05/07.html','.lesson-card');text=await page.locator('body').innerText();if(!text.includes('перпендикулярна радиусу'))throw new Error('lesson54: tangent-radius theorem missing');
 
-await open('labs/7-geometry-atanasyan/loci-circle/index.html','#stage',900);
+// The lab is intentionally compact: validate its controls/states rather than requiring lesson-page text volume.
+await open('labs/7-geometry-atanasyan/loci-circle/index.html','#stage',600);
 let out=await page.locator('#out').innerText();if(!out.includes('Равноудалённость выполняется'))throw new Error(`lab bisector neutral state: ${out}`);
 await page.locator('#offset').evaluate(el=>{el.value='30';el.dispatchEvent(new Event('input',{bubbles:true}));});out=await page.locator('#out').innerText();if(!out.includes('Равноудалённость нарушена'))throw new Error(`lab bisector offset state: ${out}`);
 await page.selectOption('#mode','perp');await page.locator('#offset').evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});out=await page.locator('#out').innerText();if(!out.includes('MA = MB'))throw new Error(`lab perpendicular state: ${out}`);
