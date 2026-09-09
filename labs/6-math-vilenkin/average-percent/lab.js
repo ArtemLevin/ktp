@@ -1,0 +1,1 @@
+const a=document.getElementById('a'),b=document.getElementById('b'),p=document.getElementById('p'),o=document.getElementById('out');function r(){o.innerHTML='Среднее: <b>'+((+a.value + +b.value)/2)+'</b><br>Угол сектора '+p.value+'%: <b>'+((+p.value)*3.6).toFixed(1)+'°</b>';}[a,b,p].forEach(x=>x.oninput=r);r();
