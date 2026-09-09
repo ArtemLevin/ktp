@@ -1,0 +1,58 @@
+name: Grade 7 Atanasyan Topic 01 QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'topics/7-geometry-atanasyan/01.html'
+      - 'content/7-geometry-atanasyan/**'
+      - 'lessons/7-geometry-atanasyan/lesson-plan.md'
+      - 'geometry/**'
+      - 'scripts/qa-grade7-geometry-topic01.mjs'
+      - 'scripts/qa-grade7-geometry-browser.mjs'
+      - '.github/workflows/grade7-geometry-topic01-qa.yml'
+      - 'README.md'
+      - 'Plan.md'
+  push:
+    branches:
+      - main
+    paths:
+      - 'topics/7-geometry-atanasyan/01.html'
+      - 'content/7-geometry-atanasyan/**'
+      - 'lessons/7-geometry-atanasyan/lesson-plan.md'
+      - 'geometry/**'
+      - 'scripts/qa-grade7-geometry-topic01.mjs'
+      - 'scripts/qa-grade7-geometry-browser.mjs'
+      - '.github/workflows/grade7-geometry-topic01-qa.yml'
+      - 'README.md'
+      - 'Plan.md'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate geometry foundation and topic 01
+        run: node scripts/qa-grade7-geometry-topic01.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Validate mobile and print rendering
+        run: node scripts/qa-grade7-geometry-browser.mjs
