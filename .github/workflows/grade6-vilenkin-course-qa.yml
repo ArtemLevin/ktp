@@ -1,0 +1,32 @@
+name: Grade 6 Vilenkin Course QA
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lessons/6-math-vilenkin/**'
+      - 'assessments/6-math-vilenkin/**'
+      - 'labs/6-math-vilenkin/**'
+      - 'topics/6-math-vilenkin/**'
+      - 'content/6-math-vilenkin/**'
+      - 'lessons/grade6-topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'scripts/qa-grade6-vilenkin-course.mjs'
+  push:
+    branches: [main]
+    paths:
+      - 'lessons/6-math-vilenkin/**'
+      - 'assessments/6-math-vilenkin/**'
+      - 'labs/6-math-vilenkin/**'
+      - 'topics/6-math-vilenkin/**'
+      - 'content/6-math-vilenkin/**'
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/qa-grade6-vilenkin-course.mjs

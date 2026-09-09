@@ -1,0 +1,1 @@
+const a=document.getElementById('a'),b=document.getElementById('b'),o=document.getElementById('out');function r(){const A=+a.value,B=+b.value;o.innerHTML='a='+A+', b='+B+'<br>a+b=<b>'+(A+B)+'</b>, a−b=<b>'+(A-B)+'</b><br>|a|='+Math.abs(A)+', |b|='+Math.abs(B);}[a,b].forEach(e=>e.oninput=r);r();

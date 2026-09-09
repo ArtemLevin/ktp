@@ -1,0 +1,1 @@
+const x=document.getElementById('x'),k=document.getElementById('k'),o=document.getElementById('out');function r(){const X=+x.value,K=+k.value;o.innerHTML='Прямая: y=kx = <b>'+(K*X)+'</b><br>Обратная: y=k/x = <b>'+(K/X).toFixed(3)+'</b><br>Инварианты: y/x='+K+', xy='+K;}[x,k].forEach(e=>e.oninput=r);r();
