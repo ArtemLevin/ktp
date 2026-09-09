@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+const assert=(v,m)=>{if(!v)throw new Error(m)};
+const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read('assessments/README.md'),plan=read('Plan.md');
+assert(root.includes('875')&&root.includes('60 тематических'), 'README status must be 875 lessons / 60 assessments');
+assert(root.includes('2/6')&&root.includes('25/68'), 'README geometry progress must be 2/6 and 25/68');
+assert(lessons.includes('875')&&lessons.includes('25/68'), 'lessons README geometry status drift');
+assert(assessments.includes('60')&&assessments.includes('2/6'), 'assessments README geometry status drift');
+assert(plan.includes('25/68')&&plan.includes('2/6'), 'Plan geometry status drift');
+console.log('Grade 7 geometry topic 02 documentation status QA passed.');
