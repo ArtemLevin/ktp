@@ -5,7 +5,10 @@ const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read(
 assert(root.includes('03` **«Параллельные прямые»**')&&root.includes('глава III, §§1–2, пп. 24–29'), 'README must retain completed topic03 source range');
 assert(lessons.includes('03` **«Параллельные прямые»**')&&lessons.includes('уроки 26–34'), 'lessons README must retain topic03');
 assert(assessments.includes('03` **«Параллельные прямые»**')&&assessments.includes('глава III, §§1–2, пп. 24–29'), 'assessments README must retain topic03');
-assert(plan.includes('Тема 03 — «Параллельные прямые»')&&plan.includes('уроки 26–34')&&plan.includes('**Статус: полностью готово.**'), 'Plan must retain topic03 as complete');
+const start=plan.indexOf('### Тема 03 — «Параллельные прямые»');
+const end=plan.indexOf('### Тема 04 —',start+1);
+const section=start>=0?plan.slice(start,end>=0?end:undefined):'';
+assert(section.includes('**Статус: полностью готово.**')&&/уроки\s+\*\*?26–34\*\*?/i.test(section), 'Plan must retain topic03 as complete');
 const row=map.split('\n').find(line=>line.startsWith('| 03 | Параллельные прямые |'))||'';
 assert(row.includes('10.12.2026–14.01.2027')&&row.includes('26–34')&&row.includes('Гл. III, §§1–2, пп. 24–29')&&row.includes('**full**'), 'content map topic03 status drift');
 console.log('Grade 7 geometry topic 03 documentation regression QA passed.');
