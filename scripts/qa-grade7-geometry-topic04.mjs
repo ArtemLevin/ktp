@@ -95,6 +95,7 @@ assert(m.includes('п. 36*')&&m.includes('дополнительный'),'option
 assert(p.includes('Источник: глава IV, §§1–4, пп. 30–38'),'lesson plan source');
 assert(p.includes('39. Признак равнобедренного треугольника')&&p.includes('43. Катет против угла 30°'),'lesson plan sequence');
 assert(lnk.includes("3:{count:13,weeks:'уроки 35–47 курса',href:'../../lessons/7-geometry-atanasyan/04/index.html'}"),'topic04 lesson link');
-assert(alnk.includes("'7-geometry-atanasyan':{min:0,max:3}"),'topic04 assessment link');
+const geometryCfg=alnk.match(/'7-geometry-atanasyan':\{min:0,max:(\d+)\}/);
+assert(geometryCfg&&Number(geometryCfg[1])>=3,'topic04 assessment link must remain available after later topics');
 for(let i=1;i<=13;i++){const f=`${lessonDir}/${String(i).padStart(2,'0')}.html`,h=read(f);assert(h.includes('data-topic="3"'),`${f}: topic`);assert(h.includes('../../global-numbering.js'),`${f}: global numbering`);assert(h.includes('../../../geometry/lesson-geometry.js')&&h.includes('../../../geometry/geometry-scene.js'),`${f}: geometry runtime`);}
 console.log(`Grade 7 Atanasyan topic 04 QA passed: ${checks} checks; 13 lessons (35–47), source §§1–4 pp.30–38, sequence guards, 6+6 lesson variants, thematic 14/20 assessment.`);
