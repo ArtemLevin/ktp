@@ -6,12 +6,19 @@ on:
     paths:
       - 'topics/7-geometry-atanasyan/01.html'
       - 'content/7-geometry-atanasyan/**'
-      - 'lessons/7-geometry-atanasyan/lesson-plan.md'
+      - 'lessons/7-geometry-atanasyan/**'
+      - 'assessments/7-geometry-atanasyan/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
       - 'geometry/**'
       - 'scripts/qa-grade7-geometry-topic01.mjs'
+      - 'scripts/qa-grade7-geometry-topic01-full.mjs'
       - 'scripts/qa-grade7-geometry-browser.mjs'
+      - 'scripts/qa-grade7-geometry-lessons-browser.mjs'
       - '.github/workflows/grade7-geometry-topic01-qa.yml'
       - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
       - 'Plan.md'
   push:
     branches:
@@ -19,12 +26,19 @@ on:
     paths:
       - 'topics/7-geometry-atanasyan/01.html'
       - 'content/7-geometry-atanasyan/**'
-      - 'lessons/7-geometry-atanasyan/lesson-plan.md'
+      - 'lessons/7-geometry-atanasyan/**'
+      - 'assessments/7-geometry-atanasyan/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
       - 'geometry/**'
       - 'scripts/qa-grade7-geometry-topic01.mjs'
+      - 'scripts/qa-grade7-geometry-topic01-full.mjs'
       - 'scripts/qa-grade7-geometry-browser.mjs'
+      - 'scripts/qa-grade7-geometry-lessons-browser.mjs'
       - '.github/workflows/grade7-geometry-topic01-qa.yml'
       - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
       - 'Plan.md'
 
 permissions:
@@ -33,18 +47,20 @@ permissions:
 jobs:
   structural:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate geometry foundation and topic 01
+      - name: Validate geometry foundation and thematic content
         run: node scripts/qa-grade7-geometry-topic01.mjs
+      - name: Validate 12 lessons and thematic assessments
+        run: node scripts/qa-grade7-geometry-topic01-full.mjs
 
   browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -54,5 +70,7 @@ jobs:
         run: |
           npm install --no-save playwright@1.55.0
           npx playwright install --with-deps chromium
-      - name: Validate mobile and print rendering
+      - name: Validate topic mobile and print rendering
         run: node scripts/qa-grade7-geometry-browser.mjs
+      - name: Validate lessons and assessment mobile/print rendering
+        run: node scripts/qa-grade7-geometry-lessons-browser.mjs

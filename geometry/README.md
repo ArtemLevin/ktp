@@ -31,6 +31,20 @@ geometryScenes:{
 
 После общего `topics/topic-page.js` подключается `geometry/geometry-scene.js`, который заменяет placeholder на адаптивный SVG.
 
+## Использование в поурочном слое
+
+Для `lessons/` данные сцен хранятся в `window.KTP_LESSON_SERIES.geometryScenes`, а у блока теории или разобранного примера указывается поле `figure`.
+
+`geometry/lesson-geometry.js` является тонким reusable-адаптером: после общего `lessons/lesson-page.js` он добавляет placeholders в уже отрисованные карточки урока и передаёт scene registry общему `geometry-scene.js`. Геометрические серии поэтому используют тот же lesson renderer, что и алгебраические и арифметические линии, без копирования UI.
+
+Рекомендуемый порядок подключения на странице геометрического урока:
+
+```html
+<script src="../../lesson-page.js"></script>
+<script src="../../../geometry/lesson-geometry.js"></script>
+<script src="../../../geometry/geometry-scene.js"></script>
+```
+
 ## Поддерживаемые primitives
 
 - `segment` — отрезок; опции `ticks`, `parallel`;
@@ -52,3 +66,5 @@ geometryScenes:{
 3. Чертёж соответствует условию задачи: отметки равенства, параллельности и перпендикулярности ставятся только при заявленном свойстве.
 4. SVG использует `viewBox`, поэтому сохраняет масштабирование на мобильном экране и при печати.
 5. Статический scene layer не хранит состояние и не дублирует логику цифровых лабораторий.
+6. В геометрических уроках `figure` обязан ссылаться на существующий ключ `KTP_LESSON_SERIES.geometryScenes`.
+7. Lesson adapter не меняет общий DOM-контракт `lesson-page.js` и должен оставаться безопасным для остальных учебных линий.
