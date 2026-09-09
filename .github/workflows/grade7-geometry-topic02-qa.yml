@@ -14,6 +14,7 @@ on:
       - 'geometry/**'
       - 'scripts/qa-grade7-geometry-topic02.mjs'
       - 'scripts/qa-grade7-geometry-topic02-browser.mjs'
+      - 'scripts/qa-grade7-geometry-topic02-docs.mjs'
       - '.github/workflows/grade7-geometry-topic02-qa.yml'
       - 'README.md'
       - 'lessons/README.md'
@@ -33,6 +34,7 @@ on:
       - 'geometry/**'
       - 'scripts/qa-grade7-geometry-topic02.mjs'
       - 'scripts/qa-grade7-geometry-topic02-browser.mjs'
+      - 'scripts/qa-grade7-geometry-topic02-docs.mjs'
       - '.github/workflows/grade7-geometry-topic02-qa.yml'
       - 'README.md'
       - 'lessons/README.md'
@@ -53,6 +55,8 @@ jobs:
           node-version: '22'
       - name: Validate topic 02 content, lessons, assessments and links
         run: node scripts/qa-grade7-geometry-topic02.mjs
+      - name: Validate documentation status
+        run: node scripts/qa-grade7-geometry-topic02-docs.mjs
 
   browser:
     runs-on: ubuntu-latest
