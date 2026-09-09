@@ -120,7 +120,8 @@ assert(plan.includes('20. Равнобедренный треугольник: �
 assert(map.includes('| 02 | Треугольники | 12.10–07.12.2026 | 13–25 | Гл. II, §§1–4, пп. 14–23 |'),'content map topic02 source mapping');
 const lnk=read(lessonLinks),alnk=read(assessmentLinks);
 assert(lnk.includes("1:{count:13,weeks:'уроки 13–25 курса',href:'../../lessons/7-geometry-atanasyan/02/index.html'}"),'topic02 lesson link missing');
-assert(alnk.includes("'7-geometry-atanasyan':{min:0,max:1}"),'topic02 assessment link missing');
+const geomAssessment=alnk.match(/'7-geometry-atanasyan':\{min:0,max:(\d+)\}/);
+assert(geomAssessment&&Number(geomAssessment[1])>=1,'topic02 assessment link missing');
 
 for(let i=1;i<=13;i++){
   const f=`${lessonDir}/${String(i).padStart(2,'0')}.html`,h=read(f);
