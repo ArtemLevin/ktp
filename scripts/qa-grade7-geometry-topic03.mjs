@@ -79,7 +79,8 @@ ok(plan.includes('Источник: глава III, §§1–2, пп. 24–29.')&
 const row=map.split('\n').find(line=>line.startsWith('| 03 | Параллельные прямые |'))||'';
 ok(row.includes('10.12.2026–14.01.2027')&&row.includes('26–34')&&row.includes('Гл. III, §§1–2, пп. 24–29')&&row.includes('**full**'),'content map topic03 row');
 ok(links.includes("2:{count:9,weeks:'уроки 26–34 курса',href:'../../lessons/7-geometry-atanasyan/03/index.html'}"),'lesson navigation');
-ok(alinks.includes("'7-geometry-atanasyan':{min:0,max:2}"),'assessment navigation');
+const geometryCfg=alinks.match(/'7-geometry-atanasyan':\{min:0,max:(\d+)\}/);
+ok(geometryCfg&&Number(geometryCfg[1])>=2,'assessment navigation must retain topic03 or later');
 
 for(const f of [`${dir}/index.html`,...Array.from({length:9},(_,i)=>`${dir}/${String(i+1).padStart(2,'0')}.html`)]){const h=read(f);ok(h.includes('<script src="data.js"></script><script src="refine.js"></script>'),`${f}: refine load order`);if(!f.endsWith('index.html'))ok(h.includes('../../global-numbering.js')&&h.includes('../../../geometry/lesson-geometry.js')&&h.includes('../../../geometry/geometry-scene.js'),`${f}: runtime wiring`);}
 
