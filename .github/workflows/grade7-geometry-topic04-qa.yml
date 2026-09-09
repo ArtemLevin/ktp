@@ -1,0 +1,76 @@
+name: Grade 7 Atanasyan Topic 04 QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'topics/7-geometry-atanasyan/04.html'
+      - 'content/7-geometry-atanasyan/04*'
+      - 'content/7-geometry-atanasyan/content-map.md'
+      - 'lessons/7-geometry-atanasyan/04/**'
+      - 'lessons/7-geometry-atanasyan/lesson-plan.md'
+      - 'assessments/7-geometry-atanasyan/04/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'geometry/**'
+      - 'scripts/qa-grade7-geometry-topic04.mjs'
+      - 'scripts/qa-grade7-geometry-topic04-browser.mjs'
+      - 'scripts/qa-grade7-geometry-topic04-docs.mjs'
+      - '.github/workflows/grade7-geometry-topic04-qa.yml'
+      - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'Plan.md'
+  push:
+    branches:
+      - main
+    paths:
+      - 'topics/7-geometry-atanasyan/04.html'
+      - 'content/7-geometry-atanasyan/04*'
+      - 'content/7-geometry-atanasyan/content-map.md'
+      - 'lessons/7-geometry-atanasyan/04/**'
+      - 'lessons/7-geometry-atanasyan/lesson-plan.md'
+      - 'assessments/7-geometry-atanasyan/04/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'geometry/**'
+      - 'scripts/qa-grade7-geometry-topic04.mjs'
+      - 'scripts/qa-grade7-geometry-topic04-browser.mjs'
+      - 'scripts/qa-grade7-geometry-topic04-docs.mjs'
+      - '.github/workflows/grade7-geometry-topic04-qa.yml'
+      - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'Plan.md'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate topic 04 content, lessons, assessments and links
+        run: node scripts/qa-grade7-geometry-topic04.mjs
+      - name: Validate documentation status
+        run: node scripts/qa-grade7-geometry-topic04-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Validate topic 04 mobile, SVG, sequence and print rendering
+        run: node scripts/qa-grade7-geometry-topic04-browser.mjs
