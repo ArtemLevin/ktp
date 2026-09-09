@@ -18,7 +18,8 @@ const configsByRow={
     12:{count:10,weeks:'уроки 161–170 курса',href:'../../lessons/5-math-vilenkin/13/index.html'}
   },
   '7-geometry-atanasyan':{
-    0:{count:12,weeks:'6 учебных недель',href:'../../lessons/7-geometry-atanasyan/01/index.html'}
+    0:{count:12,weeks:'уроки 1–12 курса',href:'../../lessons/7-geometry-atanasyan/01/index.html'},
+    1:{count:13,weeks:'уроки 13–25 курса',href:'../../lessons/7-geometry-atanasyan/02/index.html'}
   },
   '7-algebra-makarychev':{
     0:{count:18,weeks:'6 учебных недель',href:'../../lessons/7-algebra-makarychev/01/index.html'},
