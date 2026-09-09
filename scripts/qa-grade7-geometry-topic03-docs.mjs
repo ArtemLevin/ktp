@@ -10,5 +10,6 @@ assert(assessments.includes('61')&&assessments.includes('3/6')&&assessments.incl
 assert(plan.includes('34/68')&&plan.includes('3/6')&&plan.includes('61')&&plan.includes('оставшихся тематических каркасов: **60**'), 'Plan geometry status drift');
 assert(plan.includes('Тема 03 — «Параллельные прямые»')&&plan.includes('**Статус: полностью готово.**'), 'Plan topic03 completion missing');
 assert(plan.includes('Тема 04 — «Соотношения между сторонами и углами треугольника»')&&plan.includes('**Следующая рабочая единица.**'), 'Plan must promote topic04');
-assert(map.includes('| 03 | Параллельные прямые | 10.12.2026–14.01.2027 | 26–34 | Гл. III, §§1–2, пп. 24–29 | **full** |'), 'content map topic03 status drift');
+const row=map.split('\n').find(line=>line.startsWith('| 03 | Параллельные прямые |'))||'';
+assert(row.includes('10.12.2026–14.01.2027')&&row.includes('26–34')&&row.includes('Гл. III, §§1–2, пп. 24–29')&&row.includes('**full**'), 'content map topic03 status drift');
 console.log('Grade 7 geometry topic 03 documentation status QA passed.');
