@@ -1,1 +1,0 @@
-refine.js is intentionally loaded after data.js so lesson-specific practice and checks respect the textbook theorem sequence.
