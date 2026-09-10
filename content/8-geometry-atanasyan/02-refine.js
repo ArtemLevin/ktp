@@ -1,0 +1,1 @@
+(function(){'use strict';const c=window.KTP_CONTENT?.['8-geometry-atanasyan::1'];if(!c)return;const s=c.geometryScenes?.pythagoras;if(s)s.ariaLabel='Прямоугольный треугольник ABC с прямым углом A, катетами AB и AC и гипотенузой BC.';})();
