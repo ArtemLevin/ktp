@@ -1,0 +1,82 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+
+const ROOT=process.cwd();let checks=0;
+const read=p=>fs.readFileSync(path.join(ROOT,p),'utf8');
+const exists=p=>fs.existsSync(path.join(ROOT,p));
+const assert=(v,m)=>{checks++;if(!v)throw new Error(m)};
+const compile=p=>{try{new vm.Script(read(p),{filename:p});checks++;}catch(e){throw new Error(`${p}: JS syntax error: ${e.message}`)}};
+const score=v=>(v.tasks||[]).reduce((s,t)=>s+Number(t.points||0),0);
+const rel=(from,target)=>path.normalize(path.join(path.dirname(from),target)).replaceAll('\\','/');
+
+const topic='topics/8-geometry-atanasyan/01.html';
+const content='content/8-geometry-atanasyan/01.js';
+const map='content/8-geometry-atanasyan/content-map.md';
+const plan='lessons/8-geometry-atanasyan/lesson-plan.md';
+const dir='lessons/8-geometry-atanasyan/01';
+const series=[`${dir}/series.js`,`${dir}/scenes.js`,`${dir}/data.js`,`${dir}/calendar.js`];
+const ass='assessments/8-geometry-atanasyan/01/data.js';
+const lab=['labs/8-geometry-atanasyan/quadrilateral-properties/index.html','labs/8-geometry-atanasyan/quadrilateral-properties/style.css','labs/8-geometry-atanasyan/quadrilateral-properties/lab.js'];
+const required=[topic,content,map,plan,...series,`${dir}/index.html`,ass,'assessments/8-geometry-atanasyan/01/independent.html','assessments/8-geometry-atanasyan/01/control.html',...lab,'lessons/topic-links.js','assessments/topic-links.js','js/data.js'];
+for(let i=1;i<=13;i++)required.push(`${dir}/${String(i).padStart(2,'0')}.html`);
+required.forEach(p=>assert(exists(p),`${p}: missing`));
+[content,...series,ass,lab[2],'lessons/topic-links.js','assessments/topic-links.js','js/data.js'].forEach(compile);
+
+const dataCtx=vm.createContext({window:{},console});new vm.Script(read('js/data.js')).runInContext(dataCtx);
+const row=dataCtx.window.KTP_DATA.rows.find(r=>r.id==='8-geometry-atanasyan');
+assert(row?.grade===8&&row.subject==='Геометрия'&&row.book==='Атанасян','row passport');
+assert(JSON.stringify(row.bounds)==='[0,13,27,44,60,68]','row bounds');
+assert(row.topics.length===5&&row.topics[0].title==='Четырёхугольники'&&row.topics[1].title==='Площадь','row topic sequence');
+
+const tw={KTP_CONTENT:{}};const tctx=vm.createContext({window:tw,console,KTP_REGISTER_CONTENT:(id,d)=>{tw.KTP_CONTENT[id]=d;}});new vm.Script(read(content),{filename:content}).runInContext(tctx);
+const c=tw.KTP_CONTENT['8-geometry-atanasyan::0'];assert(c,'topic content registration');
+assert(c.meta?.title==='Четырёхугольники','topic title');
+assert(String(c.meta?.chapter||'').includes('пп. 39–47'),'topic source range');
+assert(c.objectives?.length>=9&&c.expectedResults?.length>=10,'topic goals/results');
+assert(c.theory?.length>=10&&c.examples?.length>=6&&c.mistakes?.length>=6,'topic instructional depth');
+for(const [level,min] of [['basic',5],['standard',5],['transfer',4],['challenge',3]])assert(c.practice?.[level]?.length>=min,`topic practice ${level}`);
+assert(c.diagnostic?.length>=6&&c.homework?.required?.length>=6&&c.homework?.optional?.length>=2,'topic diagnostic/homework');
+assert(c.lab?.enabled&&c.lab.href.includes('quadrilateral-properties'),'topic lab');
+assert(Object.keys(c.geometryScenes||{}).length>=9,'topic geometry scenes');
+const source=JSON.stringify(c.source||{});assert(source.includes('ФРП')&&source.includes('12 ч'),'FWP 12h mapping');assert(source.includes('Теорема Фалеса')&&source.includes('следующ'),'Thales deferral must be explicit');
+const topicInstruction=JSON.stringify({theory:c.theory,examples:c.examples,practice:c.practice,diagnostic:c.diagnostic,homework:c.homework});
+assert(!topicInstruction.includes('Теорема Фалеса')&&!topicInstruction.includes('теорема Фалеса'),'Thales leaked into mandatory topic content');
+for(const token of ['параллелограмм','равными диагоналями'])assert(topicInstruction.toLowerCase().includes(token.toLowerCase()),`rectangle guard context: ${token}`);
+
+const lw={};const lctx=vm.createContext({window:lw,console});for(const f of series)new vm.Script(read(f),{filename:f}).runInContext(lctx);
+const S=lw.KTP_LESSON_SERIES,lessons=[...(S?.lessons||[])].sort((a,b)=>a.number-b.number);
+assert(S?.meta?.rowId==='8-geometry-atanasyan'&&S.meta.topicIndex===0,'series identity');
+assert(S.meta.totalLessons===13&&S.meta.courseLessonStart===1&&S.meta.courseLessonEnd===13&&S.meta.courseTotal===68,'series bounds');
+assert(lessons.length===13,'lesson count');
+const expected=['Многоугольник. Выпуклый многоугольник','Четырёхугольник. Сумма углов четырёхугольника','Параллелограмм: определение и свойства сторон и углов','Диагонали параллелограмма и центр параллелограмма','Признаки параллелограмма','Трапеция. Равнобокая и прямоугольная трапеции','Равнобокая трапеция: свойства и признаки','Метод удвоения медианы','Прямоугольник: свойства и признак','Ромб: свойства и признаки','Квадрат и иерархия частных видов параллелограмма','Осевая и центральная симметрии четырёхугольников','Обобщение и диагностика темы «Четырёхугольники»'];
+for(let i=0;i<13;i++){
+ const l=lessons[i],n=i+1,id=String(n).padStart(2,'0');
+ assert(l.id===id&&l.number===n&&l.globalNumber===n,`lesson ${n}: numbering`);assert(l.week===Math.ceil(n/2),`lesson ${n}: week`);assert(l.title===expected[i],`lesson ${n}: title`);
+ assert(l.objectives?.length>=2&&l.prerequisites?.length>=2,`lesson ${n}: objectives/prereq`);assert(l.theory?.length>=2&&l.examples?.length>=2&&l.mistakes?.length>=3,`lesson ${n}: instructional blocks`);assert(l.theory.some(x=>x.figure&&S.geometryScenes[x.figure]),`lesson ${n}: scene binding`);assert(l.practice?.length>=8,`lesson ${n}: practice`);assert(l.homework?.required?.length>=6&&l.homework?.optional?.length>=2,`lesson ${n}: homework`);
+ for(const [kind,count,max] of [['independent',5,10],['control',6,14]]){const w=l[kind];assert(w?.variants?.length===6,`lesson ${n} ${kind}: six variants`);assert(w.maxScore===max,`lesson ${n} ${kind}: max`);const sig=new Set();for(const v of w.variants){assert(v.tasks?.length===count,`lesson ${n} ${kind} v${v.id}: count`);assert(score(v)===max,`lesson ${n} ${kind} v${v.id}: score`);for(const t of v.tasks){assert(String(t.text||'').trim()&&String(t.answer||'').trim(),`lesson ${n} ${kind} v${v.id}: text/answer`);}sig.add(JSON.stringify(v.tasks.map(t=>t.text)));}assert(sig.size===6,`lesson ${n} ${kind}: variants must differ`);}
+ const h=read(`${dir}/${id}.html`);for(const token of ['<meta name="viewport"','series.js','scenes.js','data.js','calendar.js','../../lesson-page.js','../../../geometry/lesson-geometry.js','../../../geometry/geometry-scene.js'])assert(h.includes(token),`lesson ${n}: html ${token}`);
+}
+assert(Object.keys(S.geometryScenes||{}).length>=10,'lesson scenes count');
+const instruction=JSON.stringify(lessons.map(l=>({theory:l.theory,examples:l.examples,practice:l.practice,homework:l.homework,independent:l.independent,control:l.control}))).toLowerCase();
+assert(!instruction.includes('теорема фалеса'),'Thales leaked into lessons');
+assert(instruction.includes('параллелограмм')&&instruction.includes('прямоугольник')&&instruction.includes('ромб'),'special quadrilateral coverage');
+assert(lessons[7].theory.some(x=>x.html.includes('параллелограмм')),'double median mechanism');
+assert(lessons[8].theory.some(x=>x.html.includes('параллелограмм с равными диагоналями')),'rectangle criterion guard');
+assert(lessons[9].theory.some(x=>x.html.includes('для параллелограмма')||x.html.includes('параллелограмм')),'rhombus criterion guard');
+
+const aw={};new vm.Script(read(ass),{filename:ass}).runInContext(vm.createContext({window:aw,console}));const A=aw.KTP_ASSESSMENT_DATA;
+assert(A?.meta?.rowId==='8-geometry-atanasyan'&&A.meta.topic==='01','assessment identity');assert(A.meta.sourceNote.includes('пп. 39–47')&&A.meta.sourceNote.includes('Теорема Фалеса')&&A.meta.sourceNote.includes('не включается'),'assessment source guard');
+for(const [kind,count,max] of [['independent',7,14],['control',10,20]]){const w=A.topic[kind];assert(w?.variants?.length===6,`thematic ${kind}: six variants`);assert(w.maxScore===max,`thematic ${kind}: max`);const sig=new Set();for(const v of w.variants){assert(v.tasks.length===count,`thematic ${kind} v${v.id}: count`);assert(score(v)===max,`thematic ${kind} v${v.id}: score`);for(const t of v.tasks)assert(String(t.text||'').trim()&&String(t.answer||'').trim(),`thematic ${kind} v${v.id}: answer`);sig.add(JSON.stringify(v.tasks.map(t=>t.text)));}assert(sig.size===6,`thematic ${kind}: variants distinct`);}
+assert(A.topic.control.variants.every(v=>v.tasks.some(t=>String(t.answer).includes('центр'))),'thematic control: central symmetry coverage');
+
+const topicHtml=read(topic);for(const token of ['data-topic="0"','../../content/8-geometry-atanasyan/01.js','../../lessons/topic-links.js','../../assessments/topic-links.js','../../geometry/geometry-scene.js'])assert(topicHtml.includes(token),`topic html: ${token}`);
+assert(read('lessons/topic-links.js').includes("'8-geometry-atanasyan'")&&read('lessons/topic-links.js').includes('8-geometry-atanasyan/01/index.html'),'lesson navigation registry');
+assert(read('assessments/topic-links.js').includes("'8-geometry-atanasyan':{min:0,max:0}"),'assessment navigation registry');
+const labHtml=read(lab[0]),labJs=read(lab[2]);assert(labHtml.includes('min="20"')&&!labHtml.includes('min="-90"'),'lab generic parallelogram guard');for(const token of ['parallelogram','rectangle','rhombus','square','trapezoid'])assert(labHtml.includes(`value="${token}"`),`lab option ${token}`);assert(labJs.includes('Диагонали делятся пополам')&&labJs.includes('Диагонали равны')&&labJs.includes('Диагонали перпендикулярны'),'lab outputs');
+
+const htmlFiles=[topic,`${dir}/index.html`,...Array.from({length:13},(_,i)=>`${dir}/${String(i+1).padStart(2,'0')}.html`),'assessments/8-geometry-atanasyan/01/independent.html','assessments/8-geometry-atanasyan/01/control.html',lab[0]];
+for(const file of htmlFiles){for(const m of read(file).matchAll(/(?:href|src)="([^"]+)"/g)){const target=m[1];if(!target||/^(?:https?:|mailto:|data:|#)/.test(target))continue;const clean=target.split(/[?#]/)[0];assert(exists(rel(file,clean)),`${file}: broken link ${target}`);}}
+
+const m=read(map),p=read(plan);const mapRow=m.split('\n').find(x=>x.startsWith('| 01 | Четырёхугольники |'))||'';assert(mapRow.includes('1–13')&&mapRow.includes('Гл. V, §§1–3, пп. 39–47')&&mapRow.includes('**full**'),'content map topic01 row');assert(m.includes('Теорема Фалеса')&&m.includes('не включается'),'content map Thales guard');assert(p.includes('## 1. Четырёхугольники — 13 уроков (1–13)')&&p.includes('13. Обобщение и диагностика'),'lesson plan series');
+console.log(`Grade 8 Atanasyan topic 01 structural QA passed: ${checks} checks; 13 lessons, 156 lesson variants, thematic 14/20, source/sequence guards.`);
