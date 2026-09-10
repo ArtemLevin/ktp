@@ -1,0 +1,1 @@
+(function(){'use strict';const S=window.KTP_LESSON_SERIES;if(!S||!Array.isArray(S.lessons))return;S.lessons.forEach(l=>{l.week=Math.ceil(Number(l.globalNumber||0)/2);});})();
