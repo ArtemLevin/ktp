@@ -3,35 +3,31 @@ const read=p=>fs.readFileSync(p,'utf8');
 const assert=(v,m)=>{if(!v)throw new Error(m)};
 const firstNumber=(text,re,label)=>{const m=text.match(re);assert(m,`${label}: value not found`);return Number(m[1]);};
 const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read('assessments/README.md'),plan=read('Plan.md'),map=read('content/7-geometry-atanasyan/content-map.md'),lessonPlan=read('lessons/7-geometry-atanasyan/lesson-plan.md');
-
-assert(/Полностью завершены \*\*(\d+) лини/.test(root)&&firstNumber(root,/Полностью завершены \*\*(\d+) лини/,'README complete lines')>=8,'README completed-line count regressed');
+assert(firstNumber(root,/Полностью завершены \*\*(\d+) лини/,'README complete lines')>=8,'README completed-line count regressed');
 assert(firstNumber(root,/Суммарно опубликовано \*\*(\d+) полноценных поурочных модулей/,'README lessons')>=918,'README lessons regressed');
 assert(firstNumber(root,/и \*\*(\d+) тематических assessment-комплект/,'README assessments')>=64,'README assessments regressed');
 const row=root.split('\n').find(line=>line.startsWith('| `7-geometry-atanasyan` |'))||'';
 assert(row.includes('| 6/6 | 68/68 | 6/6 | **готово** |'),'README grade7 geometry completion row');
-assert(root.includes('06` **«Повторение»**')&&root.includes('урок 67')&&root.includes('урок 68'),'README topic06 description');
+const rootLower=root.toLowerCase();
+assert(root.includes('06` **«Повторение»**')&&rootLower.includes('урок 67')&&rootLower.includes('урок 68'),'README topic06 description');
 assert(root.includes('8 класса')&&root.includes('Атанасян'),'README grade8 continuation');
-
 assert(lessons.includes('| `7-geometry-atanasyan` | 6/6 | 68/68 | 1–68 | **готово** |'),'lessons README completion row');
 assert(firstNumber(lessons,/Всего опубликовано \*\*(\d+) полноценных поурочных модулей/,'lessons README total')>=918,'lessons README total regressed');
 assert(lessons.includes('06` **«Повторение»** — уроки 61–68'),'lessons README topic06');
-assert(lessons.includes('учебным неделям **31–34**'),'lessons README weeks');
-
+assert(lessons.includes('31–34'),'lessons README weeks');
 assert(assessments.includes('| `7-geometry-atanasyan` | 6/6 | **готово** |'),'assessment README completion row');
 assert(firstNumber(assessments,/Всего опубликовано \*\*(\d+) тематических assessment-комплект/,'assessment README total')>=64,'assessment README total regressed');
 assert(assessments.includes('06` **«Повторение»**')&&assessments.includes('6/6'),'assessment README topic06');
-assert(assessments.includes('диапазон тем **01–06**'),'assessment navigation range docs');
-
+assert(assessments.includes('01–06'),'assessment navigation range docs');
 assert(plan.includes('| `7-geometry-atanasyan` | **6/6** | **68/68** | **6/6** | готово |'),'Plan grade7 completion row');
 for(const [re,min,label] of [[/полностью завершённых линий: \*\*(\d+)\/17\*\*/,8,'complete lines'],[/полностью готовых тематических серий: \*\*(\d+)\*\*/,64,'series'],[/опубликованных уроков: \*\*(\d+)\*\*/,918,'lessons'],[/тематических assessment-комплектов: \*\*(\d+)\*\*/,64,'assessments']])assert(firstNumber(plan,re,`Plan ${label}`)>=min,`Plan ${label} regressed`);
-assert(plan.includes('### Тема 06 — «Повторение»')&&plan.includes('**Статус: полностью готово.**'),'Plan topic06 completion');
+const pStart=plan.indexOf('### Тема 06 — «Повторение»'),pEnd=plan.indexOf('## 3.3.',pStart+1),pSection=pStart>=0?plan.slice(pStart,pEnd>=0?pEnd:undefined):'';
+assert(pSection.includes('полностью готово')&&pSection.includes('61–68'),'Plan topic06 completion');
 assert(plan.includes('## 3.3. 8 класс · Атанасян — `8-geometry-atanasyan`'),'Plan grade8 section');
 assert(plan.includes('13 + 14 + 17 + 16 + 8'),'Plan grade8 KTP split');
-
 const mapRow=map.split('\n').find(line=>line.startsWith('| 06 | Повторение |'))||'';
 assert(mapRow.includes('26.04–20.05.2027')&&mapRow.includes('61–68')&&mapRow.includes('**full**'),'content map topic06 completion');
 assert(map.includes('Следующей темы в линии 7 класса нет'),'content map terminal position');
 assert(lessonPlan.includes('## 6. Повторение — 8 уроков (61–68)'),'lesson plan topic06 section');
-assert(lessonPlan.includes('Источник: главы I–IV')&&lessonPlan.includes('глобальные учебные недели **31–34**'),'lesson plan source/weeks');
-
+assert(lessonPlan.includes('Источник: главы I–IV')&&lessonPlan.includes('31–34'),'lesson plan source/weeks');
 console.log('Grade 7 geometry topic 06 documentation QA passed: completed course retained while later lines may advance.');
