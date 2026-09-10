@@ -17,7 +17,7 @@ if(topic.svgs<6)throw new Error(`topic06: expected >=6 SVG scenes, got ${topic.s
 if(await page.locator('text=8 последовательных уроков').count()!==1)throw new Error('topic06: lesson navigation card missing');
 if(await page.locator('text=6 вариантов каждого типа').count()!==1)throw new Error('topic06: assessment navigation card missing');
 
-await open('lessons/7-geometry-atanasyan/06/index.html','.lesson-tile',1800);
+await open('lessons/7-geometry-atanasyan/06/index.html','.lesson-tile',1600);
 if(await page.locator('.lesson-tile').count()!==8)throw new Error('topic06 lesson index: expected 8 tiles');
 const labels=await page.locator('.tile-top span').allTextContents();
 if(!labels.includes('Урок 61')||!labels.includes('Урок 68'))throw new Error(`topic06 global numbering missing: ${labels.join(', ')}`);
@@ -40,7 +40,7 @@ if(!text.includes('Итоговая диагностика 7 класса'))thro
 if(!text.includes('Стороны')&&!text.includes('треугольник'))throw new Error('lesson67 integrated geometry content missing');
 await open('lessons/7-geometry-atanasyan/06/08.html','.lesson-card');
 text=await page.locator('body').innerText();
-if(!text.includes('Круговое рассуждение'))throw new Error('lesson68 logical-error correction missing');
+if(!text.includes('прямые параллельны, потому что соответственные углы равны'))throw new Error('lesson68 visible circular-reasoning prompt missing');
 if(!text.includes('Завершение курса геометрии 7 класса'))throw new Error('lesson68 course-completion milestone missing');
 
 for(const kind of ['independent','control']){

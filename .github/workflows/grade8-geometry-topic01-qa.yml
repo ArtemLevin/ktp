@@ -1,0 +1,74 @@
+name: Grade 8 Atanasyan Topic 01 QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'topics/8-geometry-atanasyan/01.html'
+      - 'content/8-geometry-atanasyan/**'
+      - 'lessons/8-geometry-atanasyan/**'
+      - 'assessments/8-geometry-atanasyan/**'
+      - 'labs/8-geometry-atanasyan/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'geometry/**'
+      - 'scripts/qa-grade8-geometry-topic01.mjs'
+      - 'scripts/qa-grade8-geometry-topic01-browser.mjs'
+      - 'scripts/qa-grade8-geometry-topic01-docs.mjs'
+      - '.github/workflows/grade8-geometry-topic01-qa.yml'
+      - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'Plan.md'
+  push:
+    branches:
+      - main
+    paths:
+      - 'topics/8-geometry-atanasyan/01.html'
+      - 'content/8-geometry-atanasyan/**'
+      - 'lessons/8-geometry-atanasyan/**'
+      - 'assessments/8-geometry-atanasyan/**'
+      - 'labs/8-geometry-atanasyan/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'geometry/**'
+      - 'scripts/qa-grade8-geometry-topic01.mjs'
+      - 'scripts/qa-grade8-geometry-topic01-browser.mjs'
+      - 'scripts/qa-grade8-geometry-topic01-docs.mjs'
+      - '.github/workflows/grade8-geometry-topic01-qa.yml'
+      - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'Plan.md'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate topic 01 content, lessons, assessments, lab and links
+        run: node scripts/qa-grade8-geometry-topic01.mjs
+      - name: Validate documentation status
+        run: node scripts/qa-grade8-geometry-topic01-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Validate topic 01 mobile, SVG, lesson sequence, lab and print rendering
+        run: node scripts/qa-grade8-geometry-topic01-browser.mjs
