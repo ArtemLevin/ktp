@@ -8,5 +8,5 @@ assert(assessments.includes('02` **«Треугольники»**')&&assessments
 const start=plan.indexOf('### Тема 02 — «Треугольники»');
 const end=plan.indexOf('### Тема 03 —',start+1);
 const section=start>=0?plan.slice(start,end>=0?end:undefined):'';
-assert(section.includes('**Статус: полностью готово.**')&&section.toLowerCase().includes('уроки 13–25'), 'Plan must retain topic02 as complete');
+assert((section.includes('**Статус: полностью готово.**')||section.includes('**Полностью готово.**'))&&section.toLowerCase().includes('уроки 13–25'), 'Plan must retain topic02 as complete');
 console.log('Grade 7 geometry topic 02 documentation regression QA passed.');
