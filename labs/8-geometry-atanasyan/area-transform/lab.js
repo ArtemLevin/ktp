@@ -11,18 +11,19 @@ function render(){
  const type=shape.value,a=Number(base.value),h=Number(height.value),b=Number(top.value),sh=Number(shear.value);
  $('baseOut').textContent=a;$('heightOut').textContent=h;$('topOut').textContent=b;$('shearOut').textContent=sh;
  topWrap.hidden=type!=='trapezoid';shearWrap.hidden=type!=='parallelogram';svg.replaceChildren();
- const x0=95,y0=285,scaleX=23,scaleY=18,w=a*scaleX,hh=h*scaleY;
+ const stageW=620,y0=285,scaleY=18,hh=h*scaleY,maxLinear=type==='trapezoid'?Math.max(a,b):a,extra=type==='parallelogram'?Math.abs(sh):0;
+ const scaleX=Math.min(23,(stageW-150-extra)/maxLinear),w=a*scaleX,topW=b*scaleX,x0=(stageW-w-(type==='parallelogram'?sh:0))/2;
  let area=0,formula='',explain='';
  if(type==='rectangle'){
   polygon([[x0,y0],[x0,y0-hh],[x0+w,y0-hh],[x0+w,y0]]);line(x0,y0,x0,y0-hh,'height');right(x0,y0);area=a*h;formula=`S = a·h = ${a}·${h} = ${area}`;explain='Прямоугольник показывает базовую модель произведения основания на высоту.';
  }else if(type==='parallelogram'){
-  const dx=sh;polygon([[x0,y0],[x0+dx,y0-hh],[x0+dx+w,y0-hh],[x0+w,y0]]);line(x0+dx,y0-hh,x0+dx,y0,'height');line(x0,y0,x0+w,y0);right(x0+dx,y0);area=a*h;formula=`S = a·h = ${a}·${h} = ${area}`;explain='Сдвиг верхней стороны меняет форму, но при фиксированных a и h площадь остаётся той же.';
+  const dx=sh;polygon([[x0,y0],[x0+dx,y0-hh],[x0+dx+w,y0-hh],[x0+w,y0]]);line(x0+dx,y0-hh,x0+dx,y0,'height');line(x0,y0,x0+w,y0);right(x0+dx,y0);area=a*h;formula=`S = a·h = ${a}·${h} = ${area}`;explain='Сдвиг верхней стороны меняет форму, при фиксированных a и h площадь сохраняется.';
  }else if(type==='triangle'){
   polygon([[x0,y0],[x0+w*.42,y0-hh],[x0+w,y0]]);line(x0+w*.42,y0-hh,x0+w*.42,y0,'height');right(x0+w*.42,y0);area=a*h/2;formula=`S = a·h/2 = ${a}·${h}/2 = ${area}`;explain='При тех же основании и высоте треугольник имеет половину площади соответствующего параллелограмма.';
  }else{
-  const topW=b*scaleX,offset=(w-topW)/2;polygon([[x0,y0],[x0+offset,y0-hh],[x0+offset+topW,y0-hh],[x0+w,y0]]);line(x0+offset,y0-hh,x0+offset,y0,'height');right(x0+offset,y0);area=(a+b)*h/2;formula=`S = (a+b)·h/2 = (${a}+${b})·${h}/2 = ${area}`;explain=`Полусумма оснований равна ${(a+b)/2}; умножение её на высоту даёт площадь трапеции.`;
+  const offset=(w-topW)/2;polygon([[x0,y0],[x0+offset,y0-hh],[x0+offset+topW,y0-hh],[x0+w,y0]]);line(x0+offset,y0-hh,x0+offset,y0,'height');right(x0+offset,y0);area=(a+b)*h/2;formula=`S = (a+b)·h/2 = (${a}+${b})·${h}/2 = ${area}`;explain=`Полусумма оснований равна ${(a+b)/2}; умножение её на высоту даёт площадь трапеции.`;
  }
- text(x0+w/2,y0+34,`a = ${a}`);text(x0-24,y0-hh/2,`h = ${h}`,'end');if(type==='trapezoid')text(x0+w/2,y0-hh-18,`b = ${b}`);
+ text(x0+w/2,y0+34,`a = ${a}`);text(Math.max(28,x0-24),y0-hh/2,`h = ${h}`,'end');if(type==='trapezoid')text(stageW/2,y0-hh-18,`b = ${b}`);
  out.innerHTML=`<p class="formula"><strong>${formula}</strong></p><p>${explain}</p><p>Единицы площади: квадратные единицы.</p>`;
 }
 for(const c of [shape,base,height,top,shear])c.addEventListener('input',render);shape.addEventListener('change',render);render();
