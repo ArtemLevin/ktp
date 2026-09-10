@@ -40,7 +40,7 @@ if(!text.includes('Итоговая диагностика 7 класса'))thro
 if(!text.includes('Стороны')&&!text.includes('треугольник'))throw new Error('lesson67 integrated geometry content missing');
 await open('lessons/7-geometry-atanasyan/06/08.html','.lesson-card');
 text=await page.locator('body').innerText();
-if(!text.includes('Круговое рассуждение'))throw new Error('lesson68 logical-error correction missing');
+if(!text.includes('прямые параллельны, потому что соответственные углы равны'))throw new Error('lesson68 visible circular-reasoning prompt missing');
 if(!text.includes('Завершение курса геометрии 7 класса'))throw new Error('lesson68 course-completion milestone missing');
 
 for(const kind of ['independent','control']){
