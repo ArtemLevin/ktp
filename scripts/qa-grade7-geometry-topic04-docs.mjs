@@ -28,10 +28,12 @@ assert(assessments.includes('04` **«Соотношения между стор�
 assert(assessments.includes('глава IV, §§1–4, пп. 30–38'),'assessments README topic04 source range missing');
 assert(firstNumber(assessments,/Всего опубликовано \*\*(\d+) тематических assessment-комплект/,'assessments README count')>=62,'assessment docs count regressed below 62');
 
-assert(plan.includes('Тема 04 — «Соотношения между сторонами и углами треугольника»'),'Plan must retain topic04');
-assert(plan.includes('глава IV, §§1–4, пп. 30–38'),'Plan topic04 source range missing');
-assert(plan.includes('Уроки **35–47**'),'Plan topic04 lesson range missing');
-assert(plan.includes('Тема 05 — «Геометрические места точек. Симметрия»'),'Plan must retain topic05 handoff');
+const start=plan.indexOf('### Тема 04 — «Соотношения между сторонами и углами треугольника»');
+const end=plan.indexOf('### Тема 05 —',start+1);
+const section=start>=0?plan.slice(start,end>=0?end:undefined):'';
+assert(section.includes('**Полностью готово.**')||section.includes('**Статус: полностью готово.**'),'Plan must retain topic04 as complete');
+assert(section.toLowerCase().includes('уроки 35–47'),'Plan topic04 lesson range missing');
+assert(section.includes('глава IV, §§1–4, пп. 30–38'),'Plan topic04 source range missing');
 
 const mapRow=map.split('\n').find(line=>line.startsWith('| 04 | Соотношения между сторонами и углами треугольника |'))||'';
 assert(mapRow.includes('18.01–01.03.2027'),'content map topic04 period drift');
@@ -40,4 +42,4 @@ assert(mapRow.includes('Гл. IV, §§1–4, пп. 30–38'),'content map topic0
 assert(mapRow.includes('**full**'),'content map topic04 must remain full');
 assert(map.includes('п. 36\\*')||map.includes('п. 36*'),'content map must retain optional status of point 36*');
 
-console.log('Grade 7 geometry topic 04 documentation QA passed: topic04 retained, source mapping stable, counters are forward-compatible.');
+console.log('Grade 7 geometry topic 04 documentation regression QA passed.');
