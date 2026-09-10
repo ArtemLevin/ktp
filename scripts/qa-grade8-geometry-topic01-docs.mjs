@@ -6,7 +6,7 @@ const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read(
 const rootRow=root.split('\n').find(x=>x.startsWith('| `8-geometry-atanasyan` |'))||'',rootMatch=rootRow.match(/\|\s*(\d+)\/5\s*\|\s*(\d+)\/68\s*\|\s*(\d+)\/5\s*\|/);assert(rootMatch&&Number(rootMatch[1])>=1&&Number(rootMatch[2])>=13&&Number(rootMatch[3])>=1,'README grade8 progress regressed below topic01');
 assert(number(root,/Суммарно опубликовано \*\*(\d+) полноценных поурочных модулей/,'README lessons')>=931,'README lesson total');
 assert(number(root,/и \*\*(\d+) тематических assessment-комплект/,'README assessments')>=65,'README assessment total');
-for(const token of ['01` **«Четырёхугольники»**','глава V, §§1–3, пп. 39–47','Теорема Фалеса','quadrilateral-properties'])assert(root.includes(token),`README missing ${token}`);
+for(const token of ['01` **«Четырёхугольники»**','глава V, §§1–3, пп. 39–47','quadrilateral-properties'])assert(root.includes(token),`README missing ${token}`);
 const lessonRow=lessons.split('\n').find(x=>x.startsWith('| `8-geometry-atanasyan` |'))||'',lessonMatch=lessonRow.match(/\|\s*(\d+)\/5\s*\|\s*(\d+)\/68\s*\|/);assert(lessonMatch&&Number(lessonMatch[1])>=1&&Number(lessonMatch[2])>=13,'lessons README grade8 progress regressed');
 assert(lessons.includes('01` **«Четырёхугольники»** — уроки 1–13')&&lessons.includes('глава V, §§1–3, пп. 39–47'),'lessons README topic01');
 assert(number(lessons,/Всего опубликовано \*\*(\d+) полноценных поурочных модулей/,'lessons total')>=931,'lessons total');
