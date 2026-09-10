@@ -5,5 +5,8 @@ const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read(
 assert(root.includes('7-geometry-atanasyan')&&root.includes('02` **«Треугольники»**')&&root.includes('глава II, §§1–4, пп. 14–23'), 'README must retain completed topic02');
 assert(lessons.includes('02` **«Треугольники»** — уроки 13–25'), 'lessons README must retain topic02');
 assert(assessments.includes('02` **«Треугольники»**')&&assessments.includes('глава II, §§1–4, пп. 14–23'), 'assessments README must retain topic02');
-assert(plan.includes('Тема 02 — «Треугольники»')&&plan.includes('уроки 13–25')&&plan.includes('**Статус: полностью готово.**'), 'Plan must retain topic02 as complete');
+const start=plan.indexOf('### Тема 02 — «Треугольники»');
+const end=plan.indexOf('### Тема 03 —',start+1);
+const section=start>=0?plan.slice(start,end>=0?end:undefined):'';
+assert(section.includes('**Статус: полностью готово.**')&&section.toLowerCase().includes('уроки 13–25'), 'Plan must retain topic02 as complete');
 console.log('Grade 7 geometry topic 02 documentation regression QA passed.');
