@@ -1,0 +1,73 @@
+name: Grade 8 Atanasyan Topic 02 QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'topics/8-geometry-atanasyan/02.html'
+      - 'content/8-geometry-atanasyan/**'
+      - 'lessons/8-geometry-atanasyan/**'
+      - 'assessments/8-geometry-atanasyan/**'
+      - 'labs/8-geometry-atanasyan/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'geometry/**'
+      - 'scripts/qa-grade8-geometry-topic02.mjs'
+      - 'scripts/qa-grade8-geometry-topic02-browser.mjs'
+      - 'scripts/qa-grade8-geometry-topic02-docs.mjs'
+      - '.github/workflows/grade8-geometry-topic02-qa.yml'
+      - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'Plan.md'
+  push:
+    branches: [main]
+    paths:
+      - 'topics/8-geometry-atanasyan/02.html'
+      - 'content/8-geometry-atanasyan/**'
+      - 'lessons/8-geometry-atanasyan/**'
+      - 'assessments/8-geometry-atanasyan/**'
+      - 'labs/8-geometry-atanasyan/**'
+      - 'lessons/topic-links.js'
+      - 'assessments/topic-links.js'
+      - 'geometry/**'
+      - 'scripts/qa-grade8-geometry-topic02.mjs'
+      - 'scripts/qa-grade8-geometry-topic02-browser.mjs'
+      - 'scripts/qa-grade8-geometry-topic02-docs.mjs'
+      - '.github/workflows/grade8-geometry-topic02-qa.yml'
+      - 'README.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'Plan.md'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Structural and source QA
+        run: node scripts/qa-grade8-geometry-topic02.mjs
+      - name: Documentation QA
+        run: node scripts/qa-grade8-geometry-topic02-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser QA dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Browser, mobile, lab and print QA
+        run: node scripts/qa-grade8-geometry-topic02-browser.mjs
