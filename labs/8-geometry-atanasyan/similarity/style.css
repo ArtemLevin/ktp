@@ -1,0 +1,1 @@
+body{font-family:system-ui,sans-serif;margin:0;padding:20px;background:#f7f7f7;color:#222}.lab{max-width:900px;margin:auto;background:white;padding:24px;border-radius:16px}.controls{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.canvas{margin-top:20px;min-height:280px;border:1px solid #ddd;border-radius:12px;padding:16px}svg{max-width:100%;height:auto}
