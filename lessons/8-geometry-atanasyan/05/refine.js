@@ -1,0 +1,1 @@
+(function(){'use strict';const S=window.KTP_LESSON_SERIES;if(!S)return;const by=n=>(S.lessons||[]).find(x=>x.globalNumber===n);if(by(67))by(67).milestone='Итоговая диагностика';if(by(68))by(68).milestone='Завершение курса';})();
