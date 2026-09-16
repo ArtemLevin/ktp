@@ -1,10 +1,1 @@
-(function(){
-'use strict';
-const input=document.getElementById('scale');
-const out=document.getElementById('value');
-function update(){
- if(out) out.textContent=input.value;
-}
-if(input) input.addEventListener('input',update);
-update();
-})();
+(function(){'use strict';const input=document.getElementById('scale'),out=document.getElementById('scaleOut'),poly=document.getElementById('scaled'),metrics=document.getElementById('metrics');if(!input||!out||!poly||!metrics)return;const fmt=n=>Number(n).toLocaleString('ru-RU',{maximumFractionDigits:2});function update(){const k=Number(input.value),x=350,y=245,w=100*k,h=80*k;poly.setAttribute('points',`${x},${y} ${x+w*.42},${y-h} ${x+w},${y}`);out.textContent=fmt(k);metrics.innerHTML=`<div class="metric">Коэффициент сторон<b>${fmt(k)}</b></div><div class="metric">Коэффициент периметров<b>${fmt(k)}</b></div><div class="metric">Коэффициент площадей<b>${fmt(k*k)}</b></div>`;}input.addEventListener('input',update);update();})();
