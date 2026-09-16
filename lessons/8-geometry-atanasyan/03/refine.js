@@ -1,0 +1,1 @@
+(function(){'use strict';const S=window.KTP_LESSON_SERIES;if(!S)return;const last=(S.lessons||[]).find(x=>x.globalNumber===44);if(last)last.milestone='Итог темы';})();
