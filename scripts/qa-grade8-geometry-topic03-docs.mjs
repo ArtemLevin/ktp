@@ -1,0 +1,6 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8'),assert=(v,m)=>{if(!v)throw new Error(m)};
+const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read('assessments/README.md'),plan=read('Plan.md'),map=read('content/8-geometry-atanasyan/content-map.md'),lessonPlan=read('lessons/8-geometry-atanasyan/lesson-plan.md');
+for(const [text,token] of [[root,'| `8-geometry-atanasyan` | 3/5 | 44/68 | 3/5 |'],[root,'962 полноценных поурочных модулей'],[root,'67 тематических assessment-комплектов'],[root,'03` **«Подобные треугольники»**'],[root,'grade8-geometry-topic03-qa.yml'],[lessons,'| `8-geometry-atanasyan` | 3/5 | 44/68 | 1–44 |'],[lessons,'962 полноценных поурочных модулей'],[assessments,'| `8-geometry-atanasyan` | 3/5 |'],[assessments,'67 тематических assessment-комплектов'],[plan,'| `8-geometry-atanasyan` | **3/5** | **44/68** | **3/5** |'],[plan,'полностью готовых тематических серий: **67**'],[map,'| 03 | Подобные треугольники |'],[map,'Гл. VII, §§1–4, пп. 56–67'],[lessonPlan,'## 3. Подобные треугольники — 17 уроков (28–44)']])assert(text.includes(token),`docs missing ${token}`);
+for(const token of ['Теорема Фалеса','Средняя линия','точка пересечения медиан','Синус','30°, 45°, 60°'])assert(lessonPlan.includes(token),`lesson plan missing ${token}`);
+console.log('Grade 8 geometry topic 03 documentation QA passed.');
