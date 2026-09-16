@@ -1,0 +1,64 @@
+name: Grade 8 Atanasyan Topic 05 QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/8-geometry-atanasyan/05.js'
+      - 'content/8-geometry-atanasyan/content-map.md'
+      - 'topics/8-geometry-atanasyan/05.html'
+      - 'lessons/8-geometry-atanasyan/05/**'
+      - 'lessons/8-geometry-atanasyan/lesson-plan.md'
+      - 'assessments/8-geometry-atanasyan/05/**'
+      - 'assessments/topic-links.js'
+      - 'labs/8-geometry-atanasyan/theorem-selector/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade8-geometry-topic05*.mjs'
+      - '.github/workflows/grade8-geometry-topic05-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/8-geometry-atanasyan/05.js'
+      - 'content/8-geometry-atanasyan/content-map.md'
+      - 'topics/8-geometry-atanasyan/05.html'
+      - 'lessons/8-geometry-atanasyan/05/**'
+      - 'lessons/8-geometry-atanasyan/lesson-plan.md'
+      - 'assessments/8-geometry-atanasyan/05/**'
+      - 'labs/8-geometry-atanasyan/theorem-selector/**'
+      - 'scripts/qa-grade8-geometry-topic05*.mjs'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Structural and source QA
+        run: node scripts/qa-grade8-geometry-topic05.mjs
+      - name: Documentation QA
+        run: node scripts/qa-grade8-geometry-topic05-docs.mjs
+      - name: Topic 04 regression QA
+        run: |
+          node scripts/qa-grade8-geometry-topic04.mjs
+          node scripts/qa-grade8-geometry-topic04-docs.mjs
+      - name: Topic 03 regression QA
+        run: |
+          node scripts/qa-grade8-geometry-topic03.mjs
+          node scripts/qa-grade8-geometry-topic03-docs.mjs
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser QA dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Browser, mobile, lab and print QA
+        run: node scripts/qa-grade8-geometry-topic05-browser.mjs
