@@ -89,6 +89,52 @@ function drawRightAngle(svg,v,a,b,size=18){
   const p=add(v,u,size),q=add(p,w,size),r=add(v,w,size);
   svg.append(el('polyline',{points:`${p.x},${p.y} ${q.x},${q.y} ${r.x},${r.y}`,class:'geometry-right-mark'}));
 }
+function drawVectorLabel(svg,a,b,text,offset=14){
+  const d=unit(vec(a,b)),n={x:-d.y,y:d.x},m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
+  const p=add(m,n,offset);
+  const t=el('text',{x:p.x,y:p.y,class:'geometry-vector-label','text-anchor':'middle','dominant-baseline':'central'});
+  t.textContent=text;svg.append(t);
+}
+function drawCoordinateAxes(svg,scene,obj,box,arrowId){
+  const o=obj.origin?point(scene,obj.origin):{x:num(obj.x,box[0]+box[2]/2),y:num(obj.y,box[1]+box[3]/2)};
+  const step=Math.max(8,num(obj.unit,30));
+  const xMin=num(obj.xMin,-5),xMax=num(obj.xMax,5),yMin=num(obj.yMin,-3),yMax=num(obj.yMax,3);
+  const x1=o.x+xMin*step,x2=o.x+xMax*step,y1=o.y-yMax*step,y2=o.y-yMin*step;
+  if(obj.grid!==false){
+    for(let k=Math.ceil(xMin);k<=Math.floor(xMax);k++){
+      const x=o.x+k*step;
+      svg.append(el('line',{x1:x,y1,x2:x,y2,class:'geometry-grid'}));
+    }
+    for(let k=Math.ceil(yMin);k<=Math.floor(yMax);k++){
+      const y=o.y-k*step;
+      svg.append(el('line',{x1,y1:y,x2,y2:y,class:'geometry-grid'}));
+    }
+  }
+  svg.append(el('line',{x1,y1:o.y,x2,y2:o.y,class:'geometry-axis','marker-end':`url(#${arrowId})`}));
+  svg.append(el('line',{x1:o.x,y1:y2,x2:o.x,y2:y1,class:'geometry-axis','marker-end':`url(#${arrowId})`}));
+  if(obj.ticks!==false){
+    for(let k=Math.ceil(xMin);k<=Math.floor(xMax);k++){
+      if(k===0)continue;
+      const x=o.x+k*step;
+      svg.append(el('line',{x1:x,y1:o.y-4,x2:x,y2:o.y+4,class:'geometry-axis-tick'}));
+      if(obj.tickLabels!==false){
+        const t=el('text',{x,y:o.y+17,class:'geometry-axis-label','text-anchor':'middle'});t.textContent=String(k);svg.append(t);
+      }
+    }
+    for(let k=Math.ceil(yMin);k<=Math.floor(yMax);k++){
+      if(k===0)continue;
+      const y=o.y-k*step;
+      svg.append(el('line',{x1:o.x-4,y1:y,x2:o.x+4,y2:y,class:'geometry-axis-tick'}));
+      if(obj.tickLabels!==false){
+        const t=el('text',{x:o.x-8,y:y+4,class:'geometry-axis-label','text-anchor':'end'});t.textContent=String(k);svg.append(t);
+      }
+    }
+  }
+  if(obj.labels!==false){
+    const tx=el('text',{x:x2-4,y:o.y-9,class:'geometry-axis-label','text-anchor':'end'});tx.textContent=obj.xLabel||'x';svg.append(tx);
+    const ty=el('text',{x:o.x+9,y:y1+13,class:'geometry-axis-label'});ty.textContent=obj.yLabel||'y';svg.append(ty);
+  }
+}
 function drawObject(svg,scene,obj,box,arrowId){
   const cls=`geometry-${obj.style||'main'}${obj.className?` ${obj.className}`:''}`;
   if(obj.type==='segment'){
@@ -96,6 +142,16 @@ function drawObject(svg,scene,obj,box,arrowId){
     svg.append(el('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,class:cls}));
     if(obj.ticks)drawTicks(svg,a,b,num(obj.ticks,1));
     if(obj.parallel)drawParallelMark(svg,a,b,num(obj.parallel,1));
+    return;
+  }
+  if(obj.type==='vector'){
+    const a=point(scene,obj.points[0]),b=point(scene,obj.points[1]);
+    svg.append(el('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,class:cls,'marker-end':`url(#${arrowId})`}));
+    if(obj.label)drawVectorLabel(svg,a,b,obj.label,num(obj.labelOffset,14));
+    return;
+  }
+  if(obj.type==='coordinateAxes'){
+    drawCoordinateAxes(svg,scene,obj,box,arrowId);
     return;
   }
   if(obj.type==='line'){
