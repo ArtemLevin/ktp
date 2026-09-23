@@ -1,0 +1,60 @@
+name: Grade 9 Atanasyan Topic 01 QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/9-geometry-atanasyan/01.js'
+      - 'content/9-geometry-atanasyan/content-map.md'
+      - 'topics/9-geometry-atanasyan/01.html'
+      - 'lessons/9-geometry-atanasyan/01/**'
+      - 'lessons/9-geometry-atanasyan/lesson-plan.md'
+      - 'assessments/9-geometry-atanasyan/01/**'
+      - 'assessments/topic-links.js'
+      - 'labs/9-geometry-atanasyan/vector-operations/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade9-geometry-topic01*.mjs'
+      - '.github/workflows/grade9-geometry-topic01-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/9-geometry-atanasyan/01.js'
+      - 'topics/9-geometry-atanasyan/01.html'
+      - 'lessons/9-geometry-atanasyan/01/**'
+      - 'assessments/9-geometry-atanasyan/01/**'
+      - 'labs/9-geometry-atanasyan/vector-operations/**'
+      - 'scripts/qa-grade9-geometry-topic01*.mjs'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Structural and source QA
+        run: node scripts/qa-grade9-geometry-topic01.mjs
+      - name: Documentation QA
+        run: node scripts/qa-grade9-geometry-topic01-docs.mjs
+      - name: Foundation regression
+        run: node scripts/qa-grade9-geometry-foundation.mjs
+      - name: Grade 8 regression
+        run: |
+          node scripts/qa-grade8-geometry-topic05.mjs
+          node scripts/qa-grade8-geometry-topic05-docs.mjs
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser QA dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Browser, mobile, lab and print QA
+        run: node scripts/qa-grade9-geometry-topic01-browser.mjs
