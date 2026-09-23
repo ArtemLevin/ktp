@@ -1,0 +1,24 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Лаборатория «Окружность: меры и предел» · Геометрия 9 класс</title><link rel="stylesheet" href="style.css"></head><body><main class="lab-shell">
+<a class="back" href="../../../topics/9-geometry-atanasyan/04.html">← К теме «Длина окружности и площадь круга»</a>
+<header class="hero"><span class="eyebrow">Цифровая лаборатория · 9 класс</span><h1>Окружность: от многоугольника к π, дуге и площади</h1><p>Меняйте число сторон, радиус и центральный угол. Лаборатория показывает, как формулы темы возникают из одной геометрической модели.</p></header>
+<section class="question"><b>Исследовательский вопрос</b><p>Что происходит с периметром и площадью правильного многоугольника при росте числа сторон и почему это приводит к формулам C=2πR и S=πR²?</p></section>
+<div class="lab-grid">
+<section class="panel controls"><h2>Режим исследования</h2>
+<label>Модель<select id="mode"><option value="limit">Многоугольники → окружность</option><option value="polygon">Правильный n-угольник</option><option value="arc">Дуга и сектор</option><option value="segment">Круговой сегмент</option></select></label>
+<div data-controls="limit"><label>Число сторон n <output id="limitNOut"></output><input id="limitN" type="range" min="3" max="96" step="1" value="6"></label><label>Радиус R <output id="limitROut"></output><input id="limitR" type="range" min="1" max="8" step=".5" value="4"></label></div>
+<div data-controls="polygon" hidden><label>Число сторон n <output id="polyNOut"></output><input id="polyN" type="range" min="3" max="24" step="1" value="6"></label><label>Радиус R <output id="polyROut"></output><input id="polyR" type="range" min="1" max="8" step=".5" value="5"></label></div>
+<div data-controls="arc" hidden><label>Радиус R <output id="arcROut"></output><input id="arcR" type="range" min="1" max="10" step=".5" value="6"></label><label>Центральный угол α <output id="arcAOut"></output><input id="arcA" type="range" min="10" max="350" step="5" value="120"></label></div>
+<div data-controls="segment" hidden><label>Радиус R <output id="segROut"></output><input id="segR" type="range" min="1" max="10" step=".5" value="6"></label><label>Угол малого сегмента α <output id="segAOut"></output><input id="segA" type="range" min="10" max="180" step="5" value="90"></label></div>
+<p class="hint">Ползунки работают с клавиатуры: Tab для перехода, ←/→ для изменения значения.</p></section>
+<section class="panel stage-panel"><div class="stage-head"><div><span class="eyebrow">Модель</span><h2 id="modeTitle"></h2></div><div id="result" class="result"></div></div><svg id="stage" viewBox="0 0 700 460" role="img" aria-label="Динамическая модель правильного многоугольника, окружности, дуги, сектора и сегмента"></svg><div id="formula" class="formula"></div><p id="explain" class="explain"></p></section>
+</div>
+<section class="panel tasks"><span class="eyebrow">Исследуйте</span><h2>Наблюдения, которые нужно получить самому</h2><ol>
+<li>В режиме «Многоугольники → окружность» увеличивайте n: сравните вписанный периметр, C и описанный периметр. Какая величина зажата между двумя другими?</li>
+<li>При фиксированном n удвойте R. Что происходит со стороной, периметром и площадью?</li>
+<li>В режиме «Дуга и сектор» удвойте α. Какие две величины удвоятся?</li>
+<li>Установите α=180°. Сравните длину дуги и площадь сектора с половиной окружности и круга.</li>
+<li>В режиме сегмента двигайте α от 10° к 180°. Почему сегмент всегда меньше сектора при α&lt;180°?</li>
+</ol></section>
+<section class="panel notice"><span class="eyebrow">Три связи темы</span><div class="notice-grid"><article><b>Предел</b><p>При росте n вписанный и описанный периметры сближаются с длиной окружности.</p></article><article><b>Доля</b><p>Дуга и сектор занимают α/360 соответствующей полной меры.</p></article><article><b>Разность</b><p>Малый сегмент получается вычитанием центрального треугольника из сектора.</p></article></div></section>
+<section class="panel theory"><span class="eyebrow">Связь с уроками</span><h2>Формулы как следствия модели</h2><p>aₙ=2Rsin(π/n), r=Rcos(π/n), C=2πR, l=Rφ, Sкруга=πR², Sсектора=½R²φ. Эти формулы удобно проверять специальными углами и сравнением с полной окружностью или кругом.</p><a class="cta" href="../../../topics/9-geometry-atanasyan/04.html#theory">Вернуться к теории темы →</a></section>
+</main><script src="app.js"></script></body></html>
