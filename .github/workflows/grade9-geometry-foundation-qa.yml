@@ -1,0 +1,48 @@
+name: Grade 9 Atanasyan Foundation QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/9-geometry-atanasyan/content-map.md'
+      - 'lessons/9-geometry-atanasyan/lesson-plan.md'
+      - 'geometry/**'
+      - 'scripts/qa-grade9-geometry-foundation*.mjs'
+      - '.github/workflows/grade9-geometry-foundation-qa.yml'
+      - 'README.md'
+      - 'Plan.md'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/9-geometry-atanasyan/content-map.md'
+      - 'lessons/9-geometry-atanasyan/lesson-plan.md'
+      - 'geometry/**'
+      - 'scripts/qa-grade9-geometry-foundation*.mjs'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Grade 9 geometry foundation QA
+        run: node scripts/qa-grade9-geometry-foundation.mjs
+      - name: Grade 8 regression
+        run: |
+          node scripts/qa-grade8-geometry-topic05.mjs
+          node scripts/qa-grade8-geometry-topic05-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser QA dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Vector / coordinate runtime browser QA
+        run: node scripts/qa-grade9-geometry-foundation-browser.mjs
