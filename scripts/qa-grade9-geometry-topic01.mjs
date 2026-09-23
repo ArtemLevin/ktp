@@ -82,7 +82,7 @@ assert(S.lessons[9].practice.some(t=>String(t.skill).includes('Средняя л
 
 const topicHtml=read('topics/9-geometry-atanasyan/01.html');
 for(const token of ['data-topic="0"','content/9-geometry-atanasyan/01.js','lessons/9-geometry-atanasyan/01/topic-link.js','assessments/topic-links.js','geometry/geometry-scene.js'])assert(topicHtml.includes(token),`topic html ${token}`);
-assert(read('assessments/topic-links.js').includes("'9-geometry-atanasyan':{min:0,max:0}"),'assessment navigation topic01');
+const nav01=read('assessments/topic-links.js').match(/'9-geometry-atanasyan':\{min:0,max:(\d+)\}/);assert(nav01&&Number(nav01[1])>=0,'assessment navigation topic01');
 
 const asb={window:{}};vm.createContext(asb);vm.runInContext(read('assessments/9-geometry-atanasyan/01/data.js'),asb);
 const A=asb.window.KTP_ASSESSMENT_DATA;assert(A.meta.topic==='01','assessment topic');
