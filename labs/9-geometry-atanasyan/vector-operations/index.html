@@ -1,0 +1,31 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Лаборатория векторных операций · Геометрия 9 класс</title><link rel="stylesheet" href="style.css"></head><body><main class="lab-shell">
+<a class="back" href="../../../topics/9-geometry-atanasyan/01.html">← К теме «Векторы»</a>
+<header class="hero"><span class="eyebrow">Цифровая лаборатория · 9 класс</span><h1>Как геометрия задаёт операции над векторами?</h1><p>Меняйте длину и направление двух векторов. Модель строит сумму, разность или произведение вектора на число и показывает, какие свойства сохраняются.</p></header>
+<section class="question"><b>Исследовательский вопрос</b><p>Какие части результата определяются длинами векторов, какие — их направлениями, и почему одно и то же сложение можно построить разными способами?</p></section>
+<div class="lab-grid">
+<section class="panel controls"><h2>Управляемые параметры</h2>
+<label>Операция<select id="mode"><option value="triangle">Сумма · правило треугольника</option><option value="parallelogram">Сумма · параллелограмм</option><option value="difference">Разность a⃗ − b⃗</option><option value="scalar">Умножение k·a⃗</option></select></label>
+<label>Длина a⃗ <output id="lenAOut"></output><input id="lenA" type="range" min="1" max="5" step="0.25" value="3.5"></label>
+<label>Направление a⃗ <output id="angleAOut"></output><input id="angleA" type="range" min="0" max="330" step="15" value="30"></label>
+<div id="bControls">
+<label>Длина b⃗ <output id="lenBOut"></output><input id="lenB" type="range" min="1" max="5" step="0.25" value="2.75"></label>
+<label>Направление b⃗ <output id="angleBOut"></output><input id="angleB" type="range" min="0" max="330" step="15" value="120"></label>
+</div>
+<label id="kControl" hidden>Коэффициент k <output id="kOut"></output><input id="k" type="range" min="-3" max="3" step="0.5" value="-1.5"></label>
+<p class="hint">Все ползунки доступны с клавиатуры: Tab — переход, стрелки — изменение значения.</p>
+</section>
+<section class="panel stage-panel"><div class="stage-head"><div><span class="eyebrow">Визуальный результат</span><h2 id="modeTitle">Правило треугольника</h2></div><div class="result" id="result"></div></div><svg id="stage" viewBox="0 0 620 420" role="img" aria-label="Динамическая модель векторной операции"></svg><p id="explain" class="explain"></p></section>
+</div>
+<section class="panel tasks"><span class="eyebrow">Исследуйте</span><h2>Четыре эксперимента</h2><ol>
+<li>Выберите два разных направления. Сравните сумму в режимах «треугольник» и «параллелограмм». Изменился ли результирующий вектор?</li>
+<li>Сделайте b⃗ равным по длине a⃗ и поверните его направление на 180°. Что происходит с a⃗+b⃗?</li>
+<li>В режиме разности сначала сделайте a⃗=b⃗. Какой вектор получается? Затем немного измените только направление b⃗.</li>
+<li>В режиме k·a⃗ проведите k через 0. Сравните случаи k=2, k=0, k=−2: что происходит с длиной и направлением?</li>
+</ol></section>
+<section class="panel notice"><span class="eyebrow">Что нужно заметить</span><h2>Инварианты операции</h2><div class="notice-grid">
+<article><b>Сумма</b><p>Правила треугольника и параллелограмма дают один и тот же результат.</p></article>
+<article><b>Разность</b><p>a⃗−b⃗ — это сумма a⃗ и противоположного вектора −b⃗.</p></article>
+<article><b>Масштаб</b><p>|k·a⃗|=|k|·|a⃗|. Отрицательный коэффициент меняет направление.</p></article>
+</div></section>
+<section class="panel theory"><span class="eyebrow">Связь с теорией</span><h2>Перед формулой смотрите на конструкцию</h2><p>У вектора есть длина и направление. Равные векторы можно переносить на плоскости без изменения операции. Именно поэтому второй вектор в правиле треугольника разрешено отложить от конца первого.</p><a class="cta" href="../../../topics/9-geometry-atanasyan/01.html#theory">Вернуться к теории темы →</a></section>
+</main><script src="app.js"></script></body></html>
