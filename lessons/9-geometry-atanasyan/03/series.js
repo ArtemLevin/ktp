@@ -1,0 +1,4 @@
+(function(){
+'use strict';
+window.KTP_LESSON_SERIES={meta:{rowId:'9-geometry-atanasyan',topicIndex:2,topicId:'9-geometry-atanasyan::2',topicNumber:3,grade:9,subject:'Геометрия',book:'Атанасян · Бутузов · Кадомцев и др. + ФРП-2025',topicTitle:'Соотношения между сторонами и углами треугольника. Скалярное произведение векторов',schoolYear:'2026/27',plannedWeeks:'10–16',totalLessons:14,courseLessonStart:19,courseLessonEnd:32,courseTotal:68,topicHref:'../../../topics/9-geometry-atanasyan/03.html',ktpHref:'../../../index.html?focus=9-geometry-atanasyan&view=timeline',catalogHref:'index.html'},lessons:[],geometryScenes:{},corrections:{}};
+})();

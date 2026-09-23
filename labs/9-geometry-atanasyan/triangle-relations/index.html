@@ -1,0 +1,24 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Лаборатория соотношений в треугольнике · Геометрия 9 класс</title><link rel="stylesheet" href="style.css"></head><body><main class="lab-shell">
+<a class="back" href="../../../topics/9-geometry-atanasyan/03.html">← К теме «Соотношения в треугольнике и скалярное произведение»</a>
+<header class="hero"><span class="eyebrow">Цифровая лаборатория · 9 класс</span><h1>Одна конфигурация — несколько математических связей</h1><p>Исследуйте четыре представления темы: тригонометрические функции угла, решение треугольника, теорему синусов и скалярное произведение. Изменяйте данные и следите, какие величины меняются вместе.</p></header>
+<section class="question"><b>Исследовательский вопрос</b><p>Как по виду конфигурации определить нужную формулу и как заранее проверить знак, порядок величин и правдоподобность результата?</p></section>
+<div class="lab-grid">
+<section class="panel controls"><h2>Режим исследования</h2>
+<label>Модель<select id="mode"><option value="trig">Sin, cos и угол 0°–180°</option><option value="triangle">Две стороны и включённый угол</option><option value="sine">Теорема синусов</option><option value="dot">Скалярное произведение</option></select></label>
+<div data-controls="trig"><label>Угол α <output id="alphaOut"></output><input id="alpha" type="range" min="0" max="180" step="5" value="120"></label></div>
+<div data-controls="triangle" hidden><label>Сторона p <output id="pOut"></output><input id="p" type="range" min="2" max="10" step=".5" value="6"></label><label>Сторона q <output id="qOut"></output><input id="q" type="range" min="2" max="10" step=".5" value="8"></label><label>Угол C между ними <output id="cAngleOut"></output><input id="cAngle" type="range" min="20" max="160" step="5" value="60"></label></div>
+<div data-controls="sine" hidden><label>Угол A <output id="AOut"></output><input id="A" type="range" min="20" max="80" step="5" value="30"></label><label>Угол B <output id="BOut"></output><input id="B" type="range" min="20" max="80" step="5" value="60"></label><label>Сторона a напротив A <output id="sideAOut"></output><input id="sideA" type="range" min="3" max="12" step=".5" value="6"></label></div>
+<div data-controls="dot" hidden><label>|u⃗| <output id="uOut"></output><input id="u" type="range" min="1" max="7" step=".5" value="4"></label><label>|v⃗| <output id="vOut"></output><input id="v" type="range" min="1" max="7" step=".5" value="5"></label><label>Угол φ <output id="phiOut"></output><input id="phi" type="range" min="0" max="180" step="5" value="120"></label></div>
+<p class="hint">Tab переводит фокус между элементами, клавиши ← → изменяют значение ползунка.</p></section>
+<section class="panel stage-panel"><div class="stage-head"><div><span class="eyebrow">Модель</span><h2 id="modeTitle"></h2></div><div id="result" class="result"></div></div><svg id="stage" viewBox="0 0 680 440" role="img" aria-label="Динамическая модель соотношений в треугольнике и скалярного произведения"></svg><div id="formula" class="formula"></div><p id="explain" class="explain"></p></section>
+</div>
+<section class="panel tasks"><span class="eyebrow">Исследуйте</span><h2>Задания для наблюдения</h2><ol>
+<li>В режиме sin/cos проведите α через 90°. Какие величины меняют знак и какие сохраняют знак?</li>
+<li>В режиме «две стороны и угол» оставьте стороны неизменными и увеличивайте C от 30° до 150°. Сравните третью сторону и площадь.</li>
+<li>В режиме теоремы синусов сравните стороны, лежащие напротив большего и меньшего углов. Сохраняется ли порядок?</li>
+<li>В режиме скалярного произведения найдите положения φ, при которых произведение положительно, равно нулю и отрицательно.</li>
+<li>Сформулируйте для каждого режима одну проверку, способную обнаружить вычислительную ошибку до получения окончательного ответа.</li>
+</ol></section>
+<section class="panel notice"><span class="eyebrow">Что нужно заметить</span><div class="notice-grid"><article><b>Знак</b><p>Для тупого угла cos отрицателен; этот знак влияет и на теорему косинусов, и на скалярное произведение.</p></article><article><b>Соответствие</b><p>В теореме синусов каждая сторона связывается только со своим противоположным углом.</p></article><article><b>Проверка</b><p>Формула заканчивает вычисление, а геометрическая проверка подтверждает, что результат возможен.</p></article></div></section>
+<section class="panel theory"><span class="eyebrow">Связь с уроками</span><h2>Выбирайте формулу по данным</h2><p>SAS ведёт к теореме косинусов, сторона и два угла — к теореме синусов, две стороны и включённый угол дают формулу площади, а угол между векторами определяет знак их скалярного произведения.</p><a class="cta" href="../../../topics/9-geometry-atanasyan/03.html#theory">Вернуться к теории темы →</a></section>
+</main><script src="app.js"></script></body></html>
