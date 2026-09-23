@@ -77,7 +77,7 @@ for(let i=0;i<S.lessons.length;i++){
 
 assert(S.lessons[3].practice.some(t=>t.answer==='AC⃗.'),'triangle-rule answer');
 assert(S.lessons[6].practice.some(t=>String(t.answer).includes('a⃗−b⃗')),'difference answer');
-assert(S.lessons[7].practice.some(t=>String(t.answer).includes('противополож')),'negative scalar direction');
+assert(S.lessons[7].practice.some(t=>String(t.answer).toLowerCase().includes('противополож')),'negative scalar direction');
 assert(S.lessons[9].practice.some(t=>String(t.skill).includes('Средняя линия')),'trapezoid midline coverage');
 
 const topicHtml=read('topics/9-geometry-atanasyan/01.html');
