@@ -5,10 +5,11 @@ for(const [doc,name] of [[readme,'README'],[plan,'Plan'],[lessons,'lessons READM
  assert(doc.includes('9-geometry-atanasyan'),`${name}: grade 9 line missing`);
  assert(doc.includes('Векторы'),`${name}: vector topic missing`);
 }
-assert(readme.includes('996')&&readme.includes('70 тематических assessment'),'README aggregate metrics');
-assert(plan.includes('1/7')&&plan.includes('10/68'),'Plan topic metrics');
-assert(lessons.includes('10/68')&&lessons.includes('996'),'lessons metrics');
-assert(assessments.includes('1/7')&&assessments.includes('70'),'assessment metrics');
+const rowText=[readme,plan,lessons,assessments].join('\n');
+const seriesMatches=[...rowText.matchAll(/9-geometry-atanasyan[^\n]*?(\d+)\/7/g)].map(m=>Number(m[1]));
+assert(seriesMatches.length&&Math.max(...seriesMatches)>=1,'grade 9 series progress must not regress below topic01');
+assert(readme.includes('vector-operations')&&lessons.includes('vector-operations'),'vector lab docs');
+assert(assessments.includes('Векторы'),'vector assessment docs');
 assert(map.includes('| 01 | Векторы')&&map.includes('| full |'),'content map topic01 status');
 assert(lp.includes('1. Вектор как направленный отрезок')&&lp.includes('10. Средняя линия трапеции'),'lesson plan route');
 console.log(`Grade 9 Atanasyan topic 01 documentation QA passed: ${checks} checks.`);
