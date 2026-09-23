@@ -16,7 +16,15 @@ for(const p of [
  'lessons/9-geometry-atanasyan/01/data.js',
  'assessments/9-geometry-atanasyan/01/data.js',
  'labs/9-geometry-atanasyan/vector-operations/app.js'
-]){assert(exists(p),`missing ${p}`);compile(p);}
+])assert(exists(p),`missing ${p}`);
+for(const p of [
+ 'content/9-geometry-atanasyan/01.js',
+ 'lessons/9-geometry-atanasyan/01/series.js',
+ 'lessons/9-geometry-atanasyan/01/scenes.js',
+ 'lessons/9-geometry-atanasyan/01/data.js',
+ 'assessments/9-geometry-atanasyan/01/data.js',
+ 'labs/9-geometry-atanasyan/vector-operations/app.js'
+])compile(p);
 
 const captured={};
 vm.runInNewContext(read('content/9-geometry-atanasyan/01.js'),{KTP_REGISTER_CONTENT:(id,data)=>captured[id]=data});
