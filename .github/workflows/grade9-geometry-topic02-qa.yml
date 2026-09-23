@@ -1,0 +1,48 @@
+name: Grade 9 Atanasyan Topic 02 QA
+on:
+  pull_request:
+    paths:
+      - 'content/9-geometry-atanasyan/02.js'
+      - 'content/9-geometry-atanasyan/content-map.md'
+      - 'topics/9-geometry-atanasyan/02.html'
+      - 'lessons/9-geometry-atanasyan/02/**'
+      - 'assessments/9-geometry-atanasyan/02/**'
+      - 'assessments/topic-links.js'
+      - 'labs/9-geometry-atanasyan/coordinate-method/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade9-geometry-topic02*.mjs'
+      - '.github/workflows/grade9-geometry-topic02-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/9-geometry-atanasyan/02.js'
+      - 'topics/9-geometry-atanasyan/02.html'
+      - 'lessons/9-geometry-atanasyan/02/**'
+      - 'assessments/9-geometry-atanasyan/02/**'
+      - 'labs/9-geometry-atanasyan/coordinate-method/**'
+      - 'scripts/qa-grade9-geometry-topic02*.mjs'
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: node scripts/qa-grade9-geometry-topic02.mjs
+      - run: node scripts/qa-grade9-geometry-topic02-docs.mjs
+      - run: |
+          node scripts/qa-grade9-geometry-topic01.mjs
+          node scripts/qa-grade9-geometry-topic01-docs.mjs
+      - run: node scripts/qa-grade9-geometry-foundation.mjs
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/qa-grade9-geometry-topic02-browser.mjs
