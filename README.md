@@ -67,6 +67,22 @@
 
 Source mapping линии: `content/8-geometry-atanasyan/content-map.md`.
 
+## Геометрия 9 класса · Атанасян — подготовительный слой
+
+Для `9-geometry-atanasyan` подготовлен foundation следующей фазы:
+
+- зафиксирован полный source map 7 тематических серий и календарная модель **10 + 8 + 14 + 10 + 9 + 9 + 8 = 68**;
+- создан поурочный план **1–68** с точным распределением содержания;
+- главы IX–XIII учебника сопоставлены с современной ФРП-2025;
+- преобразование подобия и метрические теоремы окружности выделены как нормативный crosswalk, отсутствующий в виде самостоятельной главы 9 класса в классическом оглавлении;
+- общий `geometry-scene.js` расширен конечным примитивом `vector` и координатными осями `coordinateAxes`;
+- добавлены mobile/print fixture и отдельный foundation QA.
+
+Следующая рабочая единица: `9-geometry-atanasyan/01` **«Векторы»**, уроки **1–10**, с лабораторией `vector-operations/`.
+
+Source mapping: `content/9-geometry-atanasyan/content-map.md`.  
+Поурочный маршрут: `lessons/9-geometry-atanasyan/lesson-plan.md`.
+
 ## Поурочная подготовка
 
 Общий UI: `lessons/lesson-page.js`, `lessons/lesson-index.js`, `lessons/lesson-page.css`, `lessons/series-adapter.js`, `lessons/global-numbering.js`.
