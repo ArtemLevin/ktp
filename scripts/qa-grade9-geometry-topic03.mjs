@@ -18,7 +18,7 @@ assert(C.examples.length>=6,'examples');assert(C.mistakes.length>=7,'mistakes');
 assert(C.diagnostic.length>=6,'diagnostic');assert(C.homework.required.length>=6&&C.homework.optional.length>=2,'homework');
 assert(C.lab?.href.includes('triangle-relations'),'lab link');assert(Object.keys(C.geometryScenes||{}).length>=7,'topic scenes');
 const source=C.source.paragraphs.join(' ');for(const t of ['93–95','96–100','101–104'])assert(source.includes(t),`source missing ${t}`);
-assert(C.source.assessment.includes('теме 04'),'next-topic guard');
+assert(C.source.assessment.includes('темой 04'),'next-topic guard');
 const mapOrder=C.map.join(' → ');assert(mapOrder.indexOf('Теорема синусов')<mapOrder.indexOf('Теорема косинусов'),'textbook order sine before cosine');
 
 const sb={window:{}};vm.createContext(sb);
