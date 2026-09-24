@@ -60,7 +60,7 @@ for(const token of ['18 последовательных уроков','Откр
 const assessmentCard=page.locator('[data-assessment-topic-link]');
 if(await assessmentCard.count()!==1)throw new Error('topic assessment card must be injected exactly once');
 if(!(await assessmentCard.isVisible()))throw new Error('topic assessment card must be visible');
-const assessmentText=await assessmentCard.innerText();
+const assessmentText=await assessmentCard.textContent();
 for(const token of ['Проверочные материалы','Самостоятельная работа','Контрольная работа']){
   if(!assessmentText.includes(token))throw new Error('topic assessment card missing '+token);
 }
