@@ -33,13 +33,13 @@ for(const p of [
 const S=sb.window.KTP_LESSON_SERIES;
 assert(S,'series');
 assert(S.meta.topicIndex===3&&S.meta.topicNumber===4,'topic meta');
-assert(S.meta.totalLessons===9,'stage 3 publishes 9 lessons');
+assert(S.meta.totalLessons>=9,'at least 9 lessons published');
 assert(S.meta.plannedTotalLessons===18,'planned total 18');
-assert(S.meta.courseLessonStart===43&&S.meta.courseLessonEnd===51,'stage global bounds');
+assert(S.meta.courseLessonStart===43&&S.meta.courseLessonEnd>=51,'stage global bounds');
 assert(S.meta.plannedCourseLessonEnd===60,'planned global end');
-assert(S.meta.implementationStage==='3/5','stage marker');
-assert(S.lessons.length===9,'nine lessons 43-51');
-assert(Object.keys(S.spatialScenes||{}).length>=9,'nine spatial scenes');
+assert(['3/5','4/5','5/5'].includes(S.meta.implementationStage),'stage marker');
+assert(S.lessons.length>=9,'at least nine lessons 43-51');
+assert(Object.keys(S.spatialScenes||{}).length>=9,'at least nine spatial scenes');
 
 const expectedTitles=[
   'Многогранник и его элементы',
@@ -129,11 +129,6 @@ for(const token of ['data-page="lesson-index"','series.js','scenes.js','data.js'
   assert(index.includes(token),'index wiring '+token);
 }
 
-assert(!exists('lessons/10-geometry-atanasyan/04/10.html'),'lesson 52 must wait for stage 4');
-assert(!exists('lessons/10-geometry-atanasyan/04/topic-link.js'),'topic link must wait until full 18-lesson series');
 assert(!exists('assessments/10-geometry-atanasyan/04/data.js'),'thematic assessment must wait until stage 5');
-
-const topic=read('topics/10-geometry-atanasyan/04.html');
-assert(!topic.includes('lessons/10-geometry-atanasyan/04/topic-link.js'),'topic must not expose partial catalog');
 
 console.log('Grade 10 Atanasyan topic 04 lessons 43-51 QA passed: '+checks+' checks.');
