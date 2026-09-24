@@ -1,0 +1,30 @@
+(function(){
+'use strict';
+window.KTP_LESSON_SERIES={
+  meta:{
+    rowId:'10-geometry-atanasyan',
+    topicIndex:3,
+    topicId:'10-geometry-atanasyan::3',
+    topicNumber:4,
+    grade:10,
+    subject:'Геометрия',
+    book:'Атанасян · Бутузов · Кадомцев и др. + ФРП-2025',
+    topicTitle:'Многогранники',
+    schoolYear:'2026/27',
+    plannedWeeks:'23–31',
+    totalLessons:9,
+    plannedTotalLessons:18,
+    courseLessonStart:43,
+    courseLessonEnd:51,
+    plannedCourseLessonEnd:60,
+    courseTotal:68,
+    implementationStage:'3/5',
+    topicHref:'../../../topics/10-geometry-atanasyan/04.html',
+    ktpHref:'../../../index.html?focus=10-geometry-atanasyan&view=timeline',
+    catalogHref:'index.html'
+  },
+  lessons:[],
+  spatialScenes:{},
+  corrections:{}
+};
+})();
