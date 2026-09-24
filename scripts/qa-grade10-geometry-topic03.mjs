@@ -54,7 +54,7 @@ for(const token of ['25*','26*','не входят','Многогранники'
 const theory=C.theory.map(x=>x.html).join(' ');
 for(const token of [
  'a⊥α','двум пересекающимся прямым','перпендикуляр','ортогональная проекция',
- 'Расстояние','трёх перпендикулярах','∠MBH','MB²=MH²+HB²',
+ 'Расстояние','l⊥HB','∠MBH','MB²=MH²+HB²',
  'двугранный','линейный угол','Плоскости перпендикулярны','d²=a²+b²+c²'
 ]) assert(theory.toLowerCase().includes(token.toLowerCase()),`theory missing ${token}`);
 
