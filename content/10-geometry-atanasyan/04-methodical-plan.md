@@ -526,7 +526,7 @@ S_2=S_1k^2,\qquad V_2=V_1k^3.
 - диагностику;
 - \`polyhedron-section/\`.
 
-### Этап 5 · Assessments + release gate — текущий
+### Этап 5 · Assessments + release gate — реализация выполнена
 
 - thematic 6×7/14;
 - thematic 6×10/20;
