@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+let checks=0;const assert=(v,m)=>{checks++;if(!v)throw new Error(m)};
+const R=read('README.md'),P=read('Plan.md'),L=read('lessons/README.md'),A=read('assessments/README.md'),M=read('content/10-geometry-atanasyan/content-map.md');
+for(const token of ['1096 полноценных поурочных','79 тематических assessment-комплектов','**3/5** | **42/68** | **3/5**','03-methodical-plan.md','distance-angle-space/','10-geometry-atanasyan/04'])assert(R.includes(token),`README missing ${token}`);
+for(const token of ['тематических серий: **79**','опубликованных уроков: **1096**','assessment-комплектов: **79**','каркасов: **42**','3/5 серий, 42/68 уроков, 3/5 thematic assessments','Тема 03 **«Перпендикулярность прямых и плоскостей»** полностью реализована','10-geometry-atanasyan/04'])assert(P.includes(token),`Plan missing ${token}`);
+for(const token of ['**3/5** | **42/68** | **1–42**','1096 полноценных поурочных','Серия `03` **«Перпендикулярность прямых и плоскостей»**','distance-angle-space/'])assert(L.includes(token),`lessons README missing ${token}`);
+for(const token of ['**3/5** | **в работе**','79 тематических assessment-комплектов','Комплект `03`','6×7 / 14 баллов','6×10 / 20 баллов','темы **01–03**'])assert(A.includes(token),`assessments README missing ${token}`);
+const row=M.split('\n').find(x=>x.includes('| 03 | Перпендикулярность прямых и плоскостей |'));
+assert(row&&row.endsWith('| full |'),'content map topic 03 full');
+console.log(`Grade 10 Atanasyan topic 03 documentation QA passed: ${checks} checks.`);

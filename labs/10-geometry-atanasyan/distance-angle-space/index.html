@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Расстояние, проекция и угол — Геометрия 10 класс · KTP 3.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-shell">
+  <header class="hero">
+    <a class="back" href="../../../topics/10-geometry-atanasyan/03.html">← Тема «Перпендикулярность прямых и плоскостей»</a>
+    <span class="kicker">Цифровая лаборатория · 10 класс</span>
+    <h1>Расстояние, проекция и угол</h1>
+    <p>Меняйте высоту точки M над плоскостью и положение точки B. Все величины вычисляются из истинных 3D-координат; поворот камеры меняет только изображение.</p>
+  </header>
+
+  <section class="question">
+    <span class="kicker">Исследовательский вопрос</span>
+    <h2>Как связаны MH, HB, MB и угол наклонной к плоскости?</h2>
+    <p>В модели α задаётся уравнением z=0, H=(0,0,0), M=(0,0,h), B=(r,0,0).</p>
+  </section>
+
+  <section class="workspace">
+    <aside class="controls" aria-label="Параметры модели">
+      <label>Высота MH = h <output id="hOut">4.0</output>
+        <input id="height" type="range" min="1" max="10" step="0.5" value="4">
+      </label>
+      <label>Проекция HB = r <output id="rOut">6.0</output>
+        <input id="radius" type="range" min="1" max="12" step="0.5" value="6">
+      </label>
+      <label>Поворот камеры <output id="yawOut">−35°</output>
+        <input id="yaw" type="range" min="-80" max="80" step="1" value="-35">
+      </label>
+      <label>Высота камеры <output id="pitchOut">26°</output>
+        <input id="pitch" type="range" min="8" max="55" step="1" value="26">
+      </label>
+      <label class="check"><input id="third" type="checkbox"> Показать прямую l для теоремы о трёх перпендикулярах</label>
+      <button id="preset45" type="button">Сделать φ = 45°</button>
+      <button id="reset" type="button">Сбросить</button>
+      <p class="keyboard">Ползунки доступны с клавиатуры: Tab → стрелки.</p>
+    </aside>
+
+    <section class="stage-card">
+      <div class="metrics" aria-live="polite">
+        <article><span>Расстояние MH</span><strong id="mh"></strong></article>
+        <article><span>Проекция HB</span><strong id="hb"></strong></article>
+        <article><span>Наклонная MB</span><strong id="mb"></strong></article>
+        <article><span>Угол φ</span><strong id="angle"></strong></article>
+      </div>
+      <svg id="stage" viewBox="0 0 660 440" role="img" aria-labelledby="stageTitle stageDesc">
+        <title id="stageTitle">Точка M над плоскостью alpha, перпендикуляр MH, наклонная MB и проекция HB</title>
+        <desc id="stageDesc">Интерактивная ортографическая проекция пространственной конфигурации.</desc>
+      </svg>
+      <div class="formula">
+        <div id="pythagoras"></div>
+        <div id="trig"></div>
+        <div id="thirdText" hidden></div>
+      </div>
+    </section>
+  </section>
+
+  <section class="research">
+    <span class="kicker">Исследуйте</span>
+    <ol>
+      <li>Зафиксируйте HB и увеличивайте MH. Следите за MB и φ.</li>
+      <li>Зафиксируйте MH и увеличивайте HB. Объясните, почему φ уменьшается.</li>
+      <li>Нажмите «Сделать φ = 45°». Какое соотношение между MH и HB получилось?</li>
+      <li>Меняйте yaw/pitch. Убедитесь, что численные MH, HB, MB и φ не меняются.</li>
+      <li>Включите прямую l и объясните: почему l⊥HB даёт l⊥MB?</li>
+    </ol>
+  </section>
+
+  <section class="conclusion">
+    <span class="kicker">Опорный вывод</span>
+    <p>В прямоугольном треугольнике MHB: <b>MB²=MH²+HB²</b>, <b>sinφ=MH/MB</b>, <b>cosφ=HB/MB</b>, <b>tanφ=MH/HB</b>. Расстояние до плоскости — MH; угол прямой с плоскостью — угол между MB и её ортогональной проекцией HB.</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

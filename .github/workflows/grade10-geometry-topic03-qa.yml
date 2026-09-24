@@ -1,0 +1,58 @@
+name: Grade 10 Atanasyan Topic 03 QA
+on:
+  pull_request:
+    paths:
+      - 'content/10-geometry-atanasyan/03.js'
+      - 'content/10-geometry-atanasyan/03-methodical-plan.md'
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'topics/10-geometry-atanasyan/03.html'
+      - 'lessons/10-geometry-atanasyan/03/**'
+      - 'assessments/10-geometry-atanasyan/03/**'
+      - 'assessments/topic-links.js'
+      - 'labs/10-geometry-atanasyan/distance-angle-space/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade10-geometry-topic02-docs.mjs'
+      - 'scripts/qa-grade10-geometry-topic03*.mjs'
+      - '.github/workflows/grade10-geometry-topic03-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/10-geometry-atanasyan/03.js'
+      - 'content/10-geometry-atanasyan/03-methodical-plan.md'
+      - 'topics/10-geometry-atanasyan/03.html'
+      - 'lessons/10-geometry-atanasyan/03/**'
+      - 'assessments/10-geometry-atanasyan/03/**'
+      - 'labs/10-geometry-atanasyan/distance-angle-space/**'
+      - 'scripts/qa-grade10-geometry-topic03*.mjs'
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - name: Topic 03 structural/source QA
+        run: node scripts/qa-grade10-geometry-topic03.mjs
+      - name: Topic 03 documentation QA
+        run: node scripts/qa-grade10-geometry-topic03-docs.mjs
+      - name: Topic 02 regression
+        run: |
+          node scripts/qa-grade10-geometry-topic02.mjs
+          node scripts/qa-grade10-geometry-topic02-docs.mjs
+      - name: Topic 01 regression
+        run: node scripts/qa-grade10-geometry-topic01.mjs
+      - name: Foundation regression
+        run: node scripts/qa-grade10-geometry-foundation.mjs
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Browser, mobile, lab and print QA
+        run: node scripts/qa-grade10-geometry-topic03-browser.mjs
