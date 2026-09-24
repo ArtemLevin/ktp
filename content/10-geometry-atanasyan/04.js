@@ -290,6 +290,13 @@ summary:[
   'При подобии линейные размеры масштабируются как k, площади как k², объёмы как k³.',
   'Площадь записывается в квадратных, объём — в кубических единицах.'
 ],
+assessments:{
+  enabled:true,
+  title:'6 вариантов каждого типа',
+  description:'Распечатайте отдельный вариант или весь комплект. Ответы и критерии доступны в режиме учителя.',
+  independentHref:'../../assessments/10-geometry-atanasyan/04/independent.html',
+  controlHref:'../../assessments/10-geometry-atanasyan/04/control.html'
+},
 lab:{
   enabled:true,
   planned:false,
