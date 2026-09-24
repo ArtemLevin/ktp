@@ -17,6 +17,8 @@ function inject(){
   return true;
 }
 
+window.KTP_INJECT_TOPIC_ASSESSMENTS=inject;
+
 // Topic pages are rendered by another synchronous module. Keep a short-lived
 // observer until window.load so the shared card survives any late DOM render
 // without duplicating topic-specific link logic.
