@@ -92,7 +92,7 @@ for(const v of A.topic.independent.variants){
   assert(m&&first(v.tasks[1].answer)===Number(m[1])*Number(m[2]),'ind v'+v.id+' prism lateral');
   m=v.tasks[2].text.match(/сторону основания (\d+) и апофему (\d+)/);
   assert(m&&first(v.tasks[2].answer)===2*Number(m[1])*Number(m[2]),'ind v'+v.id+' pyramid lateral');
-  assert(v.tasks[3].text.includes('прямоугольной пирамиды'),'ind v'+v.id+' section must use a pyramid, not a prism');
+  assert(v.tasks[3].text.includes('Пирамида имеет прямоугольное основание'),'ind v'+v.id+' section must use a pyramid, not a prism');
   assert(v.tasks[3].text.includes('k=1/2'),'ind v'+v.id+' section similarity coefficient');
   m=v.tasks[3].text.match(/размеры (\d+)×(\d+)/);
   assert(m&&Math.abs(first(v.tasks[3].answer)-Number(m[1])*Number(m[2])/4)<1e-9,'ind v'+v.id+' section area');
@@ -129,7 +129,7 @@ for(const v of A.topic.control.variants){
 }
 
 const assText=JSON.stringify(A.topic).toLowerCase();
-assert(!assText.includes('основание прямоугольной призмы имеет размеры')||!assText.includes('линейно уменьшено в 2 раза'),'thematic impossible prism section guard');
+assert(!assText.includes('параллельное основанию сечение призмы')&&!assText.includes('линейно уменьшено в 2 раза'),'thematic impossible prism section guard');
 for(const forbidden of ['объём цилиндра','объём конуса','объём шара','интеграл'])assert(!assText.includes(forbidden),'forbidden assessment content '+forbidden);
 
 const links=read('assessments/topic-links.js');
