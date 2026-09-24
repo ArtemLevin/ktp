@@ -18,7 +18,7 @@ lessons/<учебная-линия>/<номер-темы>/
 └── ...
 ```
 
-Общие runtime-компоненты: `lesson-page.js`, `lesson-index.js`, `lesson-page.css`, `series-adapter.js`, `global-numbering.js`, `topic-links.js`. Геометрические уроки подключают `geometry/lesson-geometry.js` и `geometry/geometry-scene.js`.
+Общие runtime-компоненты: `lesson-page.js`, `lesson-index.js`, `lesson-page.css`, `series-adapter.js`, `global-numbering.js`, `topic-links.js`. Планиметрические уроки подключают `geometry/lesson-geometry.js` и `geometry/geometry-scene.js`; стереометрические — `geometry/lesson-spatial.js` и `geometry/spatial-scene.js`.
 
 ## Фактическая готовность
 
@@ -34,8 +34,9 @@ lessons/<учебная-линия>/<номер-темы>/
 | `7-geometry-atanasyan` | 6/6 | 68/68 | 1–68 | **готово** |
 | `8-geometry-atanasyan` | 5/5 | 68/68 | 1–68 | **готово** |
 | `9-geometry-atanasyan` | **7/7** | **68/68** | **1–68** | **готово** |
+| `10-geometry-atanasyan` | **1/5** | **4/68** | **1–4** | **в работе** |
 
-Всего опубликовано **1054 полноценных поурочных модуля**.
+Всего опубликовано **1058 полноценных поурочных модулей**.
 
 ## Геометрия 7 класса · Атанасян
 
@@ -75,6 +76,12 @@ lessons/<учебная-линия>/<номер-темы>/
 Лаборатории линии: `vector-operations/`, `coordinate-method/`, `triangle-relations/`, `circle-measures/`, `plane-transformations/`, `similarity-transform/`, `planimetry-router/`.
 
 Серия `07` закрывает курс: урок 67 — комплексная диагностика по шести доменам, урок 68 — адресная коррекция и мост к стереометрии 10 класса.
+
+## Геометрия 10 класса · Атанасян
+
+Опубликована серия `01` **«Повторение»** — уроки **1–4**. Маршрут: переход к стереометрии и правила чтения проекции → три аксиомы → следствия из аксиом → куб/пирамида, параллельная проекция и первое сечение. Каждый урок использует data-driven spatial scene, 2+ теоретических блока, 2 примера, 3 типичные ошибки, 8 тренировочных задач, ДЗ 6+2 и уникальные 6+6 проверочных вариантов.
+
+Следующая серия: `02` **«Параллельность прямых и плоскостей»**, уроки 5–23.
 
 ## Требования к одному уроку
 
