@@ -56,7 +56,7 @@ for(const token of ['18 последовательных уроков','Откр
   if(!topicText.includes(token))throw new Error('topic missing '+token);
 }
 
-await open('labs/10-geometry-atanasyan/polyhedron-section/index.html','#stage',2000);
+await open('labs/10-geometry-atanasyan/polyhedron-section/index.html','#stage',1600);
 async function metrics(){
   return{
     count:Number(await page.locator('#count').innerText()),
