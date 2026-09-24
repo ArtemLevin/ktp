@@ -9,12 +9,12 @@ const scenes=window.KTP_CONTENT?.[key]?.spatialScenes;
 
 const finite=(v,fallback=0)=>Number.isFinite(Number(v))?Number(v):fallback;
 const v3=p=>({x:finite(p?.[0]),y:finite(p?.[1]),z:finite(p?.[2])});
-const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y,z:a.z-b.z});
-const dot3=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
-const cross3=(a,b)=>({x:a.y*b.z-a.z*b.y,y:a.z*b.x-a.x*b.z,z:a.x*b.y-a.y*b.x});
-const norm3=a=>Math.hypot(a.x,a.y,a.z);
-const distance3=(a,b)=>norm3(sub(v3(a),v3(b)));
-const unit3=a=>{const n=norm3(a);return n?{x:a.x/n,y:a.y/n,z:a.z/n}:{x:0,y:0,z:0};};
+const sub=(a,b)=>{a=v3(a);b=v3(b);return{x:a.x-b.x,y:a.y-b.y,z:a.z-b.z};};
+const dot3=(a,b)=>{a=v3(a);b=v3(b);return a.x*b.x+a.y*b.y+a.z*b.z;};
+const cross3=(a,b)=>{a=v3(a);b=v3(b);return{x:a.y*b.z-a.z*b.y,y:a.z*b.x-a.x*b.z,z:a.x*b.y-a.y*b.x};};
+const norm3=a=>{a=v3(a);return Math.hypot(a.x,a.y,a.z);};
+const distance3=(a,b)=>norm3(sub(a,b));
+const unit3=a=>{a=v3(a);const n=norm3(a);return n?{x:a.x/n,y:a.y/n,z:a.z/n}:{x:0,y:0,z:0};};
 
 function cameraOf(scene){
   const c=scene.camera||{};
