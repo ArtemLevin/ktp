@@ -56,7 +56,7 @@ for(const kind of ['independent','control']){
  await page.emulateMedia({media:'screen'});
 }
 
-await open('labs/10-geometry-atanasyan/parallel-space/index.html','#stage',1800);
+await open('labs/10-geometry-atanasyan/parallel-space/index.html','#stage',1400);
 if((await page.locator('#mode option').count())!==4)throw new Error('lab modes');
 if((await page.locator('#truth').innerText())!=='Скрещивающиеся')throw new Error('lab default true relation');
 const before=Number(await page.locator('#yaw').inputValue());
