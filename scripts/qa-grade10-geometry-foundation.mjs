@@ -116,8 +116,14 @@ for(const token of [
   '390 px'
 ]) assert(contract.includes(token),`spatial contract missing: ${token}`);
 
-assert(!exists('content/10-geometry-atanasyan/01.js'),'foundation must not generate topic 01 content');
-assert(!exists('lessons/10-geometry-atanasyan/01/series.js'),'foundation must not generate lesson series');
-assert(!exists('assessments/10-geometry-atanasyan/01/data.js'),'foundation must not generate assessments');
+const topic01Published=exists('content/10-geometry-atanasyan/01.js');
+if(topic01Published){
+  assert(exists('lessons/10-geometry-atanasyan/01/series.js'),'published topic 01 requires lesson series');
+  assert(exists('assessments/10-geometry-atanasyan/01/data.js'),'published topic 01 requires thematic assessment');
+  assert(exists('topics/10-geometry-atanasyan/01.html'),'published topic 01 requires topic page');
+} else {
+  assert(!exists('lessons/10-geometry-atanasyan/01/series.js'),'foundation-only state must not contain orphan lesson series');
+  assert(!exists('assessments/10-geometry-atanasyan/01/data.js'),'foundation-only state must not contain orphan assessment');
+}
 
 console.log(`Grade 10 Atanasyan geometry foundation QA passed: ${checks} checks.`);
