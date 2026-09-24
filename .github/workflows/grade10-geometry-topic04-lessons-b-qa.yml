@@ -1,4 +1,4 @@
-name: Grade 10 Atanasyan Topic 04 Lessons 52-60 Lab QA
+name: Grade 10 Atanasyan Topic 04 Stage 4 Release QA
 
 on:
   pull_request:
@@ -31,6 +31,12 @@ jobs:
         run: node scripts/qa-grade10-geometry-topic04-lessons-a.mjs
       - name: Topic 04 core regression
         run: node scripts/qa-grade10-geometry-topic04-core.mjs
+      - name: Topic 04 planning regression
+        run: node scripts/qa-grade10-geometry-topic04-plan.mjs
+      - name: Topic 03 regression
+        run: node scripts/qa-grade10-geometry-topic03.mjs
+      - name: Foundation regression
+        run: node scripts/qa-grade10-geometry-foundation.mjs
 
   browser:
     runs-on: ubuntu-latest
@@ -41,5 +47,5 @@ jobs:
           node-version: 22
       - run: npm install --no-save playwright@1.55.0
       - run: npx playwright install --with-deps chromium
-      - name: Lessons 52-60 and lab browser/mobile/print QA
+      - name: Stage 4 browser/mobile/lab/print release QA
         run: node scripts/qa-grade10-geometry-topic04-lessons-b-browser.mjs
