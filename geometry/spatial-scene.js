@@ -8,7 +8,7 @@ const key=`${root?.dataset?.row||''}::${Number(root?.dataset?.topic)}`;
 const scenes=window.KTP_CONTENT?.[key]?.spatialScenes;
 
 const finite=(v,fallback=0)=>Number.isFinite(Number(v))?Number(v):fallback;
-const v3=p=>({x:finite(p?.[0]),y:finite(p?.[1]),z:finite(p?.[2])});
+const v3=p=>Array.isArray(p)?{x:finite(p[0]),y:finite(p[1]),z:finite(p[2])}:{x:finite(p?.x),y:finite(p?.y),z:finite(p?.z)};
 const sub=(a,b)=>{a=v3(a);b=v3(b);return{x:a.x-b.x,y:a.y-b.y,z:a.z-b.z};};
 const dot3=(a,b)=>{a=v3(a);b=v3(b);return a.x*b.x+a.y*b.y+a.z*b.z;};
 const cross3=(a,b)=>{a=v3(a);b=v3(b);return{x:a.y*b.z-a.z*b.y,y:a.z*b.x-a.x*b.z,z:a.x*b.y-a.y*b.x};};
