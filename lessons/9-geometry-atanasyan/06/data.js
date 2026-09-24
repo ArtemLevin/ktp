@@ -60,7 +60,7 @@ const tangents=[
  {pa:5,pb:20,pt:10},
  {pa:6,pb:24,pt:12}
 ];
-const frac=(n,d)=>d===1?String(n):n+'/'+d;
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);const frac=(n,d)=>{const g=gcd(n,d);n/=g;d/=g;return d===1?String(n):n+'/'+d;};
 function pool(mode,v){
  const i=(v-1)%6,s=sim[i],q=scale[i],c=central[i],p=practical[i],h=chords[i],e=secants[i],t=tangents[i];
  if(mode==='similarity')return[
