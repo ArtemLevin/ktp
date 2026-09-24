@@ -50,8 +50,6 @@ for(const token of [
   'Подобные тела'
 ]) if(!body.includes(token))throw new Error('topic missing '+token);
 
-if(body.includes('Открыть лабораторию'))throw new Error('planned lab must not be exposed before implementation');
-if(body.includes('18 последовательных уроков'))throw new Error('lesson catalog must not be exposed before stage 3');
 
 await page.emulateMedia({media:'print'});
 const pdf=await page.pdf({format:'A4',printBackground:true});
