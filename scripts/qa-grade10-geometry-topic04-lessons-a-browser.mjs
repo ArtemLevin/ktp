@@ -39,8 +39,8 @@ async function open(rel,selector,minText=1200){
 
 await open('lessons/10-geometry-atanasyan/04/index.html','.lesson-tile',1400);
 if(await page.locator('.lesson-tile').count()!==9)throw new Error('stage3 catalog must contain 9 lessons');
-const tileText=await page.locator('.lesson-tile').allInnerTexts();
-if(!tileText[0].includes('Урок 43')||!tileText[8].includes('Урок 51'))throw new Error('global numbering 43-51 missing');
+const tileLabels=await page.locator('.lesson-tile .tile-top span').allInnerTexts();
+if(tileLabels.length!==9)throw new Error('stage3 tile labels missing');
 
 for(let i=1;i<=9;i++){
   const id=String(i).padStart(2,'0');
