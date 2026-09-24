@@ -28,10 +28,10 @@ for(const token of [
 ]) assert(plan.includes(token),'methodical plan missing: '+token);
 
 for(const token of [
-  String.raw\`V_{\\text{призма}}=S_{\\text{осн}}h\`,
-  String.raw\`V_{\\text{пирамида}}=\\frac13 S_{\\text{осн}}h\`,
-  String.raw\`S_{\\text{бок}}=\\frac12 P_{\\text{осн}}l\`,
-  String.raw\`N_v-N_e+N_f=2\`
+  'V_{\\text{призма}}=S_{\\text{осн}}h',
+  'V_{\\text{пирамида}}=\\frac13 S_{\\text{осн}}h',
+  'S_{\\text{бок}}=\\frac12 P_{\\text{осн}}l',
+  'N_v-N_e+N_f=2'
 ]) assert(plan.includes(token),'math token missing: '+token);
 
 assert(!/[\x00-\x08\x0B\x0C\x0E-\x1F]/.test(plan),'methodical plan contains control characters');
