@@ -1,0 +1,67 @@
+name: Grade 10 Atanasyan Topic 04 Release QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/10-geometry-atanasyan/04*'
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'topics/10-geometry-atanasyan/04.html'
+      - 'lessons/10-geometry-atanasyan/04/**'
+      - 'assessments/10-geometry-atanasyan/04/**'
+      - 'assessments/topic-links.js'
+      - 'labs/10-geometry-atanasyan/polyhedron-section/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade10-geometry-topic03-docs.mjs'
+      - 'scripts/qa-grade10-geometry-topic04*.mjs'
+      - '.github/workflows/grade10-geometry-topic04-release-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/10-geometry-atanasyan/04*'
+      - 'topics/10-geometry-atanasyan/04.html'
+      - 'lessons/10-geometry-atanasyan/04/**'
+      - 'assessments/10-geometry-atanasyan/04/**'
+      - 'labs/10-geometry-atanasyan/polyhedron-section/**'
+      - 'scripts/qa-grade10-geometry-topic04-final*.mjs'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Final topic 04 structural/math/source QA
+        run: node scripts/qa-grade10-geometry-topic04-final.mjs
+      - name: Final topic 04 documentation QA
+        run: node scripts/qa-grade10-geometry-topic04-final-docs.mjs
+      - name: Staged regressions
+        run: |
+          node scripts/qa-grade10-geometry-topic04-plan.mjs
+          node scripts/qa-grade10-geometry-topic04-core.mjs
+          node scripts/qa-grade10-geometry-topic04-lessons-a.mjs
+          node scripts/qa-grade10-geometry-topic04-lessons-b.mjs
+      - name: Previous grade 10 regressions
+        run: |
+          node scripts/qa-grade10-geometry-topic03.mjs
+          node scripts/qa-grade10-geometry-topic03-docs.mjs
+          node scripts/qa-grade10-geometry-topic02.mjs
+          node scripts/qa-grade10-geometry-topic02-docs.mjs
+          node scripts/qa-grade10-geometry-topic01.mjs
+          node scripts/qa-grade10-geometry-foundation.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Final browser/mobile/assessment/lab/print QA
+        run: node scripts/qa-grade10-geometry-topic04-final-browser.mjs
