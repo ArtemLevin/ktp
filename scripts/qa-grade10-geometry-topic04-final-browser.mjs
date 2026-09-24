@@ -53,7 +53,7 @@ for(const kind of ['independent','control']){
   if(await page.locator('[data-pick]').count()!==6)throw new Error('thematic '+kind+' !=6 variants');
   await page.locator('[data-pick="6"]').click();
   const cls=await page.locator('[data-pick="6"]').getAttribute('class');
-  if(!(cls||'').includes('active'))throw new Error('thematic '+kind+' variant switching');
+  if(!(cls||'').includes('selected'))throw new Error('thematic '+kind+' variant switching');
   await page.emulateMedia({media:'print'});
   const pdf=await page.pdf({format:'A4',printBackground:true});
   if(pdf.length<12000)throw new Error('thematic '+kind+' PDF too small '+pdf.length);
