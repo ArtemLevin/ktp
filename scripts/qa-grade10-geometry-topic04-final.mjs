@@ -94,7 +94,7 @@ for(const v of A.topic.independent.variants){
   assert(m&&first(v.tasks[2].answer)===2*Number(m[1])*Number(m[2]),'ind v'+v.id+' pyramid lateral');
   assert(v.tasks[3].text.includes('Пирамида имеет прямоугольное основание'),'ind v'+v.id+' section must use a pyramid, not a prism');
   assert(v.tasks[3].text.includes('k=1/2'),'ind v'+v.id+' section similarity coefficient');
-  m=v.tasks[3].text.match(/размеры (\d+)×(\d+)/);
+  m=v.tasks[3].text.match(/размер(?:ом|ы) (\d+)×(\d+)/);
   assert(m&&Math.abs(first(v.tasks[3].answer)-Number(m[1])*Number(m[2])/4)<1e-9,'ind v'+v.id+' section area');
   m=v.tasks[4].text.match(/(\d+) рёбер и (\d+) граней/);
   assert(m&&first(v.tasks[4].answer)===2+Number(m[1])-Number(m[2]),'ind v'+v.id+' Euler');
