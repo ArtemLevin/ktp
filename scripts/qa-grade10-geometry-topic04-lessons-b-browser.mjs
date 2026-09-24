@@ -94,7 +94,8 @@ if(m.count!==before.count||!close(m.area,before.area,.01)||!close(m.perimeter,be
 await page.locator('#presetParallel').click();
 m=await metrics();
 if(m.count!==4||!close(m.area,48,.01)||!close(m.perimeter,28,.01))throw new Error('parallel preset '+JSON.stringify(m));
-if(!m.faceList.includes('z=3'))throw new Error('parallel section face trace '+m.faceList);
+for(const face of ['x=0','x=8','y=0','y=6'])if(!m.faceList.includes(face))throw new Error('parallel section face trace missing '+face+': '+m.faceList);
+if(m.faceList.includes('проверить'))throw new Error('parallel section face trace unresolved '+m.faceList);
 
 // Three-sided preset.
 await page.locator('#presetTriangle').click();
