@@ -112,7 +112,7 @@ const topic=read('topics/10-geometry-atanasyan/02.html');
 for(const token of ['data-topic="1"','content/10-geometry-atanasyan/02.js','lessons/10-geometry-atanasyan/02/topic-link.js','assessments/topic-links.js','geometry/spatial-scene.js'])assert(topic.includes(token),`topic wiring ${token}`);
 
 const nav=read('assessments/topic-links.js').match(/'10-geometry-atanasyan':\{min:0,max:(\d+)\}/);
-assert(nav&&Number(nav[1])===1,'assessment navigation through topic 02');
+assert(nav&&Number(nav[1])>=1,'assessment navigation must include topic 02');
 
 const ab={window:{}};
 vm.createContext(ab);
