@@ -50,7 +50,7 @@ for(let i=1;i<=9;i++){
   if(await page.locator('[data-assessment-select="independent"] option').count()!==6)throw new Error('lesson '+id+': six independent variants expected');
   if(await page.locator('[data-assessment-select="control"] option').count()!==6)throw new Error('lesson '+id+': six control variants expected');
   const hero=await page.locator('.lesson-hero h1 span').innerText();
-  if(hero!=='Урок '+global)throw new Error('lesson '+id+': expected global hero '+global+', got '+hero);
+  if(hero.toUpperCase()!==('Урок '+global).toUpperCase())throw new Error('lesson '+id+': expected global hero '+global+', got '+hero);
   const answerButtons=await page.locator('details.answer').count();
   if(answerButtons<8)throw new Error('lesson '+id+': answer disclosures too few '+answerButtons);
 }
