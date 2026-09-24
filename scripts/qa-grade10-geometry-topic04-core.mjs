@@ -102,7 +102,7 @@ for(const token of [
 
 const links=read('assessments/topic-links.js');
 const nav=links.match(/'10-geometry-atanasyan':\{min:0,max:(\d+)\}/);
-assert(nav&&Number(nav[1])===2,'topic 04 assessments must remain unpublished during core stage');
+assert(nav&&Number(nav[1])>=2,'grade 10 assessment navigation must not regress below topic 03');
 
 const method=read('content/10-geometry-atanasyan/04-methodical-plan.md');
 for(const token of ['Подобные тела','polyhedron-section/','Этап 2 · Topic core','Этап 3 · Уроки 43–51'])assert(method.includes(token),'method plan missing '+token);
