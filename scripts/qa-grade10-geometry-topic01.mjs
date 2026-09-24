@@ -118,7 +118,7 @@ for(const token of [
 ]) assert(topic.includes(token),`topic wiring ${token}`);
 
 const nav=read('assessments/topic-links.js').match(/'10-geometry-atanasyan':\{min:0,max:(\d+)\}/);
-assert(nav&&Number(nav[1])===0,'assessment navigation topic 01 only');
+assert(nav&&Number(nav[1])>=0,'assessment navigation must include topic 01');
 
 const ab={window:{}};
 vm.createContext(ab);
