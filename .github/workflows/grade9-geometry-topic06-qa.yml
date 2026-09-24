@@ -1,0 +1,71 @@
+name: Grade 9 Atanasyan Topic 06 QA
+on:
+  pull_request:
+    paths:
+      - 'content/9-geometry-atanasyan/06.js'
+      - 'content/9-geometry-atanasyan/06-methodical-plan.md'
+      - 'content/9-geometry-atanasyan/content-map.md'
+      - 'topics/9-geometry-atanasyan/06.html'
+      - 'lessons/9-geometry-atanasyan/06/**'
+      - 'assessments/9-geometry-atanasyan/06/**'
+      - 'assessments/topic-links.js'
+      - 'labs/9-geometry-atanasyan/similarity-transform/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade9-geometry-topic06*.mjs'
+      - '.github/workflows/grade9-geometry-topic06-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/9-geometry-atanasyan/06.js'
+      - 'content/9-geometry-atanasyan/06-methodical-plan.md'
+      - 'topics/9-geometry-atanasyan/06.html'
+      - 'lessons/9-geometry-atanasyan/06/**'
+      - 'assessments/9-geometry-atanasyan/06/**'
+      - 'labs/9-geometry-atanasyan/similarity-transform/**'
+      - 'scripts/qa-grade9-geometry-topic06*.mjs'
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - name: Topic 06 structural/source QA
+        run: node scripts/qa-grade9-geometry-topic06.mjs
+      - name: Topic 06 documentation QA
+        run: node scripts/qa-grade9-geometry-topic06-docs.mjs
+      - name: Topic 05 regression
+        run: |
+          node scripts/qa-grade9-geometry-topic05.mjs
+          node scripts/qa-grade9-geometry-topic05-docs.mjs
+      - name: Topic 04 regression
+        run: |
+          node scripts/qa-grade9-geometry-topic04.mjs
+          node scripts/qa-grade9-geometry-topic04-docs.mjs
+      - name: Topic 03 regression
+        run: |
+          node scripts/qa-grade9-geometry-topic03.mjs
+          node scripts/qa-grade9-geometry-topic03-docs.mjs
+      - name: Topic 02 regression
+        run: |
+          node scripts/qa-grade9-geometry-topic02.mjs
+          node scripts/qa-grade9-geometry-topic02-docs.mjs
+      - name: Topic 01 regression
+        run: |
+          node scripts/qa-grade9-geometry-topic01.mjs
+          node scripts/qa-grade9-geometry-topic01-docs.mjs
+      - name: Foundation regression
+        run: node scripts/qa-grade9-geometry-foundation.mjs
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Browser, mobile, laboratory and print QA
+        run: node scripts/qa-grade9-geometry-topic06-browser.mjs
