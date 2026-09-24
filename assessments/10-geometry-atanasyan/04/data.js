@@ -4,11 +4,11 @@ const task=(text,answer,points,skill,solution='')=>({text,answer,points,skill,so
 
 const sets=[
   {n:3,P:12,h:5,Sb:6,baseA:3,baseB:4,ps:6,ph:4,pa:5,fl:7,fs:3,fa:4,E:12,F:6,Vv:8,VB:18,VH:4,PV:24,PH:6,k:2,solid:'тетраэдр'},
-  {n:4,P:18,h:6,Sb:12,baseA:5,baseB:6,ps:10,ph:12,pa:13,fl:9,fs:5,fa:6,E:15,F:7,Vv:10,VB:24,VH:5,PV:30,PH:6,k:3,solid:'куб'},
+  {n:4,P:18,h:6,Sb:12,baseA:5,baseB:12,ps:10,ph:12,pa:13,fl:9,fs:5,fa:6,E:15,F:7,Vv:10,VB:24,VH:5,PV:30,PH:6,k:3,solid:'куб'},
   {n:5,P:20,h:7,Sb:15,baseA:6,baseB:8,ps:12,ph:8,pa:10,fl:10,fs:6,fa:5,E:18,F:8,Vv:12,VB:28,VH:6,PV:36,PH:5,k:4,solid:'октаэдр'},
-  {n:6,P:24,h:8,Sb:18,baseA:8,baseB:9,ps:16,ph:15,pa:17,fl:12,fs:8,fa:7,E:21,F:9,Vv:14,VB:32,VH:7,PV:42,PH:6,k:5,solid:'додекаэдр'},
-  {n:7,P:30,h:9,Sb:21,baseA:9,baseB:10,ps:18,ph:12,pa:15,fl:14,fs:10,fa:8,E:24,F:10,Vv:16,VB:36,VH:8,PV:48,PH:6,k:6,solid:'икосаэдр'},
-  {n:8,P:36,h:10,Sb:24,baseA:10,baseB:12,ps:24,ph:5,pa:13,fl:16,fs:12,fa:9,E:27,F:11,Vv:18,VB:40,VH:9,PV:54,PH:6,k:7,solid:'куб'}
+  {n:6,P:24,h:8,Sb:18,baseA:8,baseB:15,ps:16,ph:15,pa:17,fl:12,fs:8,fa:7,E:21,F:9,Vv:14,VB:32,VH:7,PV:42,PH:6,k:5,solid:'додекаэдр'},
+  {n:7,P:30,h:9,Sb:21,baseA:9,baseB:12,ps:18,ph:12,pa:15,fl:14,fs:10,fa:8,E:24,F:10,Vv:16,VB:36,VH:8,PV:48,PH:6,k:6,solid:'икосаэдр'},
+  {n:8,P:36,h:10,Sb:24,baseA:12,baseB:16,ps:24,ph:5,pa:13,fl:16,fs:12,fa:9,E:27,F:11,Vv:18,VB:40,VH:9,PV:54,PH:6,k:7,solid:'куб'}
 ];
 
 const solidInfo={
