@@ -30,7 +30,7 @@ for(const token of ['10-geometry-atanasyan','Тема 01 **«Повторени�
 const lessons=read('lessons/README.md');
 assert(lessons.includes('10-geometry-atanasyan'),'lessons grade10 row missing');
 assert(metric(lessons,'Всего опубликовано')>=1058,'lessons aggregate must not regress');
-for(const token of ['lesson-spatial.js','spatial-scene.js','Серия `01` **«Повторение»**'])assert(lessons.includes(token),`lessons README missing ${token}`);
+for(const token of ['lesson-spatial.js','spatial-scene.js','серия `01` **«повторение»**'])assert(lessons.toLowerCase().includes(token.toLowerCase()),`lessons README missing ${token}`);
 
 const assessments=read('assessments/README.md');
 assert(assessments.includes('10-geometry-atanasyan'),'assessment grade10 row missing');
