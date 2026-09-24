@@ -56,7 +56,7 @@ for(const kind of ['independent','control']){
  await page.emulateMedia({media:'screen'});
 }
 
-await open('labs/10-geometry-atanasyan/distance-angle-space/index.html','#stage',1900);
+await open('labs/10-geometry-atanasyan/distance-angle-space/index.html','#stage',1400);
 const before={
  mh:await page.locator('#mh').innerText(),
  hb:await page.locator('#hb').innerText(),
