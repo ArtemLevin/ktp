@@ -154,6 +154,9 @@ const Ccap={};
 vm.runInNewContext(read('content/10-geometry-atanasyan/04.js'),{KTP_REGISTER_CONTENT:(id,d)=>Ccap[id]=d});
 const C=Ccap['10-geometry-atanasyan::3'];
 assert(C.lab?.enabled===true&&C.lab?.href.includes('polyhedron-section'),'lab published');
+assert(C.assessments?.enabled===true,'assessment metadata published');
+assert(C.assessments.independentHref.includes('/04/independent.html')&&C.assessments.controlHref.includes('/04/control.html'),'assessment metadata hrefs');
+assert(read('topics/topic-page.js').includes('const assessmentCard=content?.assessments?.enabled'),'shared topic renderer assessment component');
 assert(C.source.assessment.includes('Все упражнения KTP разработаны самостоятельно'),'original exercise source note');
 
 const method=read('content/10-geometry-atanasyan/04-methodical-plan.md');
