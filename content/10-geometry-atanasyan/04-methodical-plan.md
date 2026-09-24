@@ -400,6 +400,7 @@ S_2=S_1k^2,\qquad V_2=V_1k^3.
 - toggle labels;
 - toggle supporting plane;
 - preset \(p=q=r\) — сечение параллельно основанию;
+- presets «треугольник», «пятиугольник», «шестиугольник»;
 - reset.
 
 ### Педагогический результат
