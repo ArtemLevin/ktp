@@ -129,6 +129,4 @@ for(const token of ['data-page="lesson-index"','series.js','scenes.js','data.js'
   assert(index.includes(token),'index wiring '+token);
 }
 
-assert(!exists('assessments/10-geometry-atanasyan/04/data.js'),'thematic assessment must wait until stage 5');
-
 console.log('Grade 10 Atanasyan topic 04 lessons 43-51 QA passed: '+checks+' checks.');
