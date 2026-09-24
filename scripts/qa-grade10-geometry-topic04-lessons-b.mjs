@@ -44,6 +44,46 @@ assert(['4/5','5/5'].includes(S.meta.implementationStage),'stage 4/5 or later');
 assert(S.lessons.length===18,'18 lessons loaded');
 assert(Object.keys(S.spatialScenes||{}).length>=18,'18 spatial scenes');
 
+const dist3=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+const close=(a,b,t=1e-8)=>Math.abs(a-b)<=t;
+
+// Spatial truth must live in 3D coordinates, not in a visually convenient distortion.
+{
+  const p=S.spatialScenes['g10-p04-07'].points;
+  assert(close(dist3(p.A,p.B),dist3(p.B,p.C)),'lesson 49 regular pyramid base must be square');
+}
+{
+  const p=S.spatialScenes['g10-p04-09'].points;
+  assert(close(dist3(p.A,p.B),dist3(p.B,p.C)),'lesson 51 frustum lower base must be square');
+  assert(close(dist3(p.A1,p.B1),dist3(p.B1,p.C1)),'lesson 51 frustum upper base must be square');
+  assert(close(dist3(p.A1,p.B1)/dist3(p.A,p.B),dist3(p.B1,p.C1)/dist3(p.B,p.C)),'lesson 51 frustum bases must be homothetic');
+}
+{
+  const p=S.spatialScenes['g10-p04-10'].points;
+  assert(close(dist3(p.A,p.B),dist3(p.B,p.C)),'lesson 52 base must be square');
+  assert(close(dist3(p.M,p.N),dist3(p.N,p.P)),'lesson 52 section must be square');
+  assert(close(dist3(p.M,p.N)/dist3(p.A,p.B),.5),'lesson 52 section linear scale must be 1/2');
+}
+{
+  const p=S.spatialScenes['g10-p04-11'].points;
+  const edges=[['T','A'],['T','C'],['T','D'],['T','E'],['B','A'],['B','C'],['B','D'],['B','E'],['A','C'],['C','D'],['D','E'],['E','A']];
+  const lengths=edges.map(([a,b])=>dist3(p[a],p[b]));
+  assert(lengths.every(x=>close(x,lengths[0])),'lesson 53 octahedron must be regular in 3D');
+}
+{
+  const p=S.spatialScenes['g10-p04-12'].points;
+  const e=[dist3(p.A,p.B),dist3(p.B,p.C),dist3(p.A,p.A1)];
+  assert(e.every(x=>close(x,e[0])),'lesson 54 symmetry model must be a true cube');
+  assert([p.P,p.Q,p.R,p.T].every(x=>close(x[0],.9)),'lesson 54 symmetry plane must pass through cube center');
+}
+{
+  const p=S.spatialScenes['g10-p04-17'].points;
+  const small=[dist3(p.A,p.B),dist3(p.B,p.C),dist3(p.A,p.A1)];
+  const large=[dist3(p.E,p.F),dist3(p.F,p.G),dist3(p.E,p.E1)];
+  const ratios=large.map((x,i)=>x/small[i]);
+  assert(ratios.every(x=>close(x,1.5)),'lesson 59 displayed solids must be exactly similar with k=1.5');
+}
+
 const expectedB=[
   'Сечения пирамиды',
   'Правильные многогранники',
