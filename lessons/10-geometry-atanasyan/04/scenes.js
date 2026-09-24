@@ -135,4 +135,105 @@ S.spatialScenes={
     'Боковые грани являются равными равнобедренными трапециями; MN — апофема боковой трапеции.'
   )
 };
+Object.assign(S.spatialScenes,{
+  'g10-p04-10':{
+    title:'Сечение пирамиды, параллельное основанию',
+    ariaLabel:'Квадратная пирамида с квадратным сечением, параллельным основанию',
+    camera:{yaw:-35,pitch:24,scale:60,origin:[210,168]},
+    points:{
+      A:[-1.4,-1,0],B:[1.4,-1,0],C:[1.4,1,0],D:[-1.4,1,0],S:[0,0,2.4],
+      M:[-.7,-.5,1.2],N:[.7,-.5,1.2],P:[.7,.5,1.2],Q:[-.7,.5,1.2]
+    },
+    objects:[
+      {type:'face',points:['A','B','C','D'],style:'aux'},
+      {type:'segment',points:['S','A']},{type:'segment',points:['S','B']},{type:'segment',points:['S','C']},{type:'segment',points:['S','D']},
+      {type:'face',points:['M','N','P','Q'],style:'emphasis'},
+      {type:'polyline',points:['M','N','P','Q'],closed:true,style:'emphasis'}
+    ],
+    caption:'Параллельное основанию сечение подобно основанию; линейный масштаб и масштаб площади различаются.'
+  },
+  'g10-p04-11':{
+    title:'Октаэдр как правильный многогранник',
+    ariaLabel:'Правильный октаэдр с восемью треугольными гранями',
+    camera:{yaw:-32,pitch:22,scale:58,origin:[210,165]},
+    points:{T:[0,0,1.7],B:[0,0,-1.7],A:[-1.5,0,0],C:[0,1.5,0],D:[1.5,0,0],E:[0,-1.5,0]},
+    objects:[
+      {type:'face',points:['T','A','C'],style:'aux'},
+      {type:'face',points:['T','C','D'],style:'aux'},
+      {type:'segment',points:['T','A']},{type:'segment',points:['T','C']},{type:'segment',points:['T','D']},{type:'segment',points:['T','E']},
+      {type:'polyline',points:['A','C','D','E'],closed:true},
+      {type:'segment',points:['B','A']},{type:'segment',points:['B','C']},{type:'segment',points:['B','D']},{type:'segment',points:['B','E'],visibility:'hidden'}
+    ],
+    caption:'У правильного октаэдра 8 равных правильных треугольных граней, 6 вершин и 12 рёбер.'
+  },
+  'g10-p04-12':{
+    title:'Плоскость симметрии куба',
+    ariaLabel:'Куб и плоскость симметрии, проходящая через его центр',
+    camera:{yaw:-38,pitch:24,scale:54,origin:[210,165]},
+    points:{
+      A:[0,0,0],B:[2.2,0,0],C:[2.2,1.6,0],D:[0,1.6,0],
+      A1:[0,0,1.8],B1:[2.2,0,1.8],C1:[2.2,1.6,1.8],D1:[0,1.6,1.8],
+      P:[1.1,-.2,-.1],Q:[1.1,1.8,-.1],R:[1.1,1.8,1.9],T:[1.1,-.2,1.9],O:[1.1,.8,.9]
+    },
+    labels:{P:false,Q:false,R:false,T:false},
+    objects:[
+      {type:'plane',points:['P','Q','R','T'],style:'emphasis'},
+      {type:'segment',points:['A','B']},{type:'segment',points:['B','C']},{type:'segment',points:['C','D'],visibility:'hidden'},{type:'segment',points:['D','A'],visibility:'hidden'},
+      {type:'segment',points:['A1','B1']},{type:'segment',points:['B1','C1']},{type:'segment',points:['C1','D1']},{type:'segment',points:['D1','A1']},
+      {type:'segment',points:['A','A1']},{type:'segment',points:['B','B1']},{type:'segment',points:['C','C1']},{type:'segment',points:['D','D1'],visibility:'hidden'}
+    ],
+    caption:'Отражение относительно выделенной плоскости переводит куб в себя и меняет местами симметричные вершины.'
+  },
+  'g10-p04-13':box(
+    'Эйлер на модели параллелепипеда',
+    'Для выпуклого параллелепипеда: Nv=8, Ne=12, Nf=6, поэтому 8−12+6=2.'
+  ),
+  'g10-p04-14':{
+    title:'Объём прямоугольного параллелепипеда',
+    ariaLabel:'Прямоугольный параллелепипед с тремя взаимно перпендикулярными измерениями',
+    camera:{yaw:-38,pitch:24,scale:50,origin:[210,170]},
+    points:{A:[0,0,0],B:[2.4,0,0],C:[2.4,1.6,0],D:[0,1.6,0],A1:[0,0,1.8],B1:[2.4,0,1.8],C1:[2.4,1.6,1.8],D1:[0,1.6,1.8]},
+    objects:[
+      {type:'face',points:['A1','B1','C1','D1'],style:'aux'},
+      {type:'segment',points:['A','B'],style:'emphasis'},{type:'segment',points:['B','C'],style:'emphasis'},
+      {type:'segment',points:['A','A1'],style:'emphasis'},
+      {type:'segment',points:['C','D'],visibility:'hidden'},{type:'segment',points:['D','A'],visibility:'hidden'},
+      {type:'segment',points:['A1','B1']},{type:'segment',points:['B1','C1']},{type:'segment',points:['C1','D1']},{type:'segment',points:['D1','A1']},
+      {type:'segment',points:['B','B1']},{type:'segment',points:['C','C1']},{type:'segment',points:['D','D1'],visibility:'hidden'}
+    ],
+    caption:'Объём прямоугольного параллелепипеда равен произведению трёх взаимно перпендикулярных измерений: V=abc.'
+  },
+  'g10-p04-15':prism(
+    'Объём наклонной призмы',
+    'В формуле V=Sосн·h используется перпендикулярное расстояние между основаниями; наклонное боковое ребро не заменяет h.',
+    {shift:.6,showHeight:true}
+  ),
+  'g10-p04-16':pyramid(
+    'Объём пирамиды',
+    'Пирамида с теми же основанием и высотой, что и призма, имеет объём V=1/3·Sосн·h.',
+    {heightStyle:'emphasis',showO:true}
+  ),
+  'g10-p04-17':{
+    title:'Подобные многогранники',
+    ariaLabel:'Два подобных прямоугольных параллелепипеда с разным линейным масштабом',
+    camera:{yaw:-38,pitch:24,scale:46,origin:[210,170]},
+    points:{
+      A:[-2.5,-.45,0],B:[-1.3,-.45,0],C:[-1.3,.35,0],D:[-2.5,.35,0],A1:[-2.5,-.45,.9],B1:[-1.3,-.45,.9],C1:[-1.3,.35,.9],D1:[-2.5,.35,.9],
+      E:[.15,-.75,0],F:[2.0,-.75,0],G:[2.0,.48,0],H:[.15,.48,0],E1:[.15,-.75,1.38],F1:[2.0,-.75,1.38],G1:[2.0,.48,1.38],H1:[.15,.48,1.38]
+    },
+    objects:[
+      {type:'face',points:['A1','B1','C1','D1'],style:'aux'},
+      {type:'polyline',points:['A','B','C','D'],closed:true},{type:'polyline',points:['A1','B1','C1','D1'],closed:true},
+      {type:'segment',points:['A','A1']},{type:'segment',points:['B','B1']},{type:'segment',points:['C','C1']},{type:'segment',points:['D','D1'],visibility:'hidden'},
+      {type:'face',points:['E1','F1','G1','H1'],style:'emphasis'},
+      {type:'polyline',points:['E','F','G','H'],closed:true},{type:'polyline',points:['E1','F1','G1','H1'],closed:true},
+      {type:'segment',points:['E','E1']},{type:'segment',points:['F','F1']},{type:'segment',points:['G','G1']},{type:'segment',points:['H','H1'],visibility:'hidden'}
+    ],
+    caption:'Линейные размеры меняются как k, площади как k², объёмы как k³.'
+  },
+  'g10-p04-18':box(
+    'Диагностика темы «Многогранники»',
+    'В итоговой задаче сначала распознайте модель и величину, затем выберите высоту/апофему/сечение и только после этого формулу.'
+  )
+});
 })();
