@@ -40,6 +40,19 @@ async function open(rel,selector,minText=1200){
 
 const topic=await open('topics/10-geometry-atanasyan/04.html','.spatial-scene svg',9000);
 if(topic.spatial<8)throw new Error('topic spatial scenes '+topic.spatial);
+try{
+  await page.waitForSelector('[data-assessment-topic-link]',{state:'attached',timeout:3000});
+}catch{
+  const diagnostic=await page.evaluate(()=>({
+    row:document.body?.dataset?.row,
+    topic:document.body?.dataset?.topic,
+    contentAssessment:window.KTP_CONTENT?.['10-geometry-atanasyan::3']?.assessments||null,
+    hook:typeof window.KTP_INJECT_TOPIC_ASSESSMENTS,
+    side:document.querySelector('.side-stack')?.innerHTML?.slice(0,1200)||null,
+    scripts:[...document.scripts].map(s=>s.getAttribute('src')).filter(Boolean)
+  }));
+  throw new Error('topic assessment card missing: '+JSON.stringify(diagnostic));
+}
 const topicText=await page.locator('body').innerText();
 for(const token of ['18 последовательных уроков','Открыть 18 уроков','Проверочные материалы','Самостоятельная работа','Контрольная работа','Открыть лабораторию','Подобные тела']){
   if(!topicText.includes(token))throw new Error('topic missing '+token);
