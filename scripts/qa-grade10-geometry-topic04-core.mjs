@@ -40,6 +40,33 @@ assert(C.lab?.href.includes('polyhedron-section'),'lab href');
 assert(C.lab?.enabled===false||C.lab?.enabled===true,'lab state');
 assert(Object.keys(C.spatialScenes||{}).length>=10,'topic spatial scenes');
 
+const dist3=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+const close=(a,b,t=1e-6)=>Math.abs(a-b)<=t;
+{
+  const p=C.spatialScenes['g10-regular-pyramid'].points;
+  assert(close(dist3(p.A,p.B),dist3(p.B,p.C)),'topic regular pyramid base must be square');
+  assert(close(p.M[0],0)&&close(p.M[1],-1.4),'topic regular pyramid apothem foot must be side midpoint');
+}
+{
+  const p=C.spatialScenes['g10-pyramid-section'].points;
+  assert(close(dist3(p.A,p.B),dist3(p.B,p.C)),'topic pyramid base must be square');
+  assert(close(dist3(p.M,p.N),dist3(p.N,p.P)),'topic parallel section must be square');
+  assert(close(dist3(p.M,p.N)/dist3(p.A,p.B),.5),'topic parallel section scale');
+}
+{
+  const p=C.spatialScenes['g10-regular-poly'].points;
+  const edges=[['A','B'],['A','C'],['A','D'],['B','C'],['C','D'],['D','B']];
+  const lengths=edges.map(([a,b])=>dist3(p[a],p[b]));
+  assert(lengths.every(x=>close(x,lengths[0])),'topic regular tetrahedron must be regular in 3D');
+}
+{
+  const p=C.spatialScenes['g10-similar-solids'].points;
+  const small=[dist3(p.A,p.B),dist3(p.B,p.C),dist3(p.A,p.A1)];
+  const large=[dist3(p.E,p.F),dist3(p.F,p.G),dist3(p.E,p.E1)];
+  const ratios=large.map((x,i)=>x/small[i]);
+  assert(ratios.every(x=>close(x,1.5)),'topic similar solids must have one exact scale factor');
+}
+
 const source=C.source.paragraphs.join(' ');
 for(const token of [
   'Глава III, §1',
