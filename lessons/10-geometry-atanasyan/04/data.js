@@ -2,6 +2,7 @@
 'use strict';
 const S=window.KTP_LESSON_SERIES;if(!S)return;
 const T=(text,answer,skill,solution='')=>({text,answer,skill,solution});
+const timesWord=n=>{const d=n%10,h=n%100;return d>=2&&d<=4&&(h<12||h>14)?'раза':'раз';};
 const grading=max=>[
   {min:Math.ceil(max*.85),mark:5},
   {min:Math.ceil(max*.65),mark:4},
@@ -522,7 +523,7 @@ function poolB(mode,v){
 
   if(mode==='regular-polyhedra')return[
     T(`В варианте ${v} дан правильный ${x.solid.name}. Сколько у него вершин, рёбер и граней?`,
-      `${x.solid.Nv} вершин, ${x.solid.Ne} рёбер, ${x.solid.Nf} граней.`,'CLASSIFY',
+      `Nv=${x.solid.Nv}, Ne=${x.solid.Ne}, Nf=${x.solid.Nf}.`,'CLASSIFY',
       `Для правильного многогранника «${x.solid.name}» стандартные числа элементов: Nv=${x.solid.Nv}, Ne=${x.solid.Ne}, Nf=${x.solid.Nf}.`),
     T(`Какую форму имеет каждая грань правильного многогранника «${x.solid.name}»?`,
       `${x.solid.face}.`,'FACE'),
@@ -669,10 +670,10 @@ function poolB(mode,v){
 
   if(mode==='similar-solids')return[
     T(`Вариант ${v}: коэффициент подобия второго тела к первому k=${x.k}. Во сколько раз изменится площадь поверхности?`,
-      `${x.k*x.k} раз.`,'AREA_SCALE',
+      `${x.k*x.k} ${timesWord(x.k*x.k)}.`,'AREA_SCALE',
       `Площадь масштабируется как k²: ${x.k}²=${x.k*x.k}.`),
     T(`При том же k=${x.k} во сколько раз изменится объём?`,
-      `${x.k*x.k*x.k} раз.`,'VOLUME_SCALE',
+      `${x.k*x.k*x.k} ${timesWord(x.k*x.k*x.k)}.`,'VOLUME_SCALE',
       `Объём масштабируется как k³: ${x.k}³=${x.k*x.k*x.k}.`),
     T('Как меняются линейные размеры подобных тел?',
       'В k раз.','LINEAR_SCALE'),
