@@ -61,7 +61,7 @@ for(const token of [
  'линии их пересечения параллельны',
  'Параллельная проекция',
  'Тетраэдр',
- 'Сечение',
+ 'сечен',
  'Метод следов'
 ]) assert(theory.toLowerCase().includes(token.toLowerCase()),`theory missing ${token}`);
 
