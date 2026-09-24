@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Spatial geometry runtime fixture · grade 10</title>
+  <link rel="stylesheet" href="../spatial-scene.css">
+  <style>
+    body{margin:0;padding:20px;font-family:Inter,system-ui,sans-serif;background:#f8fafc;color:#101828}
+    main{max-width:860px;margin:auto}
+    h1{font-size:22px}
+  </style>
+</head>
+<body data-row="fixture" data-topic="0">
+<main>
+  <h1>Grade 10 spatial geometry runtime fixture</h1>
+  <span data-spatial-scene="cube"></span>
+  <span data-spatial-scene="line-plane"></span>
+  <span data-spatial-scene="tetra-section"></span>
+</main>
+<script>
+window.KTP_CONTENT={
+  "fixture::0":{
+    spatialScenes:{
+      cube:{
+        title:"Куб ABCDA₁B₁C₁D₁",
+        ariaLabel:"Куб с видимыми и скрытыми рёбрами",
+        camera:{yaw:-38,pitch:24,scale:62,origin:[205,158]},
+        points:{
+          A:[0,0,0],B:[2,0,0],C:[2,2,0],D:[0,2,0],
+          A1:[0,0,2],B1:[2,0,2],C1:[2,2,2],D1:[0,2,2]
+        },
+        labels:{A:{dx:-15,dy:14},D:{dx:-15,dy:-2},A1:{dx:-18,dy:-7},D1:{dx:-18,dy:-8}},
+        objects:[
+          {type:"face",points:["A1","B1","C1","D1"],style:"aux"},
+          {type:"face",points:["A","B","B1","A1"],style:"aux"},
+          {type:"segment",points:["A","B"]},{type:"segment",points:["B","C"]},
+          {type:"segment",points:["C","D"],visibility:"hidden"},{type:"segment",points:["D","A"],visibility:"hidden"},
+          {type:"segment",points:["A1","B1"]},{type:"segment",points:["B1","C1"]},
+          {type:"segment",points:["C1","D1"]},{type:"segment",points:["D1","A1"]},
+          {type:"segment",points:["A","A1"]},{type:"segment",points:["B","B1"]},
+          {type:"segment",points:["C","C1"]},{type:"segment",points:["D","D1"],visibility:"hidden"},
+          {type:"segment",points:["A","C1"],style:"emphasis"}
+        ],
+        caption:"Скрытые рёбра заданы в данных явно; диагональ AC₁ не измеряется по её экранной длине."
+      },
+      "line-plane":{
+        title:"Прямая пересекает плоскость",
+        ariaLabel:"Прозрачная плоскость альфа и прямая, пересекающая её",
+        camera:{yaw:-30,pitch:30,scale:68,origin:[210,150]},
+        points:{
+          P:[-1.7,-1.2,0],Q:[1.7,-1.2,0],R:[1.7,1.2,0],S:[-1.7,1.2,0],
+          U:[-1.1,0,1.8],X:[0,0,0],V:[1.1,0,-1.8]
+        },
+        labels:{P:false,Q:false,R:false,S:false,U:{dx:-12,dy:-8},X:{dx:8,dy:-8},V:{dx:8,dy:14}},
+        objects:[
+          {type:"plane",points:["P","Q","R","S"],style:"aux"},
+          {type:"segment",points:["U","X"],style:"emphasis"},
+          {type:"segment",points:["X","V"],style:"emphasis",visibility:"hidden"}
+        ],
+        caption:"Точка X принадлежит и прямой UV, и плоскости α; часть прямой «за» плоскостью показана штрихом."
+      },
+      "tetra-section":{
+        title:"Сечение тетраэдра",
+        ariaLabel:"Тетраэдр ABCD и треугольное сечение MNP",
+        camera:{yaw:-35,pitch:24,scale:66,origin:[210,165]},
+        points:{
+          A:[0,0,2.4],B:[-1.7,-1.2,0],C:[1.7,-1.2,0],D:[0,1.7,0],
+          M:[-.85,-.6,1.2],N:[.85,-.6,1.2],P:[0,.85,1.2]
+        },
+        labels:{M:{dx:-16,dy:-4},N:{dx:8,dy:-4},P:{dx:8,dy:-7}},
+        objects:[
+          {type:"face",points:["B","C","D"],style:"aux"},
+          {type:"segment",points:["A","B"]},{type:"segment",points:["A","C"]},{type:"segment",points:["A","D"]},
+          {type:"segment",points:["B","C"]},{type:"segment",points:["C","D"]},{type:"segment",points:["D","B"],visibility:"hidden"},
+          {type:"face",points:["M","N","P"],style:"emphasis"},
+          {type:"polyline",points:["M","N","P"],closed:true,style:"emphasis"}
+        ],
+        caption:"M, N, P лежат на трёх рёбрах, выходящих из A; треугольник MNP — плоское сечение."
+      }
+    }
+  }
+};
+</script>
+<script src="../spatial-scene.js"></script>
+</body>
+</html>
