@@ -1,0 +1,57 @@
+name: Grade 10 Atanasyan Foundation QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'lessons/10-geometry-atanasyan/lesson-plan.md'
+      - 'geometry/SPATIAL_RENDERING.md'
+      - 'geometry/spatial-scene.js'
+      - 'geometry/spatial-scene.css'
+      - 'geometry/lesson-spatial.js'
+      - 'geometry/fixtures/grade10-spatial-foundation.html'
+      - 'scripts/qa-grade10-geometry-foundation*.mjs'
+      - '.github/workflows/grade10-geometry-foundation-qa.yml'
+      - 'README.md'
+      - 'Plan.md'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'lessons/10-geometry-atanasyan/lesson-plan.md'
+      - 'geometry/SPATIAL_RENDERING.md'
+      - 'geometry/spatial-scene.js'
+      - 'geometry/spatial-scene.css'
+      - 'geometry/lesson-spatial.js'
+      - 'geometry/fixtures/grade10-spatial-foundation.html'
+      - 'scripts/qa-grade10-geometry-foundation*.mjs'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Grade 10 geometry foundation QA
+        run: node scripts/qa-grade10-geometry-foundation.mjs
+      - name: Grade 9 geometry regression
+        run: |
+          node scripts/qa-grade9-geometry-foundation.mjs
+          node scripts/qa-grade9-geometry-topic07.mjs
+          node scripts/qa-grade9-geometry-topic07-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser QA dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Spatial runtime browser / mobile / print QA
+        run: node scripts/qa-grade10-geometry-foundation-browser.mjs
