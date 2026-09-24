@@ -136,6 +136,8 @@ const links=read('assessments/topic-links.js');
 const nav=links.match(/'10-geometry-atanasyan':\{min:0,max:(\d+)\}/);
 assert(nav&&Number(nav[1])===3,'assessment navigation through topic 04');
 assert(links.includes('data-assessment-topic-link')||links.includes('assessmentTopicLink'),'shared assessment link must be idempotent');
+assert(links.includes('window.KTP_INJECT_TOPIC_ASSESSMENTS=inject'),'shared assessment injector must expose deterministic hook');
+assert(read('topics/topic-page.js').includes('KTP_INJECT_TOPIC_ASSESSMENTS?.()'),'topic renderer must call shared assessment hook after render');
 
 const topicLink=read('lessons/10-geometry-atanasyan/04/topic-link.js');
 assert(topicLink.includes('18 последовательных уроков'),'topic04 lesson catalog link');
