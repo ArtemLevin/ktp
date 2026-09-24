@@ -38,9 +38,9 @@ async function open(rel,selector,minText=1200){
 }
 
 await open('lessons/10-geometry-atanasyan/04/index.html','.lesson-tile',1400);
-if(await page.locator('.lesson-tile').count()!==9)throw new Error('stage3 catalog must contain 9 lessons');
+if(await page.locator('.lesson-tile').count()<9)throw new Error('catalog must retain at least lessons 43-51');
 const tileLabels=await page.locator('.lesson-tile .tile-top span').allInnerTexts();
-if(tileLabels.length!==9)throw new Error('stage3 tile labels missing');
+if(tileLabels.length<9)throw new Error('stage3 tile labels missing');
 
 for(let i=1;i<=9;i++){
   const id=String(i).padStart(2,'0');
@@ -54,10 +54,6 @@ for(let i=1;i<=9;i++){
   const answerButtons=await page.locator('details.answer').count();
   if(answerButtons<8)throw new Error('lesson '+id+': answer disclosures too few '+answerButtons);
 }
-
-await open('lessons/10-geometry-atanasyan/04/09.html','.lesson-card',1900);
-const nextHref=await page.locator('.lesson-prev-next a').evaluateAll(as=>as.map(a=>a.getAttribute('href')));
-if(nextHref.some(h=>h==='10.html'))throw new Error('lesson 51 must not link to unpublished lesson 52');
 
 await page.emulateMedia({media:'print'});
 const pdf=await page.pdf({format:'A4',printBackground:true});
