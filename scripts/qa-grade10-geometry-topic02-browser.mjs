@@ -66,9 +66,9 @@ const after=Number(await page.locator('#yaw').inputValue());
 if(after<=before)throw new Error('lab keyboard yaw control');
 let found=false;
 for(const pitch of [12,20,30,40,50]){
- await page.locator('#pitch').fill(String(pitch));await page.locator('#pitch').dispatchEvent('input');
+ await page.locator('#pitch').evaluate((el,val)=>{el.value=val;el.dispatchEvent(new Event('input',{bubbles:true}));},String(pitch));
  for(let yaw=-80;yaw<=80;yaw+=10){
-  await page.locator('#yaw').fill(String(yaw));await page.locator('#yaw').dispatchEvent('input');
+  await page.locator('#yaw').evaluate((el,val)=>{el.value=val;el.dispatchEvent(new Event('input',{bubbles:true}));},String(yaw));
   if((await page.locator('#projection').innerText()).includes('пересекаются')){found=true;break;}
  }
  if(found)break;
