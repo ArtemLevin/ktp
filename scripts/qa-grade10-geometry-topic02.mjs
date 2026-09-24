@@ -51,7 +51,7 @@ const source=C.source.paragraphs.join(' ');
 for(const token of ['§1','пп. 4–6','§2','пп. 7–9','§3','пп. 10–11','§4','пп. 12–14','Приложение 1','ФРП-2025'])assert(source.includes(token),`source missing ${token}`);
 for(const token of ['перпендикулярности','расстояния до плоскости','трёх перпендикулярах','двугранные углы'])assert(C.source.assessment.toLowerCase().includes(token.toLowerCase()),`source guard missing ${token}`);
 
-const theory=C.theory.map(x=>x.html).join(' ');
+const theory=C.theory.map(x=>`${x.title} ${x.html}`).join(' ');
 for(const token of [
  'лежат в одной плоскости',
  'a⊄α',
