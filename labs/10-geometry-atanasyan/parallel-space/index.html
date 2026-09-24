@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Проекция и взаимное расположение — Геометрия 10 класс · KTP 3.0</title>
+  <link rel="stylesheet" href="../../../geometry/spatial-scene.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-shell">
+  <header class="lab-hero">
+    <a class="back" href="../../../topics/10-geometry-atanasyan/02.html">← Тема «Параллельность прямых и плоскостей»</a>
+    <span class="kicker">Цифровая лаборатория · 10 класс</span>
+    <h1>Проекция и взаимное расположение</h1>
+    <p>Вращайте одну и ту же пространственную конфигурацию. Сравнивайте <b>истинное отношение в 3D</b> с тем, что видно на плоской проекции.</p>
+  </header>
+
+  <section class="question">
+    <span class="kicker">Исследовательский вопрос</span>
+    <h2>Можно ли по одной проекции надёжно определить взаимное расположение пространственных прямых?</h2>
+    <p>Ищите ракурсы, при которых изображение вводит в заблуждение. Математическое отношение при вращении камеры не меняется.</p>
+  </section>
+
+  <section class="workspace">
+    <aside class="controls" aria-label="Параметры модели">
+      <label>Конфигурация
+        <select id="mode">
+          <option value="intersect">Пересекающиеся прямые</option>
+          <option value="parallel">Параллельные прямые</option>
+          <option value="skew" selected>Скрещивающиеся прямые</option>
+          <option value="linePlane">Прямая ∥ плоскости</option>
+        </select>
+      </label>
+      <label>Поворот камеры <output id="yawOut">−35°</output>
+        <input id="yaw" type="range" min="-80" max="80" value="-35" step="1">
+      </label>
+      <label>Высота камеры <output id="pitchOut">26°</output>
+        <input id="pitch" type="range" min="8" max="55" value="26" step="1">
+      </label>
+      <label class="check"><input id="showPlane" type="checkbox" checked> Показать вспомогательную плоскость</label>
+      <button id="reset" type="button">Вернуть исходный ракурс</button>
+      <div class="keyboard-note">Ползунки работают стрелками клавиатуры. Select и checkbox доступны с клавиатуры.</div>
+    </aside>
+
+    <section class="stage-card" aria-live="polite">
+      <div class="truth-grid">
+        <article><span>Истинное отношение</span><strong id="truth"></strong></article>
+        <article><span>На текущей проекции</span><strong id="projection"></strong></article>
+      </div>
+      <svg id="stage" viewBox="0 0 620 420" role="img" aria-labelledby="stageTitle stageDesc">
+        <title id="stageTitle">Пространственная конфигурация прямых и плоскости</title>
+        <desc id="stageDesc">Интерактивная параллельная проекция; математическое отношение вычисляется по трёхмерным данным.</desc>
+      </svg>
+      <p id="explain" class="explain"></p>
+    </section>
+  </section>
+
+  <section class="research">
+    <span class="kicker">Проведите эксперимент</span>
+    <ol>
+      <li>Выберите <b>«Скрещивающиеся прямые»</b>.</li>
+      <li>Меняйте поворот и высоту камеры, пока изображения прямых не будут выглядеть пересекающимися.</li>
+      <li>Проверьте карточку «Истинное отношение»: она останется неизменной.</li>
+      <li>Переключитесь на параллельные прямые и повторите вращение.</li>
+      <li>Сформулируйте вывод: какие данные нужны для доказательства отношения прямых?</li>
+    </ol>
+  </section>
+
+  <section class="conclusion">
+    <span class="kicker">Опорный вывод</span>
+    <p><b>Проекция — средство чтения модели.</b> Пересечение изображений не доказывает пересечение пространственных прямых. Параллельность и скрещивание устанавливают по принадлежности плоскости, общим точкам и теоремам.</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
