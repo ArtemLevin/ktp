@@ -6,13 +6,13 @@ const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read(
 assert(root.includes('05` **«Геометрические места точек. Симметрия»**'),'README must retain topic05');
 for(const token of ['глава II, §4, пп. 21–23','глава VI, §3, п. 47','глава VIII, пп. 68–69, 72, 74–75'])assert(root.includes(token),`README topic05 source missing ${token}`);
 assert(root.includes('labs/7-geometry-atanasyan/loci-circle/'),'README must retain topic05 lab');
-assert(firstNumber(root,/Суммарно опубликовано \*\*(\d+) полноценных поурочных модулей/,'README lessons')>=910,'README lesson count regressed');
+assert(firstNumber(root,/Суммарно опубликовано \*\*(\d+) полноценных поурочных модул(?:ей|я)/,'README lessons')>=910,'README lesson count regressed');
 assert(firstNumber(root,/и \*\*(\d+) тематических assessment-комплект/,'README assessments')>=63,'README assessment count regressed');
 const rootRow=root.split('\n').find(line=>line.startsWith('| `7-geometry-atanasyan` |'))||'';
 const rowMatch=rootRow.match(/\|\s*(\d+)\/6\s*\|\s*(\d+)\/68\s*\|\s*(\d+)\/6\s*\|/);
 assert(rowMatch&&Number(rowMatch[1])>=5&&Number(rowMatch[2])>=60&&Number(rowMatch[3])>=5,'README geometry progress below topic05');
 assert(lessons.includes('05` **«Геометрические места точек. Симметрия»** — уроки 48–60'),'lessons README topic05 missing');
-assert(firstNumber(lessons,/Всего опубликовано \*\*(\d+) полноценных поурочных модулей/,'lessons README count')>=910,'lessons README count regressed');
+assert(firstNumber(lessons,/Всего опубликовано \*\*(\d+) полноценных поурочных модул(?:ей|я)/,'lessons README count')>=910,'lessons README count regressed');
 assert(assessments.includes('05` **«Геометрические места точек. Симметрия»**')&&assessments.includes('глава VIII, §1, пп. 68–69'),'assessments README topic05');
 assert(firstNumber(assessments,/Всего опубликовано \*\*(\d+) тематических assessment-комплект/,'assessment README count')>=63,'assessment README count regressed');
 const start=plan.indexOf('### Тема 05 — «Геометрические места точек. Симметрия»'),end=plan.indexOf('### Тема 06 —',start+1),section=start>=0?plan.slice(start,end>=0?end:undefined):'';
