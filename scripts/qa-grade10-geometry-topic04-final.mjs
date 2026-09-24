@@ -152,7 +152,7 @@ for(const token of [
   'Этап 2 · Topic core — выполнен',
   'Этап 3 · Уроки 43–51 — выполнен',
   'Этап 4 · Уроки 52–60 + lab — выполнен',
-  'Этап 5 · Assessments + release gate — текущий'
+  'Этап 5 · Assessments + release gate — реализация выполнена'
 ]) assert(method.includes(token),'stage status '+token);
 
 console.log('Grade 10 Atanasyan topic 04 FINAL structural/math/source QA passed: '+checks+' checks.');
