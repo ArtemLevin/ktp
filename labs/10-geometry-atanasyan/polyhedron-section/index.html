@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Сечение многогранника — Геометрия 10 класс · KTP 3.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-shell">
+  <header class="hero">
+    <a class="back" href="../../../topics/10-geometry-atanasyan/04.html">← Тема «Многогранники»</a>
+    <span class="kicker">Цифровая лаборатория · 10 класс</span>
+    <h1>Сечение многогранника</h1>
+    <p>Три точки P, Q, R на вертикальных рёбрах задают секущую плоскость. Модель вычисляет её пересечение со всеми 12 рёбрами параллелепипеда в 3D и только затем строит изображение.</p>
+  </header>
+
+  <section class="question">
+    <span class="kicker">Исследовательский вопрос</span>
+    <h2>Почему число сторон сечения меняется, хотя мы всегда задаём плоскость тремя точками?</h2>
+    <p>Параллелепипед фиксирован: 0≤x≤8, 0≤y≤6, 0≤z≤6. Точки P=(0,0,p), Q=(8,0,q), R=(0,6,r).</p>
+  </section>
+
+  <section class="workspace">
+    <aside class="controls" aria-label="Параметры секущей плоскости">
+      <label>Высота P: p <output id="pOut">1.0</output>
+        <input id="p" type="range" min="0" max="6" step="0.25" value="1">
+      </label>
+      <label>Высота Q: q <output id="qOut">5.0</output>
+        <input id="q" type="range" min="0" max="6" step="0.25" value="5">
+      </label>
+      <label>Высота R: r <output id="rOut">4.0</output>
+        <input id="r" type="range" min="0" max="6" step="0.25" value="4">
+      </label>
+      <label>Поворот камеры <output id="yawOut">−35°</output>
+        <input id="yaw" type="range" min="-80" max="80" step="1" value="-35">
+      </label>
+      <label>Высота камеры <output id="pitchOut">25°</output>
+        <input id="pitch" type="range" min="8" max="55" step="1" value="25">
+      </label>
+      <label class="check"><input id="labels" type="checkbox" checked> Подписи вершин сечения</label>
+      <label class="check"><input id="planePatch" type="checkbox" checked> Показать секущую плоскость</label>
+      <div class="presets">
+        <button id="presetParallel" type="button">Параллельно основанию</button>
+        <button id="presetTriangle" type="button">Треугольник</button>
+        <button id="presetPentagon" type="button">Пятиугольник</button>
+        <button id="reset" type="button">Сбросить</button>
+      </div>
+      <p class="keyboard">Ползунки работают с клавиатуры: Tab → стрелки. Камера влияет только на изображение.</p>
+    </aside>
+
+    <section class="stage-card">
+      <div class="metrics" aria-live="polite">
+        <article><span>Вершин сечения</span><strong id="count"></strong></article>
+        <article><span>Площадь</span><strong id="area"></strong></article>
+        <article><span>Периметр</span><strong id="perimeter"></strong></article>
+        <article><span>Тип</span><strong id="kind"></strong></article>
+      </div>
+      <svg id="stage" viewBox="0 0 720 480" role="img" aria-labelledby="stageTitle stageDesc">
+        <title id="stageTitle">Параллелепипед и вычисленное сечение</title>
+        <desc id="stageDesc">Секущая плоскость пересекает реальные пространственные рёбра, после чего точки проецируются на экран.</desc>
+      </svg>
+      <div class="formula">
+        <div><b>Плоскость:</b> <span id="equation"></span></div>
+        <div><b>Рёбра с вершинами сечения:</b> <span id="edgeList"></span></div>
+        <div class="wide"><b>Стороны сечения лежат в гранях:</b> <span id="faceList"></span></div>
+      </div>
+    </section>
+  </section>
+
+  <section class="research">
+    <span class="kicker">Исследуйте</span>
+    <ol>
+      <li>Нажмите «Параллельно основанию». Объясните, почему получается прямоугольник, равный основанию.</li>
+      <li>Сравните пресеты «Треугольник» и «Пятиугольник». Какие рёбра перестаёт или начинает пересекать плоскость?</li>
+      <li>Меняйте только p. Найдите момент, когда одна вершина сечения проходит через вершину параллелепипеда.</li>
+      <li>Поверните камеру. Убедитесь, что число вершин, площадь и периметр не меняются.</li>
+      <li>Для каждой стороны сечения проверьте указанную грань. Почему две вершины можно соединять только после такой проверки?</li>
+    </ol>
+  </section>
+
+  <section class="conclusion">
+    <span class="kicker">Опорный вывод</span>
+    <p>Сечение определяется геометрией в пространстве: плоскость пересекает рёбра, точки пересечения упорядочиваются внутри самой плоскости и образуют многоугольник. Экранная проекция используется только для показа результата.</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
