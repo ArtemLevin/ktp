@@ -39,7 +39,7 @@ const S=sb.window.KTP_LESSON_SERIES;
 assert(S.meta.topicIndex===3&&S.meta.topicNumber===4,'topic meta');
 assert(S.meta.totalLessons===18,'18 lessons total');
 assert(S.meta.courseLessonStart===43&&S.meta.courseLessonEnd===60,'course bounds');
-assert(S.meta.implementationStage==='4/5','stage 4 marker');
+assert(['4/5','5/5'].includes(S.meta.implementationStage),'stage 4/5 marker');
 assert(S.lessons.length===18,'18 lessons loaded');
 assert(Object.keys(S.spatialScenes||{}).length>=18,'18 spatial scenes');
 
@@ -142,8 +142,7 @@ const link=read('lessons/10-geometry-atanasyan/04/topic-link.js');
 assert(link.includes('18 последовательных уроков')&&link.includes('Открыть 18 уроков'),'topic link content');
 
 const nav=read('assessments/topic-links.js').match(/'10-geometry-atanasyan':\{min:0,max:(\d+)\}/);
-assert(nav&&Number(nav[1])===2,'thematic topic 04 assessments stay unpublished before stage 5');
-assert(!exists('assessments/10-geometry-atanasyan/04/data.js'),'thematic assessment waits for stage 5');
+assert(nav&&Number(nav[1])>=2,'grade 10 assessment navigation must not regress below topic 03');
 
 const lab=read('labs/10-geometry-atanasyan/polyhedron-section/index.html');
 for(const token of ['presetParallel','presetTriangle','presetPentagon','planePatch','Исследовательский вопрос','Рёбра с вершинами сечения']){
