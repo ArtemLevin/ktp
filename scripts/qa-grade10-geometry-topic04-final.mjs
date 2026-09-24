@@ -92,6 +92,8 @@ for(const v of A.topic.independent.variants){
   assert(m&&first(v.tasks[1].answer)===Number(m[1])*Number(m[2]),'ind v'+v.id+' prism lateral');
   m=v.tasks[2].text.match(/сторону основания (\d+) и апофему (\d+)/);
   assert(m&&first(v.tasks[2].answer)===2*Number(m[1])*Number(m[2]),'ind v'+v.id+' pyramid lateral');
+  assert(v.tasks[3].text.includes('прямоугольной пирамиды'),'ind v'+v.id+' section must use a pyramid, not a prism');
+  assert(v.tasks[3].text.includes('k=1/2'),'ind v'+v.id+' section similarity coefficient');
   m=v.tasks[3].text.match(/размеры (\d+)×(\d+)/);
   assert(m&&Math.abs(first(v.tasks[3].answer)-Number(m[1])*Number(m[2])/4)<1e-9,'ind v'+v.id+' section area');
   m=v.tasks[4].text.match(/(\d+) рёбер и (\d+) граней/);
@@ -114,6 +116,7 @@ for(const v of A.topic.control.variants){
   assert(m&&v.tasks[3].answer.includes('Апофема')&&nums(v.tasks[3].answer).at(-1)===2*Number(m[1])*Number(m[3]),'ctl v'+v.id+' regular pyramid surface');
   m=v.tasks[4].text.match(/оснований (\d+) и (\d+), апофема (\d+)/);
   assert(m&&first(v.tasks[4].answer)===2*(Number(m[1])+Number(m[2]))*Number(m[3]),'ctl v'+v.id+' frustum lateral');
+  assert(v.tasks[5].answer.includes('плоскости симметрии'),'ctl v'+v.id+' regular solid symmetry must name a concrete valid symmetry');
   m=v.tasks[6].text.match(/Ne=(\d+), Nf=(\d+)/);
   assert(m&&first(v.tasks[6].answer)===2+Number(m[1])-Number(m[2]),'ctl v'+v.id+' Euler');
   m=v.tasks[7].text.match(/Sосн=(\d+), высоту (\d+), боковое ребро/);
@@ -126,6 +129,7 @@ for(const v of A.topic.control.variants){
 }
 
 const assText=JSON.stringify(A.topic).toLowerCase();
+assert(!assText.includes('основание прямоугольной призмы имеет размеры')||!assText.includes('линейно уменьшено в 2 раза'),'thematic impossible prism section guard');
 for(const forbidden of ['объём цилиндра','объём конуса','объём шара','интеграл'])assert(!assText.includes(forbidden),'forbidden assessment content '+forbidden);
 
 const links=read('assessments/topic-links.js');
