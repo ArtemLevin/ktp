@@ -173,7 +173,7 @@ function render(){
   ui.yawOut.textContent=(String(Number(ui.yaw.value))+'°').replace('-','−');
   ui.pitchOut.textContent=String(Number(ui.pitch.value))+'°';
   ui.modeNote.textContent=pl.special
-    ?'Шестиугольный пресет: P=(8,0,3), Q=(0,6,3), R=(4,0,6) лежат на трёх рёбрах из другого набора рёбер. Ползунки p,q,r временно отключены; камера остаётся свободной.'
+    ?'Шестиугольный пресет: P=(8,0,3), Q=(0,6,3), R=(4,0,6) лежат на трёх рёбрах другого набора. Ползунки p,q,r временно отключены; камера остаётся свободной.'
     :'Базовое семейство: P, Q, R движутся по трём вертикальным рёбрам; оно даёт треугольные, четырёхугольные и пятиугольные сечения.';
   ui.count.textContent=String(pts.length);
   ui.area.textContent=fmt(metrics.area);
