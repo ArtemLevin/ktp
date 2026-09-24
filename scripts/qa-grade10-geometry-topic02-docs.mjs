@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+let checks=0;const assert=(v,m)=>{checks++;if(!v)throw new Error(m)};
+const R=read('README.md'),P=read('Plan.md'),L=read('lessons/README.md'),A=read('assessments/README.md'),M=read('content/10-geometry-atanasyan/content-map.md');
+for(const token of ['1077 полноценных поурочных','78 тематических assessment-комплектов','**2/5** | **23/68** | **2/5**','02-methodical-plan.md','parallel-space/','10-geometry-atanasyan/03'])assert(R.includes(token),`README missing ${token}`);
+for(const token of ['тематических серий: **78**','опубликованных уроков: **1077**','assessment-комплектов: **78**','каркасов: **43**','2/5 серий, 23/68 уроков, 2/5 thematic assessments','Тема 02 **«Параллельность прямых и плоскостей»** полностью реализована','10-geometry-atanasyan/03'])assert(P.includes(token),`Plan missing ${token}`);
+for(const token of ['**2/5** | **23/68** | **1–23**','1077 полноценных поурочных','Серия `02` **«Параллельность прямых и плоскостей»**','parallel-space/'])assert(L.includes(token),`lessons README missing ${token}`);
+for(const token of ['**2/5** | **в работе**','78 тематических assessment-комплектов','Комплект `02`','6×7 / 14 баллов','6×10 / 20 баллов','темы **01–02**'])assert(A.includes(token),`assessments README missing ${token}`);
+const row=M.split('\n').find(x=>x.includes('| 02 | Параллельность прямых и плоскостей |'));
+assert(row&&row.endsWith('| full |'),'content map topic 02 full');
+console.log(`Grade 10 Atanasyan topic 02 documentation QA passed: ${checks} checks.`);
