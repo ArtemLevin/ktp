@@ -54,10 +54,16 @@ try{
   throw new Error('topic assessment card missing: '+JSON.stringify(diagnostic));
 }
 const topicText=await page.locator('body').innerText();
-for(const token of ['18 последовательных уроков','Открыть 18 уроков','Проверочные материалы','Самостоятельная работа','Контрольная работа','Открыть лабораторию','Подобные тела']){
+for(const token of ['18 последовательных уроков','Открыть 18 уроков','Открыть лабораторию','Подобные тела']){
   if(!topicText.includes(token))throw new Error('topic missing '+token);
 }
-if(await page.locator('[data-assessment-topic-link]').count()!==1)throw new Error('topic assessment card must be injected exactly once');
+const assessmentCard=page.locator('[data-assessment-topic-link]');
+if(await assessmentCard.count()!==1)throw new Error('topic assessment card must be injected exactly once');
+if(!(await assessmentCard.isVisible()))throw new Error('topic assessment card must be visible');
+const assessmentText=await assessmentCard.innerText();
+for(const token of ['Проверочные материалы','Самостоятельная работа','Контрольная работа']){
+  if(!assessmentText.includes(token))throw new Error('topic assessment card missing '+token);
+}
 
 await open('lessons/10-geometry-atanasyan/04/index.html','.lesson-tile',2500);
 if(await page.locator('.lesson-tile').count()!==18)throw new Error('lesson catalog !=18');
