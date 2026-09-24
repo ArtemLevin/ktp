@@ -86,10 +86,24 @@ Source mapping линии: `content/8-geometry-atanasyan/content-map.md`.
 - тема `06` **«Подобие фигур»** полностью реализована: глава VII, §3, п. 65 + нормативный блок ФРП-2025 «Преобразование подобия. Метрические соотношения в окружности», уроки 52–60, thematic 14/20 и исследовательская лаборатория `similarity-transform/`;
 - тема `07` **«Повторение»** полностью реализована: интеграция геометрии 7–9 классов, уроки 61–68, диагностика по доменам ФИПИ 7.1–7.6, thematic 14/20 и тренажёр `planimetry-router/`.
 
-Следующий этап геометрической вертикали — foundation линии `10-geometry-atanasyan`: source map, ФРП-crosswalk и архитектура пространственных сцен перед реализацией темы 01 «Повторение».
-
 Source mapping: `content/9-geometry-atanasyan/content-map.md`.  
 Поурочный маршрут: `lessons/9-geometry-atanasyan/lesson-plan.md`.
+
+## Геометрия 10 класса · Атанасян — foundation
+
+Для `10-geometry-atanasyan` подготовлен foundation до начала генерации уроков:
+
+- подтверждена KTP-сетка **4 + 19 + 19 + 18 + 8 = 68**;
+- создан `content/10-geometry-atanasyan/content-map.md` с crosswalk Атанасян ↔ ФРП-2025 ↔ KTP;
+- создан `lessons/10-geometry-atanasyan/lesson-plan.md` с маршрутом **68/68** будущих уроков;
+- зафиксированы учебниковые границы: Введение, главы I–III и адресный нормативный перенос пп. 74–76, 79–80 для объёмов призмы/пирамиды;
+- пп. 25*–26* оставлены enrichment, а п. 29* «Теорема Эйлера» включён в обязательное ядро по ФРП-2025;
+- создан reusable `geometry/spatial-scene.js` — data-driven слой `[x,y,z] → ортографическая SVG-проекция`;
+- добавлены `geometry/lesson-spatial.js`, `geometry/spatial-scene.css` и контракт `geometry/SPATIAL_RENDERING.md`;
+- fixture покрывает куб, пересечение прямой с плоскостью и сечение тетраэдра;
+- добавлены structural + browser/mobile/print foundation QA и regression геометрии 9 класса.
+
+Foundation сознательно **не создаёт** `content/10-geometry-atanasyan/01.js`, lesson series, assessments или лаборатории. Следующая рабочая единица после принятия foundation — тема 01 «Повторение», уроки 1–4.
 
 ## Поурочная подготовка
 
@@ -109,7 +123,7 @@ Source mapping: `content/9-geometry-atanasyan/content-map.md`.
 
 ## Геометрический rendering layer
 
-`geometry/` хранит общий zero-build SVG runtime для точек, прямых, лучей, отрезков, углов, окружностей, многоугольников, отметок равенства, параллельности и прямого угла. Тематические и поурочные модули передают data-driven сцены без копирования SVG-разметки по HTML-файлам.
+`geometry/` хранит два zero-build SVG runtime. `geometry-scene.js` обслуживает планиметрию и координатные/векторные сцены. `spatial-scene.js` хранит исходные точки в 3D-координатах `[x,y,z]`, выполняет детерминированную ортографическую проекцию, рисует явные скрытые рёбра и не использует экранные длины для математических вычислений. Тематические и поурочные модули передают data-driven сцены без копирования SVG-разметки по HTML-файлам. Контракт стереометрии: `geometry/SPATIAL_RENDERING.md`.
 
 ## Цифровые лаборатории
 
@@ -137,8 +151,10 @@ Source mapping: `content/9-geometry-atanasyan/content-map.md`.
 
 Тема 05 проверяет source integration глав V–VIII, 8 уроков 61–68, 6+6 поурочных вариантов, thematic 14/20, SVG, mobile 390 px, `theorem-selector/`, print/PDF и regression тем 03–04.
 
+Foundation геометрии 10 класса защищается `.github/workflows/grade10-geometry-foundation-qa.yml`: source map, нумерация 1–68, KTP bounds, отсутствие преждевременно сгенерированных уроков, синтаксис spatial runtime, 3D math helpers, скрытые рёбра, mobile 390 px, print/PDF и regression foundation + темы 07 геометрии 9 класса.
+
 ## Definition of Done для учебной серии
 
 Серия считается готовой к merge, когда содержание соответствует KTP, учебнику и нормативным границам, теория достаточна для тренировки, примеры и ответы проверены, навигация работает, SVG-чертежи корректны, мобильная и печатная версии пригодны, QA зелёный и документация отражает фактическое состояние.
 
-Следующая фаза геометрической вертикали — `10-geometry-atanasyan`: сначала foundation и точный source mapping курса стереометрии.
+Следующая рабочая единица после foundation — `10-geometry-atanasyan/01` **«Повторение»**, уроки 1–4. До её реализации foundation должен пройти PR review и зелёный QA.
