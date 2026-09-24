@@ -8,7 +8,7 @@ const ui={
   pOut:$('pOut'),qOut:$('qOut'),rOut:$('rOut'),yawOut:$('yawOut'),pitchOut:$('pitchOut'),
   count:$('count'),area:$('area'),perimeter:$('perimeter'),kind:$('kind'),
   equation:$('equation'),edgeList:$('edgeList'),faceList:$('faceList'),stage:$('stage'),
-  presetParallel:$('presetParallel'),presetTriangle:$('presetTriangle'),presetPentagon:$('presetPentagon'),reset:$('reset')
+  presetParallel:$('presetParallel'),presetTriangle:$('presetTriangle'),presetPentagon:$('presetPentagon'),presetHexagon:$('presetHexagon'),modeNote:$('modeNote'),reset:$('reset')
 };
 const add=(a,b)=>a.map((x,i)=>x+b[i]);
 const sub=(a,b)=>a.map((x,i)=>x-b[i]);
@@ -25,6 +25,7 @@ const V={
   A:[0,0,0],B:[dims.a,0,0],C:[dims.a,dims.b,0],D:[0,dims.b,0],
   A1:[0,0,dims.c],B1:[dims.a,0,dims.c],C1:[dims.a,dims.b,dims.c],D1:[0,dims.b,dims.c]
 };
+let specialPreset=null;
 const edges=[
   ['A','B'],['B','C'],['C','D'],['D','A'],
   ['A1','B1'],['B1','C1'],['C1','D1'],['D1','A1'],
@@ -32,10 +33,15 @@ const edges=[
 ];
 
 function planeData(){
+  if(specialPreset==='hexagon'){
+    const P=[dims.a,0,dims.c/2],Q=[0,dims.b,dims.c/2],R=[dims.a/2,0,dims.c];
+    const n=cross(sub(Q,P),sub(R,P));
+    return{P,Q,R,n,d:-dot(n,P),p:null,q:null,r:null,special:'hexagon'};
+  }
   const p=Number(ui.p.value),q=Number(ui.q.value),r=Number(ui.r.value);
   const P=[0,0,p],Q=[dims.a,0,q],R=[0,dims.b,r];
   const n=cross(sub(Q,P),sub(R,P));
-  return{P,Q,R,n,d:-dot(n,P),p,q,r};
+  return{P,Q,R,n,d:-dot(n,P),p,q,r,special:null};
 }
 function addUnique(list,p){
   if(!list.some(q=>dist(p,q)<1e-7))list.push(p);
@@ -163,27 +169,41 @@ function render(){
     if(ui.labels.checked)svgText(svg,p,name,'seed-label',8,15);
   }
 
-  ui.pOut.textContent=fmt(pl.p);ui.qOut.textContent=fmt(pl.q);ui.rOut.textContent=fmt(pl.r);
+  ui.pOut.textContent=pl.special?'—':fmt(pl.p);ui.qOut.textContent=pl.special?'—':fmt(pl.q);ui.rOut.textContent=pl.special?'—':fmt(pl.r);
   ui.yawOut.textContent=(String(Number(ui.yaw.value))+'°').replace('-','−');
   ui.pitchOut.textContent=String(Number(ui.pitch.value))+'°';
+  ui.modeNote.textContent=pl.special
+    ?'Шестиугольный пресет: P=(8,0,3), Q=(0,6,3), R=(4,0,6) лежат на трёх рёбрах другого семейства. Ползунки p,q,r временно отключены; камера остаётся свободной.'
+    :'Базовое семейство: P, Q, R движутся по трём вертикальным рёбрам; оно даёт треугольные, четырёхугольные и пятиугольные сечения.';
   ui.count.textContent=String(pts.length);
   ui.area.textContent=fmt(metrics.area);
   ui.perimeter.textContent=fmt(metrics.perimeter);
   ui.kind.textContent=kind(pts.length);
 
-  const ax=(pl.q-pl.p)/dims.a,by=(pl.r-pl.p)/dims.b;
-  ui.equation.textContent='z = '+fmt(pl.p)+(ax>=0?' + ':' − ')+fmt(Math.abs(ax))+'x'+(by>=0?' + ':' − ')+fmt(Math.abs(by))+'y';
+  const nz=pl.n[2];
+  if(Math.abs(nz)>EPS){
+    const z0=-pl.d/nz,ax=-pl.n[0]/nz,by=-pl.n[1]/nz;
+    ui.equation.textContent='z = '+fmt(z0)+(ax>=0?' + ':' − ')+fmt(Math.abs(ax))+'x'+(by>=0?' + ':' − ')+fmt(Math.abs(by))+'y';
+  }else{
+    ui.equation.textContent=fmt(pl.n[0])+'x + '+fmt(pl.n[1])+'y + '+fmt(pl.n[2])+'z + '+fmt(pl.d)+' = 0';
+  }
   ui.edgeList.textContent=pts.map((p,i)=>String.fromCharCode(77+i)+': '+edgeNamesForPoint(p).join('/')).join('; ');
   ui.faceList.textContent=pts.map((p,i)=>faceName(p,pts[(i+1)%pts.length])).join(' → ');
 }
 
-for(const x of [ui.p,ui.q,ui.r,ui.yaw,ui.pitch,ui.labels,ui.planePatch])x.addEventListener('input',render);
+function lockSeedSliders(locked){
+  for(const x of [ui.p,ui.q,ui.r])x.disabled=locked;
+}
+for(const x of [ui.yaw,ui.pitch,ui.labels,ui.planePatch])x.addEventListener('input',render);
+for(const x of [ui.p,ui.q,ui.r])x.addEventListener('input',()=>{specialPreset=null;lockSeedSliders(false);render();});
 function preset(p,q,r){
+  specialPreset=null;lockSeedSliders(false);
   ui.p.value=p;ui.q.value=q;ui.r.value=r;render();
 }
 ui.presetParallel.addEventListener('click',()=>preset(3,3,3));
 ui.presetTriangle.addEventListener('click',()=>preset(1,6,6));
 ui.presetPentagon.addEventListener('click',()=>preset(1,5,4));
-ui.reset.addEventListener('click',()=>{ui.yaw.value=-35;ui.pitch.value=25;ui.labels.checked=true;ui.planePatch.checked=true;preset(1,5,4);ui.p.focus();});
+ui.presetHexagon.addEventListener('click',()=>{specialPreset='hexagon';lockSeedSliders(true);render();ui.yaw.focus();});
+ui.reset.addEventListener('click',()=>{specialPreset=null;lockSeedSliders(false);ui.yaw.value=-35;ui.pitch.value=25;ui.labels.checked=true;ui.planePatch.checked=true;preset(1,5,4);ui.p.focus();});
 render();
 })();
