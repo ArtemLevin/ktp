@@ -5,13 +5,13 @@ const firstNumber=(text,re,label)=>{const m=text.match(re);assert(m,`${label}: v
 const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read('assessments/README.md'),plan=read('Plan.md'),map=read('content/7-geometry-atanasyan/content-map.md');
 assert(root.includes('04` **«Соотношения между сторонами и углами треугольника»**'),'README must retain topic04');
 assert(root.includes('глава IV, §§1–4, пп. 30–38'),'README topic04 source range missing');
-assert(firstNumber(root,/Суммарно опубликовано \*\*(\d+) полноценных поурочных модулей/,'README lessons')>=897,'README lesson count regressed below 897');
+assert(firstNumber(root,/Суммарно опубликовано \*\*(\d+) полноценных поурочных модул(?:ей|я)/,'README lessons')>=897,'README lesson count regressed below 897');
 assert(firstNumber(root,/и \*\*(\d+) тематических assessment-комплект/,'README assessments')>=62,'README assessment count regressed below 62');
 const rootRow=root.split('\n').find(line=>line.startsWith('| `7-geometry-atanasyan` |'))||'';
 const rowMatch=rootRow.match(/\|\s*(\d+)\/6\s*\|\s*(\d+)\/68\s*\|\s*(\d+)\/6\s*\|/);
 assert(rowMatch&&Number(rowMatch[1])>=4&&Number(rowMatch[2])>=47&&Number(rowMatch[3])>=4,'README geometry progress regressed below topic04');
 assert(lessons.includes('04` **«Соотношения между сторонами и углами треугольника»**')&&lessons.includes('уроки 35–47'),'lessons README topic04');
-assert(firstNumber(lessons,/Всего опубликовано \*\*(\d+) полноценных поурочных модулей/,'lessons README count')>=897,'lessons README count regressed');
+assert(firstNumber(lessons,/Всего опубликовано \*\*(\d+) полноценных поурочных модул(?:ей|я)/,'lessons README count')>=897,'lessons README count regressed');
 assert(assessments.includes('04` **«Соотношения между сторонами и углами треугольника»**')&&assessments.includes('глава IV, §§1–4, пп. 30–38'),'assessments README topic04');
 assert(firstNumber(assessments,/Всего опубликовано \*\*(\d+) тематических assessment-комплект/,'assessments README count')>=62,'assessment docs count regressed');
 const start=plan.indexOf('### Тема 04 — «Соотношения между сторонами и углами треугольника»'),end=plan.indexOf('### Тема 05 —',start+1),section=start>=0?plan.slice(start,end>=0?end:undefined):'';
