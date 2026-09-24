@@ -55,7 +55,7 @@ for(const token of [
 ]) if(!body.includes(token))throw new Error(`topic missing ${token}`);
 if(body.includes('Открыть лабораторию'))throw new Error('topic 01 must not expose a digital lab');
 
-await open('lessons/10-geometry-atanasyan/01/index.html','.lesson-tile',1200);
+await open('lessons/10-geometry-atanasyan/01/index.html','.lesson-tile',900);
 if(await page.locator('.lesson-tile').count()!==4)throw new Error('lesson index must contain 4 tiles');
 
 for(let i=1;i<=4;i++){
