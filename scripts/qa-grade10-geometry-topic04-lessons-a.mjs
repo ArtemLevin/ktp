@@ -92,6 +92,76 @@ for(let i=0;i<9;i++){
 const L=S.lessons;
 const lessonText=i=>JSON.stringify(L[i]);
 
+// all-six arithmetic release checks for lessons 43-51
+const nums=s=>(String(s).match(/-?\d+(?:\.\d+)?/g)||[]).map(Number);
+const first=s=>nums(s)[0];
+const close=(a,b,t=1e-9)=>Math.abs(a-b)<=t;
+
+for(const v of L[0].control.variants){
+  const m=v.tasks[0].text.match(/(\d+)-угольная призма/),n=Number(m?.[1]),g=nums(v.tasks[0].answer);
+  assert(n&&g[0]===2*n&&g[1]===3*n&&g[2]===n+2,'lesson 43 v'+v.id+' element counts');
+}
+for(const v of L[2].control.variants){
+  let m=v.tasks[0].text.match(/Pосн=(\d+), h=(\d+)/);
+  assert(m&&first(v.tasks[0].answer)===Number(m[1])*Number(m[2]),'lesson 45 v'+v.id+' lateral surface');
+  const p=Number(m[1]),h=Number(m[2]);
+  m=v.tasks[1].text.match(/Sосн=(\d+)/);
+  assert(m&&first(v.tasks[1].answer)===p*h+2*Number(m[1]),'lesson 45 v'+v.id+' full surface');
+}
+for(const v of L[3].control.variants){
+  const m=v.tasks[0].text.match(/равны (\d+), (\d+), (\d+)/);
+  const expected=Math.hypot(Number(m?.[1]),Number(m?.[2]),Number(m?.[3]));
+  assert(m&&close(first(v.tasks[0].answer),expected),'lesson 46 v'+v.id+' space diagonal');
+}
+for(const v of L[4].control.variants){
+  let m=v.tasks[0].text.match(/основание (\d+)×(\d+)/);
+  assert(m&&first(v.tasks[0].answer)===Number(m[1])*Number(m[2]),'lesson 47 v'+v.id+' parallel section');
+  m=v.tasks[1].text.match(/основанием (\d+)×(\d+) и высотой (\d+)/);
+  const expected=Math.hypot(Number(m?.[1]),Number(m?.[2]))*Number(m?.[3]);
+  assert(m&&close(first(v.tasks[1].answer),expected),'lesson 47 v'+v.id+' diagonal section');
+}
+for(const v of L[5].control.variants){
+  const m=v.tasks[0].text.match(/(\d+)-угольной пирамиды/),n=Number(m?.[1]),g=nums(v.tasks[0].answer);
+  assert(n&&g[0]===n+1&&g[1]===2*n&&g[2]===n+1,'lesson 48 v'+v.id+' pyramid counts');
+}
+for(const v of L[6].control.variants){
+  const m=v.tasks[0].text.match(/сторону основания (\d+) и высоту (\d+)/);
+  const expected=Math.hypot(Number(m?.[1])/2,Number(m?.[2]));
+  assert(m&&close(first(v.tasks[0].answer),expected),'lesson 49 v'+v.id+' apothem');
+}
+for(const v of L[7].control.variants){
+  let m=v.tasks[0].text.match(/сторону основания (\d+) и апофему (\d+)/);
+  const a=Number(m?.[1]),l=Number(m?.[2]),lat=2*a*l;
+  assert(m&&first(v.tasks[0].answer)===lat,'lesson 50 v'+v.id+' lateral surface');
+  assert(first(v.tasks[1].answer)===lat+a*a,'lesson 50 v'+v.id+' full surface');
+}
+for(const v of L[8].control.variants){
+  const m=v.tasks[0].text.match(/стороны оснований (\d+) и (\d+), апофема (\d+)/);
+  const a=Number(m?.[1]),b=Number(m?.[2]),l=Number(m?.[3]),lat=2*(a+b)*l;
+  assert(m&&first(v.tasks[0].answer)===lat,'lesson 51 v'+v.id+' lateral surface');
+  assert(first(v.tasks[1].answer)===lat+a*a+b*b,'lesson 51 v'+v.id+' full surface');
+}
+
+// 3D scene invariants for the first half.
+const dist3=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+{
+  const p=S.spatialScenes['g10-p04-02'].points;
+  assert(close(p.A[0],p.H[0])&&close(p.A[1],p.H[1]),'lesson 44 height foot vertical over A');
+  assert(close(p.H[2],p.A1[2]),'lesson 44 height foot lies in upper base plane');
+  assert(dist3(p.A,p.A1)>dist3(p.A,p.H),'lesson 44 oblique side edge longer than height');
+}
+{
+  const p=S.spatialScenes['g10-p04-05'].points;
+  const v1=[p.N[0]-p.M[0],p.N[1]-p.M[1],p.N[2]-p.M[2]];
+  const v2=[p.Q[0]-p.M[0],p.Q[1]-p.M[1],p.Q[2]-p.M[2]];
+  const pred=[
+    p.M[0]+v1[0]+v2[0],
+    p.M[1]+v1[1]+v2[1],
+    p.M[2]+v1[2]+v2[2]
+  ];
+  assert(pred.every((x,i)=>close(x,p.P[i])),'lesson 47 section MNPQ must be coplanar');
+}
+
 for(const [idx,tokens] of [
   [0,['2n','3n','n+2','развёрт']],
   [1,['наклонной призмы','расстоянием между']],
