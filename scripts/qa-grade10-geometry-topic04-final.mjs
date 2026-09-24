@@ -130,7 +130,7 @@ for(const v of A.topic.control.variants){
 
 const assText=JSON.stringify(A.topic).toLowerCase();
 assert(!assText.includes('параллельное основанию сечение призмы')&&!assText.includes('линейно уменьшено в 2 раза'),'thematic impossible prism section guard');
-for(const forbidden of ['объём цилиндра','объём конуса','объём шара','интеграл'])assert(!assText.includes(forbidden),'forbidden assessment content '+forbidden);
+for(const forbidden of ['объём цилиндра','объём конуса','объём шара','интеграл','пространственная теорема пифагора'])assert(!assText.includes(forbidden),'forbidden assessment content '+forbidden);
 
 const links=read('assessments/topic-links.js');
 const nav=links.match(/'10-geometry-atanasyan':\{min:0,max:(\d+)\}/);
