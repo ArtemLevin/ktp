@@ -135,6 +135,15 @@ for(const forbidden of ['объём цилиндра','объём конуса',
 const links=read('assessments/topic-links.js');
 const nav=links.match(/'10-geometry-atanasyan':\{min:0,max:(\d+)\}/);
 assert(nav&&Number(nav[1])===3,'assessment navigation through topic 04');
+assert(links.includes('data-assessment-topic-link')||links.includes('assessmentTopicLink'),'shared assessment link must be idempotent');
+
+const topicLink=read('lessons/10-geometry-atanasyan/04/topic-link.js');
+for(const token of [
+  '18 последовательных уроков',
+  'data-assessment-topic-link',
+  'assessments/10-geometry-atanasyan/04/independent.html',
+  'assessments/10-geometry-atanasyan/04/control.html'
+]) assert(topicLink.includes(token),'topic04 release link missing '+token);
 
 const map=read('content/10-geometry-atanasyan/content-map.md');
 const row=map.split('\n').find(x=>x.includes('| 04 | Многогранники |'));
