@@ -117,7 +117,7 @@ if(!close(m.area,57.63,.03)||!close(m.perimeter,28.49,.03))throw new Error('hexa
 if(!m.equation.includes('z = 9')||!m.equation.includes('0.75x'))throw new Error('hexagon plane equation '+m.equation);
 if(m.faceList.includes('проверить'))throw new Error('hexagon face trace unresolved '+m.faceList);
 for(const id of ['p','q','r'])if(!(await page.locator('#'+id).isDisabled()))throw new Error('hexagon must lock '+id);
-if(!(await page.locator('#modeNote').innerText()).includes('другом наборе рёбер'))throw new Error('hexagon mode explanation');
+if(!(await page.locator('#modeNote').innerText()).includes('другого набора'))throw new Error('hexagon mode explanation');
 
 // Camera remains a pure view transform even for the six-sided section.
 const hexBefore={count:m.count,area:m.area,perimeter:m.perimeter};
