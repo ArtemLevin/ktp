@@ -41,7 +41,7 @@ async function open(rel,selector,minText=1200){
 await open('lessons/10-geometry-atanasyan/05/index.html','.lesson-tile',1000);
 if(await page.locator('.lesson-tile').count()<4)throw new Error('catalog must contain at least 4 lessons');
 const tileNos=await page.locator('.lesson-tile .tile-top span').allInnerTexts();
-if(tileNos.slice(0,4).join('|')!=='Урок 61|Урок 62|Урок 63|Урок 64')throw new Error('global numbering 61-64 missing: '+JSON.stringify(tileNos));
+if(tileNos.slice(0,4).map(x=>x.toUpperCase()).join('|')!=='УРОК 61|УРОК 62|УРОК 63|УРОК 64')throw new Error('global numbering 61-64 missing: '+JSON.stringify(tileNos));
 
 for(let i=1;i<=4;i++){
   const id=String(i).padStart(2,'0'),global=60+i;
