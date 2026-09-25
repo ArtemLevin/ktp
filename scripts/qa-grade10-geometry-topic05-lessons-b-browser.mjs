@@ -13,7 +13,7 @@ async function open(rel,selector,min=1000){errors.length=0;const r=await page.go
 await open('lessons/10-geometry-atanasyan/05/index.html','.lesson-tile',1500);
 if(await page.locator('.lesson-tile').count()!==8)throw new Error('catalog != 8');
 const nos=await page.locator('.lesson-tile .tile-top span').allInnerTexts();
-if(nos.join('|')!=='Урок 61|Урок 62|Урок 63|Урок 64|Урок 65|Урок 66|Урок 67|Урок 68')throw new Error('numbering '+JSON.stringify(nos));
+if(nos.map(x=>x.toUpperCase()).join('|')!=='УРОК 61|УРОК 62|УРОК 63|УРОК 64|УРОК 65|УРОК 66|УРОК 67|УРОК 68')throw new Error('numbering '+JSON.stringify(nos));
 for(let i=5;i<=8;i++){const id=String(i).padStart(2,'0'),global=60+i,s=await open('lessons/10-geometry-atanasyan/05/'+id+'.html','.lesson-card',1700);if(s.spatial<1)throw new Error(id+' spatial');if(await page.locator('[data-assessment-select="independent"] option').count()!==6)throw new Error(id+' independent');if(await page.locator('[data-assessment-select="control"] option').count()!==6)throw new Error(id+' control');const hero=(await page.locator('.lesson-hero h1 span').innerText()).toUpperCase();if(hero!==('Урок '+global).toUpperCase())throw new Error(id+' global '+hero);}
 
 await open('topics/10-geometry-atanasyan/05.html','.spatial-scene svg',7500);
