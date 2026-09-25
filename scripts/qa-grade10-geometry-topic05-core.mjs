@@ -67,7 +67,7 @@ for(const token of [
   'v=s<sub>осн</sub>·h',
   'v=1/3·s<sub>осн</sub>·h',
   'k²','k³',
-  'n<sub>v</sub>−n<sub>e</sub>+n<sub>f</sub>=2',
+  'nv−ne+nf=2',
   'две пересекающиеся прямые',
   'ортогональную проекцию',
   'линейный угол'
