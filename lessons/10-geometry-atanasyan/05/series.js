@@ -18,7 +18,7 @@ window.KTP_LESSON_SERIES={
     courseLessonEnd:68,
     plannedCourseLessonEnd:68,
     courseTotal:68,
-    implementationStage:'4/5',
+    implementationStage:'5/5',
     topicHref:'../../../topics/10-geometry-atanasyan/05.html',
     ktpHref:'../../../index.html?focus=10-geometry-atanasyan&view=timeline',
     catalogHref:'index.html'
