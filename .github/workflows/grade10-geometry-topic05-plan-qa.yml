@@ -1,0 +1,34 @@
+name: Grade 10 Atanasyan Topic 05 Planning QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/10-geometry-atanasyan/05-methodical-plan.md'
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'lessons/10-geometry-atanasyan/lesson-plan.md'
+      - 'scripts/qa-grade10-geometry-topic05-plan.mjs'
+      - '.github/workflows/grade10-geometry-topic05-plan-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/10-geometry-atanasyan/05-methodical-plan.md'
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'lessons/10-geometry-atanasyan/lesson-plan.md'
+      - 'scripts/qa-grade10-geometry-topic05-plan.mjs'
+
+jobs:
+  planning:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Topic 05 source and planning QA
+        run: node scripts/qa-grade10-geometry-topic05-plan.mjs
+      - name: Topic 04 final regression
+        run: |
+          node scripts/qa-grade10-geometry-topic04-final.mjs
+          node scripts/qa-grade10-geometry-topic04-final-docs.mjs
+      - name: Grade 10 foundation regression
+        run: node scripts/qa-grade10-geometry-foundation.mjs
