@@ -3,7 +3,7 @@
 const p=new URLSearchParams(location.search),row=p.get('row'),topic=p.get('topic'),lesson=p.get('lesson'),key=p.get('key'),aud=p.get('audience')==='teacher'?'teacher':'student';
 const app=document.getElementById('app');
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=v=>esc(v).replace(/\\\\dfrac\\{([^{}]+)\\}\\{([^{}]+)\\}/g,'<span class="frac"><span>$1</span><span>$2</span></span>').replace(/\\\\cdot/g,'·').replace(/\\\\le/g,'≤').replace(/\\\\ge/g,'≥').replace(/\\\\ne/g,'≠').replace(/\\\\Rightarrow/g,'⇒');
+const fmt=v=>esc(v).replace(/\\dfrac\{([^{}]+)\}\{([^{}]+)\}/g,'<span class="frac"><span>$1</span><span>$2</span></span>').replace(/\\cdot/g,'·').replace(/\\le/g,'≤').replace(/\\ge/g,'≥').replace(/\\ne/g,'≠').replace(/\\Rightarrow/g,'⇒');
 if(!row||!topic||!lesson||!key){app.innerHTML='<section class="error">Не заданы параметры материала.</section>';return;}
 const script=document.createElement('script');script.src='../lessons/'+encodeURIComponent(row)+'/'+encodeURIComponent(topic)+'/resources-core.js';script.onload=render;script.onerror=()=>app.innerHTML='<section class="error">Данные материала не загрузились.</section>';document.head.appendChild(script);
 function sources(d){const xs=d.source?.officialSources||[];return xs.length?'<p><b>Официальная методическая опора:</b></p><ul>'+xs.map(x=>'<li><a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.title)+'</a></li>').join('')+'</ul>':'';}
