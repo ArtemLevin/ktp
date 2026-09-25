@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-const rows={'5-math-vilenkin':{min:0,max:12},'6-math-vilenkin':{min:0,max:9},'7-geometry-atanasyan':{min:0,max:5},'8-geometry-atanasyan':{min:0,max:4},'9-geometry-atanasyan':{min:0,max:6},'10-geometry-atanasyan':{min:0,max:3},'7-algebra-makarychev':{min:0,max:6},'8-algebra-makarychev':{min:0,max:6},'9-algebra-makarychev':{min:0,max:5},'10-algebra-alimov':{min:0,max:7},'11-algebra-alimov':{min:0,max:6}};
+const rows={'5-math-vilenkin':{min:0,max:12},'6-math-vilenkin':{min:0,max:9},'7-geometry-atanasyan':{min:0,max:5},'8-geometry-atanasyan':{min:0,max:4},'9-geometry-atanasyan':{min:0,max:6},'10-geometry-atanasyan':{min:0,max:4},'7-algebra-makarychev':{min:0,max:6},'8-algebra-makarychev':{min:0,max:6},'9-algebra-makarychev':{min:0,max:5},'10-algebra-alimov':{min:0,max:7},'11-algebra-alimov':{min:0,max:6}};
 const body=document.body,row=body?.dataset?.row,i=Number(body?.dataset?.topic),cfg=rows[row];
 if(!cfg||!Number.isInteger(i)||i<cfg.min||i>cfg.max)return;
 
