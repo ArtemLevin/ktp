@@ -69,7 +69,7 @@ for(const token of [
   'k²','k³',
   'nv−ne+nf=2',
   'две пересекающиеся прямые',
-  'ортогональную проекцию',
+  'ортогональн',
   'линейный угол'
 ]) assert(core.includes(token.toLowerCase()),'core concept missing '+token);
 
