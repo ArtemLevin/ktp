@@ -20,10 +20,14 @@ function render(){
     const tasks=d.tasks.filter(x=>x.level===code);
     return '<section class="exercise-block"><div class="level-row"><h2>'+esc(label)+'</h2><span>'+tasks.length+' упражнений</span></div><ol start="'+(tasks[0]?.n||1)+'">'+tasks.map(t=>'<li><div class="task">'+esc(t.text)+'</div>'+(aud==='teacher'?'<div class="answer"><b>Ответ.</b> '+esc(t.answer)+'</div>':'')+'</li>').join('')+'</ol></section>';
   }).join('');
+  const src=d.source||{};
+  const official=(src.officialSources||[]).length
+    ? '<p><b>Официальная методическая опора:</b></p><ul>'+(src.officialSources||[]).map(x=>'<li><a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.title)+'</a></li>').join('')+'</ul>'
+    : (src.officialUrl?'<p><b>Официальная опора:</b> <a href="'+esc(src.officialUrl)+'" target="_blank" rel="noopener">'+esc(src.officialTitle||src.officialUrl)+'</a>.</p>':'');
   const method=aud==='teacher'
-    ? '<section class="method"><div class="kicker">Методический паспорт</div><h2>Как использовать материал</h2><p><b>Навык:</b> '+esc(d.skill)+'.</p><p><b>Маршрут:</b> A — база; B — стандарт; C — объяснение, контрпример и анализ ошибки; Challenge — перенос и обоснование.</p><p><b>Источник КТП:</b> '+esc(d.source.ktp)+' · урок №'+d.globalLesson+'.</p><p><b>Официальная опора:</b> <a href="'+esc(d.source.officialUrl)+'" target="_blank" rel="noopener">'+esc(d.source.officialTitle)+'</a>.</p></section>'
+    ? '<section class="method"><div class="kicker">Методический паспорт</div><h2>Как использовать материал</h2><p><b>Навык:</b> '+esc(d.skill)+'.</p><p><b>Маршрут:</b> A — база; B — стандарт; C — объяснение, контрпример и анализ ошибки; Challenge — перенос и обоснование.</p><p><b>Источник КТП:</b> '+esc(src.ktp||'')+' · урок №'+d.globalLesson+'.</p>'+official+'</section>'
     : '<section class="method student"><div class="kicker">Как работать</div><p>Решайте блоки последовательно. Отмечайте задания, где пришлось возвращаться к правилу, и повторите их через 1–2 дня.</p></section>';
-  app.innerHTML='<nav class="toolbar"><a href="javascript:history.back()">← К уроку</a><button type="button" id="print">Печать / сохранить PDF</button></nav><article class="sheet"><header class="cover"><div class="subject">МАТЕМАТИКА</div><div class="rubric">54 упражнения</div><div class="subtitle">для тотального закрепления</div><h1>'+esc(d.title)+'</h1><p>'+d.grade+' класс · урок №'+d.globalLesson+'</p><strong>'+audience+'</strong><small>Публикация: 25 сентября 2026 г.</small></header>'+method+sections+'<footer>Лёвин Артём Александрович · '+esc(full)+'</footer></article>';
+  app.innerHTML='<nav class="toolbar"><a href="javascript:history.back()">← К уроку</a><button type="button" id="print">Печать / сохранить PDF</button></nav><article class="sheet"><header class="cover"><div class="subject">'+esc(String(d.subject||'Математика').toUpperCase())+'</div><div class="rubric">54 упражнения</div><div class="subtitle">для тотального закрепления</div><h1>'+esc(d.title)+'</h1><p>'+d.grade+' класс · урок №'+d.globalLesson+'</p><strong>'+audience+'</strong><small>Публикация: '+esc(d.publicationDate||d.publicationLabel||'')+'</small></header>'+method+sections+'<footer>Лёвин Артём Александрович · '+esc(full)+'</footer></article>';
   document.getElementById('print')?.addEventListener('click',()=>window.print());
 }
 })();
