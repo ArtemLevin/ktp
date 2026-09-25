@@ -453,14 +453,14 @@ Thematic assessment не содержит enrichment-only пп. 25*–26*, п. 3
 - спецификация \`spatial-router/\`;
 - QA-инварианты.
 
-### Этап 2 · Topic core
+### Этап 2 · Topic core — выполнен
 
 Создать:
 - \`content/10-geometry-atanasyan/05.js\`;
 - topic-level spatial scenes;
 - полноценную \`topics/10-geometry-atanasyan/05.html\`.
 
-### Этап 3 · Уроки 61–64
+### Этап 3 · Уроки 61–64 — выполнен
 
 - объёмы;
 - практико-ориентированное моделирование;
@@ -469,7 +469,7 @@ Thematic assessment не содержит enrichment-only пп. 25*–26*, п. 3
 
 Промежуточный QA: 4/8 уроков.
 
-### Этап 4 · Уроки 65–68 + router
+### Этап 4 · Уроки 65–68 + router — выполнен
 
 - расстояния/углы;
 - комплексная задача;
@@ -477,7 +477,7 @@ Thematic assessment не содержит enrichment-only пп. 25*–26*, п. 3
 - коррекция;
 - \`spatial-router/\`.
 
-### Этап 5 · Assessments + closure всей линии
+### Этап 5 · Assessments + closure всей линии — реализация выполнена
 
 - thematic 6×7 / 14;
 - thematic 6×10 / 20;
