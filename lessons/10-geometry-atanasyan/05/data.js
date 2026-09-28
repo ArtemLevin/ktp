@@ -190,8 +190,13 @@ function example(title,t,scene){
 function assessment(mode,kind){
   const independent=kind==='independent';
   const max=independent?10:14;
-  const count=independent?5:6;
   const points=independent?[2,2,2,2,2]:[2,2,2,2,2,4];
+  const picks={
+    volumes:[[0,1,2,4,5],[0,1,2,5,6,8]],
+    practical:[[0,1,2,4,5],[0,1,2,5,7,8]],
+    sections:[[0,1,2,4,5],[0,1,2,5,6,8]],
+    relations:[[0,1,2,4,5],[0,1,2,4,5,8]]
+  }[mode][independent?0:1];
   return{
     title:independent?'Самостоятельная работа':'Поурочный контроль',
     purpose:independent?'Проверить выбор модели и базовый метод.':'Проверить выбор метода, условия применимости, вычисления и анализ ошибки.',
@@ -200,7 +205,7 @@ function assessment(mode,kind){
     grading:grading(max),
     variants:Array.from({length:6},(_,i)=>({
       id:i+1,
-      tasks:pool(mode,i+1).slice(0,count).map((q,j)=>({...q,points:points[j]}))
+      tasks:picks.map((index,j)=>({...pool(mode,i+1)[index],points:points[j]}))
     }))
   };
 }

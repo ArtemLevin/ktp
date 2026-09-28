@@ -102,10 +102,13 @@ for(const v of S.lessons[0].control.variants){
   assert(m&&first(v.tasks[0].answer)===Number(m[1])*Number(m[2])*Number(m[3]),'L61 v'+v.id+' box volume');
   m=v.tasks[1].text.match(/Sосн=(\d+), высоту (\d+) и боковое ребро (\d+)/);
   assert(m&&first(v.tasks[1].answer)===Number(m[1])*Number(m[2]),'L61 v'+v.id+' prism volume');
+  const prismHeight=Number(m[2]);
   m=v.tasks[2].text.match(/Sосн=(\d+) и высоту (\d+)/);
   assert(m&&first(v.tasks[2].answer)===Number(m[1])*Number(m[2])/3,'L61 v'+v.id+' pyramid volume');
-  const values=nums(v.tasks[3].text);
-  assert(values.length>=2&&first(v.tasks[3].answer)===values.at(-2),'L61 v'+v.id+' height choice');
+  assert(v.tasks[3].skill==='ERROR'&&v.tasks[3].answer.includes('1/3'),'L61 v'+v.id+' missing third correction');
+  const factor=first(v.tasks[4].text.match(/k=(\d+)/)?.[1]);
+  assert(factor&&v.tasks[4].answer.includes(String(factor**3)),'L61 v'+v.id+' similarity volume');
+  assert(v.tasks[5].skill==='REVERSE'&&first(v.tasks[5].answer)===prismHeight,'L61 v'+v.id+' reverse height');
 }
 
 for(const v of S.lessons[1].control.variants){

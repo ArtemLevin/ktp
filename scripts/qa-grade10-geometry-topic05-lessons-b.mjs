@@ -44,7 +44,7 @@ const num=s=>Number(String(s).match(/-?\d+(?:[.,]\d+)?/)?.[0].replace(',','.'));
 for(const v of S.lessons[4].control.variants){
  const m=v.tasks[0].text.match(/SH=(\d+), HA=(\d+)/);assert(m,'L65 parse');
  assert(num(v.tasks[0].answer)===Math.hypot(+m[1],+m[2]),'L65 hypotenuse v'+v.id);
- assert(v.tasks[3].answer.includes('HA'),'L65 projection v'+v.id);
+ assert(v.tasks[2].answer.includes('HA'),'L65 projection v'+v.id);
 }
 for(const v of S.lessons[5].control.variants){
  let m=v.tasks[0].text.match(/основания (\d+), высоту (\d+), апофему (\d+)/);assert(m,'L66 parse');
@@ -54,10 +54,19 @@ for(const v of S.lessons[5].control.variants){
  assert(Math.abs(num(v.tasks[2].answer)-a*a*k*k)<1e-8,'L66 section v'+v.id);
 }
 for(const v of S.lessons[6].control.variants){
- const skills=v.tasks.map(t=>t.skill);for(const x of ['READ','REL','COND','PLANE','SECTION','VOLUME'])assert(skills.includes(x),'L67 '+x);
+ const skills=new Set(v.tasks.flatMap(t=>t.skill.split(' / ')));
+ for(const x of ['READ','REL','AXIOM','LOGIC','COND','PLANE','PROJ','METRIC','SECTION','SURFACE','VOLUME','CHECK'])assert(skills.has(x),'L67 '+x);
+ let m=v.tasks[3].text.match(/SH=(\d+), HA=(\d+)/);assert(m,'L67 metric parse');
+ assert(num(v.tasks[3].answer.match(/SA=(\d+)/)?.[1])===Math.hypot(+m[1],+m[2]),'L67 hypotenuse v'+v.id);
+ m=v.tasks[4].text.match(/a=(\d+), апофему (\d+)/);assert(m,'L67 surface parse');
+ assert(v.tasks[4].answer.includes('Sсеч='+(+m[1])**2/4),'L67 section v'+v.id);
+ assert(v.tasks[4].answer.includes('Sполн='+((+m[1])**2+2*(+m[1])*(+m[2]))),'L67 surface v'+v.id);
 }
 for(const v of S.lessons[7].control.variants){
- const skills=v.tasks.map(t=>t.skill);for(const x of ['READ','COND','PROJ','SECTION','VOLUME','CHECK'])assert(skills.includes(x),'L68 '+x);
+ const skills=new Set(v.tasks.flatMap(t=>t.skill.split(' / ')));
+ for(const x of ['READ','COND','PROJ','SECTION','VOLUME','CHECK','RETEST'])assert(skills.has(x),'L68 '+x);
+ const m=v.tasks[5].text.match(/Sосн=(\d+), высота (\d+), боковое ребро (\d+)/);
+ assert(m&&num(v.tasks[5].answer)===+m[1]*+m[2]&&+m[3]>+m[2],'L68 retest v'+v.id);
 }
 
 // Scene invariants.
