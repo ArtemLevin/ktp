@@ -9,7 +9,6 @@ on:
       - 'geometry/grade11-volume-scenes.js'
       - 'lessons/11-geometry-atanasyan/02/**'
       - 'labs/11-geometry-atanasyan/volume-transform/**'
-      - 'labs/11-geometry-atanasyan/volume-transform/**'
       - 'scripts/qa-grade11-geometry-topic02-*.mjs'
       - '.github/workflows/grade11-geometry-topic02-foundation-qa.yml'
   push:
@@ -20,6 +19,7 @@ on:
       - 'topics/11-geometry-atanasyan/02.html'
       - 'geometry/grade11-volume-scenes.js'
       - 'lessons/11-geometry-atanasyan/02/**'
+      - 'labs/11-geometry-atanasyan/volume-transform/**'
       - 'scripts/qa-grade11-geometry-topic02-*.mjs'
       - '.github/workflows/grade11-geometry-topic02-foundation-qa.yml'
 
