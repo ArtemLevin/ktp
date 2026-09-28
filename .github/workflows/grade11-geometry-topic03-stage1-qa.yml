@@ -1,0 +1,74 @@
+name: Grade 11 Atanasyan Topic 03 Stage 1 QA
+
+on:
+  pull_request:
+    paths:
+      - 'geometry/revolution-math.js'
+      - 'geometry/revolution-scene.js'
+      - 'geometry/revolution-scene.css'
+      - 'geometry/grade11-revolution-volume-scenes.js'
+      - 'geometry/fixtures/grade11-revolution-volume.html'
+      - 'geometry/REVOLUTION_RENDERING.md'
+      - 'geometry/README.md'
+      - 'content/11-geometry-atanasyan/03-methodical-plan.md'
+      - 'Plan.md'
+      - 'scripts/qa-grade11-revolution-core.mjs'
+      - 'scripts/qa-grade11-geometry-topic03-stage1*.mjs'
+      - '.github/workflows/grade11-geometry-topic03-stage1-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'geometry/revolution-math.js'
+      - 'geometry/revolution-scene.js'
+      - 'geometry/revolution-scene.css'
+      - 'geometry/grade11-revolution-volume-scenes.js'
+      - 'geometry/fixtures/grade11-revolution-volume.html'
+      - 'geometry/REVOLUTION_RENDERING.md'
+      - 'geometry/README.md'
+      - 'content/11-geometry-atanasyan/03-methodical-plan.md'
+      - 'Plan.md'
+      - 'scripts/qa-grade11-revolution-core.mjs'
+      - 'scripts/qa-grade11-geometry-topic03-stage1*.mjs'
+      - '.github/workflows/grade11-geometry-topic03-stage1-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Topic 03 stage 1 math and scenes
+        run: |
+          node scripts/qa-grade11-geometry-topic03-stage1.mjs
+          node scripts/qa-grade11-geometry-topic03-planning.mjs
+          node scripts/qa-grade11-revolution-core.mjs
+      - name: Published grade 11 regressions
+        run: |
+          node scripts/qa-grade11-geometry-foundation.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments.mjs
+          node scripts/qa-grade11-geometry-topic02-foundation.mjs
+          node scripts/qa-grade11-geometry-topic02-lab.mjs
+          node scripts/qa-grade11-geometry-topic02-assessments.mjs
+      - name: Grade 10 geometry regression
+        run: |
+          node scripts/qa-grade10-geometry-topic05-final.mjs
+          node scripts/qa-grade10-geometry-topic05-final-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Topic 03 volume scenes
+        run: node scripts/qa-grade11-geometry-topic03-stage1-browser.mjs
+      - name: Revolution renderer regression
+        run: node scripts/qa-grade11-revolution-browser.mjs
