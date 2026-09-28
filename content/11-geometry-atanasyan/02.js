@@ -258,8 +258,10 @@ KTP_REGISTER_CONTENT('11-geometry-atanasyan::1',{
   },
 
   assessments:{
-    enabled:false,
-    planned:true,
+    enabled:true,
+    planned:false,
+    title:'Тематическая проверка',
+    description:'6 вариантов самостоятельной работы по 7 заданий / 14 баллов и 6 вариантов контрольной по 10 заданий / 20 баллов. Ответы и критерии доступны в режиме учителя.',
     independentHref:'../../assessments/11-geometry-atanasyan/02/independent.html',
     controlHref:'../../assessments/11-geometry-atanasyan/02/control.html'
   },
