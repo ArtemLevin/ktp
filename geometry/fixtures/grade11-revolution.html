@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Геометрия 11 · тела вращения · проверка сцен</title>
+  <link rel="stylesheet" href="../revolution-scene.css">
+  <style>body{margin:0;padding:18px;font-family:system-ui,sans-serif;background:#f8fafc;color:#101828}main{max-width:860px;margin:auto}h1{font-size:23px}</style>
+</head>
+<body data-row="revolution-fixture" data-topic="0">
+<main>
+  <h1>Тела вращения: модель, поверхность и сечение</h1>
+  <span data-revolution-scene="cylinder"></span>
+  <span data-revolution-scene="cone"></span>
+  <span data-revolution-scene="frustum"></span>
+  <span data-revolution-scene="sphere-section"></span>
+  <span data-revolution-scene="sphere-tangent"></span>
+</main>
+<script>
+window.KTP_CONTENT={
+  'revolution-fixture::0':{
+    revolutionScenes:{
+      cylinder:{title:'Цилиндр и осевое сечение',ariaLabel:'Цилиндр радиуса 1,2 и высоты 2; выделенное прямоугольное осевое сечение',solid:{type:'cylinder',radius:1.2,height:2},section:{type:'axial'},camera:{yaw:-35,pitch:24,scale:65,origin:[210,205]},caption:'Осевое сечение — прямоугольник 2r × h; задняя дуга нижнего основания показана штрихом.'},
+      cone:{title:'Конус и параллельное сечение',ariaLabel:'Конус радиуса 1,3 и высоты 2,2; круговое сечение на высоте 1,1',solid:{type:'cone',radius:1.3,height:2.2},section:{type:'parallel-base',offset:1.1},camera:{yaw:-35,pitch:25,scale:64,origin:[210,213]},caption:'Радиус параллельного сечения равен 0,65 по подобию.'},
+      frustum:{title:'Усечённый конус',ariaLabel:'Усечённый конус с радиусами 1,3 и 0,65 и высотой 1,8',solid:{type:'frustum',radius:1.3,topRadius:0.65,height:1.8},camera:{yaw:-35,pitch:24,scale:65,origin:[210,205]},caption:'Два основания имеют разные радиусы; образующая вычисляется по истинной высоте.'},
+      'sphere-section':{title:'Сечение шара',ariaLabel:'Шар радиуса 1,35; сечение плоскостью на расстоянии 0,7 от центра',solid:{type:'ball',radius:1.35},section:{type:'sphere-plane',normal:[0,0,1],offset:.7},camera:{yaw:-35,pitch:25,scale:75,origin:[210,145]},caption:'Радиус круга сечения вычисляется как √(r² − d²).'},
+      'sphere-tangent':{title:'Касательная плоскость',ariaLabel:'Сфера радиуса 1,35 и точка касания плоскости на расстоянии радиуса от центра',solid:{type:'sphere',radius:1.35},section:{type:'sphere-plane',normal:[0,0,1],offset:1.35},camera:{yaw:-35,pitch:25,scale:75,origin:[210,145]},caption:'При d = r сечение вырождается в одну точку касания.'}
+    }
+  }
+};
+</script>
+<script src="../spatial-scene.js"></script>
+<script src="../revolution-math.js"></script>
+<script src="../revolution-scene.js"></script>
+</body>
+</html>
