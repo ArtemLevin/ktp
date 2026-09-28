@@ -133,8 +133,7 @@ for(const token of [
   'sphericalSegmentVolume(R,h)',
   'sphericalSectorVolume(R,h)',
   'sphericalLayerVolume(...)',
-  'helper для проверки масштаба `k²/k³`',
-  'тематическая страница и уроки пока не публикуются'
+  'helper для проверки масштаба `k²/k³`'
 ])check(plan.includes(token),'stage 1 plan token '+token);
 
 console.log('Grade 11 geometry topic 03 stage 1 math/scenes QA passed: '+checks+' checks.');
