@@ -185,6 +185,13 @@ defs.forEach((d,i)=>{
       d.theory.map(item=>item[1]).join(' '),
       'Контрольный маршрут: основание → площадь основания → истинная высота → формула → кубические единицы.'
     ],
+    resources:[4,5,8].includes(local)?[{
+      label:'Цифровая лаборатория',
+      audience:'Ученик',
+      format:'interactive web',
+      title:'Инварианты объёма',
+      href:'../../../labs/11-geometry-atanasyan/volume-transform/index.html'
+    }]:[],
     source:{
       textbook:'Л. С. Атанасян и др. «Геометрия. 10–11 классы». Нумерация оглавления 2019 года, сверяемая со стереотипным изданием 2026 года.',
       section:d.section,
