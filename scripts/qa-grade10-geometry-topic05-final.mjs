@@ -88,7 +88,7 @@ let lessons=0;
 for(const topic of fs.readdirSync('lessons/10-geometry-atanasyan').filter(name=>/^\d\d$/.test(name)))
   lessons+=fs.readdirSync(path.join('lessons/10-geometry-atanasyan',topic)).filter(name=>/^\d\d\.html$/.test(name)).length;
 assert(lessons===68,'course contains 68 addressable lesson pages');
-for(const [directory,pattern,count] of [['lessons',/^\d\d\.html$/,1133],['assessments',/^data\.js$/,82]]){
+for(const [directory,pattern,count] of [['lessons',/^\d\d\.html$/,1143],['assessments',/^data\.js$/,83]]){
   const folders=fs.readdirSync(directory,{withFileTypes:true}).filter(x=>x.isDirectory());
   const actual=folders.reduce((sum,folder)=>sum+fs.readdirSync(path.join(directory,folder.name),{withFileTypes:true}).filter(x=>x.isDirectory()).reduce((acc,sub)=>acc+fs.readdirSync(path.join(directory,folder.name,sub.name)).filter(name=>pattern.test(name)).length,0),0);
   assert(actual===count,directory+' aggregate count '+actual);
