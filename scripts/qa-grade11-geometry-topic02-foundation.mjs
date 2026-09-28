@@ -71,7 +71,8 @@ for(const level of ['basic','standard','transfer','challenge'])check(T.practice[
 check(T.diagnostic.length>=8,'mini diagnostic');
 check(T.homework.required.length>=8&&T.homework.optional.length>=2,'homework');
 check(T.summary.length>=10,'summary');
-check(T.lab.enabled===false&&T.lab.planned===true,'lab planned, not prematurely enabled');
+check(T.lab.enabled===true&&T.lab.planned===false,'volume lab published');
+check(fs.existsSync(path.join(root,'labs/11-geometry-atanasyan/volume-transform/index.html')),'volume lab route');
 check(T.assessments.enabled===false&&T.assessments.planned===true,'assessment planned, not prematurely enabled');
 check(T.source.paragraphs.some(x=>x.includes('пп. 52–54')),'source p52-54');
 check(T.source.paragraphs.some(x=>x.includes('пп. 57–58')),'source p57-58');
