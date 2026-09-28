@@ -33,7 +33,8 @@ check(S.meta.implementationStage==='4/5','lesson and lab implementation stage');
 check(Object.keys(S.spatialScenes).length===10,'ten lesson spatial scenes');
 check(T?.theory?.length===10&&T.examples.length>=8,'thematic content retained');
 check(T.lab.enabled===false&&T.lab.planned===true,'lab still planned');
-check(T.assessments.enabled===false&&T.assessments.planned===true,'thematic assessment still planned');
+check(T.assessments.enabled===true&&T.assessments.planned===false,'thematic assessment published');
+for(const p of ['data.js','independent.html','control.html'])check(fs.existsSync(path.join(root,'assessments/11-geometry-atanasyan/02',p)),'assessment route '+p);
 
 const expectedModes=['volumeBasics','box','prism','obliquePrism','pyramid','frustum','sectionVolume','similarSolids','composite','diagnostic'];
 const sceneIds=[
