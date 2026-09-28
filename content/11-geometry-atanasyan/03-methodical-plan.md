@@ -323,12 +323,14 @@ labs/11-geometry-atanasyan/revolution-volume/
 
 ## 13. Этапы реализации
 
-### Этап 1 — математическое ядро и сцены
+### Этап 1 — математическое ядро и сцены · **реализован**
 
-- расширить `revolution-math.js` формулами шаровых частей и проверками диапазонов;
-- добавить reusable scene-data для 11 уроков;
-- проверить точные 3D-инварианты и camera-independence;
-- не публиковать уроки до зелёного math/source QA.
+- `revolution-math.js` расширен формулами шарового сегмента, сектора, слоя, связкой `d ↔ h ↔ ρ` и коэффициентами `k²/k³`;
+- добавлен reusable registry `geometry/grade11-revolution-volume-scenes.js` для всех 11 уроков 22–32;
+- добавлен отдельный fixture `geometry/fixtures/grade11-revolution-volume.html`;
+- structural QA проверяет точные формулы, области параметров, предельные случаи и camera-independence;
+- browser QA проверяет 11/11 сцен, aria, mobile 390 px, print и отсутствие `NaN/Infinity` в SVG;
+- тематическая страница и уроки пока не публикуются: это граница этапа 2.
 
 ### Этап 2 — тематическая страница
 
