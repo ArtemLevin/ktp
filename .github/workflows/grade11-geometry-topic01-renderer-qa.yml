@@ -1,0 +1,42 @@
+name: Grade 11 Atanasyan Topic 01 Rendering QA
+
+on:
+  pull_request:
+    paths:
+      - 'geometry/revolution-*'
+      - 'geometry/fixtures/grade11-revolution.html'
+      - 'scripts/qa-grade11-revolution-*.mjs'
+      - '.github/workflows/grade11-geometry-topic01-renderer-qa.yml'
+      - 'content/11-geometry-atanasyan/01-methodical-plan.md'
+      - 'Plan.md'
+  push:
+    branches: [main]
+    paths:
+      - 'geometry/revolution-*'
+      - 'geometry/fixtures/grade11-revolution.html'
+      - 'scripts/qa-grade11-revolution-*.mjs'
+      - '.github/workflows/grade11-geometry-topic01-renderer-qa.yml'
+      - 'content/11-geometry-atanasyan/01-methodical-plan.md'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/qa-grade11-revolution-core.mjs
+      - run: node scripts/qa-grade11-geometry-foundation.mjs
+      - run: node scripts/qa-grade10-geometry-topic05-final.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/qa-grade11-revolution-browser.mjs
