@@ -1,0 +1,48 @@
+name: Grade 10 Atanasyan Topic 05 Core QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/10-geometry-atanasyan/05.js'
+      - 'content/10-geometry-atanasyan/05-methodical-plan.md'
+      - 'topics/10-geometry-atanasyan/05.html'
+      - 'geometry/spatial-scene.js'
+      - 'geometry/spatial-scene.css'
+      - 'assessments/topic-links.js'
+      - 'scripts/qa-grade10-geometry-topic05-core*.mjs'
+      - '.github/workflows/grade10-geometry-topic05-core-qa.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/10-geometry-atanasyan/05.js'
+      - 'topics/10-geometry-atanasyan/05.html'
+      - 'scripts/qa-grade10-geometry-topic05-core*.mjs'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Topic 05 core/source/math QA
+        run: node scripts/qa-grade10-geometry-topic05-core.mjs
+      - name: Planning regression
+        run: node scripts/qa-grade10-geometry-topic05-plan.mjs
+      - name: Topic 04 release regression
+        run: |
+          node scripts/qa-grade10-geometry-topic04-final.mjs
+          node scripts/qa-grade10-geometry-topic04-final-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Topic 05 browser/mobile/print QA
+        run: node scripts/qa-grade10-geometry-topic05-core-browser.mjs

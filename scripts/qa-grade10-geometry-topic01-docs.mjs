@@ -13,7 +13,7 @@ const metric=(text,label)=>{
 
 const readme=read('README.md');
 assert(metric(readme,'Суммарно опубликовано')>=1058,'README lesson aggregate must not regress');
-assert(readme.match(/(?:77|78|79|8\d|9\d|1\d\d) тематических assessment-комплект/),'README assessment aggregate must not regress');
+assert(readme.match(/(?:77|78|79|8\d|9\d|1\d\d) тематическ(?:их|ий) assessment-комплект/),'README assessment aggregate must not regress');
 for(const token of [
   '10-geometry-atanasyan',
   'content/10-geometry-atanasyan/methodical-plan.md',
