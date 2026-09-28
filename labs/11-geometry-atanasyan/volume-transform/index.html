@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Инварианты объёма — Геометрия 11 класс · KTP 3.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-shell">
+  <header class="hero">
+    <a class="back" href="../../../topics/11-geometry-atanasyan/02.html">← Тема «Объёмы многогранников»</a>
+    <span class="kicker">Цифровая лаборатория · 11 класс</span>
+    <h1>Инварианты объёма</h1>
+    <p>Исследуйте три идеи: сдвиг основания призмы, перемещение вершины пирамиды и масштабирование подобных тел. Математические величины вычисляются по истинной 3D-модели; поворот камеры меняет только изображение.</p>
+  </header>
+
+  <section class="question">
+    <span class="kicker">Исследовательский вопрос</span>
+    <h2>Какие изменения формы сохраняют объём, а какие меняют его по закону k³?</h2>
+    <p>Сравнивайте одновременно геометрию, численные параметры и формулу. Главный ориентир: площадь основания и перпендикулярная высота важнее внешнего «наклона» рисунка.</p>
+  </section>
+
+  <nav class="modebar" aria-label="Режим лаборатории">
+    <button type="button" data-mode-button="prism" aria-pressed="true">Призма: сдвиг основания</button>
+    <button type="button" data-mode-button="pyramid" aria-pressed="false">Пирамида: сдвиг вершины</button>
+    <button type="button" data-mode-button="similarity" aria-pressed="false">Подобие: k → k² → k³</button>
+  </nav>
+
+  <section class="workspace">
+    <aside class="panel controls" aria-label="Параметры модели">
+      <span class="kicker">Управление</span>
+      <h2 id="controlTitle">Призма</h2>
+
+      <div class="control-set" data-controls="prism">
+        <label>Длина основания a <output id="prismAOut"></output>
+          <input id="prismA" type="range" min="2" max="6" step="0.5" value="4">
+        </label>
+        <label>Ширина основания b <output id="prismBOut"></output>
+          <input id="prismB" type="range" min="2" max="5" step="0.5" value="3">
+        </label>
+        <label>Высота h <output id="prismHOut"></output>
+          <input id="prismH" type="range" min="2" max="6" step="0.5" value="4">
+        </label>
+        <label>Сдвиг верхнего основания <output id="prismShiftOut"></output>
+          <input id="prismShift" type="range" min="-3" max="3" step="0.25" value="0">
+        </label>
+        <div class="actions">
+          <button type="button" id="prismStraight">Прямая призма</button>
+          <button type="button" id="prismTilt">Сильный наклон</button>
+        </div>
+      </div>
+
+      <div class="control-set" data-controls="pyramid" hidden>
+        <label>Длина основания a <output id="pyrAOut"></output>
+          <input id="pyrA" type="range" min="2" max="6" step="0.5" value="4">
+        </label>
+        <label>Ширина основания b <output id="pyrBOut"></output>
+          <input id="pyrB" type="range" min="2" max="5" step="0.5" value="3">
+        </label>
+        <label>Высота h <output id="pyrHOut"></output>
+          <input id="pyrH" type="range" min="2" max="6" step="0.5" value="4">
+        </label>
+        <label>Сдвиг вершины по x <output id="pyrXOut"></output>
+          <input id="pyrX" type="range" min="-2.5" max="2.5" step="0.25" value="0">
+        </label>
+        <label>Сдвиг вершины по y <output id="pyrYOut"></output>
+          <input id="pyrY" type="range" min="-2" max="2" step="0.25" value="0">
+        </label>
+        <div class="actions">
+          <button type="button" id="pyrCenter">Вершина над центром</button>
+          <button type="button" id="pyrMove">Сместить вершину</button>
+        </div>
+      </div>
+
+      <div class="control-set" data-controls="similarity" hidden>
+        <label>Коэффициент k <output id="kOut"></output>
+          <input id="k" type="range" min="0.5" max="3" step="0.1" value="1.5">
+        </label>
+        <div class="actions">
+          <button type="button" data-k="0.5">k=0,5</button>
+          <button type="button" data-k="1">k=1</button>
+          <button type="button" data-k="2">k=2</button>
+        </div>
+      </div>
+
+      <div class="camera">
+        <label>Поворот камеры <output id="yawOut"></output>
+          <input id="yaw" type="range" min="-70" max="30" step="1" value="-35">
+        </label>
+        <label>Высота камеры <output id="pitchOut"></output>
+          <input id="pitch" type="range" min="10" max="50" step="1" value="24">
+        </label>
+        <label class="check"><input id="showHeight" type="checkbox" checked> Показывать перпендикулярную высоту</label>
+        <label class="check"><input id="showFormula" type="checkbox" checked> Показывать формулу</label>
+      </div>
+      <p class="hint">Tab переводит фокус, стрелки изменяют ползунки. Камера участвует только в проекции и не влияет на вычисленные объёмы.</p>
+    </aside>
+
+    <section class="panel stage-panel">
+      <div class="metrics" aria-live="polite">
+        <article><span id="m1Label">S основания</span><strong id="m1"></strong></article>
+        <article><span id="m2Label">Высота h</span><strong id="m2"></strong></article>
+        <article><span id="m3Label">Боковое ребро</span><strong id="m3"></strong></article>
+        <article><span id="m4Label">Объём V</span><strong id="m4"></strong></article>
+      </div>
+
+      <svg id="stage" viewBox="0 0 720 470" role="img" aria-labelledby="stageTitle stageDesc">
+        <title id="stageTitle">Интерактивная модель объёма</title>
+        <desc id="stageDesc">Пространственная фигура вычисляется в истинных координатах и затем проецируется на экран.</desc>
+      </svg>
+
+      <div id="formula" class="formula" aria-live="polite"></div>
+      <div id="observation" class="observation" aria-live="polite"></div>
+    </section>
+  </section>
+
+  <section class="research">
+    <span class="kicker">Исследуйте</span>
+    <ol>
+      <li>В режиме призмы запомните объём при сдвиге 0. Затем меняйте только сдвиг. Что происходит с боковым ребром, высотой и объёмом?</li>
+      <li>Измените высоту призмы. Почему теперь объём меняется, хотя площадь основания осталась прежней?</li>
+      <li>В режиме пирамиды двигайте вершину по x и y при фиксированной высоте. Сравните наклон боковых рёбер и объём.</li>
+      <li>Установите k=2. Объясните одновременно результаты 2, 4 и 8 для длин, площадей и объёмов.</li>
+      <li>Поверните камеру во всех трёх режимах. Какие численные величины обязаны остаться неизменными?</li>
+    </ol>
+  </section>
+
+  <section class="conclusion">
+    <span class="kicker">Опорный вывод</span>
+    <p>Для призмы объём определяется S<sub>осн</sub> и перпендикулярной высотой h; наклон бокового ребра сам по себе объём не меняет. Для пирамиды при тех же S<sub>осн</sub> и h объём также не зависит от горизонтального положения вершины и равен третьей части соответствующей призмы. У подобных тел объём изменяется как куб линейного коэффициента.</p>
+    <div class="invariant">
+      <article><b>V=Sосн·h</b><span>призма</span></article>
+      <article><b>V=⅓Sосн·h</b><span>пирамида</span></article>
+      <article><b>V₂/V₁=k³</b><span>подобные тела</span></article>
+    </div>
+  </section>
+</main>
+<script src="math.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
