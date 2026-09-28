@@ -25,6 +25,15 @@ const s=M.metrics(sphere);
 near(s.area,100*Math.PI,'sphere area');assert(!('volume' in s),'surface has no volume');
 const ball={type:'ball',radius:5};
 near(M.metrics(ball).surfaceArea,100*Math.PI,'ball surface area');near(M.metrics(ball).volume,500*Math.PI/3,'ball volume');
+near(M.sphericalSegmentVolume(5,5),250*Math.PI/3,'hemisphere segment volume');
+near(M.sphericalSegmentVolume(5,10),500*Math.PI/3,'full ball segment limit');
+near(M.sphericalSectorVolume(5,5),250*Math.PI/3,'hemisphere sector volume');
+near(M.sphericalLayerVolume(5,-1,2),72*Math.PI,'spherical layer volume');
+near(M.sphereSectionMetrics(5,3).sectionRadius,4,'section metrics radius');
+near(M.sphereSectionMetrics(5,3).capHeight,2,'section metrics cap height');
+near(M.sphereCapMetrics(5,8).sectionRadius,4,'cap metrics radius');
+near(M.similarityFactors(2).areaFactor,4,'similarity area factor');
+near(M.similarityFactors(2).volumeFactor,8,'similarity volume factor');
 near(M.axialSection(cylinder).area,24,'cylinder axial area');
 near(M.axialSection(cone).area,12,'cone axial area');
 near(M.axialSection(frustum).area,20,'frustum axial area');
@@ -41,6 +50,15 @@ for(const bad of [{type:'cylinder',radius:0,height:2},{type:'cone',radius:-2,hei
   let thrown=false;try{M.metrics(bad);}catch{thrown=true;}assert(thrown,'invalid solid rejected');
 }
 let thrown=false;try{M.parallelSection(cone,5);}catch{thrown=true;}assert(thrown,'out of range section rejected');
+for(const [label,fn] of [
+  ['zero segment height',()=>M.sphericalSegmentVolume(5,0)],
+  ['oversized segment height',()=>M.sphericalSegmentVolume(5,11)],
+  ['reversed layer planes',()=>M.sphericalLayerVolume(5,2,-1)],
+  ['section distance outside ball',()=>M.sphereSectionMetrics(5,6)],
+  ['zero similarity factor',()=>M.similarityFactors(0)]
+]){
+  let rejected=false;try{fn();}catch{rejected=true;}assert(rejected,label+' rejected');
+}
 const ring=M.circle([1,2,3],[0,0,1],2);
 assert(ring.length===96,'circle samples');
 for(const p of ring)near(Math.hypot(p[0]-1,p[1]-2,p[2]-3),2,'circle stays in 3D');

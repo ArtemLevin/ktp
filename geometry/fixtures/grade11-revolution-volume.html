@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Геометрия 11 · объёмы тел вращения · сцены</title>
+  <link rel="stylesheet" href="../revolution-scene.css">
+  <style>
+    body{margin:0;padding:18px;font-family:system-ui,sans-serif;background:#f8fafc;color:#101828}
+    main{max-width:920px;margin:auto}
+    h1{font-size:23px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+    @media print{.grid{display:block}}
+  </style>
+</head>
+<body data-row="revolution-volume-fixture" data-topic="2">
+<main>
+  <h1>Объёмы тел вращения: 11 reusable-сцен</h1>
+  <div class="grid">
+    <span data-revolution-scene="g11-volrev-22-cylinder"></span>
+    <span data-revolution-scene="g11-volrev-23-cylinder-cavity"></span>
+    <span data-revolution-scene="g11-volrev-24-cone"></span>
+    <span data-revolution-scene="g11-volrev-25-frustum"></span>
+    <span data-revolution-scene="g11-volrev-26-ball"></span>
+    <span data-revolution-scene="g11-volrev-27-segment"></span>
+    <span data-revolution-scene="g11-volrev-28-sphere-area-volume"></span>
+    <span data-revolution-scene="g11-volrev-29-section"></span>
+    <span data-revolution-scene="g11-volrev-30-similarity"></span>
+    <span data-revolution-scene="g11-volrev-31-composite"></span>
+    <span data-revolution-scene="g11-volrev-32-diagnostic"></span>
+  </div>
+</main>
+<script src="../grade11-revolution-volume-scenes.js"></script>
+<script>
+window.KTP_CONTENT={
+  'revolution-volume-fixture::2':{
+    revolutionScenes:window.KTP_G11_REVOLUTION_VOLUME_SCENES
+  }
+};
+</script>
+<script src="../spatial-scene.js"></script>
+<script src="../revolution-math.js"></script>
+<script src="../revolution-scene.js"></script>
+</body>
+</html>

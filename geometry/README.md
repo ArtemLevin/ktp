@@ -2,7 +2,7 @@
 
 `geometry/geometry-scene.js` — общий zero-build renderer статических учебных SVG-чертежей для линий геометрии.
 
-Для стереометрии используется `spatial-scene.js`; для тел вращения 11 класса первый этап добавил `revolution-math.js` и `revolution-scene.js`. Их модель, ограничения и подключение описаны в [REVOLUTION_RENDERING.md](REVOLUTION_RENDERING.md), пять проверочных сцен находятся в [fixture](fixtures/grade11-revolution.html). Тематические и поурочные страницы подключаются на следующем этапе.
+Для стереометрии используется `spatial-scene.js`; для тел вращения 11 класса работают `revolution-math.js` и `revolution-scene.js`. Их модель, ограничения и подключение описаны в [REVOLUTION_RENDERING.md](REVOLUTION_RENDERING.md). Базовый fixture содержит пять сцен серии 01, а [fixture объёмов](fixtures/grade11-revolution-volume.html) — 11 reusable-сцен уроков 22–32 и математические проверки шаровых частей, сечений и масштабирования.
 
 ## Назначение
 
