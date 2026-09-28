@@ -74,7 +74,10 @@ if(exists('content/11-geometry-atanasyan/01.js')){
   assert(exists('lessons/11-geometry-atanasyan/01/series.js'),'published topic requires lesson series');
   assert(exists('lessons/11-geometry-atanasyan/01/data.js'),'published topic requires lesson data');
   const topicSource=read('content/11-geometry-atanasyan/01.js');
-  if(topicSource.includes('assessments:{enabled:true}'))assert(exists('assessments/11-geometry-atanasyan/01/data.js'),'enabled thematic assessment requires data');
+  if(topicSource.includes('assessments:{enabled:true}')){
+    for(const p of ['assessments/11-geometry-atanasyan/01/data.js','assessments/11-geometry-atanasyan/01/independent.html','assessments/11-geometry-atanasyan/01/control.html'])assert(exists(p),'enabled thematic assessment requires '+p);
+    assert(read('assessments/topic-links.js').includes("'11-geometry-atanasyan':{min:0,max:0}"),'published grade 11 assessment navigation');
+  }
 }else{
   assert(!exists('lessons/11-geometry-atanasyan/01/series.js'),'orphan lesson series');
   assert(!exists('assessments/11-geometry-atanasyan/01/data.js'),'orphan thematic assessment');
