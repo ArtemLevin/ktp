@@ -41,7 +41,7 @@ const pyramid=(title,caption,{apex=[0,0,2.5],section=false}={})=>{
   const p={
     A:[-1.45,-1.2,0],B:[1.45,-1.2,0],C:[1.45,1.2,0],D:[-1.45,1.2,0],
     S:apex,O:[apex[0],apex[1],0],
-    M:[-.72,-.6,1.25],N:[.72,-.6,1.25],P:[.72,.6,1.25],Q:[-.72,.6,1.25]
+    M:[(-1.45+apex[0])/2,(-1.2+apex[1])/2,apex[2]/2],N:[(1.45+apex[0])/2,(-1.2+apex[1])/2,apex[2]/2],P:[(1.45+apex[0])/2,(1.2+apex[1])/2,apex[2]/2],Q:[(-1.45+apex[0])/2,(1.2+apex[1])/2,apex[2]/2]
   };
   const o=[
     {type:'face',points:['A','B','C','D'],style:'aux'},
