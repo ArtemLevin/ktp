@@ -329,15 +329,15 @@ labs/11-geometry-atanasyan/revolution-volume/
 - добавлен reusable registry `geometry/grade11-revolution-volume-scenes.js` для всех 11 уроков 22–32;
 - добавлен отдельный fixture `geometry/fixtures/grade11-revolution-volume.html`;
 - structural QA проверяет точные формулы, области параметров, предельные случаи и camera-independence;
-- browser QA проверяет 11/11 сцен, aria, mobile 390 px, print и отсутствие `NaN/Infinity` в SVG;
-- тематическая страница и уроки пока не публикуются: это граница этапа 2.
+- browser QA проверяет 11/11 сцен, aria, mobile 390 px, print и отсутствие `NaN/Infinity` в SVG.
 
-### Этап 2 — тематическая страница
+### Этап 2 — тематическая страница · **реализован**
 
-- создать `content/11-geometry-atanasyan/03.js`;
-- цель, prerequisites, карта, теория, 8+ worked examples, ошибки, практика A–D, диагностика, ДЗ, summary;
-- подключить spatial/revolution scenes;
-- source guard по пп. 55, 59–62*.
+- создан `content/11-geometry-atanasyan/03.js` с целями, prerequisites, картой темы, 11 теоретическими блоками, разобранными примерами, ошибками, тренировкой A–D, диагностикой, ДЗ и summary;
+- тематическая страница `topics/11-geometry-atanasyan/03.html` подключает общий registry 11 revolution-сцен;
+- source guard фиксирует пп. 55, 59–62*; п. 56 остаётся enrichment-only;
+- лаборатория, поурочные модули и thematic assessment ещё не опубликованы и остаются этапами 3–5;
+- structural + browser/mobile/print QA защищают математическое содержание и wiring страницы.
 
 ### Этап 3 — 11 уроков 22–32
 
