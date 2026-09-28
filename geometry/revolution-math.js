@@ -73,5 +73,47 @@ function parallelSection(input,offset){
   const radius=s.type==='cylinder'?s.radius:s.type==='cone'?s.radius*(1-d/s.height):s.radius+(s.topRadius-s.radius)*d/s.height;
   return{center:add(s.center,scale(s.axis,d)),normal:s.axis,radius,area:Math.PI*radius*radius};
 }
-global.KTP_REVOLUTION_MATH={model,metrics,circle,sphereSection,axialSection,parallelSection,basis,add,scale,dot,unit};
+function segmentVolumeRaw(radius,height){
+  return Math.PI*height*height*(radius-height/3);
+}
+function sphericalSegmentVolume(radius,height){
+  const R=positive(radius,'radius'),h=number(height,'height');
+  if(h<=0||h>2*R)throw new RangeError('height must satisfy 0 < height <= 2*radius');
+  return segmentVolumeRaw(R,h);
+}
+function sphericalSectorVolume(radius,height){
+  const R=positive(radius,'radius'),h=number(height,'height');
+  if(h<=0||h>2*R)throw new RangeError('height must satisfy 0 < height <= 2*radius');
+  return 2*Math.PI*R*R*h/3;
+}
+function sphericalLayerVolume(radius,lowerOffset,upperOffset){
+  const R=positive(radius,'radius'),a=number(lowerOffset,'lowerOffset'),b=number(upperOffset,'upperOffset');
+  if(a<-R||b>R||a>=b)throw new RangeError('offsets must satisfy -radius <= lowerOffset < upperOffset <= radius');
+  const lowerCapHeight=R-a,upperCapHeight=R-b;
+  return segmentVolumeRaw(R,lowerCapHeight)-segmentVolumeRaw(R,upperCapHeight);
+}
+function similarityFactors(k){
+  const factor=positive(k,'k');
+  return{lengthFactor:factor,areaFactor:factor*factor,volumeFactor:factor*factor*factor};
+}
+function sphereSectionMetrics(radius,distance){
+  const R=positive(radius,'radius'),d=number(distance,'distance');
+  if(d<0||d>R)throw new RangeError('distance must satisfy 0 <= distance <= radius');
+  const sectionRadius=Math.sqrt(Math.max(0,R*R-d*d));
+  const capHeight=R-d;
+  return{radius:R,distance:d,sectionRadius,sectionArea:Math.PI*sectionRadius*sectionRadius,capHeight,segmentVolume:capHeight===0?0:segmentVolumeRaw(R,capHeight),sectorVolume:capHeight===0?0:2*Math.PI*R*R*capHeight/3};
+}
+function sphereCapMetrics(radius,height){
+  const R=positive(radius,'radius'),h=number(height,'height');
+  if(h<=0||h>2*R)throw new RangeError('height must satisfy 0 < height <= 2*radius');
+  const signedDistance=R-h;
+  const sectionRadius=Math.sqrt(Math.max(0,R*R-signedDistance*signedDistance));
+  return{radius:R,height:h,signedDistance,sectionRadius,sectionArea:Math.PI*sectionRadius*sectionRadius,segmentVolume:segmentVolumeRaw(R,h),sectorVolume:2*Math.PI*R*R*h/3};
+}
+global.KTP_REVOLUTION_MATH={
+  model,metrics,circle,sphereSection,axialSection,parallelSection,
+  sphericalSegmentVolume,sphericalSectorVolume,sphericalLayerVolume,
+  similarityFactors,sphereSectionMetrics,sphereCapMetrics,
+  basis,add,scale,dot,unit
+};
 })(window);
