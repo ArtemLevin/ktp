@@ -8,7 +8,8 @@ for(const p of ['lessons/11-geometry-atanasyan/01/series.js','lessons/11-geometr
 const S=ctx.window.KTP_LESSON_SERIES,T=ctx.window.KTP_CONTENT['11-geometry-atanasyan::0'];
 check(S.meta.totalLessons===11&&S.lessons.length===11,'eleven lessons');
 check(T?.theory.length>=10&&T.examples.length>=6&&T.diagnostic.length>=8,'rich thematic content');
-check(T.assessments.enabled===false,'thematic assessments remain stage 3');
+check(T.assessments.enabled===true,'thematic assessments published at stage 3');
+check(fs.existsSync('assessments/11-geometry-atanasyan/01/data.js'),'thematic assessment data route');
 check(Object.keys(T.revolutionScenes).length===4,'topic scenes');
 check(Object.keys(S.revolutionScenes).length===11,'lesson scenes');
 for(const [id,scene] of Object.entries({...T.revolutionScenes,...S.revolutionScenes})){

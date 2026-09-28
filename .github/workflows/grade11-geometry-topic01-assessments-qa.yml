@@ -1,0 +1,73 @@
+name: Grade 11 Atanasyan Topic 01 Assessments QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/11-geometry-atanasyan/01.js'
+      - 'content/11-geometry-atanasyan/01-methodical-plan.md'
+      - 'topics/11-geometry-atanasyan/01.html'
+      - 'lessons/11-geometry-atanasyan/01/**'
+      - 'assessments/11-geometry-atanasyan/01/**'
+      - 'assessments/topic-links.js'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade11-geometry-topic01-assessments*.mjs'
+      - 'scripts/qa-grade11-geometry-foundation.mjs'
+      - 'scripts/qa-grade10-geometry-topic05-final*.mjs'
+      - '.github/workflows/grade11-geometry-topic01-assessments-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/11-geometry-atanasyan/01.js'
+      - 'content/11-geometry-atanasyan/01-methodical-plan.md'
+      - 'assessments/11-geometry-atanasyan/01/**'
+      - 'assessments/topic-links.js'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
+      - 'scripts/qa-grade11-geometry-topic01-assessments*.mjs'
+      - 'scripts/qa-grade11-geometry-foundation.mjs'
+      - 'scripts/qa-grade10-geometry-topic05-final*.mjs'
+      - '.github/workflows/grade11-geometry-topic01-assessments-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Topic 01 thematic assessment and documentation
+        run: |
+          node scripts/qa-grade11-geometry-topic01-assessments.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments-docs.mjs
+      - name: Topic 01 lesson and rendering regressions
+        run: |
+          node scripts/qa-grade11-geometry-topic01-lessons.mjs
+          node scripts/qa-grade11-geometry-foundation.mjs
+          node scripts/qa-grade11-revolution-core.mjs
+      - name: Previous geometry release regression
+        run: |
+          node scripts/qa-grade10-geometry-topic05-final.mjs
+          node scripts/qa-grade10-geometry-topic05-final-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Assessment routes, mobile, answers and print
+        run: node scripts/qa-grade11-geometry-topic01-assessments-browser.mjs
+      - name: Topic and lessons browser regression
+        run: node scripts/qa-grade11-geometry-topic01-lessons-browser.mjs
