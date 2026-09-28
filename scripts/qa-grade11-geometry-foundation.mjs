@@ -69,12 +69,14 @@ const rendering=read(files[2]);
 for(const token of ['spatial-scene.js','√(r²−d²)','|d| = r','390 px','SVG','Развёртка']){
   assert(rendering.includes(token),`rendering contract missing ${token}`);
 }
-for(const p of [
-  'content/11-geometry-atanasyan/01.js',
-  'lessons/11-geometry-atanasyan/01/series.js',
-  'assessments/11-geometry-atanasyan/01/data.js'
-])assert(!exists(p),`foundation contains published topic artifact: ${p}`);
 assert(exists('topics/11-geometry-atanasyan/01.html'),'generic topic route remains available');
+if(exists('content/11-geometry-atanasyan/01.js')){
+  assert(exists('lessons/11-geometry-atanasyan/01/series.js'),'published topic requires lesson series');
+  assert(exists('assessments/11-geometry-atanasyan/01/data.js'),'published topic requires thematic assessment');
+}else{
+  assert(!exists('lessons/11-geometry-atanasyan/01/series.js'),'orphan lesson series');
+  assert(!exists('assessments/11-geometry-atanasyan/01/data.js'),'orphan thematic assessment');
+}
 
 assert(read('README.md').includes('content/11-geometry-atanasyan/content-map.md'),'README links foundation');
 assert(read('Plan.md').includes('lessons/11-geometry-atanasyan/lesson-plan.md'),'Plan links lesson plan');
