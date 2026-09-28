@@ -8,6 +8,8 @@ on:
       - 'topics/11-geometry-atanasyan/02.html'
       - 'geometry/grade11-volume-scenes.js'
       - 'lessons/11-geometry-atanasyan/02/**'
+      - 'labs/11-geometry-atanasyan/volume-transform/**'
+      - 'labs/11-geometry-atanasyan/volume-transform/**'
       - 'scripts/qa-grade11-geometry-topic02-*.mjs'
       - '.github/workflows/grade11-geometry-topic02-foundation-qa.yml'
   push:
@@ -36,6 +38,8 @@ jobs:
         run: node scripts/qa-grade11-geometry-topic02-foundation.mjs
       - name: Topic 02 lesson modules and math
         run: node scripts/qa-grade11-geometry-topic02-lessons.mjs
+      - name: Topic 02 volume transform lab
+        run: node scripts/qa-grade11-geometry-topic02-lab.mjs
       - name: Grade 11 regressions
         run: |
           node scripts/qa-grade11-geometry-foundation.mjs
@@ -58,3 +62,5 @@ jobs:
         run: node scripts/qa-grade11-geometry-topic02-foundation-browser.mjs
       - name: Topic 02 lessons, mobile and print
         run: node scripts/qa-grade11-geometry-topic02-lessons-browser.mjs
+      - name: Topic 02 volume lab interactions
+        run: node scripts/qa-grade11-geometry-topic02-lab-browser.mjs
