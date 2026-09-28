@@ -1,0 +1,46 @@
+name: Grade 11 Atanasyan Topic 01 Lessons QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/11-geometry-atanasyan/01.js'
+      - 'lessons/11-geometry-atanasyan/01/**'
+      - 'topics/11-geometry-atanasyan/01.html'
+      - 'geometry/lesson-revolution.js'
+      - 'scripts/qa-grade11-geometry-topic01-lessons*.mjs'
+      - 'scripts/qa-grade11-geometry-foundation.mjs'
+      - '.github/workflows/grade11-geometry-topic01-lessons-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/11-geometry-atanasyan/01.js'
+      - 'lessons/11-geometry-atanasyan/01/**'
+      - 'topics/11-geometry-atanasyan/01.html'
+      - 'geometry/lesson-revolution.js'
+      - 'scripts/qa-grade11-geometry-topic01-lessons*.mjs'
+      - 'scripts/qa-grade11-geometry-foundation.mjs'
+      - '.github/workflows/grade11-geometry-topic01-lessons-qa.yml'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/qa-grade11-geometry-topic01-lessons.mjs
+      - run: node scripts/qa-grade11-geometry-foundation.mjs
+      - run: node scripts/qa-grade11-revolution-core.mjs
+      - run: node scripts/qa-grade10-geometry-topic05-final.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/qa-grade11-geometry-topic01-lessons-browser.mjs

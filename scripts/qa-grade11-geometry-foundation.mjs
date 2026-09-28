@@ -72,7 +72,9 @@ for(const token of ['spatial-scene.js','√(r²−d²)','|d| = r','390 px','SVG'
 assert(exists('topics/11-geometry-atanasyan/01.html'),'generic topic route remains available');
 if(exists('content/11-geometry-atanasyan/01.js')){
   assert(exists('lessons/11-geometry-atanasyan/01/series.js'),'published topic requires lesson series');
-  assert(exists('assessments/11-geometry-atanasyan/01/data.js'),'published topic requires thematic assessment');
+  assert(exists('lessons/11-geometry-atanasyan/01/data.js'),'published topic requires lesson data');
+  const topicSource=read('content/11-geometry-atanasyan/01.js');
+  if(topicSource.includes('assessments:{enabled:true}'))assert(exists('assessments/11-geometry-atanasyan/01/data.js'),'enabled thematic assessment requires data');
 }else{
   assert(!exists('lessons/11-geometry-atanasyan/01/series.js'),'orphan lesson series');
   assert(!exists('assessments/11-geometry-atanasyan/01/data.js'),'orphan thematic assessment');
