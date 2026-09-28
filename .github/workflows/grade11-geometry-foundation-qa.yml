@@ -1,0 +1,40 @@
+name: Grade 11 Atanasyan Foundation QA
+
+on:
+  pull_request:
+    paths:
+      - 'content/11-geometry-atanasyan/**'
+      - 'lessons/11-geometry-atanasyan/lesson-plan.md'
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'geometry/REVOLUTION_RENDERING.md'
+      - 'scripts/qa-grade11-geometry-foundation.mjs'
+      - '.github/workflows/grade11-geometry-foundation-qa.yml'
+      - 'README.md'
+      - 'Plan.md'
+  push:
+    branches: [main]
+    paths:
+      - 'content/11-geometry-atanasyan/**'
+      - 'lessons/11-geometry-atanasyan/lesson-plan.md'
+      - 'content/10-geometry-atanasyan/content-map.md'
+      - 'geometry/REVOLUTION_RENDERING.md'
+      - 'scripts/qa-grade11-geometry-foundation.mjs'
+      - '.github/workflows/grade11-geometry-foundation-qa.yml'
+      - 'README.md'
+      - 'Plan.md'
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Grade 11 geometry foundation
+        run: node scripts/qa-grade11-geometry-foundation.mjs
+      - name: Grade 10 geometry regression
+        run: |
+          node scripts/qa-grade10-geometry-foundation.mjs
+          node scripts/qa-grade10-geometry-topic05-final.mjs
+          node scripts/qa-grade10-geometry-topic05-final-docs.mjs
