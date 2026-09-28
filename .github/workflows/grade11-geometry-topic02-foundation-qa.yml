@@ -1,26 +1,46 @@
-name: Grade 11 Atanasyan Topic 02 Foundation QA
+name: Grade 11 Atanasyan Topic 02 Release QA
 
 on:
   pull_request:
     paths:
       - 'content/11-geometry-atanasyan/02.js'
       - 'content/11-geometry-atanasyan/02-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/content-map.md'
       - 'topics/11-geometry-atanasyan/02.html'
       - 'geometry/grade11-volume-scenes.js'
       - 'lessons/11-geometry-atanasyan/02/**'
+      - 'lessons/11-geometry-atanasyan/lesson-plan.md'
       - 'labs/11-geometry-atanasyan/volume-transform/**'
+      - 'assessments/11-geometry-atanasyan/02/**'
+      - 'assessments/topic-links.js'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
       - 'scripts/qa-grade11-geometry-topic02-*.mjs'
+      - 'scripts/qa-grade11-geometry-topic01-assessments*.mjs'
+      - 'scripts/qa-grade10-geometry-topic05-final*.mjs'
       - '.github/workflows/grade11-geometry-topic02-foundation-qa.yml'
   push:
     branches: [main]
     paths:
       - 'content/11-geometry-atanasyan/02.js'
       - 'content/11-geometry-atanasyan/02-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/content-map.md'
       - 'topics/11-geometry-atanasyan/02.html'
       - 'geometry/grade11-volume-scenes.js'
       - 'lessons/11-geometry-atanasyan/02/**'
+      - 'lessons/11-geometry-atanasyan/lesson-plan.md'
       - 'labs/11-geometry-atanasyan/volume-transform/**'
+      - 'assessments/11-geometry-atanasyan/02/**'
+      - 'assessments/topic-links.js'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'assessments/README.md'
       - 'scripts/qa-grade11-geometry-topic02-*.mjs'
+      - 'scripts/qa-grade11-geometry-topic01-assessments*.mjs'
+      - 'scripts/qa-grade10-geometry-topic05-final*.mjs'
       - '.github/workflows/grade11-geometry-topic02-foundation-qa.yml'
 
 permissions:
@@ -34,17 +54,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Topic 02 blueprint and thematic content
-        run: node scripts/qa-grade11-geometry-topic02-foundation.mjs
-      - name: Topic 02 lesson modules and math
-        run: node scripts/qa-grade11-geometry-topic02-lessons.mjs
-      - name: Topic 02 volume transform lab
-        run: node scripts/qa-grade11-geometry-topic02-lab.mjs
-      - name: Grade 11 regressions
+      - name: Topic 02 thematic content and lessons
+        run: |
+          node scripts/qa-grade11-geometry-topic02-foundation.mjs
+          node scripts/qa-grade11-geometry-topic02-lessons.mjs
+      - name: Topic 02 lab and thematic assessment
+        run: |
+          node scripts/qa-grade11-geometry-topic02-lab.mjs
+          node scripts/qa-grade11-geometry-topic02-assessments.mjs
+      - name: Topic 02 documentation and release state
+        run: node scripts/qa-grade11-geometry-topic02-docs.mjs
+      - name: Grade 11 previous-release regressions
         run: |
           node scripts/qa-grade11-geometry-foundation.mjs
+          node scripts/qa-grade11-revolution-core.mjs
           node scripts/qa-grade11-geometry-topic01-lessons.mjs
-      - name: Previous geometry release regression
+          node scripts/qa-grade11-geometry-topic01-assessments.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments-docs.mjs
+      - name: Grade 10 geometry regression
         run: |
           node scripts/qa-grade10-geometry-topic05-final.mjs
           node scripts/qa-grade10-geometry-topic05-final-docs.mjs
@@ -58,9 +85,12 @@ jobs:
           node-version: 22
       - run: npm install --no-save playwright@1.55.0
       - run: npx playwright install --with-deps chromium
-      - name: Topic 02 page, scenes, mobile and print
-        run: node scripts/qa-grade11-geometry-topic02-foundation-browser.mjs
-      - name: Topic 02 lessons, mobile and print
-        run: node scripts/qa-grade11-geometry-topic02-lessons-browser.mjs
-      - name: Topic 02 volume lab interactions
-        run: node scripts/qa-grade11-geometry-topic02-lab-browser.mjs
+      - name: Topic 02 page, lessons and lab
+        run: |
+          node scripts/qa-grade11-geometry-topic02-foundation-browser.mjs
+          node scripts/qa-grade11-geometry-topic02-lessons-browser.mjs
+          node scripts/qa-grade11-geometry-topic02-lab-browser.mjs
+      - name: Topic 02 thematic assessment
+        run: node scripts/qa-grade11-geometry-topic02-assessments-browser.mjs
+      - name: Topic 01 browser regression
+        run: node scripts/qa-grade11-geometry-topic01-lessons-browser.mjs
