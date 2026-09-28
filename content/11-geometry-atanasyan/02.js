@@ -250,8 +250,8 @@ KTP_REGISTER_CONTENT('11-geometry-atanasyan::1',{
   ],
 
   lab:{
-    enabled:false,
-    planned:true,
+    enabled:true,
+    planned:false,
     href:'../../labs/11-geometry-atanasyan/volume-transform/index.html',
     title:'Лаборатория «Инварианты объёма»',
     description:'Запланировано исследование сдвига призмы, перемещения вершины пирамиды и масштабирования k → k² → k³.'
