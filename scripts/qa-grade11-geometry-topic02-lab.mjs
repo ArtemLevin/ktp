@@ -73,7 +73,7 @@ for(const token of [
   "dataset.mode='prism'",
   "dataset.mode='pyramid'",
   "dataset.mode='similarity'",
-  'Камера'
+  'function project(p)'
 ])check(app.includes(token),'lab app '+token);
 check(!/Math\.(hypot|sqrt).*volume/i.test(app),'volume math stays in math core');
 
