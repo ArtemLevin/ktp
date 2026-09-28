@@ -32,7 +32,8 @@ check(S.meta.courseLessonStart===12&&S.meta.courseLessonEnd===21,'global range 1
 check(S.meta.implementationStage==='5/5','lesson and lab implementation stage');
 check(Object.keys(S.spatialScenes).length===10,'ten lesson spatial scenes');
 check(T?.theory?.length===10&&T.examples.length>=8,'thematic content retained');
-check(T.lab.enabled===false&&T.lab.planned===true,'lab still planned');
+check(T.lab.enabled===true&&T.lab.planned===false,'volume lab published');
+check(fs.existsSync(path.join(root,'labs/11-geometry-atanasyan/volume-transform/index.html')),'volume lab route');
 check(T.assessments.enabled===true&&T.assessments.planned===false,'thematic assessment published');
 for(const p of ['data.js','independent.html','control.html'])check(fs.existsSync(path.join(root,'assessments/11-geometry-atanasyan/02',p)),'assessment route '+p);
 
