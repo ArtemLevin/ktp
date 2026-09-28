@@ -64,7 +64,7 @@ for(const v of A.topic.control.variants){
  assert(t[0].skill==='TERMS'&&t[0].points===1,'control '+v.id+' terminology');
  assert(t[1].skill==='CYLINDER_SECTION','control '+v.id+' cylinder section');
  let n=nums(t[1].text),r=n[0],h=n[1],d=n[2],width=2*Math.sqrt(r*r-d*d);
- assert(coeffPi(t[1].answer)!==coeffPi(t[1].answer)||near(nums(t[1].answer)[0],width*h),'control '+v.id+' cylinder section math');
+ assert(near(nums(t[1].answer)[0],width*h),'control '+v.id+' cylinder section math');
  assert(t[2].skill==='CYLINDER_SURFACE','control '+v.id+' cylinder surface');
  n=nums(t[2].text);r=n[0];h=n[1];let p=[...t[2].answer.matchAll(/(\d+)π/g)].map(m=>Number(m[1]));
  assert(p[0]===2*r*h&&p[1]===2*r*h+2*r*r,'control '+v.id+' cylinder surface math');
