@@ -29,7 +29,7 @@ const pool=ctx.window.KTP_G11_VOLUME_QUESTION_POOL;
 check(S.meta.rowId==='11-geometry-atanasyan'&&S.meta.topicIndex===1,'topic identity');
 check(S.meta.totalLessons===10&&S.lessons.length===10,'ten lessons');
 check(S.meta.courseLessonStart===12&&S.meta.courseLessonEnd===21,'global range 12-21');
-check(S.meta.implementationStage==='4/5','lesson and lab implementation stage');
+check(S.meta.implementationStage==='5/5','lesson and lab implementation stage');
 check(Object.keys(S.spatialScenes).length===10,'ten lesson spatial scenes');
 check(T?.theory?.length===10&&T.examples.length>=8,'thematic content retained');
 check(T.lab.enabled===false&&T.lab.planned===true,'lab still planned');
