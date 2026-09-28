@@ -23,7 +23,7 @@ const A=context.window.KTP_ASSESSMENT_DATA;
 check(A.meta.rowId==='11-geometry-atanasyan'&&A.meta.topic==='02','assessment identity');
 check(A.meta.grade===11&&A.meta.subject==='Геометрия','grade/subject');
 check(A.topic.title==='Объёмы многогранников','topic title');
-for(const token of ['глава V','§§1–3','пп. 52–54, 57–58','глава III, п. 34','ФРП-2025','серии 03'])check(A.meta.sourceNote.includes(token),'source boundary '+token);
+for(const token of ['глава V','§§1–3','пп. 52–54, 57–58','главу III, п. 34','ФРП-2025','серии 03'])check(A.meta.sourceNote.includes(token),'source boundary '+token);
 
 function complete(work,count,max){
   check(work.variants.length===6,'six variants');
