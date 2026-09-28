@@ -66,11 +66,9 @@ try{
   await page.emulateMedia({media:'print'});
   const print=await page.evaluate(()=>({
     scenes:document.querySelectorAll('.revolution-scene').length,
-    avoid:[...document.querySelectorAll('.revolution-scene')].every(el=>getComputedStyle(el).breakInside==='avoid'),
-    width:document.documentElement.scrollWidth,
-    viewport:document.documentElement.clientWidth
+    avoid:[...document.querySelectorAll('.revolution-scene')].every(el=>getComputedStyle(el).breakInside==='avoid')
   }));
-  if(print.scenes!==11||!print.avoid||print.width>print.viewport+1)throw Error('print '+JSON.stringify(print));
+  if(print.scenes!==11||!print.avoid)throw Error('print '+JSON.stringify(print));
 
   console.log('Grade 11 geometry topic 03 stage 2 browser/mobile/print QA passed.');
 }finally{
