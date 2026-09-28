@@ -22,7 +22,7 @@ for(const p of ['series.js','scenes.js','data.js','data-b.js'].map(x=>'lessons/1
 const S=sb.window.KTP_LESSON_SERIES;
 assert(S.meta.totalLessons===8&&S.lessons.length===8,'8 lessons');
 assert(S.meta.courseLessonStart===61&&S.meta.courseLessonEnd===68,'61-68');
-assert(S.meta.implementationStage==='4/5','stage 4/5');
+assert(S.meta.implementationStage==='5/5','final implementation stage 5/5');
 assert(Object.keys(S.spatialScenes).length>=8,'8 scenes');
 const titles=['Расстояния и углы в пространстве','Комплексная задача на многогранник','Итоговая комплексная диагностика 10 класса','Адресная коррекция и мост в 11 класс'];
 for(let i=4;i<8;i++){

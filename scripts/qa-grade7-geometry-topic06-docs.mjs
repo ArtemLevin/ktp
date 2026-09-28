@@ -5,7 +5,7 @@ const firstNumber=(text,re,label)=>{const m=text.match(re);assert(m,`${label}: v
 const root=read('README.md'),lessons=read('lessons/README.md'),assessments=read('assessments/README.md'),plan=read('Plan.md'),map=read('content/7-geometry-atanasyan/content-map.md'),lessonPlan=read('lessons/7-geometry-atanasyan/lesson-plan.md');
 assert(firstNumber(root,/Полностью завершены \*\*(\d+) лини/,'README complete lines')>=8,'README completed-line count regressed');
 assert(firstNumber(root,/Суммарно опубликовано \*\*(\d+) полноценных поурочных модул(?:ей|я)/,'README lessons')>=918,'README lessons regressed');
-assert(firstNumber(root,/и \*\*(\d+) тематических assessment-комплект/,'README assessments')>=64,'README assessments regressed');
+assert(firstNumber(root,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,'README assessments')>=64,'README assessments regressed');
 const row=root.split('\n').find(line=>line.startsWith('| `7-geometry-atanasyan` |'))||'';
 assert(row.includes('| 6/6 | 68/68 | 6/6 | **готово** |'),'README grade7 geometry completion row');
 const rootLower=root.toLowerCase();
@@ -16,7 +16,7 @@ assert(firstNumber(lessons,/Всего опубликовано \*\*(\d+) пол
 assert(lessons.includes('06` **«Повторение»** — уроки 61–68'),'lessons README topic06');
 assert(lessons.includes('31–34'),'lessons README weeks');
 assert(assessments.includes('| `7-geometry-atanasyan` | 6/6 | **готово** |'),'assessment README completion row');
-assert(firstNumber(assessments,/Всего опубликовано \*\*(\d+) тематических assessment-комплект/,'assessment README total')>=64,'assessment README total regressed');
+assert(firstNumber(assessments,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,'assessment README total')>=64,'assessment README total regressed');
 assert(assessments.includes('06` **«Повторение»**')&&assessments.includes('6/6'),'assessment README topic06');
 assert(assessments.includes('01–06'),'assessment navigation range docs');
 assert(plan.includes('| `7-geometry-atanasyan` | **6/6** | **68/68** | **6/6** | готово |'),'Plan grade7 completion row');

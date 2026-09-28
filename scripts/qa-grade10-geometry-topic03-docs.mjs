@@ -9,7 +9,7 @@ const metric=(text,label)=>{
 };
 const R=read('README.md'),P=read('Plan.md'),L=read('lessons/README.md'),A=read('assessments/README.md'),M=read('content/10-geometry-atanasyan/content-map.md');
 assert(metric(R,'Суммарно опубликовано')>=1096,'README lesson aggregate must not regress');
-assert(R.match(/(?:79|8\d|9\d|1\d\d) тематических assessment-комплект/),'README assessment aggregate must not regress');
+assert(R.match(/(?:79|8\d|9\d|1\d\d) тематическ(?:их|ий) assessment-комплект/),'README assessment aggregate must not regress');
 for(const token of ['10-geometry-atanasyan','03-methodical-plan.md','distance-angle-space/','Тема 03 **«Перпендикулярность прямых и плоскостей»** полностью реализована'])assert(R.includes(token),`README missing ${token}`);
 assert(metric(P,'полностью готовых тематических серий:')>=79,'Plan series metric must not regress');
 assert(metric(P,'опубликованных уроков:')>=1096,'Plan lesson metric must not regress');

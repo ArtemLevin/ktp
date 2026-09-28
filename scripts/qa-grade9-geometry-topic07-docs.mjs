@@ -15,9 +15,9 @@ for(const [d,n] of [[R,'README'],[P,'Plan'],[L,'lessons'],[A,'assessments']]){
   assert(d.includes('Повторение'),`${n}: topic07 missing`);
 }
 assert(numberAfter(R,'Суммарно опубликовано')>=1054,'README lesson aggregate must not regress');
-assert(R.match(/(?:76|77|78|79|8\d|9\d|1\d\d) тематических assessment-комплект/),'README assessment aggregate must not regress');
+assert(R.match(/(?:76|77|78|79|8\d|9\d|1\d\d) тематическ(?:их|ий) assessment-комплект/),'README assessment aggregate must not regress');
 assert(R.includes('**7/7**')&&R.includes('**68/68**'),'README line complete');
-assert(R.includes('10 линий')&&R.includes('planimetry-router'),'README completion/lab');
+assert(numberAfter(R,'Полностью завершены')>=10&&R.includes('planimetry-router'),'README completion/lab');
 assert(R.includes('10-geometry-atanasyan'),'README next phase');
 assert(numberAfter(P,'полностью готовых тематических серий:')>=76,'Plan series metric must not regress');
 assert(numberAfter(P,'опубликованных уроков:')>=1054,'Plan lesson metric must not regress');

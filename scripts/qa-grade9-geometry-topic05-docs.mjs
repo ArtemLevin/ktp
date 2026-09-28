@@ -1,10 +1,10 @@
 import fs from 'node:fs';let checks=0;const read=p=>fs.readFileSync(p,'utf8'),assert=(v,m)=>{checks++;if(!v)throw new Error(m)};
 const R=read('README.md'),P=read('Plan.md'),L=read('lessons/README.md'),A=read('assessments/README.md'),M=read('content/9-geometry-atanasyan/content-map.md');
 for(const [d,n] of [[R,'README'],[P,'Plan'],[L,'lessons'],[A,'assessments']]){assert(d.includes('9-geometry-atanasyan'),`${n} row`);assert(d.includes('Движения'),`${n} topic05`);}
-const rLessons=Number(R.match(/Суммарно опубликовано \*\*(\d+) полноценных/)?.[1]||0),rAssess=Number(R.match(/\*\*(\d+) тематических assessment-комплект/)?.[1]||0);assert(rLessons>=1037&&rAssess>=74,'README aggregate metrics must not regress below topic05');
+const rLessons=Number(R.match(/Суммарно опубликовано \*\*(\d+) полноценных/)?.[1]||0),rAssess=Number(R.match(/\*\*(\d+) тематическ(?:их|ий) assessment-комплект/)?.[1]||0);assert(rLessons>=1037&&rAssess>=74,'README aggregate metrics must not regress below topic05');
 const progress=[...R.matchAll(/9-geometry-atanasyan[^\n]*?\*\*(\d+)\/7\*\*[^\n]*?\*\*(\d+)\/68\*\*/g)].map(m=>[Number(m[1]),Number(m[2])]);assert(progress.length&&progress.some(([s,l])=>s>=5&&l>=51),'README grade9 progress must not regress below topic05');assert(R.includes('plane-transformations'),'README topic05 lab');
 const pSeries=Number(P.match(/полностью готовых тематических серий: \*\*(\d+)\*\*/)?.[1]||0),pLessons=Number(P.match(/опубликованных уроков: \*\*(\d+)\*\*/)?.[1]||0),pAssess=Number(P.match(/тематических assessment-комплектов: \*\*(\d+)\*\*/)?.[1]||0);assert(pSeries>=74&&pLessons>=1037&&pAssess>=74,'Plan metrics must not regress below topic05');assert(P.includes('05-methodical-plan.md')&&P.includes('plane-transformations'),'Plan topic05 artifacts');
 const lTotal=Number(L.match(/Всего опубликовано \*\*(\d+) полноценных/)?.[1]||0);assert(lTotal>=1037&&L.includes('plane-transformations'),'lessons metrics');
-const aTotal=Number(A.match(/Всего опубликовано \*\*(\d+) тематических assessment-комплект/)?.[1]||0);assert(aTotal>=74,'assessment metrics');assert(A.includes('Движения'),'assessment topic05 docs');
+const aTotal=Number(A.match(/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/)?.[1]||0);assert(aTotal>=74,'assessment metrics');assert(A.includes('Движения'),'assessment topic05 docs');
 assert(M.match(/\| 05 \| Движения[^\n]*\| full \|/),'map topic05 full');
 console.log(`Grade 9 Atanasyan topic 05 documentation QA passed: ${checks} checks.`);
