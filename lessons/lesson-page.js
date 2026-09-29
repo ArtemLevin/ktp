@@ -36,7 +36,7 @@ const assessmentBlock=(kind,data,title)=>{
 };
 const homework=lesson.homework||{};
 const resourceItems=(lesson.resources||[]).map(r=>`<article class="resource-item"><div class="resource-top"><span>${esc(r.label||r.audience||'Материал')}</span><b>${esc(r.format||'')}</b></div><h3>${esc(r.title||'Материал к уроку')}</h3><a class="resource-link" href="${esc(r.href||'#')}">Открыть материал →</a></article>`).join('');
-const resourceBlock=resourceItems?`<section class="lesson-card" id="resources"><div class="section-kicker">Материалы к уроку</div><h2>Готово к использованию</h2><p class="section-note">Печатные web-версии открываются в отдельной странице; оттуда материал можно распечатать или сохранить в PDF.</p><div class="resource-grid">${resourceItems}</div></section>`:'';
+const resourceBlock=resourceItems?`<section class="lesson-card" id="resources"><div class="section-kicker">Материалы к уроку</div><h2>Готово к использованию</h2><p class="section-note">Откройте материал по ссылке, чтобы просмотреть или распечатать его.</p><div class="resource-grid">${resourceItems}</div></section>`:'';
 
 const milestone=lesson.milestone?`<span class="milestone">${esc(lesson.milestone)}</span>`:'';
 document.title=`Урок ${lesson.number}. ${lesson.title} — ${meta.grade} класс · KTP 3.0`;
