@@ -18,6 +18,11 @@ if(correction?.exampleChecks){
     if(ex)ex.check=value;
   });
 }
+const registeredResources=window.KTP_LESSON_RESOURCE_PATCHES?.[`${meta.rowId}::${meta.topicIndex}::${lesson.id}`]
+  ||window.KTP_LESSON_RESOURCE_PATCHES?.[`${meta.rowId}::${meta.topicIndex}::${lesson.number}`];
+if(Array.isArray(registeredResources)&&registeredResources.length){
+  lesson.resources=[...(lesson.resources||[]),...registeredResources];
+}
 const row=window.KTP_DATA?.rows?.find(r=>r.id===meta.rowId);
 const topic=row?.topics?.[meta.topicIndex];
 const topicTitle=topic?.title||meta.topicTitle||'';
