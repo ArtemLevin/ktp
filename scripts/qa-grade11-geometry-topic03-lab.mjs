@@ -136,7 +136,7 @@ const blueprint=read('content/11-geometry-atanasyan/03-methodical-plan.md');
 check(blueprint.includes('Этап 4 — лаборатория')&&blueprint.includes('revolution-volume')&&blueprint.includes('**реализован**'),'blueprint stage4 implemented');
 for(const token of ['цилиндр ↔ конус','усечённый конус','шаровой сегмент','k²/k³','5 исследовательских заданий'])check(blueprint.includes(token),'blueprint lab token '+token);
 const plan=read('Plan.md');
-check(plan.includes('этапы 1–4 завершены'),'Plan stage 1-4');
-check(plan.includes('этап 5 — thematic assessment 6×7/14 + 6×10/20'),'Plan next stage 5');
+check(plan.includes('revolution-volume'),'Plan lab reference');
+check(plan.includes('Серия 03 «Объёмы тел вращения» полностью завершена')||plan.includes('этапы 1–4 завершены'),'Plan topic 03 state');
 
 console.log('Grade 11 geometry topic 03 revolution-volume lab QA passed: '+checks+' checks.');
