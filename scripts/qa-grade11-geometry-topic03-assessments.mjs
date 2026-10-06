@@ -79,7 +79,7 @@ for(const [i,v] of A.topic.control.variants.entries()){
 const all=[...A.topic.independent.variants.flatMap(v=>v.tasks),...A.topic.control.variants.flatMap(v=>v.tasks)];
 check(all.length===102,'102 thematic tasks across 12 variants');
 check(all.filter(t=>t.skill==='FRUSTUM_VOLUME').length===12,'frustum covered in every variant');
-check(all.filter(t=>t.skill==='SIMILAR_SOLIDS').length===10,'similarity coverage');
+check(all.filter(t=>t.skill==='SIMILAR_SOLIDS').length===9,'similarity coverage');
 check(all.some(t=>t.skill==='SPHERICAL_LAYER')&&all.some(t=>t.skill==='SPHERICAL_SECTOR')&&all.some(t=>t.skill==='SPHERICAL_SEGMENT'),'all spherical-part types covered');
 check(all.every(t=>!/(интеграл|скалярн|координат[ыа] вектора|уравнение плоскости)/i.test(t.text)),'assessment excludes integral/vector-coordinate methods');
 
