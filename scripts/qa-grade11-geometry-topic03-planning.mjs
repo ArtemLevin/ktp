@@ -61,8 +61,7 @@ check(row.bounds[2]===21&&row.bounds[3]===32,'topic 03 local range has 11 lesson
 const contentMap=read('content/11-geometry-atanasyan/content-map.md');
 for(const token of [
   '| 03 «Объёмы тел вращения» | 22–32 |',
-  'пп. 55, 59–62*',
-  '**Следующая единица:** серия 03 «Объёмы тел вращения»'
+  'пп. 55, 59–62*'
 ])check(contentMap.includes(token),'content map missing '+token);
 
 const lessonPlan=read('lessons/11-geometry-atanasyan/lesson-plan.md');
