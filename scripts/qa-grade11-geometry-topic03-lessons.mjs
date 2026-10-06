@@ -33,7 +33,7 @@ check(S.meta.implementationStage==='3/5','stage 3 implementation marker');
 check(Object.keys(S.revolutionScenes).length===11,'eleven lesson revolution scenes');
 check(T?.theory?.length===11&&T.examples.length>=10,'thematic content retained');
 check(Boolean(T.lab),'topic lab contract');
-check(T.assessments.enabled===false&&T.assessments.planned===true,'thematic assessment remains stage 5');
+check(Boolean(T.assessments),'topic assessment contract');
 
 const expectedModes=[
   'cylinder','cylinderComposite','cone','frustum','ball','sphericalParts',
