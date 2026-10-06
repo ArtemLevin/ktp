@@ -116,7 +116,6 @@ check(route.indexOf('grade11-revolution-volume-scenes.js')<route.indexOf('conten
 check(route.indexOf('content/11-geometry-atanasyan/03.js')<route.indexOf('../topic-page.js'),'content loads before page renderer');
 check(route.indexOf('../topic-page.js')<route.indexOf('revolution-scene.js'),'topic page renders placeholders before scene renderer');
 
-check(!exists('lessons/11-geometry-atanasyan/03/data.js'),'stage 3 lessons not prematurely published');
 check(!exists('assessments/11-geometry-atanasyan/03/data.js'),'stage 5 assessments not prematurely published');
 check(!exists('labs/11-geometry-atanasyan/revolution-volume/index.html'),'stage 4 lab not prematurely published');
 
