@@ -43,8 +43,9 @@ const sector=(R,h)=>{
 };
 const segCoeff=(R,h)=>h*h*(3*R-h)/3;
 const layer=(R,a,b)=>{
-  const va=segCoeff(R,R-a),vb=segCoeff(R,R-b),c=va-vb;
-  return{text:'В шаре радиуса '+R+' две параллельные плоскости имеют координаты z='+a+' и z='+b+' относительно центра. Найдите объём слоя между ними.',answer:pi(c),solution:'Объём слоя равен разности верхних сегментов: V='+pi(va).replace('.','')+'−'+pi(vb).replace('.','')+'='+pi(c)};
+  const ha=R-a,hb=R-b;
+  const na=ha*ha*(3*R-ha),nb=hb*hb*(3*R-hb),n=na-nb;
+  return{text:'В шаре радиуса '+R+' две параллельные плоскости имеют координаты z='+a+' и z='+b+' относительно центра. Найдите объём слоя между ними.',answer:pi(n,3),solution:'Объём слоя равен разности верхних сегментов: V='+pi(na,3).replace('.','')+'−'+pi(nb,3).replace('.','')+'='+pi(n,3)};
 };
 const similar=(a,b)=>({text:'Объёмы двух подобных тел вращения относятся как '+a+':'+b+'. Найдите отношение соответствующих линейных размеров.',answer:ratioFromCubes(a,b),solution:'Линейный коэффициент равен отношению кубических корней: ∛'+a+':∛'+b+'='+ratioFromCubes(a,b)});
 const compositeHemisphere=(r,h)=>{
@@ -96,7 +97,7 @@ function independent(v){
   task(a.text,a.answer,2,a.text.includes('канал')?'CYLINDER_CAVITY':a.text.includes('Объём цилиндра равен')?'CYLINDER_INVERSE':'CYLINDER_VOLUME',a.solution),
   task(b.text,b.answer,2,b.text.includes('образующая')?'CONE_SLANT':'CONE_VOLUME',b.solution),
   task(c.text,c.answer,2,'FRUSTUM_VOLUME',c.solution),
-  task(d.text,d.answer,2,d.text.includes('сегмента')?'SPHERICAL_SEGMENT':d.text.includes('сектора')?'SPHERICAL_SECTOR':d.text.includes('Сфера')?'SPHERE_AREA':d.text.includes('Шар имеет')?'BALL_VOLUME':'SPHERICAL_LAYER',d.solution),
+  task(d.text,d.answer,2,d.text.includes('сектора')?'SPHERICAL_SECTOR':d.text.includes('слоя')?'SPHERICAL_LAYER':d.text.includes('Сфера')?'SPHERE_AREA':d.text.includes('Шар имеет')?'BALL_VOLUME':'SPHERICAL_SEGMENT',d.solution),
   task(e.text,e.answer,2,e.text.includes('подобных')?'SIMILAR_SOLIDS':'COMPOSITE_VOLUME',e.solution),
   task(q.error[0],q.error[1],3,q.error[2],'3 балла: обнаружить неверный шаг, записать верное правило и объяснить геометрический смысл исправления.')
  ]};
