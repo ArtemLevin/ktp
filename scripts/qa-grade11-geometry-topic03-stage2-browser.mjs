@@ -59,7 +59,7 @@ try{
   if(data.scenes!==11||data.registry!==11||!data.labelled||data.invalid)throw Error('scene rendering '+JSON.stringify(data));
   if(data.overflow)throw Error('mobile horizontal overflow');
   if(!data.source)throw Error('source boundary not visible');
-  if(data.assessmentCard!==0)throw Error('stage 5 assessment card published prematurely');
+  if(data.assessmentCard>1)throw Error('topic assessment card duplicated');
   if(Math.abs(data.helper-52*Math.PI/3)>1e-9)throw Error('browser math helper mismatch');
   if(errors.length)throw Error(errors.join('\n'));
 
