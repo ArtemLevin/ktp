@@ -42,7 +42,7 @@ try{
   await card.waitFor({state:'visible'});
   if(await card.count()!==1)throw Error('topic assessment card duplicated');
   const topicText=await card.innerText();
-  for(const token of ['Проверочные материалы','6 вариантов','Самостоятельная работа','Контрольная работа'])if(!topicText.includes(token))throw Error('topic assessment card missing '+token);
+  for(const token of ['Тематическая проверка','6 вариантов','14 баллов','20 баллов'])if(!topicText.includes(token))throw Error('topic assessment card missing '+token);
   const lab=page.locator('.lab-card a[href="../../labs/11-geometry-atanasyan/revolution-volume/index.html"]');
   if(await lab.count()!==1)throw Error('topic lab card missing after assessment release');
 
