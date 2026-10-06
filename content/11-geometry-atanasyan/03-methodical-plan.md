@@ -339,13 +339,15 @@ labs/11-geometry-atanasyan/revolution-volume/
 - лаборатория, поурочные модули и thematic assessment ещё не опубликованы и остаются этапами 3–5;
 - structural + browser/mobile/print QA защищают математическое содержание и wiring страницы.
 
-### Этап 3 — 11 уроков 22–32
+### Этап 3 — 11 уроков 22–32 · **реализован**
 
-- реализовать все lesson-модули;
-- по каждому: 2+ theory, 3 worked examples, 3+ mistakes, 8+ practice, HW 6+2;
-- 6 самостоятельных + 6 контрольных вариантов;
-- global numbering 22–32;
-- browser/mobile/print QA.
+- опубликованы 11/11 lesson-модулей с глобальной нумерацией 22–32;
+- каждый урок содержит 2+ theory, 3 worked examples, 5 типичных ошибок, 8 practice, HW 6+2;
+- на каждом уроке опубликованы 6 вариантов самостоятельной / 10 баллов и 6 вариантов поурочного контроля / 14 баллов;
+- всего по серии: **132 поурочных варианта / 726 оцениваемых заданий**;
+- все уроки используют общий `lesson-page.js`, `lesson-revolution.js` и shared registry 11 сцен;
+- structural QA проверяет поля задач, нумерацию, source guards и математические инварианты;
+- browser QA проверяет index, уроки 22–32, варианты, mobile 390 px и print.
 
 ### Этап 4 — лаборатория `revolution-volume`
 
