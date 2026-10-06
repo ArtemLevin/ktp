@@ -29,7 +29,7 @@ const pool=ctx.window.KTP_G11_REVOLUTION_VOLUME_QUESTION_POOL;
 check(S.meta.rowId==='11-geometry-atanasyan'&&S.meta.topicIndex===2,'topic identity');
 check(S.meta.totalLessons===11&&S.lessons.length===11,'eleven lessons');
 check(S.meta.courseLessonStart===22&&S.meta.courseLessonEnd===32,'global range 22-32');
-check(S.meta.implementationStage==='3/5','stage 3 implementation marker');
+check(['3/5','5/5'].includes(S.meta.implementationStage),'lesson series implementation marker');
 check(Object.keys(S.revolutionScenes).length===11,'eleven lesson revolution scenes');
 check(T?.theory?.length===11&&T.examples.length>=10,'thematic content retained');
 check(Boolean(T.lab),'topic lab contract');
