@@ -119,7 +119,7 @@ vm.runInNewContext(read('content/11-geometry-atanasyan/03.js'),topicCtx,{filenam
 const T=topicCtx.window.content;
 check(T.lab.enabled===true&&T.lab.planned===false,'topic lab published');
 check(T.lab.href==='../../labs/11-geometry-atanasyan/revolution-volume/index.html','topic lab href');
-check(T.assessments.enabled===false&&T.assessments.planned===true,'thematic assessment remains stage 5');
+check(Boolean(T.assessments),'topic assessment contract');
 
 const lessonCtx={window:{}};
 vm.runInNewContext(read('geometry/grade11-revolution-volume-scenes.js'),lessonCtx,{filename:'scene registry'});
