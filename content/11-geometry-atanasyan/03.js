@@ -291,11 +291,11 @@ KTP_REGISTER_CONTENT('11-geometry-atanasyan::2',{
   ],
 
   lab:{
-    enabled:false,
-    planned:true,
-    title:'Исследование объёмов тел вращения',
-    description:'Этап 4: цилиндр ↔ конус, усечённый конус, шаровой сегмент и масштаб k²/k³.',
-    href:'../../labs/11-geometry-atanasyan/revolution-volume/'
+    enabled:true,
+    planned:false,
+    title:'Как параметры управляют объёмом?',
+    description:'Исследуйте цилиндр ↔ конус, предельные случаи усечённого конуса, шаровой сегмент и масштаб k²/k³. Все величины вычисляются из математической модели.',
+    href:'../../labs/11-geometry-atanasyan/revolution-volume/index.html'
   },
 
   assessments:{

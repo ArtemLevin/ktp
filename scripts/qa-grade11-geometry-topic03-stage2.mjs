@@ -47,7 +47,7 @@ for(const level of ['basic','standard','transfer','challenge'])check(T.practice[
 check(T.diagnostic.length>=10,'diagnostic');
 check(T.homework.required.length>=8&&T.homework.optional.length>=2,'homework 8+2');
 check(T.summary.length>=10,'summary');
-check(T.lab.enabled===false&&T.lab.planned===true,'lab remains planned stage 4');
+check(Boolean(T.lab),'topic lab contract');
 check(T.assessments.enabled===false&&T.assessments.planned===true,'assessments remain planned stage 5');
 check(Object.keys(T.revolutionScenes).length===11,'topic receives eleven scenes');
 check(T.revolutionScenes===S,'topic reuses shared scene registry');
@@ -117,6 +117,5 @@ check(route.indexOf('content/11-geometry-atanasyan/03.js')<route.indexOf('../top
 check(route.indexOf('../topic-page.js')<route.indexOf('revolution-scene.js'),'topic page renders placeholders before scene renderer');
 
 check(!exists('assessments/11-geometry-atanasyan/03/data.js'),'stage 5 assessments not prematurely published');
-check(!exists('labs/11-geometry-atanasyan/revolution-volume/index.html'),'stage 4 lab not prematurely published');
 
 console.log('Grade 11 geometry topic 03 stage 2 content QA passed: '+checks+' checks.');

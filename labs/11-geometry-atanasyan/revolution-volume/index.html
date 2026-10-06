@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Объёмы тел вращения — цифровая лаборатория · Геометрия 11 · KTP 3.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="lab-shell">
+  <header class="hero">
+    <a class="back" href="../../../topics/11-geometry-atanasyan/03.html">← Тема «Объёмы тел вращения»</a>
+    <span class="kicker">Цифровая лаборатория · 11 класс · геометрия</span>
+    <h1>Как параметры управляют объёмом?</h1>
+    <p>Меняйте параметры цилиндра, конуса, усечённого конуса и шара. Числа вычисляются из математической модели; рисунок служит для понимания геометрии и не используется как измерительный прибор.</p>
+  </header>
+
+  <section class="research-question">
+    <span class="kicker">Исследовательский вопрос</span>
+    <h2>Какие изменения линейных размеров меняют объём линейно, квадратично и кубически?</h2>
+    <p>Во всех режимах сначала наблюдайте геометрию, затем сравнивайте формулы и численные значения. Ищите инварианты и предельные случаи.</p>
+  </section>
+
+  <nav class="modebar" aria-label="Режим лаборатории">
+    <button type="button" data-mode-button="cylinder-cone" aria-pressed="true">Цилиндр ↔ конус</button>
+    <button type="button" data-mode-button="frustum" aria-pressed="false">Усечённый конус</button>
+    <button type="button" data-mode-button="sphere" aria-pressed="false">Шар и сегмент</button>
+    <button type="button" data-mode-button="scale" aria-pressed="false">Масштаб k² / k³</button>
+  </nav>
+
+  <section class="workspace">
+    <aside class="panel controls" aria-label="Параметры модели">
+      <span class="kicker">Управление</span>
+      <h2 id="controlTitle">Цилиндр и конус</h2>
+
+      <div class="control-set" data-controls="cylinder-cone">
+        <label>Радиус r <output id="ccROut"></output>
+          <input id="ccR" type="range" min="1" max="6" step="0.25" value="3">
+        </label>
+        <label>Высота h <output id="ccHOut"></output>
+          <input id="ccH" type="range" min="1" max="8" step="0.25" value="4">
+        </label>
+        <div class="actions">
+          <button type="button" id="ccClassic">r=3, h=4</button>
+          <button type="button" id="ccDoubleR">Удвоить r</button>
+        </div>
+      </div>
+
+      <div class="control-set" data-controls="frustum" hidden>
+        <label>Больший радиус R <output id="frROut"></output>
+          <input id="frR" type="range" min="1" max="6" step="0.25" value="4">
+        </label>
+        <label>Меньший радиус r <output id="frrOut"></output>
+          <input id="frr" type="range" min="0" max="4" step="0.25" value="2">
+        </label>
+        <label>Высота h <output id="frHOut"></output>
+          <input id="frH" type="range" min="1" max="8" step="0.25" value="3">
+        </label>
+        <div class="actions">
+          <button type="button" id="frCone">r=0 → конус</button>
+          <button type="button" id="frCylinder">r=R → цилиндр</button>
+        </div>
+      </div>
+
+      <div class="control-set" data-controls="sphere" hidden>
+        <label>Радиус шара R <output id="spROut"></output>
+          <input id="spR" type="range" min="2" max="8" step="0.25" value="5">
+        </label>
+        <label>Расстояние плоскости d <output id="spDOut"></output>
+          <input id="spD" type="range" min="0" max="5" step="0.25" value="3">
+        </label>
+        <div class="actions">
+          <button type="button" id="spHalf">d=0 → полушар</button>
+          <button type="button" id="spTangent">d=R → касание</button>
+        </div>
+      </div>
+
+      <div class="control-set" data-controls="scale" hidden>
+        <label>Коэффициент подобия k <output id="scaleKOut"></output>
+          <input id="scaleK" type="range" min="0.5" max="3" step="0.1" value="2">
+        </label>
+        <div class="actions">
+          <button type="button" data-k="0.5">k=0,5</button>
+          <button type="button" data-k="1">k=1</button>
+          <button type="button" data-k="2">k=2</button>
+        </div>
+      </div>
+
+      <p class="keyboard-note"><b>Клавиатура:</b> Tab перемещает фокус; стрелки изменяют значение ползунка; Space/Enter нажимают кнопки режима и быстрых состояний.</p>
+    </aside>
+
+    <section class="panel stage-panel">
+      <div class="metrics" aria-live="polite">
+        <article><span id="m1Label">V цилиндра</span><strong id="m1"></strong></article>
+        <article><span id="m2Label">V конуса</span><strong id="m2"></strong></article>
+        <article><span id="m3Label">Отношение</span><strong id="m3"></strong></article>
+        <article><span id="m4Label">S основания</span><strong id="m4"></strong></article>
+      </div>
+
+      <svg id="stage" viewBox="0 0 760 470" role="img" aria-labelledby="stageTitle stageDesc">
+        <title id="stageTitle">Интерактивная модель объёмов тел вращения</title>
+        <desc id="stageDesc">Выбранный режим лаборатории визуализирует истинные параметры тела и связанные с ними объёмы.</desc>
+      </svg>
+
+      <div id="formula" class="formula" aria-live="polite"></div>
+      <div id="observation" class="observation" aria-live="polite"></div>
+    </section>
+  </section>
+
+  <section class="research-tasks">
+    <span class="kicker">Исследуйте</span>
+    <h2>Пять экспериментов</h2>
+    <ol>
+      <li><b>Цилиндр ↔ конус.</b> Оставьте одинаковые r и h. Меняйте оба параметра. Какое отношение объёмов остаётся неизменным?</li>
+      <li><b>Усечённый конус.</b> При фиксированных R и h уменьшайте r до 0, затем установите r=R. Какие две знакомые формулы получаются на границах?</li>
+      <li><b>Шаровой сегмент.</b> Передвигайте секущую плоскость. Найдите положение, при котором сегмент становится полушаром. Что происходит при d=R?</li>
+      <li><b>Масштаб.</b> Установите k=2, затем k=0,5. Сравните изменения длины, площади и объёма. Объясните степени 1, 2 и 3.</li>
+      <li><b>Обратный вывод.</b> Если объём подобного тела вырос в 8 раз, восстановите k без ползунка, затем проверьте ответ режимом «Масштаб».</li>
+    </ol>
+  </section>
+
+  <section class="noticed">
+    <span class="kicker">Что заметили</span>
+    <div class="notice-grid">
+      <article><h3>Одинаковые основание и высота</h3><p>Цилиндр имеет втрое больший объём, чем конус: коэффициент 1/3 сохраняется при любых положительных r и h.</p></article>
+      <article><h3>Предельные случаи</h3><p>Формула усечённого конуса согласуется с конусом при r=0 и с цилиндром при r=R.</p></article>
+      <article><h3>Сечение шара</h3><p>При d=0 секущая плоскость проходит через центр, а меньший сегмент является полушаром. При d=R круг сечения вырождается в точку.</p></article>
+      <article><h3>Подобие</h3><p>Линейный масштаб k даёт k² для площадей и k³ для объёмов, потому что трёхмерное тело масштабируется по трём направлениям.</p></article>
+    </div>
+  </section>
+
+  <section class="theory-link">
+    <span class="kicker">Связь с теорией</span>
+    <h2>Вернитесь к формуле и объясните наблюдение</h2>
+    <p>После эксперимента сопоставьте результат с теоретическими блоками темы: объём цилиндра, конуса, усечённого конуса, шара, шарового сегмента и закон k³.</p>
+    <a class="cta" href="../../../topics/11-geometry-atanasyan/03.html#theory">Открыть теорию темы →</a>
+  </section>
+</main>
+<script src="../../../geometry/revolution-math.js"></script>
+<script src="math.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

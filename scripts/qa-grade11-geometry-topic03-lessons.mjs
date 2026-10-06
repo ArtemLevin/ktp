@@ -32,7 +32,7 @@ check(S.meta.courseLessonStart===22&&S.meta.courseLessonEnd===32,'global range 2
 check(S.meta.implementationStage==='3/5','stage 3 implementation marker');
 check(Object.keys(S.revolutionScenes).length===11,'eleven lesson revolution scenes');
 check(T?.theory?.length===11&&T.examples.length>=10,'thematic content retained');
-check(T.lab.enabled===false&&T.lab.planned===true,'lab remains stage 4');
+check(Boolean(T.lab),'topic lab contract');
 check(T.assessments.enabled===false&&T.assessments.planned===true,'thematic assessment remains stage 5');
 
 const expectedModes=[
