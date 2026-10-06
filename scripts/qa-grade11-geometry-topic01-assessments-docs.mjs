@@ -17,20 +17,20 @@ const A=read('assessments/README.md');
 const B=read('content/11-geometry-atanasyan/01-methodical-plan.md');
 const T=read('assessments/topic-links.js');
 
-assert(/\| 2\/6 \| 21\/68 \| 2\/6 \| в работе \|/.test(row(R,'11-geometry-atanasyan')),'README grade11 row');
-assert(/\| 2\/6 \| 21\/68 \| 2\/6 \| в работе \|/.test(row(P,'11-geometry-atanasyan')),'Plan grade11 row');
-assert(/\| 2\/6 \| 21\/68 \| 1–21 \| в работе \|/.test(row(L,'11-geometry-atanasyan')),'lessons grade11 row');
+assert(/\| 2\/6 \| 32\/68 \| 2\/6 \| в работе \|/.test(row(R,'11-geometry-atanasyan')),'README grade11 row');
+assert(/\| 2\/6 \| 32\/68 \| 2\/6 \| в работе \|/.test(row(P,'11-geometry-atanasyan')),'Plan grade11 row');
+assert(/\| 3\/6 \| 32\/68 \| 1–32 \| в работе \|/.test(row(L,'11-geometry-atanasyan')),'lessons grade11 row');
 assert(/\| 2\/6 \| в работе \|/.test(row(A,'11-geometry-atanasyan')),'assessments grade11 row');
 
 for(const [text,re,expected,label] of [
- [R,/Суммарно опубликовано \*\*(\d+) полноценных/,1143,'README lessons'],
+ [R,/Суммарно опубликовано \*\*(\d+) полноценных/,1154,'README lessons'],
  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'README assessments'],
  [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'README current assessments'],
  [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,83,'Plan series'],
- [P,/опубликованных уроков: \*\*(\d+)\*\*/,1143,'Plan lessons'],
+ [P,/опубликованных уроков: \*\*(\d+)\*\*/,1154,'Plan lessons'],
  [P,/assessment-комплектов: \*\*(\d+)\*\*/,83,'Plan assessments'],
  [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,38,'Plan skeletons'],
- [L,/Всего опубликовано \*\*(\d+) полноценных/,1143,'lessons total'],
+ [L,/Всего опубликовано \*\*(\d+) полноценных/,1154,'lessons total'],
  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'assessment total']
 ])assert(metric(text,re,label)===expected,label+': expected '+expected);
 
