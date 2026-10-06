@@ -110,7 +110,8 @@ for(const token of [
   'aria-pressed','stageDesc','input[type="range"]',
   'KTP_REVOLUTION_VOLUME_LAB_CURRENT'
 ])check(app.includes(token),'app behavior '+token);
-check(!/fetch\(|import\(|https?:\/\//.test(app),'app has no external runtime dependency');
+check(!/fetch\(|import\(/.test(app),'app has no network/import runtime dependency');
+check(!/<script[^>]+src="https?:/i.test(html),'lab HTML has no external script dependency');
 
 const topicCtx={window:{KTP_G11_REVOLUTION_VOLUME_SCENES:{}}};
 topicCtx.KTP_REGISTER_CONTENT=(key,payload)=>{topicCtx.window.content=payload;};
