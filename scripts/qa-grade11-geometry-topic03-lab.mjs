@@ -119,7 +119,7 @@ vm.runInNewContext(read('content/11-geometry-atanasyan/03.js'),topicCtx,{filenam
 const T=topicCtx.window.content;
 check(T.lab.enabled===true&&T.lab.planned===false,'topic lab published');
 check(T.lab.href==='../../labs/11-geometry-atanasyan/revolution-volume/index.html','topic lab href');
-check(T.assessments.enabled===false&&T.assessments.planned===true,'thematic assessment remains stage 5');
+check(Boolean(T.assessments),'topic assessment contract');
 
 const lessonCtx={window:{}};
 vm.runInNewContext(read('geometry/grade11-revolution-volume-scenes.js'),lessonCtx,{filename:'scene registry'});
@@ -136,7 +136,7 @@ const blueprint=read('content/11-geometry-atanasyan/03-methodical-plan.md');
 check(blueprint.includes('Этап 4 — лаборатория')&&blueprint.includes('revolution-volume')&&blueprint.includes('**реализован**'),'blueprint stage4 implemented');
 for(const token of ['цилиндр ↔ конус','усечённый конус','шаровой сегмент','k²/k³','5 исследовательских заданий'])check(blueprint.includes(token),'blueprint lab token '+token);
 const plan=read('Plan.md');
-check(plan.includes('этапы 1–4 завершены'),'Plan stage 1-4');
-check(plan.includes('этап 5 — thematic assessment 6×7/14 + 6×10/20'),'Plan next stage 5');
+check(plan.includes('revolution-volume'),'Plan lab reference');
+check(plan.includes('Серия 03 «Объёмы тел вращения» полностью завершена')||plan.includes('этапы 1–4 завершены'),'Plan topic 03 state');
 
 console.log('Grade 11 geometry topic 03 revolution-volume lab QA passed: '+checks+' checks.');

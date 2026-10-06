@@ -17,21 +17,21 @@ const B=read('content/11-geometry-atanasyan/02-methodical-plan.md');
 const T=read('assessments/topic-links.js');
 const S=read('lessons/11-geometry-atanasyan/02/series.js');
 
-check(/\| 2\/6 \| 32\/68 \| 2\/6 \| в работе \|/.test(row(R,'11-geometry-atanasyan')),'README grade11 row');
-check(/\| 2\/6 \| 32\/68 \| 2\/6 \| в работе \|/.test(row(P,'11-geometry-atanasyan')),'Plan grade11 row');
+check(/\| 3\/6 \| 32\/68 \| 3\/6 \| в работе \|/.test(row(R,'11-geometry-atanasyan')),'README grade11 row');
+check(/\| 3\/6 \| 32\/68 \| 3\/6 \| в работе \|/.test(row(P,'11-geometry-atanasyan')),'Plan grade11 row');
 check(/\| 3\/6 \| 32\/68 \| 1–32 \| в работе \|/.test(row(L,'11-geometry-atanasyan')),'lessons grade11 row');
-check(/\| 2\/6 \| в работе \|/.test(row(A,'11-geometry-atanasyan')),'assessments grade11 row');
+check(/\| 3\/6 \| в работе \|/.test(row(A,'11-geometry-atanasyan')),'assessments grade11 row');
 
 for(const [text,re,expected,label] of [
   [R,/Суммарно опубликовано \*\*(\d+) полноценных/,1154,'README lessons'],
-  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'README assessments'],
-  [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'README current assessments'],
-  [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,83,'Plan series'],
+  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README assessments'],
+  [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README current assessments'],
+  [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,84,'Plan series'],
   [P,/опубликованных уроков: \*\*(\d+)\*\*/,1154,'Plan lessons'],
-  [P,/assessment-комплектов: \*\*(\d+)\*\*/,83,'Plan assessments'],
-  [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,38,'Plan skeletons'],
+  [P,/assessment-комплектов: \*\*(\d+)\*\*/,84,'Plan assessments'],
+  [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,37,'Plan skeletons'],
   [L,/Всего опубликовано \*\*(\d+) полноценных/,1154,'lessons total'],
-  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'assessment total']
+  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'assessment total']
 ])check(metric(text,re,label)===expected,label+' expected '+expected);
 
 for(const text of [R,P,L,A]){
@@ -42,11 +42,11 @@ check(L.includes('volume-transform'),'lessons README lab');
 check(A.includes('6×7 / 14')&&A.includes('6×10 / 20'),'assessment format documented');
 for(const token of ['прямые и наклонные призмы','усечённая пирамида','k → k² → k³'])check(A.includes(token),'assessment coverage '+token);
 
-check(M.includes('Поурочный слой: 32/68; тематические assessment-комплекты: 2/6'),'content map status');
-check(M.includes('серия 03 «Объёмы тел вращения», уроки 22–32'),'content map next unit');
+check(M.includes('Поурочный слой: 32/68; тематические assessment-комплекты: 3/6'),'content map status');
+check(M.includes('серия 04 «Векторы в пространстве», уроки 33–44'),'content map next unit');
 check(LP.includes('Пункты 1–32 уже опубликованы'),'lesson plan publication status');
-check(P.includes('серия 03 **«Объёмы тел вращения»**, уроки **22–32**'),'Plan next unit');
-check(T.includes("'11-geometry-atanasyan':{min:0,max:1}"),'assessment navigation topics 01-02');
+check(P.includes('серия 04 **«Векторы в пространстве»**, уроки **33–44**'),'Plan next unit');
+check(T.includes("'11-geometry-atanasyan':{min:0,max:2}"),'assessment navigation topics 01-03');
 check(S.includes("implementationStage:'5/5'"),'series release stage');
 
 for(const token of [
@@ -72,7 +72,7 @@ function countFiles(dir,pattern){
   return total;
 }
 check(countFiles('lessons',/^\d\d\.html$/)===1154,'1154 addressable lesson pages');
-check(countFiles('assessments',/^data\.js$/)===83,'83 thematic assessment data files');
+check(countFiles('assessments',/^data\.js$/)===84,'84 thematic assessment data files');
 
 for(const p of [
   'topics/11-geometry-atanasyan/02.html',

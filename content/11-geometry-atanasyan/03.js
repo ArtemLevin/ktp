@@ -299,10 +299,12 @@ KTP_REGISTER_CONTENT('11-geometry-atanasyan::2',{
   },
 
   assessments:{
-    enabled:false,
-    planned:true,
+    enabled:true,
+    planned:false,
     title:'Тематическая проверка',
-    description:'Этап 5: 6 вариантов самостоятельной 7/14 и 6 вариантов контрольной 10/20.'
+    description:'6 вариантов самостоятельной работы по 7 заданий / 14 баллов и 6 вариантов контрольной по 10 заданий / 20 баллов.',
+    independentHref:'../../assessments/11-geometry-atanasyan/03/independent.html',
+    controlHref:'../../assessments/11-geometry-atanasyan/03/control.html'
   },
 
   source:{
