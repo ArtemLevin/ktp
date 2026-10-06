@@ -40,7 +40,7 @@ try{
   }));
   if(initial.title!=='Объёмы тел вращения — цифровая лаборатория · Геометрия 11 · KTP 3.0')throw Error('lab title '+initial.title);
   if(initial.mode!=='cylinder-cone'||Math.abs(initial.state.ratio-3)>1e-9||initial.tasks!==5||initial.svg<12||initial.invalid||initial.overflow)throw Error('initial lab '+JSON.stringify(initial));
-  if(!initial.text.includes('Что заметили')||!initial.text.includes('Связь с теорией'))throw Error('required pedagogy blocks missing');
+  if(await page.locator('.noticed').count()!==1||await page.locator('.theory-link').count()!==1)throw Error('required pedagogy blocks missing');
 
   const ccR=page.locator('#ccR');
   await ccR.focus();
