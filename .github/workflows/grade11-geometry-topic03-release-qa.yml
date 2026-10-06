@@ -1,0 +1,94 @@
+name: Grade 11 Atanasyan Topic 03 Release QA
+
+on:
+  pull_request:
+    paths:
+      - 'assessments/11-geometry-atanasyan/03/**'
+      - 'assessments/topic-links.js'
+      - 'assessments/README.md'
+      - 'content/11-geometry-atanasyan/03.js'
+      - 'content/11-geometry-atanasyan/03-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/content-map.md'
+      - 'topics/11-geometry-atanasyan/03.html'
+      - 'lessons/11-geometry-atanasyan/03/**'
+      - 'labs/11-geometry-atanasyan/revolution-volume/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'scripts/qa-grade11-geometry-topic03-*.mjs'
+      - '.github/workflows/grade11-geometry-topic03-release-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'assessments/11-geometry-atanasyan/03/**'
+      - 'assessments/topic-links.js'
+      - 'assessments/README.md'
+      - 'content/11-geometry-atanasyan/03.js'
+      - 'content/11-geometry-atanasyan/03-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/content-map.md'
+      - 'topics/11-geometry-atanasyan/03.html'
+      - 'lessons/11-geometry-atanasyan/03/**'
+      - 'labs/11-geometry-atanasyan/revolution-volume/**'
+      - 'README.md'
+      - 'Plan.md'
+      - 'lessons/README.md'
+      - 'scripts/qa-grade11-geometry-topic03-*.mjs'
+      - '.github/workflows/grade11-geometry-topic03-release-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Topic 03 release content and assessments
+        run: |
+          node scripts/qa-grade11-geometry-topic03-assessments.mjs
+          node scripts/qa-grade11-geometry-topic03-docs.mjs
+          node scripts/qa-grade11-geometry-topic03-lab.mjs
+          node scripts/qa-grade11-geometry-topic03-lessons.mjs
+          node scripts/qa-grade11-geometry-topic03-stage2.mjs
+          node scripts/qa-grade11-geometry-topic03-stage1.mjs
+          node scripts/qa-grade11-geometry-topic03-planning.mjs
+          node scripts/qa-grade11-revolution-core.mjs
+      - name: Grade 11 published-series regressions
+        run: |
+          node scripts/qa-grade11-geometry-foundation.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments-docs.mjs
+          node scripts/qa-grade11-geometry-topic02-foundation.mjs
+          node scripts/qa-grade11-geometry-topic02-lessons.mjs
+          node scripts/qa-grade11-geometry-topic02-lab.mjs
+          node scripts/qa-grade11-geometry-topic02-assessments.mjs
+          node scripts/qa-grade11-geometry-topic02-docs.mjs
+      - name: Grade 10 geometry regression
+        run: |
+          node scripts/qa-grade10-geometry-topic05-final.mjs
+          node scripts/qa-grade10-geometry-topic05-final-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Topic 03 full release browser gate
+        run: |
+          node scripts/qa-grade11-geometry-topic03-assessments-browser.mjs
+          node scripts/qa-grade11-geometry-topic03-lab-browser.mjs
+          node scripts/qa-grade11-geometry-topic03-lessons-browser.mjs
+          node scripts/qa-grade11-geometry-topic03-stage2-browser.mjs
+      - name: Previous grade 11 browser regressions
+        run: |
+          node scripts/qa-grade11-geometry-topic02-assessments-browser.mjs
+          node scripts/qa-grade11-geometry-topic02-lab-browser.mjs
+          node scripts/qa-grade11-geometry-topic02-lessons-browser.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments-browser.mjs
