@@ -16,12 +16,12 @@ assert(/\| 5\/5 \| 68\/68 \| 5\/5 \|/.test(row(P,'10-geometry-atanasyan')),'Plan
 assert(/\| 5\/5 \| 68\/68 \| 1–68 \|/.test(row(L,'10-geometry-atanasyan')),'lessons line 68/68');
 assert(/\| 5\/5 \|/.test(row(A,'10-geometry-atanasyan')),'assessment line 5/5');
 for(const [text,re,expected,label] of [
-  [R,/Суммарно опубликовано \*\*(\d+) полноценных/,1143,'README lessons'],
+  [R,/Суммарно опубликовано \*\*(\d+) полноценных/,1154,'README lessons'],
   [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'README assessments'],
   [P,/тематических серий: \*\*(\d+)\*\*/,83,'Plan series'],
-  [P,/опубликованных уроков: \*\*(\d+)\*\*/,1143,'Plan lessons'],
+  [P,/опубликованных уроков: \*\*(\d+)\*\*/,1154,'Plan lessons'],
   [P,/assessment-комплектов: \*\*(\d+)\*\*/,83,'Plan assessments'],
-  [L,/Всего опубликовано \*\*(\d+) полноценных/,1143,'lessons total'],
+  [L,/Всего опубликовано \*\*(\d+) полноценных/,1154,'lessons total'],
   [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,83,'assessment total']
 ]) assert(metric(text,re,label)===expected,`${label}: expected ${expected}`);
 
