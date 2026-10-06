@@ -112,6 +112,6 @@ function countFiles(dir,name){
   }
   return total;
 }
-check(countFiles(path.join(root,'assessments'),'data.js')===83,'aggregate thematic assessment count 83');
+check(countFiles(path.join(root,'assessments'),'data.js')===84,'aggregate thematic assessment count 84');
 
 console.log('Grade 11 geometry topic 02 thematic assessment/math/structure QA passed: '+checks+' checks.');
