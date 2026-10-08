@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "status": "awaiting_binary_transfer",
+  "source_repo": "ArtemLevin/ktp",
+  "branch": "main",
+  "asset_base": "materials/top10/2026-10",
+  "generated": "2026-10-08",
+  "warnings": [
+    "PDF binaries are available in the attached delivery archive but have not yet been committed to GitHub; do not link the resource registry before transferring all PDFs."
+  ],
+  "items": [
+    {
+      "slug": "8a_l18",
+      "row": "8-algebra-makarychev",
+      "topic": "02",
+      "local": "03",
+      "idx": 1,
+      "n": 18,
+      "grade": 8,
+      "subject": "Алгебра",
+      "date": "2026-10-05",
+      "title": "Квадратные корни и уравнение x²=a",
+      "short": "8a_l18",
+      "pattern": "8a",
+      "page": "lessons/8-algebra-makarychev/02/03.html",
+      "files": [
+        "8a_l18_10_student.pdf",
+        "8a_l18_10_teacher.pdf",
+        "8a_l18_54_student.pdf",
+        "8a_l18_54_teacher.pdf",
+        "8a_l18_10_strong_student.pdf",
+        "8a_l18_10_strong_teacher.pdf",
+        "8a_l18_54_strong_student.pdf",
+        "8a_l18_54_strong_teacher.pdf"
+      ]
+    },
+    {
+      "slug": "7a_l17",
+      "row": "7-algebra-makarychev",
+      "topic": "01",
+      "local": "17",
+      "idx": 0,
+      "n": 17,
+      "grade": 7,
+      "subject": "Алгебра",
+      "date": "2026-10-06",
+      "title": "Текстовые задачи с помощью уравнений",
+      "short": "7a_l17",
+      "pattern": "7a",
+      "page": "lessons/7-algebra-makarychev/01/17.html",
+      "files": [
+        "7a_l17_10_student.pdf",
+        "7a_l17_10_teacher.pdf",
+        "7a_l17_54_student.pdf",
+        "7a_l17_54_teacher.pdf",
+        "7a_l17_10_strong_student.pdf",
+        "7a_l17_10_strong_teacher.pdf",
+        "7a_l17_54_strong_student.pdf",
+        "7a_l17_54_strong_teacher.pdf"
+      ]
+    },
+    {
+      "slug": "6m_l30",
+      "row": "6-math-vilenkin",
+      "topic": "02",
+      "local": "12",
+      "idx": 1,
+      "n": 30,
+      "grade": 6,
+      "subject": "Математика",
+      "date": "2026-10-07",
+      "title": "Сложение и вычитание дробей и смешанных чисел",
+      "short": "6m_l30",
+      "pattern": "std",
+      "page": "lessons/6-math-vilenkin/02/12.html",
+      "files": [
+        "6m_l30_std_10_student.pdf",
+        "6m_l30_std_10_teacher.pdf",
+        "6m_l30_std_54_student.pdf",
+        "6m_l30_std_54_teacher.pdf",
+        "6m_l30_strong_10_student.pdf",
+        "6m_l30_strong_10_teacher.pdf",
+        "6m_l30_strong_54_student.pdf",
+        "6m_l30_strong_54_teacher.pdf"
+      ]
+    },
+    {
+      "slug": "11a_l18",
+      "row": "11-algebra-alimov",
+      "topic": "02",
+      "local": "02",
+      "idx": 1,
+      "n": 18,
+      "grade": 11,
+      "subject": "Алгебра",
+      "date": "2026-10-08",
+      "title": "Производная и промежутки монотонности",
+      "short": "11a_l18",
+      "pattern": "std",
+      "page": "lessons/11-algebra-alimov/02/02.html",
+      "files": [
+        "11a_l18_std_10_student.pdf",
+        "11a_l18_std_10_teacher.pdf",
+        "11a_l18_std_54_student.pdf",
+        "11a_l18_std_54_teacher.pdf",
+        "11a_l18_strong_10_student.pdf",
+        "11a_l18_strong_10_teacher.pdf",
+        "11a_l18_strong_54_student.pdf",
+        "11a_l18_strong_54_teacher.pdf"
+      ]
+    },
+    {
+      "slug": "9a_l18",
+      "row": "9-algebra-makarychev",
+      "topic": "01",
+      "local": "18",
+      "idx": 0,
+      "n": 18,
+      "grade": 9,
+      "subject": "Алгебра",
+      "date": "2026-10-08",
+      "title": "Итоговая диагностика: числа и вычисления",
+      "short": "9a_l18",
+      "pattern": "std",
+      "page": "lessons/9-algebra-makarychev/01/18.html",
+      "files": [
+        "9a_l18_std_10_student.pdf",
+        "9a_l18_std_10_teacher.pdf",
+        "9a_l18_std_54_student.pdf",
+        "9a_l18_std_54_teacher.pdf",
+        "9a_l18_strong_10_student.pdf",
+        "9a_l18_strong_10_teacher.pdf",
+        "9a_l18_strong_54_student.pdf",
+        "9a_l18_strong_54_teacher.pdf"
+      ]
+    }
+  ]
+}
