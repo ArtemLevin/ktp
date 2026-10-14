@@ -42,7 +42,8 @@ check(read('lessons/11-geometry-atanasyan/01/01.html').includes('lesson-revoluti
 const pool=ctx.window.KTP_G11_QUESTION_POOL,pi='π.';
 for(let k=1;k<=15;k++){
  const r=k+2,h=k+3;
- const expected={cylinderAxial:[`${2*r} и ${h}.`,`${2*r*h}.`],cylinderCut:[`${8*k}.`,`${8*k*(k+3)}.`],cylinderArea:[`${2*r*h}π.`,`${2*r*(h+r)}π.`],coneGeometry:[`${5*k}.`,`${4*k}.`],coneCut:[`${4*k}.`,`${16*k*k}π.`],coneArea:[`${15*k*k}π.`,`${24*k*k}π.`],frustum:[`${5*k}.`,`${35*k*k}π.`],sphereCut:[`${4*k}.`,`${16*k*k}π.`],sphereArea:[`${4*r*r}π.`,`${r}.`],combined:[`${24*k*k}π.`]};
+ const semiChord=(k%2?4:3)*k,coneRadius=(k%2?3:4)*k,coneHeight=(k%2?4:3)*k,coneSlice=(k%2?4:6)*k,sphereSlice=(k%2?4:3)*k;
+ const expected={cylinderAxial:[`${2*r} и ${h}.`,`${2*r*h}.`],cylinderCut:[`${2*semiChord}.`,`${2*semiChord*(k+3)}.`],cylinderArea:[`${2*r*h}π.`,`${2*r*(h+r)}π.`],coneGeometry:[`${5*k}.`,`${coneHeight}.`],coneCut:[`${coneSlice}.`,`${coneSlice*coneSlice}π.`],coneArea:[`${coneRadius*5*k}π.`,`${coneRadius*(5*k+coneRadius)}π.`],frustum:[`${5*k}.`,`${35*k*k}π.`],sphereCut:[`${sphereSlice}.`,`${sphereSlice*sphereSlice}π.`],sphereArea:[`${4*r*r}π.`,`${r}.`],combined:[`${24*k*k}π.`]};
  for(const [mode,values] of Object.entries(expected))values.forEach((answer,j)=>check(pool(mode,k)[j].answer===answer,`${mode} k=${k} task=${j+1}`));
 }
 console.log(`Grade 11 geometry topic 01 lessons QA passed: ${count} checks, ${taskCount} assessed tasks in 132 variants.`);
