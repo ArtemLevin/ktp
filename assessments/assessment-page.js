@@ -7,10 +7,6 @@ const topicId=body.dataset.topic||data?.meta?.topic;
 const topic=data?.topic;
 const work=topic?.[kind];
 const app=document.getElementById('assessment-app');
-if(!data||!topic||!work||!app){
-  if(app) app.innerHTML='<main class="shell"><section class="panel"><h1>Материал не найден</h1><p>Проверьте подключение данных и параметры страницы.</p></section></main>';
-  return;
-}
 const typeLabel=kind==='control'?'Контрольная работа':'Самостоятельная работа';
 const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const level=p=>p<=1?'A · база':p===2?'B · применение':'C · перенос';
@@ -84,6 +80,11 @@ function assessmentSummary(variant,marks,topicCode){
   toRecheck:groups.filter(g=>g.complete&&g.percentage<70)};
 }
 window.KTP_ASSESSMENT_DIAGNOSTICS=Object.freeze({criteriaFor,domainFor,assessmentSummary});
+if(!data||!topic||!work||!app){
+  if(app) app.innerHTML='<main class="shell"><section class="panel"><h1>Материал не найден</h1><p>Проверьте подключение данных и параметры страницы.</p></section></main>';
+  return;
+}
+
 
 const gradeScale=work.maxScore===14
   ?[{r:'12–14',g:'5'},{r:'9–11',g:'4'},{r:'6–8',g:'3'},{r:'0–5',g:'2'}]
