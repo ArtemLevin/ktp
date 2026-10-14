@@ -93,8 +93,8 @@ for(let k=1;k<=15;k++){
   check(pool('volumeBasics',k)[0].answer===String(a*b*c)+'.','volumeBasics k='+k);
   check(pool('box',k)[0].answer===String((k+2)*(k+3)*(k+4))+'.','box k='+k);
   check(pool('prism',k)[0].answer===String(k*(k+3)*(k+4))+'.','prism k='+k);
-  check(pool('obliquePrism',k)[0].answer===String(24*k*k)+'.','obliquePrism k='+k);
-  check(pool('obliquePrism',k)[1].answer===String(4*k)+'.','oblique height k='+k);
+  check(pool('obliquePrism',k)[0].answer===String(6*k*(k%2?4:3)*k)+'.','obliquePrism k='+k);
+  check(pool('obliquePrism',k)[1].answer===String((k%2?4:3)*k)+'.','oblique height k='+k);
   check(pool('pyramid',k)[0].answer===String(12*k*k)+'.','pyramid k='+k);
   check(pool('frustum',k)[0].answer===String(28*k*k*k)+'.','frustum k='+k);
   check(pool('sectionVolume',k)[0].answer===String(24*k*k)+'.','section volume k='+k);
