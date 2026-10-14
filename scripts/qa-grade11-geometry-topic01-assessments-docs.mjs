@@ -19,10 +19,10 @@ const A=read('assessments/README.md');
 const B=read('content/11-geometry-atanasyan/01-methodical-plan.md');
 const T=read('assessments/topic-links.js');
 
-assert(row(R,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'README grade11 row');
-assert(row(P,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'Plan grade11 row');
-assert(row(L,'11-geometry-atanasyan').includes(progress.lessonRow+' в работе |'),'lessons grade11 row');
-assert(row(A,'11-geometry-atanasyan').includes('| '+progress.assessmentSeries+'/6 | в работе |'),'assessments grade11 row');
+assert(row(R,'11-geometry-atanasyan').includes(progress.row+' '+progress.lineStatus+' |'),'README grade11 row');
+assert(row(P,'11-geometry-atanasyan').includes(progress.row+' '+progress.lineStatus+' |'),'Plan grade11 row');
+assert(row(L,'11-geometry-atanasyan').includes(progress.lessonRow+' '+progress.lineStatus+' |'),'lessons grade11 row');
+assert(row(A,'11-geometry-atanasyan').includes('| '+progress.assessmentSeries+'/6 | '+progress.lineStatus+' |'),'assessments grade11 row');
 
 for(const [text,re,expected,label] of [
  [R,/Суммарно опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'README lessons'],

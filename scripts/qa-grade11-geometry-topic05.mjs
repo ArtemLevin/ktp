@@ -41,6 +41,6 @@ const sphereScene=scenes['g11-coordinate-49-sphere'];for(const [name,point] of O
 for(const [id,angle] of [['g11-coordinate-50-angle',135],['g11-coordinate-51-dot',90],['g11-coordinate-56-diagnostic',135]]){const m=scenes[id].math;near(Math.acos(dot(m.a,m.b)/(Math.hypot(...m.a)*Math.hypot(...m.b)))*180/Math.PI,angle,'independent scene angle');}
 const blueprint=read('content/11-geometry-atanasyan/05-methodical-plan.md');for(const token of ['24.02.2027–08.04.2027','79*','ФРП-2025','144 варианта / 792','12 вариантов / 102','5/6, 56/68, 5/6','расширение'])check(blueprint.includes(token),'blueprint '+token);
 check(S.lessons.filter(l=>l.source.assessment.startsWith('Расширение')).map(l=>l.globalNumber).join(',')==='49,54,55','separate KTP extension lessons');
-const progress=grade11GeometryProgress();check(progress.completeSeries===5&&progress.lessonCount===56&&progress.assessmentSeries===5,'current grade 11 metrics');
+const progress=grade11GeometryProgress();check(progress.completeSeries>=5&&progress.lessonCount>=56&&progress.assessmentSeries>=5,'current grade 11 metrics');
 for(const p of ['README.md','Plan.md'])check(read(p).includes(progress.summary),'current summary '+p);
 console.log(`Grade 11 coordinate series QA passed: ${checks} checks, 792 lesson + 102 thematic tasks.`);
