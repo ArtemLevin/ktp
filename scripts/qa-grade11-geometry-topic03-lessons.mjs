@@ -101,14 +101,14 @@ for(const mode of expectedModes){
 for(let k=1;k<=15;k++){
   check(pool('cylinder',k)[0].answer===String((k+2)**2*(k+3))+'π.','cylinder k='+k);
   check(pool('cylinderComposite',k)[0].answer===String(((k+4)**2-(k+1)**2)*(k+2))+'π.','cylinder composite k='+k);
-  check(pool('cone',k)[0].answer===String(12*k**3)+'π.','cone k='+k);
+  check(pool('cone',k)[0].answer===String((k%2?12:16)*k**3)+'π.','cone k='+k);
   const R=k+3,r=k+1,A=R*R+R*r+r*r;
   check(pool('frustum',k)[0].answer===String(A)+'π.','frustum k='+k);
   check(pool('ball',k)[0].answer===String(36*k**3)+'π.','ball k='+k);
-  check(pool('sphericalParts',k)[0].answer===String(2*k)+'.','segment height k='+k);
+  check(pool('sphericalParts',k)[0].answer===String((k%2?2:1)*k)+'.','segment height k='+k);
   check(pool('sphericalParts',k)[2].answer===String(72*k**3)+'π.','layer k='+k);
   check(pool('sphereAreaVolume',k)[0].answer===String(36*k*k)+'π; '+String(36*k**3)+'π.','area-volume pair k='+k);
-  check(pool('sphereSection',k)[0].answer===String(4*k)+'.','section radius k='+k);
+  check(pool('sphereSection',k)[0].answer===String((k%2?4:3)*k)+'.','section radius k='+k);
   check(pool('similar',k)[0].answer===String((k+1)**3)+':'+String(k**3)+'.','similar k='+k);
   check(pool('appliedComposite',k)[0].answer===String(54*k**3)+'π.','composite k='+k);
   check(pool('diagnostic',k)[0].answer===String(36*k**3)+'π.','diagnostic cylinder k='+k);
