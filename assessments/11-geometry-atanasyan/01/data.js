@@ -21,11 +21,25 @@ const rubrics={
  'composite-three':['Выделить боковую поверхность цилиндра','Добавить открытую поверхность конуса и основание','Исключить скрытый контакт и вычислить'],
  'frustum-proof':['Обосновать катет R−r осевого сечения','Вычислить образующую и боковую площадь','Доказать l>h при R>r']
 };
+const diagnosticByFamily={
+ 'body-surface-definition':'Понятия тел и поверхностей',
+ 'cylinder-chord':'Сечения и теорема Пифагора',
+ 'sphere-section':'Сечения и теорема Пифагора',
+ 'cone-parallel':'Подобие в сечениях',
+ 'cone-slant':'Образующая и площади',
+ 'cylinder-area':'Образующая и площади',
+ 'frustum-area':'Образующая и площади',
+ 'sphere-inverse':'Образующая и площади',
+ 'composite-two':'Составные поверхности',
+ 'composite-three':'Составные поверхности',
+ 'sphere-proof':'Доказательство геометрических условий',
+ 'frustum-proof':'Доказательство геометрических условий'
+};
 const score=(tasks,kind)=>tasks.map((q,i)=>{
  const [family,points]=blueprint[kind][i],criteria=rubrics[family],dok=points===3?3:points===1?1:2;
  if(q.points!==points||criteria.length!==points)throw Error('Bad rubric '+kind+'/'+i);
  return {...q,cognitive:{family,method:family,dok,steps:points},
- criteria:criteria.map(text=>({points:1,text}))};
+ criteria:criteria.map(text=>({points:1,text})),diagnostic:{domain:diagnosticByFamily[family]||family,goal:family}};
 });
 
 const V=[
