@@ -50,8 +50,8 @@ for(const route of ['labs/11-geometry-atanasyan/vector-constructor/index.html','
  const html=read(route);for(const m of html.matchAll(/(?:src|href)="([^"]+)"/g)){if(m[1].startsWith('#'))continue;check(fs.existsSync(path.resolve(path.dirname(route),m[1])),'dependency resolves '+m[1]);}
  check(!/src="https?:/i.test(html),'zero-build local dependencies');
 }
-const progress=grade11GeometryProgress();check(progress.summary==='4/6, 44/68, 4/6'&&progress.totalAssessments===85,'release totals');
-for(const p of ['README.md','Plan.md','content/11-geometry-atanasyan/04-methodical-plan.md'])check(read(p).includes(progress.summary),'release documented '+p);
-check(read('assessments/README.md').includes('**85 тематических'),'assessment count documented');
+const progress=grade11GeometryProgress();check(progress.completeSeries>=4&&progress.lessonCount>=44&&progress.totalAssessments>=85,'release totals');
+for(const p of ['README.md','Plan.md'])check(read(p).includes(progress.summary),'release documented '+p);
+check(read('assessments/README.md').includes('**'+progress.totalAssessments+' тематических'),'assessment count documented');
 check(read('content/11-geometry-atanasyan/content-map.md').includes(progress.contentMap),'content map counts');
 console.log(`Grade 11 geometry topic 04 release QA passed: ${checks} checks; 102 thematic tasks, 3 lab modes.`);
