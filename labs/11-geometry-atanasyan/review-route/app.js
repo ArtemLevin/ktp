@@ -3,9 +3,10 @@
 const R=window.KTP_G11_REVIEW_ROUTER,domains=R.domains,key='ktp:g11:review:v1',app=document.getElementById('app'),note=document.getElementById('storageNote');
 const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fresh=variant=>({version:1,variant,answers:{},submitted:false,corrections:{},counters:{},history:[]});
+const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
 const choice=v=>Number.isInteger(v)&&v>=0&&v<4,seed=v=>Number.isInteger(v)&&v>=1&&v<=60;
 let storage=true,state=fresh(1),route=null,message='';
-try{const raw=localStorage.getItem(key);if(raw){const s=JSON.parse(raw);if(s.version!==1||!seed(s.variant)||!s.answers||typeof s.submitted!=='boolean'||!s.corrections||!s.counters||!Array.isArray(s.history))throw Error('Invalid saved state');
+try{const raw=localStorage.getItem(key);if(raw){const s=JSON.parse(raw);if(s.version!==1||!seed(s.variant)||!object(s.answers)||typeof s.submitted!=='boolean'||!object(s.corrections)||!object(s.counters)||!Array.isArray(s.history))throw Error('Invalid saved state');
  for(const [id,v] of Object.entries(s.answers))if(!domains.some(d=>d.id===id)||!choice(v))throw Error('Invalid saved answer');
  if(s.submitted&&domains.some(d=>!choice(s.answers[d.id])))throw Error('Incomplete saved diagnosis');
  for(const [id,c] of Object.entries(s.corrections))if(!domains.some(d=>d.id===id)||!seed(c.variant)||!Array.isArray(c.answers)||c.answers.length!==2||!c.answers.every(choice))throw Error('Invalid saved correction');
