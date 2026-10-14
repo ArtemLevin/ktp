@@ -42,7 +42,7 @@ function pool(mode,v){
   }
 
   if(mode==='cone'){
-    const r=3*k,h=4*k,l=5*k,c=12*cu(k);
+    const r=(k%2?3:4)*k,h=(k%2?4:3)*k,l=5*k,c=r*r*h/3;
     return[
       q('Конус имеет r='+r+' и h='+h+'. Найдите объём.',pi(c),'CONE_VOLUME','V=1/3·πr²h=1/3·π·'+r+'²·'+h+'='+c+'π.'),
       q('Конус имеет r='+r+' и образующую l='+l+'. Найдите высоту и объём.',h+'; '+c+'π.','CONE_SLANT','h=√(l²−r²)=√('+(sq(l)-sq(r))+')='+h+', затем V='+c+'π.'),
@@ -90,7 +90,7 @@ function pool(mode,v){
   }
 
   if(mode==='sphericalParts'){
-    const R=5*k,d=3*k,rho=4*k,h=2*k,segNum=52*cu(k),sectorNum=100*cu(k),layer=72*cu(k);
+    const R=5*k,d=(k%2?3:4)*k,rho=(k%2?4:3)*k,h=R-d,segNum=h*h*(3*R-h),sectorNum=2*R*R*h,layer=72*cu(k);
     return[
       q('В шаре R='+R+' плоскость удалена от центра на '+d+'. Найдите высоту меньшего сегмента.',h+'.','SEGMENT_HEIGHT','h=R−d='+R+'−'+d+'='+h+'.'),
       q('Для того же сегмента найдите объём.',fracPi(segNum),'SEGMENT_VOLUME','V=πh²(R−h/3)='+segNum+'π/3.'),
@@ -122,17 +122,17 @@ function pool(mode,v){
   }
 
   if(mode==='sphereSection'){
-    const R=5*k,d=3*k,rho=4*k,h=2*k,segNum=52*cu(k),largeNum=448*cu(k);
+    const R=5*k,d=(k%2?3:4)*k,rho=(k%2?4:3)*k,h=R-d,segNum=h*h*(3*R-h),largeNum=500*cu(k)-segNum;
     return[
       q('Шар R='+R+', расстояние плоскости от центра d='+d+'. Найдите радиус сечения.',rho+'.','SECTION_RADIUS','ρ=√(R²−d²)=√('+(sq(R)-sq(d))+')='+rho+'.'),
       q('Для шара R='+R+' при d='+d+' найдите высоту меньшего сегмента.',h+'.','SEGMENT_HEIGHT','h=R−d='+h+'.'),
-      q('В шаре R='+R+' при d='+d+' найдите площадь круга сечения.',pi(16*sq(k)),'SECTION_AREA','S=πρ²='+16*sq(k)+'π.'),
+      q('В шаре R='+R+' при d='+d+' найдите площадь круга сечения.',pi(sq(rho)),'SECTION_AREA','S=πρ²='+sq(rho)+'π.'),
       q('В шаре R='+R+' при d='+d+' найдите объём меньшего сегмента.',fracPi(segNum),'SECTION_SEGMENT','Vсег='+segNum+'π/3.'),
       q('Что происходит при d=R='+R+'?', 'Плоскость касается сферы; радиус сечения равен 0.','TANGENT_LIMIT'),
       q('Что происходит при d=0?', 'Получается большой круг радиуса R; два сегмента — полушары.','GREAT_CIRCLE'),
       q('Если R='+R+' и ρ='+rho+', найдите d.',d+'.','SECTION_INVERSE','d=√(R²−ρ²)='+d+'.'),
       q('Почему сначала полезно найти d, ρ и h, а уже затем объём?', 'Эти величины определяют геометрию части шара и предотвращают выбор неверной формулы.','METHOD'),
-      q('Для R='+R+', d='+d+' найдите объём большего сегмента.',fracPi(largeNum),'LARGE_SEGMENT','Большой сегмент имеет h=R+d='+(8*k)+', V='+largeNum+'π/3.'),
+      q('Для R='+R+', d='+d+' найдите объём большего сегмента.',fracPi(largeNum),'LARGE_SEGMENT','Большой сегмент имеет h=R+d='+(R+d)+', V='+largeNum+'π/3.'),
       q('Проверьте, что объёмы двух сегментов в предыдущей конфигурации дают объём шара.',fracPi(500*cu(k)),'SEGMENT_SUM','('+segNum+'+'+largeNum+')π/3='+(500*cu(k))+'π/3=Vшара.')
     ];
   }
