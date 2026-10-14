@@ -5,6 +5,11 @@ on:
   pull_request:
     paths:
       - 'content/11-geometry-atanasyan/04-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/04-methodical-review.md'
+      - 'content/11-geometry-atanasyan/04.js'
+      - 'topics/11-geometry-atanasyan/04.html'
+      - 'topics/topic-page.js'
+      - 'topics/topic-page.css'
       - 'content/11-geometry-atanasyan/content-map.md'
       - 'lessons/11-geometry-atanasyan/lesson-plan.md'
       - 'js/data.js'
@@ -23,6 +28,11 @@ on:
     branches: [main]
     paths:
       - 'content/11-geometry-atanasyan/04-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/04-methodical-review.md'
+      - 'content/11-geometry-atanasyan/04.js'
+      - 'topics/11-geometry-atanasyan/04.html'
+      - 'topics/topic-page.js'
+      - 'topics/topic-page.css'
       - 'content/11-geometry-atanasyan/content-map.md'
       - 'lessons/11-geometry-atanasyan/lesson-plan.md'
       - 'js/data.js'
@@ -57,6 +67,7 @@ jobs:
           node --check geometry/spatial-scene.js
           node scripts/qa-grade11-geometry-topic04-planning.mjs
           node scripts/qa-grade11-geometry-topic04-stage1.mjs
+          node scripts/qa-grade11-geometry-topic04-stage2.mjs
       - name: Grade 11 published regressions
         run: |
           node scripts/qa-grade11-geometry-foundation.mjs
@@ -92,7 +103,9 @@ jobs:
       - name: Vector desktop/mobile/print/PDF
         env:
           KTP_QA_ARTIFACT_DIR: qa-artifacts
-        run: node scripts/qa-grade11-geometry-topic04-stage1-browser.mjs
+        run: |
+          node scripts/qa-grade11-geometry-topic04-stage1-browser.mjs
+          node scripts/qa-grade11-geometry-topic04-stage2-browser.mjs
       - name: Spatial topic and lesson regressions
         run: |
           node scripts/qa-grade10-geometry-foundation-browser.mjs
