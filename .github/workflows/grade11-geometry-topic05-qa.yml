@@ -1,0 +1,100 @@
+name: Grade 11 Atanasyan Topic 05 QA
+on:
+  pull_request:
+    paths:
+      - 'geometry/coordinate-math.js'
+      - 'geometry/grade11-coordinate-scenes.js'
+      - 'geometry/vector-math.js'
+      - 'geometry/spatial-scene.*'
+      - 'geometry/lesson-spatial.js'
+      - 'content/11-geometry-atanasyan/05*'
+      - 'topics/11-geometry-atanasyan/05.html'
+      - 'lessons/11-geometry-atanasyan/05/**'
+      - 'lessons/lesson-*.js'
+      - 'lessons/lesson-page.css'
+      - 'lessons/global-numbering.js'
+      - 'labs/11-geometry-atanasyan/coordinate-space/**'
+      - 'assessments/11-geometry-atanasyan/05/**'
+      - 'assessments/assessment-page.*'
+      - 'assessments/topic-links.js'
+      - 'scripts/coordinate-question-audit.mjs'
+      - 'scripts/qa-grade11-geometry-topic05*.mjs'
+      - 'scripts/grade11-geometry-progress.mjs'
+      - 'js/data.js'
+      - 'README.md'
+      - 'Plan.md'
+      - '.github/workflows/grade11-geometry-topic05-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'geometry/coordinate-math.js'
+      - 'geometry/grade11-coordinate-scenes.js'
+      - 'geometry/vector-math.js'
+      - 'geometry/spatial-scene.*'
+      - 'geometry/lesson-spatial.js'
+      - 'content/11-geometry-atanasyan/05*'
+      - 'topics/11-geometry-atanasyan/05.html'
+      - 'lessons/11-geometry-atanasyan/05/**'
+      - 'lessons/lesson-*.js'
+      - 'lessons/lesson-page.css'
+      - 'lessons/global-numbering.js'
+      - 'labs/11-geometry-atanasyan/coordinate-space/**'
+      - 'assessments/11-geometry-atanasyan/05/**'
+      - 'assessments/assessment-page.*'
+      - 'assessments/topic-links.js'
+      - 'scripts/coordinate-question-audit.mjs'
+      - 'scripts/qa-grade11-geometry-topic05*.mjs'
+      - 'scripts/grade11-geometry-progress.mjs'
+      - 'js/data.js'
+      - 'README.md'
+      - 'Plan.md'
+      - '.github/workflows/grade11-geometry-topic05-qa.yml'
+permissions:
+  contents: read
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Coordinate math, content and published regressions
+        run: |
+          node scripts/qa-grade11-geometry-topic05.mjs
+          node scripts/qa-grade11-geometry-topic04-planning.mjs
+          node scripts/qa-grade11-geometry-topic04-stage1.mjs
+          node scripts/qa-grade11-geometry-topic04-stage2.mjs
+          node scripts/qa-grade11-geometry-topic04-lessons.mjs
+          node scripts/qa-grade11-geometry-topic04-release.mjs
+          node scripts/qa-grade11-geometry-topic03-docs.mjs
+          node scripts/qa-grade11-geometry-topic03-assessments.mjs
+          node scripts/qa-grade11-geometry-topic02-assessments.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments.mjs
+          node scripts/qa-grade10-geometry-topic05-final.mjs
+          node scripts/qa-grade10-geometry-topic05-final-docs.mjs
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Coordinate topic, lessons, lab and assessments
+        env:
+          KTP_QA_ARTIFACT_DIR: qa-artifacts
+        run: |
+          node scripts/qa-grade11-geometry-topic05-browser.mjs
+          node scripts/qa-grade11-geometry-topic05-lessons-browser.mjs
+          node scripts/qa-grade11-geometry-topic04-stage2-browser.mjs
+          node scripts/qa-grade10-geometry-foundation-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: grade11-coordinate-qa
+          path: qa-artifacts/
+          if-no-files-found: warn
