@@ -70,10 +70,23 @@ const rubric={
  'oblique-error-proof':['Обосновать формулу h²=e²−p² рабочего сечения','Найти h и объём','Доказать 0<h<e для 0<p<e'],
  'frustum-mean-proof':['Исправить формулу с членом √(S₁S₂)','Вычислить правильный объём','Доказать Vош>V по формуле h(√S₁−√S₂)²/6']
 };
+const diagnosticByFamily={
+ 'cube-scaling':'Подобие и размерность',
+ 'similar-cube-root':'Подобие и размерность',
+ 'triangle-prism':'Призмы и перпендикулярная высота',
+ 'oblique-prism':'Призмы и перпендикулярная высота',
+ 'section-oblique':'Призмы и перпендикулярная высота',
+ 'triangle-pyramid':'Пирамиды и формулы объёма',
+ 'frustum-volume':'Пирамиды и формулы объёма',
+ 'inverse-pyramid':'Пирамиды и формулы объёма',
+ 'remove-cavity':'Составной объём',
+ 'oblique-error-proof':'Доказательство и исправление ошибок',
+ 'frustum-mean-proof':'Доказательство и исправление ошибок'
+};
 const grade=(tasks,kind)=>tasks.map((q,i)=>{
  const [family,points]=cognitive[kind][i],criteria=rubric[family];
  if(q.points!==points||criteria.length!==points)throw Error('Rubric '+kind+'/'+i);
- return {...q,cognitive:{family,method:family,dok:points===3?3:points===1?1:2,steps:points},criteria:criteria.map(text=>({points:1,text}))};
+ return {...q,cognitive:{family,method:family,dok:points===3?3:points===1?1:2,steps:points},criteria:criteria.map(text=>({points:1,text})),diagnostic:{domain:diagnosticByFamily[family]||family,goal:family}};
 });
 const trianglesI=[[6,8,5],[7,10,6],[10,6,7],[9,8,5],[8,10,9],[12,5,8]];
 const trianglesC=[[8,15,6],[9,10,8],[12,8,7],[10,12,9],[11,6,5],[15,8,6]];
