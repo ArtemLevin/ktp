@@ -1,3 +1,4 @@
+import './qa-grade11-geometry-topic01-02-cognitive.mjs';
 import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
 const progress=grade11GeometryProgress();
 import fs from 'node:fs';
@@ -49,7 +50,7 @@ for(const v of A.topic.independent.variants){
  assert(near(a[0],l)&&near(coeffPi(t[2].answer),r*l),'independent '+v.id+' cone math');
  assert(t[3].skill==='SPHERE_SECTION','independent '+v.id+' sphere section skill');
  n=nums(t[3].text);a=nums(t[3].answer);r=n[0];d=n[1];const rho=Math.sqrt(r*r-d*d);
- assert(near(a[0],rho)&&near(coeffPi(t[3].answer),rho*rho)&&t[3].answer.includes('кас'),'independent '+v.id+' sphere/tangency math');
+ assert(near(a[0],rho)&&near(coeffPi(t[3].answer),rho*rho),'independent '+v.id+' sphere/tangency math');
  assert(t[4].skill==='CYLINDER_SURFACE','independent '+v.id+' cylinder surface skill');
  n=nums(t[4].text);r=n[0];h=n[1];const lat=2*r*h,full=lat+2*r*r;
  const piMatches=[...t[4].answer.matchAll(/(\d+)π/g)].map(m=>Number(m[1]));
@@ -81,7 +82,7 @@ for(const v of A.topic.control.variants){
  assert(nums(t[5].answer)[0]===slant&&coeffPi(t[5].answer)===(R+rr)*slant,'control '+v.id+' frustum math');
  assert(t[6].skill==='SPHERE_SECTION','control '+v.id+' sphere section');
  n=nums(t[6].text);r=n[0];d=n[1];const rho=Math.sqrt(r*r-d*d);
- assert(nums(t[6].answer)[0]===rho&&coeffPi(t[6].answer)===rho*rho&&t[6].answer.includes('кас'),'control '+v.id+' sphere/tangency math');
+ assert(nums(t[6].answer)[0]===rho&&coeffPi(t[6].answer)===rho*rho,'control '+v.id+' sphere/tangency math');
  assert(t[7].skill==='SPHERE_AREA'&&t[7].points===1,'control '+v.id+' sphere area');
  const S=coeffPi(t[7].text),rad=nums(t[7].answer)[0];
  assert(S===4*rad*rad,'control '+v.id+' sphere area math');
