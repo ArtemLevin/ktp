@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Пространственные векторы · проверка сцен 33–44</title>
+  <link rel="stylesheet" href="../spatial-scene.css">
+  <style>
+    body{margin:0;padding:20px;font-family:Inter,system-ui,sans-serif;background:#f8fafc;color:#101828}
+    main{max-width:960px;margin:auto}h1{font-size:24px}p{line-height:1.6}
+    .scenes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .scenes>section{min-width:0}h2{font-size:14px;color:#667085;margin:12px 0 4px}
+    @media(max-width:620px){body{padding:16px}.scenes{grid-template-columns:1fr}}
+    @media print{body{padding:0;background:white}.scenes{display:block}.scenes>section{break-inside:avoid}.spatial-scene svg{max-height:220px}}
+  </style>
+</head>
+<body data-row="fixture" data-topic="0">
+<main>
+  <h1>Векторы в пространстве</h1>
+  <p>Проверка сцен для уроков 33–44. Стрелки показывают направление от начала к концу. Длина и отношения векторов определяются пространственной моделью.</p>
+  <div class="scenes" id="scenes"></div>
+</main>
+<script src="../vector-math.js"></script>
+<script src="../grade11-vector-scenes.js"></script>
+<script>
+window.KTP_CONTENT={'fixture::0':{spatialScenes:window.KTP_G11_VECTOR_SCENES}};
+for(const [id,scene] of Object.entries(window.KTP_G11_VECTOR_SCENES)){
+  const section=document.createElement('section'),heading=document.createElement('h2'),host=document.createElement('span');
+  heading.textContent='Урок '+scene.lesson;host.dataset.spatialScene=id;
+  section.append(heading,host);document.getElementById('scenes').append(section);
+}
+</script>
+<script src="../spatial-scene.js"></script>
+</body>
+</html>

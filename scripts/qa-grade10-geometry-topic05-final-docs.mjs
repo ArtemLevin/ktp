@@ -1,3 +1,5 @@
+import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
+const progress=grade11GeometryProgress();
 import fs from 'node:fs';
 
 const read=file=>fs.readFileSync(file,'utf8');
@@ -16,13 +18,13 @@ assert(/\| 5\/5 \| 68\/68 \| 5\/5 \|/.test(row(P,'10-geometry-atanasyan')),'Plan
 assert(/\| 5\/5 \| 68\/68 \| 1–68 \|/.test(row(L,'10-geometry-atanasyan')),'lessons line 68/68');
 assert(/\| 5\/5 \|/.test(row(A,'10-geometry-atanasyan')),'assessment line 5/5');
 for(const [text,re,expected,label] of [
-  [R,/Суммарно опубликовано \*\*(\d+) полноценных/,1154,'README lessons'],
-  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README assessments'],
-  [P,/тематических серий: \*\*(\d+)\*\*/,84,'Plan series'],
-  [P,/опубликованных уроков: \*\*(\d+)\*\*/,1154,'Plan lessons'],
-  [P,/assessment-комплектов: \*\*(\d+)\*\*/,84,'Plan assessments'],
-  [L,/Всего опубликовано \*\*(\d+) полноценных/,1154,'lessons total'],
-  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'assessment total']
+  [R,/Суммарно опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'README lessons'],
+  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'README assessments'],
+  [P,/тематических серий: \*\*(\d+)\*\*/,progress.totalAssessments,'Plan series'],
+  [P,/опубликованных уроков: \*\*(\d+)\*\*/,progress.totalLessons,'Plan lessons'],
+  [P,/assessment-комплектов: \*\*(\d+)\*\*/,progress.totalAssessments,'Plan assessments'],
+  [L,/Всего опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'lessons total'],
+  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'assessment total']
 ]) assert(metric(text,re,label)===expected,`${label}: expected ${expected}`);
 
 for(const text of [R,P,L,A])

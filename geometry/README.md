@@ -70,3 +70,10 @@ geometryScenes:{
 5. Статический scene layer не хранит состояние и не дублирует логику цифровых лабораторий.
 6. В геометрических уроках `figure` обязан ссылаться на существующий ключ `KTP_LESSON_SERIES.geometryScenes`.
 7. Lesson adapter не меняет общий DOM-контракт `lesson-page.js` и должен оставаться безопасным для остальных учебных линий.
+
+## Пространственные векторы
+
+`vector-math.js` и `grade11-vector-scenes.js` образуют модель и 12 сцен уроков 33–44. [Контракт](VECTOR_CONTRACT.md) описывает направленный отрезок, нулевой вектор, перенос, операции, компланарность и разложение по неортогональной тройке. [Fixture](fixtures/grade11-vectors.html) переиспользует `spatial-scene.js`: primitive `vector` добавляет стрелку, id и подпись; нуль отображается кольцом. Вычисления остаются в 3D и независимы от камеры.
+
+
+Лаборатория [vector-constructor](../labs/11-geometry-atanasyan/vector-constructor/index.html) переиспользует векторное ядро и общий renderer. Модель сохраняет данные независимо от камеры; ползунки управляют переносом, коэффициентами суммы и выходом третьего вектора из плоскости. Release gate: `scripts/qa-grade11-geometry-topic04-release.mjs` и `scripts/qa-grade11-geometry-topic04-release-browser.mjs`.

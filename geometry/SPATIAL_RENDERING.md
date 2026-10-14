@@ -221,3 +221,7 @@ For static school stereometry, SVG + data-driven projection keeps the dependency
 6. Is every claimed metric fact computed from 3D data?
 7. Is the scene readable at 390 px and in print?
 8. Does the drawing illustrate the theorem without visually assuming its conclusion?
+
+## Directed vector primitive
+
+`vector` uses two named 3D points, `vectorId`, `label` and optional `labelOffset`. It adds a terminal arrow; coincident endpoints produce a ring without an arrow. The associated mathematical model, coplanarity and decomposition API are documented in [VECTOR_CONTRACT.md](VECTOR_CONTRACT.md). Existing segment/ray primitives retain their behavior.

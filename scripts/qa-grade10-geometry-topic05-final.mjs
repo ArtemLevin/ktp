@@ -1,3 +1,5 @@
+import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
+const progress=grade11GeometryProgress();
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -88,7 +90,7 @@ let lessons=0;
 for(const topic of fs.readdirSync('lessons/10-geometry-atanasyan').filter(name=>/^\d\d$/.test(name)))
   lessons+=fs.readdirSync(path.join('lessons/10-geometry-atanasyan',topic)).filter(name=>/^\d\d\.html$/.test(name)).length;
 assert(lessons===68,'course contains 68 addressable lesson pages');
-for(const [directory,pattern,count] of [['lessons',/^\d\d\.html$/,1154],['assessments',/^data\.js$/,84]]){
+for(const [directory,pattern,count] of [['lessons',/^\d\d\.html$/,progress.totalLessons],['assessments',/^data\.js$/,progress.totalAssessments]]){
   const folders=fs.readdirSync(directory,{withFileTypes:true}).filter(x=>x.isDirectory());
   const actual=folders.reduce((sum,folder)=>sum+fs.readdirSync(path.join(directory,folder.name),{withFileTypes:true}).filter(x=>x.isDirectory()).reduce((acc,sub)=>acc+fs.readdirSync(path.join(directory,folder.name,sub.name)).filter(name=>pattern.test(name)).length,0),0);
   assert(actual===count,directory+' aggregate count '+actual);

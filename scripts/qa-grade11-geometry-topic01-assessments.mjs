@@ -1,3 +1,5 @@
+import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
+const progress=grade11GeometryProgress();
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -91,7 +93,7 @@ for(const v of A.topic.control.variants){
 
 const topicSource=read('content/11-geometry-atanasyan/01.js');
 for(const token of ["assessments:{enabled:true","independentHref:'../../assessments/11-geometry-atanasyan/01/independent.html'","controlHref:'../../assessments/11-geometry-atanasyan/01/control.html'"])assert(topicSource.includes(token),'topic assessment contract '+token);
-assert(read('assessments/topic-links.js').includes("'11-geometry-atanasyan':{min:0,max:2}"),'topic-links grade 11 range');
+assert(read('assessments/topic-links.js').includes(`'11-geometry-atanasyan':{min:0,max:${progress.assessmentSeries-1}}`),'topic-links grade 11 range');
 for(const p of ['independent','control'])assert(read('assessments/11-geometry-atanasyan/01/'+p+'.html').includes('data.js')&&read('assessments/11-geometry-atanasyan/01/'+p+'.html').includes('assessment-page.js'),p+' route wiring');
 
 function countFiles(dir,name){
@@ -103,5 +105,5 @@ function countFiles(dir,name){
  }
  return total;
 }
-assert(countFiles(path.join(root,'assessments'),'data.js')===84,'aggregate thematic assessment count 84');
+assert(countFiles(path.join(root,'assessments'),'data.js')===progress.totalAssessments,'current aggregate thematic assessment count');
 console.log('Grade 11 geometry topic 01 thematic assessment/math/structure QA passed: '+checks+' checks.');
