@@ -96,11 +96,12 @@ const marks=Object.create(null);
 function skillsOf(v){return [...new Set(v.tasks.map(t=>t.skill).filter(Boolean))];}
 function taskHtml(t,i){return `<article class="task"><div class="task-top"><span class="task-no">${i+1}</span><span class="level">${esc(level(t.points))}</span><span class="points">${t.points} ${t.points===1?'балл':t.points<5?'балла':'баллов'}</span></div><div class="skill">${esc(t.skill||'Навык')}</div><div class="task-text">${esc(t.text)}</div><div class="work-space" aria-hidden="true"></div></article>`;}
 
+function pointWord(n){return n%10===1&&n%100!==11?'балл':n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?'балла':'баллов';}
 function diagnosticHtml(variant){
  const report=assessmentSummary(variant,marks,String(topicId));
  const completed=report.complete;
  let markup='<h3>Диагностическая карта · вариант '+variant.id+'</h3>';
- markup+='<p class="diagnostic-lead">Оценено '+report.markedParts+' из '+report.allParts+' критериев; '+report.earned+' баллов по отмеченным критериям'+(completed?' из '+work.maxScore+'.':'. До завершения проверки итоговая оценка не определяется.')+'</p>';
+ markup+='<p class="diagnostic-lead">Оценено '+report.markedParts+' из '+report.allParts+' критериев; '+report.earned+' '+pointWord(report.earned)+' по отмеченным критериям'+(completed?' из '+work.maxScore+'.':'. До завершения проверки итоговая оценка не определяется.')+'</p>';
  if(report.markedParts===0)markup+='<p class="diagnostic-help">Выберите 0 или количество заработанных баллов по каждому критерию. Пустая оценка означает, что действие ещё не проверено.</p>';
  markup+='<ul class="diagnostic-domains">'+report.groups.map(group=>{
    const note=group.complete?(group.earned+' / '+group.possible+' · '+group.percentage+'%'):'Проверено '+group.marked+' из '+group.criteria+' критериев';
@@ -117,7 +118,7 @@ function keyHtml(v){
   const rubric=criteriaFor(t),parts=rubric.rows.map((part,j)=>{
    const name=String(v.id)+'/'+i+'/'+j,score=marks[name];
    let options='<option value=""'+(score===undefined?' selected':'')+'>Не проверено</option>';
-   for(let n=0;n<=part.points;n++)options+='<option value="'+n+'"'+(score===n?' selected':'')+'>'+n+' '+(n===1?'балл':'баллов')+'</option>';
+   for(let n=0;n<=part.points;n++)options+='<option value="'+n+'"'+(score===n?' selected':'')+'>'+n+' '+pointWord(n)+'</option>';
    return '<li class="criterion-item"><label><span>'+esc(part.text)+' · '+part.points+' '+(part.points===1?'балл':'балла')+'</span><select class="criterion-score" aria-label="Оценка: задание '+(i+1)+', критерий '+(j+1)+'" data-rubric-grade="'+esc(name)+'" data-variant-id="'+v.id+'">'+options+'</select></label></li>';
   }).join('');
   return '<li class="key-task"><strong>'+ (i+1)+'. '+esc(t.answer)+'</strong>'+(t.solution?'<div>'+esc(t.solution)+'</div>':'')+'<p class="key-domain">Навык: '+esc(domainFor(t,String(topicId)))+'</p><ul class="criterion-list">'+parts+'</ul>'+(rubric.generic?'<p class="rubric-note">Общие критерии: используйте предметное обоснование при выставлении частичных баллов.</p>':'')+'</li>';
