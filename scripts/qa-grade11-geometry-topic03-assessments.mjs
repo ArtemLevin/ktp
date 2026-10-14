@@ -1,3 +1,4 @@
+import './qa-grade11-geometry-topic03-cognitive.mjs';
 import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
 const progress=grade11GeometryProgress();
 import fs from 'node:fs';
@@ -34,55 +35,28 @@ function complete(work,count,max){
 }
 
 complete(A.topic.independent,7,14);
-const indExpected=[
- ['45π.','32π.','39π.','52π/3.','5:4.'],
- ['96π.','h=12; 100π.','84π.','36π.','76π/3.'],
- ['84π.','96π.','57π.','ρ=4; 52π/3.','7:5.'],
- ['36π.','30π.','56π.','72π.','42π.'],
- ['8.','75π.','112π.','64π.','2:1.'],
- ['135π.','h=15; 320π.','98π.','72π.','88π/3.']
-];
-const indErrors=['CONE_FACTOR','DIAMETER_RADIUS','SIMILAR_K2_K3','FRUSTUM_AVERAGE','SEGMENT_HEIGHT','VOLUME_UNITS'];
-for(const [i,v] of A.topic.independent.variants.entries()){
-  const t=v.tasks;
-  check(t[0].points===1,'independent '+v.id+' concept point');
-  check(t[1].skill.startsWith('CYLINDER'),'independent '+v.id+' cylinder');
-  check(t[2].skill.startsWith('CONE'),'independent '+v.id+' cone');
-  check(t[3].skill==='FRUSTUM_VOLUME','independent '+v.id+' frustum');
-  check(['SPHERICAL_SEGMENT','SPHERICAL_SECTOR','SPHERICAL_LAYER','SPHERE_AREA','BALL_VOLUME'].includes(t[4].skill),'independent '+v.id+' sphere part');
-  check(['SIMILAR_SOLIDS','COMPOSITE_VOLUME'].includes(t[5].skill),'independent '+v.id+' transfer');
-  check(t[6].skill===indErrors[i]&&t[6].points===3,'independent '+v.id+' error slot');
-  for(let j=0;j<5;j++)check(t[j+1].answer===indExpected[i][j],'independent '+v.id+' answer '+(j+2));
-}
-
 complete(A.topic.control,10,20);
-const ctrlExpected=[
- ['80π.','h=4; 12π.','78π.','S=36π; V=36π.','52π/3.','72π.','5:4.','76π/3.'],
- ['100π.','h=12; 100π.','63π.','S=64π; V=256π/3.','45π.','72π.','2:1.','57π.'],
- ['72π.','h=15; 320π.','114π.','S=100π; V=500π/3.','14π/3.','100π/3.','7:5.','160π.'],
- ['108π.','h=24; 392π.','84π.','S=144π; V=288π.','320π/3.','105π.','2:1.','54π.'],
- ['48π.','h=21; 2800π.','224π.','S=16π; V=32π/3.','40π/3.','128π/3.','3:2.','112π.'],
- ['98π.','h=35; 1680π.','196π.','S=196π; V=1372π/3.','416π/3.','284π/3.','8:5.','96π.']
-];
-const ctrlErrors=['CONE_SLANT','AREA_VOLUME','FRUSTUM_AVERAGE','DIAMETER_RADIUS','SIMILAR_K2_K3','PROJECTION_METRIC'];
-for(const [i,v] of A.topic.control.variants.entries()){
-  const t=v.tasks;
-  check(t[0].points===1,'control '+v.id+' concept point');
-  const skills=['CYLINDER','CONE_SLANT','FRUSTUM_VOLUME','SPHERE_BALL','SPHERICAL_SEGMENT'];
-  check(t[1].skill.startsWith(skills[0]),'control '+v.id+' cylinder');
-  for(let j=1;j<skills.length;j++)check(t[j+1].skill===skills[j],'control '+v.id+' skill '+skills[j]);
-  check(['SPHERICAL_SECTOR','SPHERICAL_LAYER'].includes(t[6].skill),'control '+v.id+' sphere part 2');
-  check(t[7].skill==='SIMILAR_SOLIDS','control '+v.id+' similar');
-  check(['COMPOSITE_VOLUME','CYLINDER_CAVITY'].includes(t[8].skill),'control '+v.id+' composite');
-  check(t[9].skill===ctrlErrors[i]&&t[9].points===3,'control '+v.id+' error slot');
-  for(let j=0;j<8;j++)check(t[j+1].answer===ctrlExpected[i][j],'control '+v.id+' answer '+(j+2));
+// The independent methodological script checks every problem family, numerical answer,
+// scored cognitive step and explicit criterion across all twelve paper forms.
+const indSkills=['VOLUME_SCALE','CYLINDER_VOLUME','CONE_SLANT','FRUSTUM_VOLUME','SPHERICAL_SECTOR','SIMILAR_SOLIDS','CONE_FACTOR'];
+const ctrlSkills=['CYLINDER_CONE_RATIO','CYLINDER_VOLUME','CONE_SLANT','FRUSTUM_VOLUME','SPHERE_BALL','SPHERICAL_SEGMENT','SPHERICAL_LAYER','SIMILAR_SOLIDS','COMPOSITE_VOLUME','CYLINDER_CAVITY_REASONING'];
+for(const [kind,expected] of [['independent',indSkills],['control',ctrlSkills]]){
+ const work=A.topic[kind],reference=work.variants[0].tasks.map(q=>[q.skill,q.points,q.cognitive?.dok,q.cognitive?.family,q.cognitive?.method]);
+ for(const form of work.variants){
+  const actual=form.tasks.map(q=>[q.skill,q.points,q.cognitive?.dok,q.cognitive?.family,q.cognitive?.method]);
+  check(JSON.stringify(actual)===JSON.stringify(reference),kind+' stable cognitive blueprint '+form.id);
+  check(form.tasks.every((q,i)=>q.skill===expected[i]),kind+' aligned skill sequence '+form.id);
+  check(form.tasks.every(q=>q.criteria?.length===q.points&&q.criteria.every(c=>c.points===1)),kind+' pointwise rubric '+form.id);
+ }
 }
-
 const all=[...A.topic.independent.variants.flatMap(v=>v.tasks),...A.topic.control.variants.flatMap(v=>v.tasks)];
 check(all.length===102,'102 thematic tasks across 12 variants');
 check(all.filter(t=>t.skill==='FRUSTUM_VOLUME').length===12,'frustum covered in every variant');
-check(all.filter(t=>t.skill==='SIMILAR_SOLIDS').length===9,'similarity coverage');
-check(all.some(t=>t.skill==='SPHERICAL_LAYER')&&all.some(t=>t.skill==='SPHERICAL_SECTOR')&&all.some(t=>t.skill==='SPHERICAL_SEGMENT'),'all spherical-part types covered');
+check(all.filter(t=>t.skill==='SIMILAR_SOLIDS').length===12,'similarity covered in every variant');
+check(all.filter(t=>t.skill==='SPHERICAL_LAYER').length===6,'layers covered in all controls');
+check(all.filter(t=>t.skill==='SPHERICAL_SECTOR').length===6,'sectors covered in all independent works');
+check(all.filter(t=>t.skill==='SPHERICAL_SEGMENT').length===6,'segments covered in all controls');
+check(all.filter(t=>t.skill==='CYLINDER_CAVITY_REASONING').length===6,'proof correction in every control');
 check(all.every(t=>!/(интеграл|скалярн|координат[ыа] вектора|уравнение плоскости)/i.test(t.text)),'assessment excludes integral/vector-coordinate methods');
 
 const topic=read('content/11-geometry-atanasyan/03.js');
