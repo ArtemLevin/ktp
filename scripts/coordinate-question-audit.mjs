@@ -18,7 +18,12 @@ export function createCoordinateAuditor(check){
   else if(a.kind==='dot')check(a.result===dot(a.a,a.b)&&q.answerCore===a.result+'.',label+' independent dot');
   else if(a.kind==='component')check(a.result===a.point[a.index]&&q.answerCore===a.result+'.',label+' component');
   else if(a.kind==='scaleLength')check(a.result===Math.abs(a.k)*a.length&&q.answerCore===a.result+'.',label+' length scale');
-  else if(a.kind==='planeDistance'){expected=Math.abs(dot(a.point,a.normal)+a.d)/length(a.normal);check(near(expected,a.result)&&q.answerCore===a.result+'.',label+' normalized distance');}
+  else if(a.kind==='planeDistance'){
+   expected=Math.abs(dot(a.point,a.normal)+a.d)/length(a.normal);
+   check(near(expected,a.result),label+' normalized distance');
+   check(Number.isFinite(a.result)&&q.answerCore===a.result+'.',label+' numeric distance answer');
+   if(Number.isSafeInteger(expected))check(q.answerCore===expected+'.',label+' exact integer distance text');
+  }
   else if(a.kind==='angle'){const raw=dot(a.a,a.b)/(length(a.a)*length(a.b)),ratio=Math.abs(Math.abs(raw)-1)<1e-12?Math.sign(raw):Math.max(-1,Math.min(1,raw)),deg=a.type==='plane'?Math.asin(Math.abs(ratio))*180/Math.PI:Math.acos((a.type==='line'||a.type==='planes')?Math.abs(ratio):ratio)*180/Math.PI;check(near(deg,a.result)&&q.answerCore===a.result+'°.',label+' independent angle');}
   else if(a.kind==='sphere'){const [x,y,z]=a.center;check(q.text.includes(''+a.radius)||q.text.includes(''+a.radius*a.radius),label+' sphere prompt radius');check(q.answerCore.includes(''+a.radius*a.radius)||q.answerCore.includes('R='+a.radius),label+' sphere answer radius');check(x>0&&y===1&&z===-1,label+' sphere model');const expected=q.answerCore.includes('R=')?'C('+x+'; 1; -1), R='+a.radius+'.':'(x−'+x+')²+(y−1)²+(z+1)²='+a.radius*a.radius+'.';check(q.answerCore===expected,label+' exact sphere center/radius');}
   else if(a.kind==='spherePosition')check(near(length(minus(a.point,a.center)),a.radius)&&a.result==='surface'&&q.answerCore==='На сфере.',label+' independent sphere membership');
