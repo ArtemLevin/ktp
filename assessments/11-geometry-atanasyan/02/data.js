@@ -52,17 +52,55 @@ const I=[
  {concept:['Чем объём отличается от площади поверхности по геометрическому смыслу и размерности?','Объём относится к трёхмерному телу и имеет кубическую размерность; площадь относится к двумерной поверхности и имеет квадратную размерность.','AREA_VOLUME'],prism:{type:'triangle',a:12,b:5,h:8},oblique:{S:25,edge:10,proj:6},pyramid:{type:'rectangle',a:9,b:4,h:15},frustum:{S1:196,S2:49,h:9},cavity:{outer:[15,10,4],inner:[5,4,4]},error:['Ученик вычисляет объём усечённой пирамиды как h·(S₁+S₂)/2. Объясните ошибку.','Площади параллельных сечений меняются не линейно. Верно V=h/3·(S₁+√(S₁S₂)+S₂).','FRUSTUM_AVERAGE']}
 ];
 
+
+const cognitive={
+ independent:[['cube-scaling',1],['triangle-prism',2],['oblique-prism',2],['triangle-pyramid',2],['frustum-volume',2],['remove-cavity',2],['oblique-error-proof',3]],
+ control:[['cube-scaling',1],['triangle-prism',2],['oblique-prism',2],['triangle-pyramid',2],['frustum-volume',2],['section-oblique',2],['similar-cube-root',2],['remove-cavity',2],['inverse-pyramid',2],['frustum-mean-proof',3]]
+};
+const rubric={
+ 'cube-scaling':['Обосновать кубическую зависимость объёма'],
+ 'triangle-prism':['Найти площадь основания','Вычислить объём призмы'],
+ 'oblique-prism':['Вычислить перпендикулярную высоту по рабочему сечению','Найти объём наклонной призмы'],
+ 'triangle-pyramid':['Вычислить площадь треугольного основания','Найти объём с коэффициентом 1/3'],
+ 'frustum-volume':['Вычислить средний член √(S₁S₂)','Применить формулу объёма усечённой пирамиды'],
+ 'remove-cavity':['Найти объём внешнего блока и канала','Вычесть канал'],
+ 'section-oblique':['В рабочем сечении найти высоту','По высоте найти объём'],
+ 'similar-cube-root':['Извлечь кубические корни объёмов','Упростить линейное отношение'],
+ 'inverse-pyramid':['Выразить высоту из формулы V=Sосн·h/3','Получить численное значение'],
+ 'oblique-error-proof':['Объяснить отличие высоты от бокового ребра','Найти высоту через проекцию','Вычислить правильный объём и обосновать'],
+ 'frustum-mean-proof':['Обнаружить ошибку арифметического среднего','Найти средний член √(S₁S₂) и объём','Объяснить квадратичную зависимость площадей сечений']
+};
+const grade=(tasks,kind)=>tasks.map((q,i)=>{
+ const [family,points]=cognitive[kind][i],criteria=rubric[family];
+ if(q.points!==points||criteria.length!==points)throw Error('Rubric '+kind+'/'+i);
+ return {...q,cognitive:{family,method:family,dok:points===3?3:points===1?1:2,steps:points},criteria:criteria.map(text=>({points:1,text}))};
+});
+const trianglesI=[[6,8,5],[7,10,6],[10,6,7],[9,8,5],[8,10,9],[12,5,8]];
+const trianglesC=[[8,15,6],[9,10,8],[12,8,7],[10,12,9],[11,6,5],[15,8,6]];
+const pyramidsI=[[6,8,9],[8,6,9],[10,6,12],[6,10,12],[10,12,9],[12,8,15]];
+const pyramidsC=[[8,12,9],[9,10,12],[10,12,12],[12,8,15],[14,6,9],[15,10,12]];
+const sectionsC=[[24,13,5],[30,10,6],[35,17,8],[40,13,5],[45,25,7],[42,10,6]];
+const similarC=[[125,64],[216,27],[343,125],[64,8],[729,216],[512,125]];
+const inverseC=[[30,12],[45,15],[60,9],[75,18],[90,21],[105,24]];
+const triangle=(values)=>({type:'triangle',a:values[0],b:values[1],h:values[2]});
+const baseConcept=v=>{
+ const k=v+1,n=k**3;
+ return task('Все линейные размеры многогранника увеличили в '+k+(k<=4?' раза':' раз')+'. Во сколько раз возрастёт объём?',n+' '+(n%10>=2&&n%10<=4?'раза':'раз')+'.',1,'VOLUME_SCALE',
+ 'V′/V=k³='+k+'³='+n+'.');
+};
 function independent(v){
- const q=I[v-1],p=prismSpec(q.prism),o=obliqueSpec(q.oblique),y=pyramidSpec(q.pyramid),f=frustumSpec(q.frustum),c=cavitySpec(q.cavity);
- return{id:v,tasks:[
-  task(q.concept[0],q.concept[1],1,q.concept[2],'Зачёт при корректном указании свойства объёма и его геометрического смысла.'),
-  task(p.text,String(p.V)+'.',2,'PRISM_VOLUME',p.solution),
-  task(o.text,String(o.V)+'.',2,'OBLIQUE_PRISM',o.solution),
-  task(y.text,String(y.V)+'.',2,'PYRAMID_VOLUME',y.solution),
-  task(f.text,String(f.V)+'.',2,'FRUSTUM_VOLUME',f.solution),
-  task(c.text,String(c.V)+'.',2,'COMPOSITE_VOLUME',c.solution),
-  task(q.error[0],q.error[1],3,q.error[2],'3 балла: обнаружить неверный шаг, записать корректное правило и объяснить геометрический смысл исправления.')
- ]};
+ const q=I[v-1],p=prismSpec(triangle(trianglesI[v-1])),o=obliqueSpec(q.oblique),y=pyramidSpec(triangle(pyramidsI[v-1])),f=frustumSpec(q.frustum),c=cavitySpec(q.cavity);
+ const errorCfg=I[v%6].oblique,er=obliqueSpec(errorCfg);
+ return{id:v,tasks:grade([
+  baseConcept(v),
+  task(p.text,p.V+'.',2,'PRISM_VOLUME',p.solution),
+  task(o.text,o.V+'.',2,'OBLIQUE_PRISM',o.solution),
+  task(y.text,y.V+'.',2,'PYRAMID_VOLUME',y.solution),
+  task(f.text,f.V+'.',2,'FRUSTUM_VOLUME',f.solution),
+  task(c.text,c.V+'.',2,'COMPOSITE_VOLUME',c.solution),
+  task('Наклонная призма: Sосн='+errorCfg.S+', ребро '+errorCfg.edge+', проекция '+errorCfg.proj+'. Ученик использовал ребро вместо высоты. Найдите ошибку, высоту и правильный объём с обоснованием.',
+   'Боковое ребро — гипотенуза, h='+er.h+'; V='+er.V+'.',3,'ERROR_OBLIQUE_HEIGHT','h=√('+errorCfg.edge+'²−'+errorCfg.proj+'²)='+er.h+'; V=Sосн·h='+er.V+'.')
+ ],'independent')};
 }
 
 const C=[
@@ -96,19 +134,25 @@ function inverseTask(cfg){
  return{text:'Объём пирамиды '+cfg.V+', площадь основания '+cfg.S+'. Найдите высоту.',answer:String(h)+'.',solution:'h=3V/Sосн=3·'+cfg.V+'/'+cfg.S+'='+h+'.'};
 }
 function control(v){
- const q=C[v-1],p=prismSpec(q.prism),o=obliqueSpec(q.oblique),y=pyramidSpec(q.pyramid),f=frustumSpec(q.frustum),s=sectionTask(q.section),sim=similarTask(q.similar),c=cavitySpec(q.cavity),inv=inverseTask(q.inverse);
- return{id:v,tasks:[
-  task(q.concept[0],q.concept[1],1,q.concept[2],'Зачёт при точной формулировке свойства или корректном переводе единиц.'),
-  task(p.text,String(p.V)+'.',2,'PRISM_VOLUME',p.solution),
-  task(o.text,String(o.V)+'.',2,'OBLIQUE_PRISM',o.solution),
-  task(y.text,String(y.V)+'.',2,'PYRAMID_VOLUME',y.solution),
-  task(f.text,String(f.V)+'.',2,'FRUSTUM_VOLUME',f.solution),
-  task(s.text,s.answer,2,'SECTION_VOLUME',s.solution),
+ const q=C[v-1],p=prismSpec(triangle(trianglesC[v-1])),o=obliqueSpec(q.oblique),y=pyramidSpec(triangle(pyramidsC[v-1])),f=frustumSpec(q.frustum);
+ const arr=sectionsC[v-1],section=sectionTask({type:'prism',S:arr[0],edge:arr[1],proj:arr[2]});
+ const cube=similarC[v-1],linear=cube.map(x=>Math.round(Math.cbrt(x))),sim=similarTask({ratio:cube,linear});
+ const c=cavitySpec(q.cavity),h=inverseC[v-1],inv=inverseTask({type:'pyramid',S:h[0],V:h[0]*h[1]/3});
+ const cfg=C[v%6].frustum,correct=frustumSpec(cfg);
+ return{id:v,tasks:grade([
+  baseConcept(v),
+  task(p.text,p.V+'.',2,'PRISM_VOLUME',p.solution),
+  task(o.text,o.V+'.',2,'OBLIQUE_PRISM',o.solution),
+  task(y.text,y.V+'.',2,'PYRAMID_VOLUME',y.solution),
+  task(f.text,f.V+'.',2,'FRUSTUM_VOLUME',f.solution),
+  task(section.text,section.answer,2,'SECTION_VOLUME',section.solution),
   task(sim.text,sim.answer,2,'SIMILAR_SOLIDS',sim.solution),
-  task(c.text,String(c.V)+'.',2,'COMPOSITE_VOLUME',c.solution),
+  task(c.text,c.V+'.',2,'COMPOSITE_VOLUME',c.solution),
   task(inv.text,inv.answer,2,'INVERSE_VOLUME',inv.solution),
-  task(q.error[0],q.error[1],3,q.error[2],'3 балла: обнаружить ошибку, записать верное правило или значение и дать геометрическое объяснение.')
- ]};
+  task('Усечённая пирамида S₁='+cfg.S1+', S₂='+cfg.S2+', h='+cfg.h+'. Ученик использовал V=h(S₁+S₂)/2. Найдите ошибку, правильный объём и обоснуйте необходимость дополнительного члена.',
+   'Требуется √(S₁S₂)='+correct.g+'; V='+correct.V+'. Площади подобных сечений изменяются квадратично.',
+   3,'ERROR_FRUSTUM_MEAN','V=h(S₁+√(S₁S₂)+S₂)/3='+cfg.h+'/3·('+cfg.S1+'+'+correct.g+'+'+cfg.S2+')='+correct.V+'.')
+ ],'control')};
 }
 
 window.KTP_ASSESSMENT_DATA={
