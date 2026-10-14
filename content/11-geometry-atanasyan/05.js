@@ -8,7 +8,7 @@ KTP_REGISTER_CONTENT('11-geometry-atanasyan::4',{
  expectedResults:D.map(d=>d.title+': применяет правило и проверяет условия.'),
  prerequisites:['Операции с векторами в пространстве.','Середина отрезка и направленные перемещения.','Теорема Пифагора.','Косинус и синус угла.','Перпендикулярность прямой и плоскости.'],
  prerequisiteCheck:[{id:'pre-1',skill:'Направление',task:'Как выразить AB через векторы OA и OB?',answer:'AB=OB−OA.'},{id:'pre-2',skill:'Середина',task:'J — середина AB. Выразите OJ.',answer:'OJ=½(OA+OB).'}, {id:'pre-3',skill:'Длина',task:'Может ли длина вектора быть отрицательной?',answer:'Нет.'},{id:'pre-4',skill:'Базис',task:'Достаточно ли некомпланарности для разложения вектора?',answer:'Да; для координатных метрических формул дополнительно нужна ортонормированность базиса.'},{id:'pre-5',skill:'Перпендикуляр',task:'Какой отрезок задаёт расстояние от точки до плоскости?',answer:'Перпендикуляр из точки на плоскость.'}],
- map:D.map((d,i)=>({title:'Урок '+(i+45)+'. '+d.title,description:d.extension?'Расширение KTP, отдельный поурочный контроль.':'Координатное ядро и проверка условий.'})),
+ map:D.map((d,i)=>'Урок '+(i+45)+'. '+d.title+(d.extension?' · расширение KTP':'')),
  theory:D.map(d=>({title:d.title,html:d.theory.map(p=>'<p>'+p+'</p>').join('')+'<span data-spatial-scene="'+d.scene+'"></span>'})),
  examples:D.map((d,i)=>{const q=pool(d.mode,1)[0];return {id:'ex-'+(i+1),title:d.title,problem:q.text,idea:'Укажите геометрический объект и правило.',solution:q.solution,check:'Подставьте результат обратно и проверьте условия.',answer:q.answerCore,audit:q.audit};}),
  mistakes:D.map(d=>({title:d.mistake,explanation:pool(d.mode,1)[4].answerCore})),

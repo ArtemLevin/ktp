@@ -25,7 +25,8 @@ export function grade11GeometryProgress(root=process.cwd()){
   const totalAssessments=count('assessments',/^data\.js$/),ctx={window:{}};
   vm.runInNewContext(fs.readFileSync(path.join(root,'js/data.js'),'utf8'),ctx);
   const remainingTopics=ctx.window.KTP_DATA.rows.reduce((n,r)=>n+r.topics.length,0)-totalAssessments;
-  return {totalAssessments,remainingTopics,totalLessons:count('lessons',/^\d\d\.html$/),lessonCount,lessonSeries,completeSeries,assessmentSeries,
+  const lineStatus=completeSeries===6&&lessonCount===68&&assessmentSeries===6?'готово':'в работе';
+  return {lineStatus,totalAssessments,remainingTopics,totalLessons:count('lessons',/^\d\d\.html$/),lessonCount,lessonSeries,completeSeries,assessmentSeries,
     range:'1–'+lessonCount,summary:`${completeSeries}/6, ${lessonCount}/68, ${assessmentSeries}/6`,
     row:`| ${completeSeries}/6 | ${lessonCount}/68 | ${assessmentSeries}/6 |`,
     lessonRow:`| ${lessonSeries}/6 | ${lessonCount}/68 | 1–${lessonCount} |`,
