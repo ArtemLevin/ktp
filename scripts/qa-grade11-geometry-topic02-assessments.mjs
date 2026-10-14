@@ -1,3 +1,4 @@
+import './qa-grade11-geometry-p13.mjs';
 import './qa-grade11-geometry-topic01-02-cognitive.mjs';
 import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
 const progress=grade11GeometryProgress();
