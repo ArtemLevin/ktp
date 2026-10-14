@@ -1,3 +1,4 @@
+import './qa-grade11-geometry-topic01-02-cognitive.mjs';
 import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
 const progress=grade11GeometryProgress();
 import fs from 'node:fs';
@@ -41,53 +42,29 @@ function complete(work,count,max){
 }
 
 complete(A.topic.independent,7,14);
-const indExpected=[
-  [120,288,120,756,408],
-  [168,240,144,350,330],
-  [210,270,112,468,495],
-  [180,64,400,336,300],
-  [360,252,300,650,104],
-  [240,200,180,1029,520]
-];
-const indErrors=['HEIGHT_EDGE','PYRAMID_FACTOR','SIMILAR_K2_K3','AREA_VOLUME','PROJECTION_LENGTH','FRUSTUM_AVERAGE'];
-for(const [i,v] of A.topic.independent.variants.entries()){
-  const t=v.tasks;
-  check(t[0].points===1,'independent '+v.id+' concept point');
-  check(t[1].skill==='PRISM_VOLUME','independent '+v.id+' prism');
-  check(t[2].skill==='OBLIQUE_PRISM','independent '+v.id+' oblique prism');
-  check(t[3].skill==='PYRAMID_VOLUME','independent '+v.id+' pyramid');
-  check(t[4].skill==='FRUSTUM_VOLUME','independent '+v.id+' frustum');
-  check(t[5].skill==='COMPOSITE_VOLUME','independent '+v.id+' composite');
-  check(t[6].skill===indErrors[i]&&t[6].points===3,'independent '+v.id+' error slot');
-  for(let j=0;j<5;j++)check(t[j+1].answer===String(indExpected[i][j])+'.','independent '+v.id+' numeric '+(j+1));
-}
-
 complete(A.topic.control,10,20);
-const ctrlExpected=[
-  ['360.','420.','288.','525.','h=12; V=192.','5:4.','528.','12.'],
-  ['360.','224.','192.','504.','h=15; V=600.','216.','672.','9.'],
-  ['420.','480.','240.','585.','h=12; V=192.','7:5.','570.','15.'],
-  ['540.','180.','400.','686.','h=12; V=432.','125.','816.','12.'],
-  ['330.','324.','480.','1300.','h=24; V=1536.','6:5.','920.','12.'],
-  ['360.','400.','180.','1344.','h=15; V=630.','720.','850.','12.']
-];
-const ctrlErrors=['ERROR_FRUSTUM','HEIGHT_EDGE','PYRAMID_FACTOR','SIMILAR_K2_K3','UNIT_CONVERSION','PROJECTION_LENGTH'];
-for(const [i,v] of A.topic.control.variants.entries()){
-  const t=v.tasks;
-  const skills=['PRISM_VOLUME','OBLIQUE_PRISM','PYRAMID_VOLUME','FRUSTUM_VOLUME','SECTION_VOLUME','SIMILAR_SOLIDS','COMPOSITE_VOLUME','INVERSE_VOLUME'];
-  check(t[0].points===1,'control '+v.id+' concept point');
-  for(let j=0;j<skills.length;j++){
-    check(t[j+1].skill===skills[j],'control '+v.id+' skill '+skills[j]);
-    check(t[j+1].answer===ctrlExpected[i][j],'control '+v.id+' answer '+(j+2));
-  }
-  check(t[9].skill===ctrlErrors[i]&&t[9].points===3,'control '+v.id+' error slot');
+// Deep mathematical and rubric checks are implemented by the imported independent QA.
+const blueprint={
+ independent:['VOLUME_SCALE','PRISM_VOLUME','OBLIQUE_PRISM','PYRAMID_VOLUME','FRUSTUM_VOLUME','COMPOSITE_VOLUME','ERROR_OBLIQUE_HEIGHT'],
+ control:['VOLUME_SCALE','PRISM_VOLUME','OBLIQUE_PRISM','PYRAMID_VOLUME','FRUSTUM_VOLUME','SECTION_VOLUME','SIMILAR_SOLIDS','COMPOSITE_VOLUME','INVERSE_VOLUME','ERROR_FRUSTUM_MEAN']
+};
+for(const kind of ['independent','control']){
+ const forms=A.topic[kind].variants,reference=forms[0].tasks.map(q=>[q.skill,q.points,q.cognitive?.dok,q.cognitive?.family,q.cognitive?.method]);
+ for(const v of forms){
+  check(JSON.stringify(v.tasks.map(q=>[q.skill,q.points,q.cognitive?.dok,q.cognitive?.family,q.cognitive?.method]))===JSON.stringify(reference),'same cognitive blueprint '+kind+'/'+v.id);
+  v.tasks.forEach((q,i)=>{
+   check(q.skill===blueprint[kind][i],kind+' skill slot '+v.id+'/'+i);
+   check(q.criteria?.length===q.points&&q.criteria.every(c=>c.points===1),kind+' pointwise rubric '+v.id+'/'+i);
+  });
+ }
 }
-
 const all=[...A.topic.independent.variants.flatMap(v=>v.tasks),...A.topic.control.variants.flatMap(v=>v.tasks)];
 check(all.length===102,'102 thematic tasks across 12 variants');
 check(all.every(t=>!/(цилиндр|конус|шар|сфер)/i.test(t.text)),'assessment excludes bodies of revolution');
 check(all.filter(t=>t.skill==='FRUSTUM_VOLUME').length===12,'frustum covered in every variant');
 check(all.filter(t=>t.skill==='OBLIQUE_PRISM').length===12,'oblique prism covered in every variant');
+check(all.filter(t=>t.skill==='SECTION_VOLUME').length===6,'working section covered in all controls');
+check(all.filter(t=>t.skill==='ERROR_FRUSTUM_MEAN').length===6,'proof of frustum volume covered');
 
 const topic=read('content/11-geometry-atanasyan/02.js');
 for(const token of [
