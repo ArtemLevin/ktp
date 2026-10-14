@@ -19,6 +19,13 @@ for(const [i,L] of S.lessons.entries()){
  }
 }
 check(assessed===828,'828 lesson tasks');
+// Reused coordinate tasks must retain genuine answer diversity in the final course.
+for(const [mode,index,count,min] of [
+ ['vectors',0,6,6],['metric',0,8,4],['metric',1,6,6]
+]){
+ const answers=Array.from({length:count},(_,v)=>pool(mode,v+1)[index].answerCore);
+ check(new Set(answers).size>=min,'review diagnostic answer diversity '+mode+'/'+index);
+}
 const domains=R.domains.map(d=>d.id);
 for(const [kind,n,max] of [['independent',7,14],['control',10,20]]){const work=A.topic[kind];check(work.variants.length===6&&work.maxScore===max,'thematic dimensions');const signatures=new Set();for(const v of work.variants){check(v.tasks.length===n&&v.tasks.reduce((s,q)=>s+q.points,0)===max,'thematic points');signatures.add(JSON.stringify(v.tasks.map(q=>q.text)));v.tasks.forEach(q=>audit(q,kind+'/'+v.id));check(v.tasks.at(-1).errorAnalysis,'thematic error');if(kind==='control')check(new Set(v.tasks.map(q=>q.domain)).size===10&&domains.every(d=>v.tasks.some(q=>q.domain===d)),'all ten domains in final control');}check(signatures.size===6,'six distinct thematic variants');}
 for(let v=1;v<=60;v++){

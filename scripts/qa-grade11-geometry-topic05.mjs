@@ -23,8 +23,13 @@ for(const [point,expected] of [[[2,0,0],'surface'],[[1,0,0],'inside'],[[3,0,0],'
 const audit=createCoordinateAuditor(check),modes=ctx.window.KTP_G11_COORDINATE_DEFINITIONS.map(d=>d.mode);
 for(const mode of modes)for(let v=1;v<=60;v++){const pool=ctx.window.KTP_G11_COORDINATE_QUESTION_POOL(mode,v);check(pool.length===10&&pool[4].errorAnalysis,'bank contract '+mode);pool.forEach((q,i)=>audit(q,mode+'/'+v+'/'+i));}
 for(let v=1;v<=60;v++){
- const q=ctx.window.KTP_G11_COORDINATE_QUESTION_POOL('planeDistance',v)[0];
- check(q.answerCore==='2.'&&q.audit.result===2,'exact distance P-to-plane answer for variant '+v);
+ const q=ctx.window.KTP_G11_COORDINATE_QUESTION_POOL('planeDistance',v)[0],a=q.audit;
+ const expected=Math.abs(a.point.reduce((s,x,i)=>s+x*a.normal[i],a.d))/Math.hypot(...a.normal);
+ check(Number.isSafeInteger(expected)&&q.answerCore===expected+'.'&&q.audit.result===expected,'exact distance P-to-plane answer '+v);
+}
+for(const [mode,index,count,min] of [['endpoints',0,6,6],['endpoints',2,6,6],['length',1,6,6],['angle',0,8,7],['planeAngle',0,8,4],['planeDistance',0,9,9]]){
+ const answers=Array.from({length:count},(_,v)=>ctx.window.KTP_G11_COORDINATE_QUESTION_POOL(mode,v+1)[index].answerCore);
+ check(new Set(answers).size>=min,'independent mathematical answers '+mode+'/'+index);
 }
 check(S.lessons.length===12&&S.meta.courseLessonStart===45&&S.meta.courseLessonEnd===56,'12 lessons 45–56');
 let assessed=0;
