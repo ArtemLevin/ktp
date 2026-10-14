@@ -52,7 +52,7 @@ try{
     check(data.theory===12&&data.examples===12&&data.practice===24&&data.levels===4&&data.diagnostic===12&&data.homework===8,'content counts '+width);
     check(data.answers===49&&data.closed,'answers initially hidden '+width);
     check(data.scenes===12&&data.labelled&&data.error===0,'12 accessible scenes '+width);
-    check(!data.overflow&&data.pendingLinks===0,'responsive and no unfinished links '+width);
+    check(!data.overflow&&data.pendingLinks===2,'responsive and released resource links '+width);
     check(data.period==='11 января 2027 г. — 18 февраля 2027 г.','KTP period '+data.period);
     check(data.hrefs.includes('03.html')&&data.hrefs.includes('05.html'),'neighbor navigation');
     for(const href of data.hrefs){

@@ -18,18 +18,18 @@ const C=read('content/11-geometry-atanasyan/03.js');
 check(row(R,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'README grade11 row');
 check(row(P,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'Plan grade11 row');
 check(row(L,'11-geometry-atanasyan').includes(progress.lessonRow+' в работе |'),'lessons grade11 row');
-check(/\| 3\/6 \| в работе \|/.test(row(A,'11-geometry-atanasyan')),'assessments grade11 row');
+check(row(A,'11-geometry-atanasyan').includes('| '+progress.assessmentSeries+'/6 | в работе |'),'assessments grade11 row');
 
 for(const [text,re,expected,label] of [
  [R,/Суммарно опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'README lessons'],
- [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README assessments'],
- [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README current assessments'],
- [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,84,'Plan series'],
+ [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'README assessments'],
+ [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'README current assessments'],
+ [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,progress.totalAssessments,'Plan series'],
  [P,/опубликованных уроков: \*\*(\d+)\*\*/,progress.totalLessons,'Plan lessons'],
- [P,/assessment-комплектов: \*\*(\d+)\*\*/,84,'Plan assessments'],
- [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,37,'Plan skeletons'],
+ [P,/assessment-комплектов: \*\*(\d+)\*\*/,progress.totalAssessments,'Plan assessments'],
+ [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,progress.remainingTopics,'Plan skeletons'],
  [L,/Всего опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'lessons total'],
- [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'assessment total']
+ [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'assessment total']
 ])check(metric(text,re,label)===expected,label+' expected '+expected);
 
 for(const token of [
@@ -45,14 +45,14 @@ for(const token of [
  'самостоятельная **6×7 / 14 баллов**',
  'контрольная **6×10 / 20 баллов**',
  'Пункт 56 с определённым интегралом не входит в обязательный контроль',
- 'темы **01–03**'
+ 'темы **01–0'+progress.assessmentSeries+'**'
 ])check(A.includes(token),'assessment README topic03 '+token);
 
-check(M.includes('серии 01–03 завершены'),'content map completed series');
+check(M.includes('серии 01–0'+progress.completeSeries+' завершены'),'content map completed series');
 check(M.includes(progress.contentMap),'content map status');
 check(M.includes('серия 04 «Векторы в пространстве», уроки 33–44'),'content map next unit');
 check(P.includes('серия 04 **«Векторы в пространстве»**, уроки **33–44**'),'Plan next unit');
-check(T.includes("'11-geometry-atanasyan':{min:0,max:2}"),'assessment navigation topics 01-03');
+check(T.includes(`'11-geometry-atanasyan':{min:0,max:${progress.assessmentSeries-1}}`),'current grade 11 assessment navigation');
 
 check(B.includes('Этап 5 — thematic assessment и release gate · **реализован**'),'blueprint stage5 implemented');
 for(const token of ['12 тематических вариантов / 102 оцениваемых задания','3/6, 32/68, 3/6'])check(B.includes(token),'blueprint final token '+token);
@@ -78,7 +78,7 @@ function countFiles(dir,pattern){
  return total;
 }
 check(countFiles('lessons',/^\d\d\.html$/)===progress.totalLessons,'current addressable lesson pages');
-check(countFiles('assessments',/^data\.js$/)===84,'84 thematic assessment data files');
+check(countFiles('assessments',/^data\.js$/)===progress.totalAssessments,'current thematic assessment data files');
 
 for(const p of [
  'topics/11-geometry-atanasyan/03.html',

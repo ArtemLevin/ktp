@@ -22,18 +22,18 @@ const S=read('lessons/11-geometry-atanasyan/02/series.js');
 check(row(R,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'README grade11 row');
 check(row(P,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'Plan grade11 row');
 check(row(L,'11-geometry-atanasyan').includes(progress.lessonRow+' в работе |'),'lessons grade11 row');
-check(/\| 3\/6 \| в работе \|/.test(row(A,'11-geometry-atanasyan')),'assessments grade11 row');
+check(row(A,'11-geometry-atanasyan').includes('| '+progress.assessmentSeries+'/6 | в работе |'),'assessments grade11 row');
 
 for(const [text,re,expected,label] of [
   [R,/Суммарно опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'README lessons'],
-  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README assessments'],
-  [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README current assessments'],
-  [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,84,'Plan series'],
+  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'README assessments'],
+  [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'README current assessments'],
+  [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,progress.totalAssessments,'Plan series'],
   [P,/опубликованных уроков: \*\*(\d+)\*\*/,progress.totalLessons,'Plan lessons'],
-  [P,/assessment-комплектов: \*\*(\d+)\*\*/,84,'Plan assessments'],
-  [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,37,'Plan skeletons'],
+  [P,/assessment-комплектов: \*\*(\d+)\*\*/,progress.totalAssessments,'Plan assessments'],
+  [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,progress.remainingTopics,'Plan skeletons'],
   [L,/Всего опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'lessons total'],
-  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'assessment total']
+  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,progress.totalAssessments,'assessment total']
 ])check(metric(text,re,label)===expected,label+' expected '+expected);
 
 for(const text of [R,P,L,A]){
@@ -48,7 +48,7 @@ check(M.includes(progress.contentMap),'content map status');
 check(M.includes('серия 04 «Векторы в пространстве», уроки 33–44'),'content map next unit');
 check(LP.includes('Пункты '+progress.range+' уже опубликованы'),'lesson plan publication status');
 check(P.includes('серия 04 **«Векторы в пространстве»**, уроки **33–44**'),'Plan next unit');
-check(T.includes("'11-geometry-atanasyan':{min:0,max:2}"),'assessment navigation topics 01-03');
+check(T.includes(`'11-geometry-atanasyan':{min:0,max:${progress.assessmentSeries-1}}`),'current grade 11 assessment navigation');
 check(S.includes("implementationStage:'5/5'"),'series release stage');
 
 for(const token of [
@@ -74,7 +74,7 @@ function countFiles(dir,pattern){
   return total;
 }
 check(countFiles('lessons',/^\d\d\.html$/)===progress.totalLessons,'current addressable lesson pages');
-check(countFiles('assessments',/^data\.js$/)===84,'84 thematic assessment data files');
+check(countFiles('assessments',/^data\.js$/)===progress.totalAssessments,'current thematic assessment data files');
 
 for(const p of [
   'topics/11-geometry-atanasyan/02.html',

@@ -32,6 +32,7 @@ try{
     await open('topics/11-geometry-atanasyan/04.html');
     const cta=page.locator('[data-vector-lesson-link] a');check(await cta.count()===1,'one topic lesson link');
     await cta.click();
+    await page.waitForSelector('.lesson-tile');
     check(await page.locator('.lesson-tile').count()===12,'12 catalog routes');
     const labels=await page.locator('.tile-top span').allTextContents();
     check(labels[0]==='Урок 33'&&labels[11]==='Урок 44','global catalog numbering');

@@ -22,7 +22,10 @@ export function grade11GeometryProgress(root=process.cwd()){
   if(numbers.some((n,i)=>n!==i+1))throw Error('Published grade 11 lesson routes must be contiguous from 1');
   const lessonCount=numbers.length,assessmentSeries=fs.readdirSync(path.join(root,'assessments/11-geometry-atanasyan'),{withFileTypes:true})
     .filter(e=>e.isDirectory()&&fs.existsSync(path.join(root,'assessments/11-geometry-atanasyan',e.name,'data.js'))).length;
-  return {totalLessons:count('lessons',/^\d\d\.html$/),lessonCount,lessonSeries,completeSeries,assessmentSeries,
+  const totalAssessments=count('assessments',/^data\.js$/),ctx={window:{}};
+  vm.runInNewContext(fs.readFileSync(path.join(root,'js/data.js'),'utf8'),ctx);
+  const remainingTopics=ctx.window.KTP_DATA.rows.reduce((n,r)=>n+r.topics.length,0)-totalAssessments;
+  return {totalAssessments,remainingTopics,totalLessons:count('lessons',/^\d\d\.html$/),lessonCount,lessonSeries,completeSeries,assessmentSeries,
     range:'1–'+lessonCount,summary:`${completeSeries}/6, ${lessonCount}/68, ${assessmentSeries}/6`,
     row:`| ${completeSeries}/6 | ${lessonCount}/68 | ${assessmentSeries}/6 |`,
     lessonRow:`| ${lessonSeries}/6 | ${lessonCount}/68 | 1–${lessonCount} |`,

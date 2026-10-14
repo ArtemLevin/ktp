@@ -1,3 +1,5 @@
+import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
+const progress=grade11GeometryProgress();
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -97,7 +99,7 @@ for(const token of [
   '6 вариантов контрольной по 10 заданий / 20 баллов'
 ])check(topic.includes(token),'topic assessment contract '+token);
 
-check(read('assessments/topic-links.js').includes("'11-geometry-atanasyan':{min:0,max:2}"),'topic-links grade 11 range');
+check(read('assessments/topic-links.js').includes(`'11-geometry-atanasyan':{min:0,max:${progress.assessmentSeries-1}}`),'topic-links grade 11 range');
 for(const kind of ['independent','control']){
   const route=read('assessments/11-geometry-atanasyan/02/'+kind+'.html');
   check(route.includes('data-topic="02"')&&route.includes('data.js')&&route.includes('assessment-page.js'),kind+' route wiring');
@@ -112,6 +114,6 @@ function countFiles(dir,name){
   }
   return total;
 }
-check(countFiles(path.join(root,'assessments'),'data.js')===84,'aggregate thematic assessment count 84');
+check(countFiles(path.join(root,'assessments'),'data.js')===progress.totalAssessments,'current aggregate thematic assessment count');
 
 console.log('Grade 11 geometry topic 02 thematic assessment/math/structure QA passed: '+checks+' checks.');

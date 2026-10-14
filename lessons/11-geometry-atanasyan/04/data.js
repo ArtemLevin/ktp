@@ -105,7 +105,7 @@ for(const [i,d] of defs.entries()){
     practice:pool(d.mode,13).slice(0,8),homework:{required:pool(d.mode,14).slice(0,6),optional:pool(d.mode,15).slice(8,10)},
     independent:assessment(d.mode,'independent'),control:assessment(d.mode,'control'),
     summary:[...d.objectives,...d.theory.map(t=>t[1]),'Маршрут: направление → правило и его условия → действие → обратная проверка.'],
-    resources:[{label:'Опорный модуль',format:'Web',title:'Вся тема «Векторы в пространстве»',href:S.meta.topicHref}],
+    resources:[{label:'Опорный модуль',format:'Web',title:'Вся тема «Векторы в пространстве»',href:S.meta.topicHref},{label:'Исследование',format:'Web',title:'Векторный конструктор',href:'../../../labs/11-geometry-atanasyan/vector-constructor/index.html'}],
     milestone:i===11?'Диагностика серии':undefined,
     source:{textbook:'Л. С. Атанасян и др. «Геометрия. 10–11 классы». Редакция 2019 года.',
       section:'Глава VI, '+(d.point.includes('–')?'пп. ':'п. ')+d.point,

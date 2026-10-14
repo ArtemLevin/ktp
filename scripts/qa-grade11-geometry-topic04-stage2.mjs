@@ -18,7 +18,7 @@ for(const [key,count] of [['objectives',8],['expectedResults',11],['prerequisite
   check(T[key].length===count,key+' count');
 for(const level of ['basic','standard','transfer','challenge'])check(T.practice[level].length===6,level+' six exercises');
 check(T.homework.required.length===6&&T.homework.optional.length===2,'homework 6+2');
-check(!T.lab.enabled&&!T.assessments.enabled&&!T.lab.href&&!T.assessments.independentHref,'no unfinished routes promoted');
+check(T.lab.enabled&&T.assessments.enabled&&T.lab.href&&T.assessments.independentHref,'released routes promoted');
 check(T.spatialScenes===ctx.window.KTP_G11_VECTOR_SCENES,'reuse shared scene registry');
 const refs=[...T.theory.map(t=>t.html).join('\n').matchAll(/data-spatial-scene="([^"]+)"/g)].map(m=>m[1]);
 check(refs.length===12&&new Set(refs).size===12,'twelve distinct scene references');

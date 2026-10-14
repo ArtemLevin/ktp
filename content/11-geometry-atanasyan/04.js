@@ -169,8 +169,8 @@ KTP_REGISTER_CONTENT('11-geometry-atanasyan::3',{
     'Разложение по некомпланарной тройке существует и единственно; прямые углы не обязательны.',
     'Маршрут решения: согласовать направления → собрать равенство → упростить → проверить условия и ответ.'
   ],
-  lab:{enabled:false,planned:true,title:'Пространственный векторный конструктор'},
-  assessments:{enabled:false,planned:true,title:'Тематическая проверка'},
+  lab:{enabled:true,planned:false,title:'Пространственный векторный конструктор',href:'../../labs/11-geometry-atanasyan/vector-constructor/index.html',description:'Перенос равного вектора, изменение коэффициентов и исследование компланарности.'},
+  assessments:{enabled:true,planned:false,title:'Тематическая проверка',independentHref:'../../assessments/11-geometry-atanasyan/04/independent.html',controlHref:'../../assessments/11-geometry-atanasyan/04/control.html',description:'6 вариантов самостоятельной работы по 7 заданий / 14 баллов; 6 вариантов контрольной по 10 заданий / 20 баллов.'},
   source:{
     textbook:'Л. С. Атанасян и др. «Геометрия. 10–11 классы». Нумерация редакции 2019 года.',
     paragraphs:[
