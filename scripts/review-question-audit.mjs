@@ -4,7 +4,7 @@ export function createReviewAuditor(check){
  const vector=createVectorAuditor(check),coordinate=createCoordinateAuditor(check),near=(a,b)=>Math.abs(a-b)<1e-8;
  const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a)||1;
  const pi=(n,d)=>{const g=gcd(n,d);return d/g===1?n/g+'π':n/g+'π/'+(d/g);};
- const rules={'two-bases':/2πrh\+2πr²/,'section-radius':/ρ²=R²−d²/,'true-height':/перпендикулярна/,'cone-third':/1\/3/,'hidden-interface':/два общих диска/,'scale-powers':/9.*27/,'round-up':/вверх/,'sphere-tangent':/точка.*радиус сечения 0/,'sphere-outside':/Нет.*вне шара/,'equal-length':/a⃗ и −a⃗.*противоположные/,'equal-volume':/призма и пирамида.*одинаковый объём/i,'skew-lines':/скрещивающимися/,'projection':/не сохраняет.*углы/};
+ const rules={'two-bases':/2πrh\+2πr²/,'section-radius':/ρ²=R²−d²/,'true-height':/перпендикулярна/,'cone-third':/1\/3/,'hidden-interface':/два общих диска/,'scale-powers':/9.*27/,'round-up':/вверх/,'sphere-tangent':/точка.*радиус сечения 0/,'sphere-outside':/Нет.*вне шара/,'equal-length':/a⃗ и −a⃗.*противоположные/,'equal-length-orthogonal':/перпендикулярные векторы.*одинаковую длину/,'equal-volume':/призма и пирамида.*одинаковый объём/i,'skew-lines':/скрещивающимися/,'projection':/не сохраняет.*углы/};
  return function audit(q,label){
   if(q.auditOrigin==='vector')return vector(q,label);
   if(q.auditOrigin==='coordinate')return coordinate(q,label);

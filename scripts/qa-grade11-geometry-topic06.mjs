@@ -26,6 +26,33 @@ for(const [mode,index,count,min] of [
  const answers=Array.from({length:count},(_,v)=>pool(mode,v+1)[index].answerCore);
  check(new Set(answers).size>=min,'review diagnostic answer diversity '+mode+'/'+index);
 }
+// P1: balanced variant families. Equivalent scored slots must test the same skill
+// and operation type across all six variants; changing numbers alone is insufficient.
+const balancedModes=['surface','sections','polyhedron','round','composite','proof'];
+const complexitySignature=q=>[q.points,q.audit.kind,q.skill,Boolean(q.errorAnalysis)].join('|');
+for(const mode of balancedModes){
+ const lesson=S.lessons.find(l=>l.mode===mode);
+ check(Boolean(lesson),'balanced lesson '+mode);
+ for(const kind of ['independent','control']){
+  const variants=lesson[kind].variants,reference=variants[0].tasks.map(complexitySignature);
+  for(const variant of variants)check(JSON.stringify(variant.tasks.map(complexitySignature))===JSON.stringify(reference),'equivalent control difficulty '+mode+'/'+kind+'/'+variant.id);
+ }
+}
+for(const [mode,index,count,minUnique] of [
+ ['surface',1,6,6],['surface',3,6,6],['sections',0,6,6],
+ ['sections',3,6,6],['polyhedron',0,6,6],['polyhedron',1,6,6],
+ ['polyhedron',3,6,6],['round',0,6,6],['round',5,6,6],
+ ['composite',0,6,6],['composite',1,6,6]
+]){
+ const results=Array.from({length:count},(_,i)=>pool(mode,i+1)[index].answerCore);
+ check(new Set(results).size>=minUnique,'independent mathematical answers '+mode+'/'+index);
+}
+for(let variant=1;variant<=60;variant++){
+ const proofs=pool('proof',variant),k=variant+1;
+ check(proofs[0].audit.rule===(variant%2?'equal-length':'equal-length-orthogonal'),'distinct counterexamples for vector equality');
+ check(proofs[3].audit.rule==='equal-volume'&&proofs[3].answerCore.includes((variant%2?k**3:2*k**3)+' см³'),'independent prism/pyramid equal-volume witness');
+ check(proofs[7].audit.rule==='skew-lines'&&proofs[7].answerCore.includes('скрещивающимися'),'skew-line counterexample');
+}
 const domains=R.domains.map(d=>d.id);
 for(const [kind,n,max] of [['independent',7,14],['control',10,20]]){const work=A.topic[kind];check(work.variants.length===6&&work.maxScore===max,'thematic dimensions');const signatures=new Set();for(const v of work.variants){check(v.tasks.length===n&&v.tasks.reduce((s,q)=>s+q.points,0)===max,'thematic points');signatures.add(JSON.stringify(v.tasks.map(q=>q.text)));v.tasks.forEach(q=>audit(q,kind+'/'+v.id));check(v.tasks.at(-1).errorAnalysis,'thematic error');if(kind==='control')check(new Set(v.tasks.map(q=>q.domain)).size===10&&domains.every(d=>v.tasks.some(q=>q.domain===d)),'all ten domains in final control');}check(signatures.size===6,'six distinct thematic variants');}
 for(let v=1;v<=60;v++){
