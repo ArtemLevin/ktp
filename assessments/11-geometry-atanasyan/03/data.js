@@ -33,7 +33,7 @@ const P={
 };
 function volumeConcept(multiplier){
  const n=multiplier**3;
- return make('Все линейные размеры тела увеличили в '+multiplier+' раза. Во сколько раз изменится его объём? Обоснуйте степень.',n+' '+(n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?'раза':'раз')+'.','VOLUME_SCALE',
+ return make('Все линейные размеры тела увеличили в '+multiplier+' '+(multiplier%10>=2&&multiplier%10<=4&&!(multiplier%100>=12&&multiplier%100<=14)?'раза':'раз')+'. Во сколько раз изменится его объём? Обоснуйте степень.',n+' '+(n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?'раза':'раз')+'.','VOLUME_SCALE',
   'V′/V='+multiplier+'³='+n+'; объём масштабируется в третьей степени.',P.concept,{kind:'scale',factor:multiplier});
 }
 function cylinder(r,h,profile=P.cylinder){
