@@ -1,182 +1,161 @@
 (function(){
 'use strict';
-const task=(text,answer,points,skill,solution)=>({text,answer,points,skill,solution});
-const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;};
-const cubeRootInt=n=>Math.round(Math.cbrt(n));
-const ratioFromCubes=(a,b)=>{
-  let x=cubeRootInt(a),y=cubeRootInt(b),g=gcd(x,y);
-  return (x/g)+':'+(y/g)+'.';
+// Parallel examination forms: fixed mathematical operation and scoring in every slot.
+// Cognitive demand is a rubric for expert review, not a psychometric calibration.
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a)||1;
+const pi=(numerator,denominator=1)=>{
+ const g=gcd(numerator,denominator),n=numerator/g,d=denominator/g;
+ return d===1?n+'π.':n+'π/'+d+'.';
 };
-const pi=(num,den=1)=>{
-  num=Math.round(num);den=Math.round(den);
-  const g=gcd(num,den);num/=g;den/=g;
-  return den===1?num+'π.':num+'π/'+den+'.';
+const bodyPi=s=>s.endsWith('.')?s.slice(0,-1):s;
+const fmtPi=(num,den=1)=>bodyPi(pi(num,den));
+const parts=(...steps)=>steps.map(text=>({points:1,text}));
+const make=(text,answer,skill,solution,profile,audit)=>({
+ text,answer,skill,solution,points:profile.criteria.length,
+ criteria:parts(...profile.criteria),cognitive:{
+  family:profile.family,dok:profile.dok,steps:profile.criteria.length,method:profile.method
+ },audit
+});
+const P={
+ concept:{family:'volume-scaling',dok:1,method:'apply-cube-rule',criteria:['Распознать кубическую зависимость']},
+ cylinder:{family:'direct-cylinder-volume',dok:2,method:'single-formula',criteria:['Выбрать формулу объёма цилиндра','Выполнить подстановку и вычисление']},
+ cone:{family:'slant-to-cone-volume',dok:2,method:'pythagoras-then-volume',criteria:['Восстановить перпендикулярную высоту по теореме Пифагора','Найти объём конуса с коэффициентом 1/3']},
+ frustum:{family:'frustum-volume',dok:2,method:'frustum-formula',criteria:['Записать формулу объёма усечённого конуса','Правильно вычислить объём']},
+ sector:{family:'spherical-sector',dok:2,method:'sector-formula',criteria:['Выбрать формулу объёма шарового сектора','Подставить параметры и вычислить']},
+ similar:{family:'volume-similarity',dok:2,method:'cube-root-scale',criteria:['Применить кубический закон подобия','Найти отношение линейных размеров']},
+ coneError:{family:'cone-factor-reasoning',dok:3,method:'identify-correct-justify',criteria:['Определить ошибку в формуле ученика','Вычислить правильный объём','Объяснить коэффициент 1/3 сравнением с цилиндром']},
+ shortCylinder:{family:'direct-cylinder-volume',dok:1,method:'single-formula',criteria:['Найти объём по V=πr²h']},
+ sphereBall:{family:'sphere-area-and-ball-volume',dok:2,method:'two-formulas',criteria:['Вычислить площадь сферы','Вычислить объём шара']},
+ segment:{family:'spherical-segment',dok:2,method:'segment-formula',criteria:['Записать формулу объёма шарового сегмента','Правильно вычислить коэффициент при π']},
+ layer:{family:'spherical-layer',dok:3,method:'two-caps-subtraction',criteria:['Определить высоты двух вспомогательных сегментов','Правильно получить их объёмы','Вычесть объёмы в нужном порядке']},
+ composite:{family:'cylinder-with-hemisphere',dok:2,method:'add-component-volumes',criteria:['Вычислить объёмы цилиндра и полушара','Сложить объёмы без двойного счёта']},
+ cavityError:{family:'cylindrical-hole-proof',dok:3,method:'subtract-compute-bound',criteria:['Объяснить, почему объём канала вычитается','Вычислить объём оставшегося материала','Доказать положительность объёма и его уменьшение относительно исходного цилиндра']}
 };
-const cylinder=(r,h)=>({text:'Цилиндр имеет радиус '+r+' и высоту '+h+'. Найдите объём.',answer:pi(r*r*h),solution:'V=πr²h=π·'+r+'²·'+h+'='+pi(r*r*h).replace('.','')+'.'});
-const cylinderCavity=(R,r,h)=>{
-  const c=(R*R-r*r)*h;
-  return{text:'В цилиндре радиуса '+R+' и высоты '+h+' просверлен соосный сквозной канал радиуса '+r+'. Найдите объём оставшегося материала.',answer:pi(c),solution:'V=π(R²−r²)h=π('+R+'²−'+r+'²)·'+h+'='+pi(c).replace('.','')+'.'};
-};
-const cylinderInverse=(vPi,r)=>{
-  const h=vPi/(r*r);
-  return{text:'Объём цилиндра равен '+vPi+'π, радиус '+r+'. Найдите высоту.',answer:String(h)+'.',solution:'h=V/(πr²)='+vPi+'/'+(r*r)+'='+h+'.'};
-};
-const cone=(r,h)=>({text:'Конус имеет радиус '+r+' и высоту '+h+'. Найдите объём.',answer:pi(r*r*h,3),solution:'V=1/3·πr²h=1/3·π·'+r+'²·'+h+'='+pi(r*r*h,3).replace('.','')+'.'});
-const coneSlant=(r,h,l)=>({text:'Радиус конуса '+r+', образующая '+l+'. Найдите высоту и объём конуса.',answer:'h='+h+'; '+pi(r*r*h,3),solution:'h=√('+l+'²−'+r+'²)='+h+'. Затем V=1/3·π·'+r+'²·'+h+'='+pi(r*r*h,3).replace('.','')+'.'});
-const frustum=(R,r,h)=>{
-  const n=h*(R*R+R*r+r*r);
-  return{text:'Усечённый конус имеет радиусы оснований '+R+' и '+r+', высоту '+h+'. Найдите объём.',answer:pi(n,3),solution:'V=πh/3·(R²+Rr+r²)=π·'+h+'/3·('+(R*R)+'+'+(R*r)+'+'+(r*r)+')='+pi(n,3).replace('.','')+'.'};
-};
-const ball=(R)=>({text:'Шар имеет радиус '+R+'. Найдите объём.',answer:pi(4*R*R*R,3),solution:'V=4/3·πR³=4/3·π·'+R+'³='+pi(4*R*R*R,3).replace('.','')+'.'});
-const sphereArea=(R)=>({text:'Сфера имеет радиус '+R+'. Найдите её площадь.',answer:pi(4*R*R),solution:'S=4πR²=4π·'+R+'²='+pi(4*R*R).replace('.','')+'.'});
-const segment=(R,h)=>{
-  const n=h*h*(3*R-h);
-  return{text:'Радиус шара '+R+', высота шарового сегмента '+h+'. Найдите объём сегмента.',answer:pi(n,3),solution:'Vсег=πh²/3·(3R−h)=π·'+h+'²/3·('+(3*R)+'−'+h+')='+pi(n,3).replace('.','')+'.'};
-};
-const sectionSegment=(R,d)=>{
-  const rho=Math.sqrt(R*R-d*d),h=R-d,n=h*h*(3*R-h);
-  return{text:'Радиус шара '+R+', секущая плоскость удалена от центра на '+d+'. Найдите радиус круга сечения и объём меньшего сегмента.',answer:'ρ='+rho+'; '+pi(n,3),solution:'ρ=√(R²−d²)=√('+(R*R)+'−'+(d*d)+')='+rho+', h=R−d='+h+'. Затем Vсег='+pi(n,3).replace('.','')+'.'};
-};
-const sector=(R,h)=>{
-  const n=2*R*R*h;
-  return{text:'Радиус шара '+R+', высота соответствующего шарового сегмента '+h+'. Найдите объём шарового сектора.',answer:pi(n,3),solution:'Vсект=2/3·πR²h=2/3·π·'+R+'²·'+h+'='+pi(n,3).replace('.','')+'.'};
-};
-const segCoeff=(R,h)=>h*h*(3*R-h)/3;
-const layer=(R,a,b)=>{
-  const ha=R-a,hb=R-b;
-  const na=ha*ha*(3*R-ha),nb=hb*hb*(3*R-hb),n=na-nb;
-  return{text:'В шаре радиуса '+R+' две параллельные плоскости имеют координаты z='+a+' и z='+b+' относительно центра. Найдите объём слоя между ними.',answer:pi(n,3),solution:'Объём слоя равен разности верхних сегментов: V='+pi(na,3).replace('.','')+'−'+pi(nb,3).replace('.','')+'='+pi(n,3)};
-};
-const similar=(a,b)=>({text:'Объёмы двух подобных тел вращения относятся как '+a+':'+b+'. Найдите отношение соответствующих линейных размеров.',answer:ratioFromCubes(a,b),solution:'Линейный коэффициент равен отношению кубических корней: ∛'+a+':∛'+b+'='+ratioFromCubes(a,b)});
-const compositeHemisphere=(r,h)=>{
-  const n=3*r*r*h+2*r*r*r;
-  return{text:'К цилиндру радиуса '+r+' и высоты '+h+' присоединена полусфера того же радиуса. Найдите общий объём.',answer:pi(n,3),solution:'V=πr²h+2/3·πr³='+pi(3*r*r*h,3).replace('.','')+'+'+pi(2*r*r*r,3).replace('.','')+'='+pi(n,3)};
-};
-const compositeCone=(r,hc,hk)=>{
-  const n=3*r*r*hc+r*r*hk;
-  return{text:'Цилиндр радиуса '+r+' и высоты '+hc+' соединён с конусом того же радиуса и высоты '+hk+'. Найдите общий объём.',answer:pi(n,3),solution:'V=πr²·'+hc+'+1/3·πr²·'+hk+'='+pi(n,3)};
-};
-
+function volumeConcept(multiplier){
+ const n=multiplier**3;
+ return make('Все линейные размеры тела увеличили в '+multiplier+' раза. Во сколько раз изменится его объём? Обоснуйте степень.',n+' раз.','VOLUME_SCALE',
+  'V′/V='+multiplier+'³='+n+'; объём масштабируется в третьей степени.',P.concept,{kind:'scale',factor:multiplier});
+}
+function cylinder(r,h,profile=P.cylinder){
+ const n=r*r*h;
+ return make('Прямой цилиндр имеет r='+r+', h='+h+'. Найдите объём.',pi(n),'CYLINDER_VOLUME',
+  'V=πr²h=π·'+r+'²·'+h+'='+fmtPi(n)+'.',profile,{kind:'cylinder',r,h});
+}
+function coneSlant(r,h,l){
+ return make('У прямого конуса радиус '+r+' и образующая '+l+'. Найдите перпендикулярную высоту и объём.', 'h='+h+'; '+pi(r*r*h,3),'CONE_SLANT',
+  'h=√(l²−r²)=√('+l+'²−'+r+'²)='+h+'; V=πr²h/3='+fmtPi(r*r*h,3)+'.',P.cone,{kind:'coneSlant',r,l,h});
+}
+function frustum(R,r,h){
+ const n=h*(R*R+R*r+r*r);
+ return make('Усечённый конус имеет радиусы оснований '+R+' и '+r+', высоту '+h+'. Найдите объём.',
+  pi(n,3),'FRUSTUM_VOLUME','V=πh(R²+Rr+r²)/3='+fmtPi(n,3)+'.',P.frustum,{kind:'frustum',R,r,h});
+}
+function sector(R,h){
+ return make('Шаровой сектор имеет радиус шара '+R+' и высоту соответствующего сегмента '+h+'. Найдите объём.',pi(2*R*R*h,3),
+ 'SPHERICAL_SECTOR','Vсект=2πR²h/3='+fmtPi(2*R*R*h,3)+'.',P.sector,{kind:'sector',R,h});
+}
+function similar(a,b){
+ const m=Math.round(Math.cbrt(a)),n=Math.round(Math.cbrt(b)),g=gcd(m,n);
+ return make('Объёмы двух подобных тел относятся как '+a+':'+b+'. Найдите отношение соответствующих линейных размеров.',
+  m/g+':'+n/g+'.','SIMILAR_SOLIDS',
+  'Линейные размеры относятся как ∛'+a+':∛'+b+' = '+m/g+':'+n/g+'.',P.similar,{kind:'similar',a,b});
+}
+function coneError(r,h){
+ const n=r*r*h;
+ return make('Ученик записал для конуса r='+r+', h='+h+' объём V='+fmtPi(n)+'. Обнаружьте ошибку, вычислите правильный объём и обоснуйте исправление сравнением с цилиндром тех же размеров.',
+  'Пропущен множитель 1/3; Vкон='+fmtPi(n,3)+'; конус занимает треть объёма цилиндра с тем же основанием и высотой.','CONE_FACTOR',
+  'В цилиндре Vцил=πr²h='+fmtPi(n)+'. Для конуса с тем же r,h: Vкон=Vцил/3='+fmtPi(n,3)+'. Критерии: ошибка в множителе (1); точный объём (1); обоснование (1).',
+  P.coneError,{kind:'coneError',r,h});
+}
+function sphereBall(R){
+ return make('Шар радиуса '+R+'. Найдите площадь его сферы и объём шара.',
+  'S='+fmtPi(4*R*R)+'; V='+pi(4*R*R*R,3),'SPHERE_BALL',
+  'S=4πR²='+fmtPi(4*R*R)+'; V=4πR³/3='+fmtPi(4*R*R*R,3)+'.',
+  P.sphereBall,{kind:'sphereBall',R});
+}
+function segment(R,h){
+ return make('Шаровой сегмент имеет радиус шара '+R+' и высоту '+h+'. Найдите объём.',
+  pi(h*h*(3*R-h),3),'SPHERICAL_SEGMENT',
+  'Vсег=πh²(3R−h)/3='+fmtPi(h*h*(3*R-h),3)+'.',
+  P.segment,{kind:'segment',R,h});
+}
+function capNum(R,h){return h*h*(3*R-h);}
+function layer(R,a,b){
+ const h1=R-a,h2=R-b,n=capNum(R,h1)-capNum(R,h2);
+ return make('В шаре радиуса '+R+' плоскости z='+a+' и z='+b+' (координаты относительно центра) ограничивают слой. Найдите его объём.',
+  pi(n,3),'SPHERICAL_LAYER',
+  'Высоты вспомогательных сегментов: '+h1+' и '+h2+'; Vслоя=Vсег('+h1+')−Vсег('+h2+')='+fmtPi(n,3)+'.',
+  P.layer,{kind:'layer',R,a,b});
+}
+function compositeHemisphere(r,h){
+ const n=3*r*r*h+2*r*r*r;
+ return make('К цилиндру радиуса '+r+' и высоты '+h+' присоединена полусфера того же радиуса. Найдите общий объём.',
+  pi(n,3),'COMPOSITE_VOLUME',
+  'V=πr²h+2πr³/3='+fmtPi(n,3)+'.',
+  P.composite,{kind:'composite',r,h});
+}
+function cavityError(R,r,h){
+ const outer=R*R*h,channel=r*r*h,remaining=outer-channel;
+ return make('В цилиндре радиуса R='+R+' и высоты h='+h+' просверлен соосный канал радиуса r='+r+'. Ученик записал V=π(R²+r²)h. Исправьте модель, вычислите объём материала и докажите, что он положителен и меньше исходного объёма.',
+  'V=π(R²−r²)h='+fmtPi(remaining)+'; канал вычитается; 0<'+fmtPi(remaining)+'<'+fmtPi(outer)+'.',
+  'CYLINDER_CAVITY_REASONING',
+  'Так как 0<r<R, 0<r²<R², поэтому 0<π(R²−r²)h<πR²h при h>0. Объём материала '+fmtPi(remaining)+'. Критерии: разность (1); вычисление (1); обоснование границ (1).',
+  P.cavityError,{kind:'cavityError',R,r,h});
+}
+// The design is a common blueprint, with parameters changed but the operations fixed.
 const I=[
- {
-  concept:['Почему объём тела вращения записывают в кубических единицах?','Потому что объём характеризует трёхмерное тело и имеет кубическую размерность.','VOLUME_UNITS'],
-  cyl:()=>cylinder(3,5),cone:()=>cone(4,6),fr:()=>frustum(5,2,3),part:()=>segment(5,2),transfer:()=>similar(125,64),
-  error:['Ученик для конуса r=4, h=6 записал V=πr²h. Найдите ошибку и исправьте ответ.','Пропущен коэффициент 1/3. Верно V=1/3·π·4²·6=32π.','CONE_FACTOR']
- },
- {
-  concept:['Чем площадь сферы отличается от объёма шара по размерности?','Площадь сферы имеет квадратную размерность, объём шара — кубическую.','AREA_VOLUME'],
-  cyl:()=>cylinder(4,6),cone:()=>coneSlant(5,12,13),fr:()=>frustum(6,3,4),part:()=>ball(3),transfer:()=>compositeHemisphere(2,5),
-  error:['Диаметр шара равен 8. Ученик подставил 8 как R в формулу объёма. Исправьте рассуждение.','Радиус равен 4. В формулу V=4/3·πR³ нужно подставить R=4.','DIAMETER_RADIUS']
- },
- {
-  concept:['Если все линейные размеры подобного тела увеличили в 3 раза, как изменится объём?','Увеличится в 27 раз.','SIMILAR_K3'],
-  cyl:()=>cylinderCavity(5,2,4),cone:()=>cone(6,8),fr:()=>frustum(7,1,3),part:()=>sectionSegment(5,3),transfer:()=>similar(343,125),
-  error:['Ученик при коэффициенте подобия k=3 умножил объём на 9. Исправьте правило.','9=k² относится к площадям. Объём нужно умножать на k³=27.','SIMILAR_K2_K3']
- },
- {
-  concept:['Каков допустимый диапазон высоты шарового сегмента радиуса R?','0<h≤2R.','SEGMENT_DOMAIN'],
-  cyl:()=>cylinder(2,9),cone:()=>cone(3,10),fr:()=>frustum(4,2,6),part:()=>sector(6,3),transfer:()=>compositeCone(3,4,2),
-  error:['Ученик вычислил объём усечённого конуса как h·π(R²+r²)/2. Объясните ошибку.','Площади подобных сечений меняются квадратично. Верно V=πh/3·(R²+Rr+r²).','FRUSTUM_AVERAGE']
- },
- {
-  concept:['Назовите формулы площади сферы и объёма шара радиуса R.','S=4πR²; V=4/3·πR³.','SPHERE_BALL_FORMULAS'],
-  cyl:()=>cylinderInverse(72,3),cone:()=>cone(5,9),fr:()=>frustum(8,4,3),part:()=>sphereArea(4),transfer:()=>similar(216,27),
-  error:['Ученик назвал радиус круга сечения ρ высотой шарового сегмента. Исправьте.','ρ лежит в секущей плоскости; высота сегмента измеряется вдоль диаметра перпендикулярно этой плоскости.','SEGMENT_HEIGHT']
- },
- {
-  concept:['Почему нельзя измерять истинный радиус тела по перспективному SVG-рисунку?','Проекция зависит от камеры и не сохраняет истинные длины; параметры берут из условия и математической модели.','PROJECTION_METRIC'],
-  cyl:()=>cylinderCavity(6,3,5),cone:()=>coneSlant(8,15,17),fr:()=>frustum(5,3,6),part:()=>layer(5,-1,2),transfer:()=>compositeHemisphere(2,6),
-  error:['Ученик получил объём 72π см². Что неверно в записи?','Объём должен быть записан в кубических единицах: 72π см³.','VOLUME_UNITS']
- }
+ {m:2,cyl:[3,5],cone:[3,4,5],fr:[5,2,3],sector:[5,2],similar:[125,64],error:[4,6]},
+ {m:3,cyl:[4,6],cone:[5,12,13],fr:[6,3,4],sector:[6,3],similar:[216,27],error:[5,9]},
+ {m:4,cyl:[5,7],cone:[8,15,17],fr:[7,1,3],sector:[5,3],similar:[343,125],error:[6,8]},
+ {m:5,cyl:[2,9],cone:[7,24,25],fr:[4,2,6],sector:[8,4],similar:[64,8],error:[3,10]},
+ {m:6,cyl:[6,4],cone:[12,16,20],fr:[8,4,3],sector:[4,2],similar:[729,216],error:[5,12]},
+ {m:7,cyl:[7,3],cone:[9,12,15],fr:[5,3,6],sector:[7,3],similar:[512,125],error:[6,10]}
 ];
-
-function independent(v){
- const q=I[v-1],a=q.cyl(),b=q.cone(),c=q.fr(),d=q.part(),e=q.transfer();
- return{id:v,tasks:[
-  task(q.concept[0],q.concept[1],1,q.concept[2],'1 балл за корректную формулировку геометрического смысла или правила.'),
-  task(a.text,a.answer,2,a.text.includes('канал')?'CYLINDER_CAVITY':a.text.includes('Объём цилиндра равен')?'CYLINDER_INVERSE':'CYLINDER_VOLUME',a.solution),
-  task(b.text,b.answer,2,b.text.includes('образующая')?'CONE_SLANT':'CONE_VOLUME',b.solution),
-  task(c.text,c.answer,2,'FRUSTUM_VOLUME',c.solution),
-  task(d.text,d.answer,2,d.text.includes('сектора')?'SPHERICAL_SECTOR':d.text.includes('слоя')?'SPHERICAL_LAYER':d.text.includes('Сфера')?'SPHERE_AREA':d.text.includes('Шар имеет')?'BALL_VOLUME':'SPHERICAL_SEGMENT',d.solution),
-  task(e.text,e.answer,2,e.text.includes('подобных')?'SIMILAR_SOLIDS':'COMPOSITE_VOLUME',e.solution),
-  task(q.error[0],q.error[1],3,q.error[2],'3 балла: обнаружить неверный шаг, записать верное правило и объяснить геометрический смысл исправления.')
- ]};
-}
-
 const C=[
- {
-  concept:['Как связаны объёмы цилиндра и конуса с одинаковыми основанием и высотой?','Объём цилиндра в 3 раза больше объёма конуса.','CYLINDER_CONE_RATIO'],
-  cyl:()=>cylinder(4,5),cone:()=>coneSlant(3,4,5),fr:()=>frustum(5,2,6),sphere:()=>({text:'Шар радиуса 3. Найдите площадь сферы и объём шара.',answer:'S=36π; V=36π.',solution:'S=4π·3²=36π; V=4/3·π·3³=36π.'}),seg:()=>segment(5,2),part:()=>sector(6,3),sim:()=>similar(125,64),comp:()=>compositeHemisphere(2,5),
-  error:['Ученик в формуле объёма конуса подставил образующую 5 вместо высоты 4. Исправьте решение.','В объём входит перпендикулярная высота h=4. Для r=3 получаем V=12π.','CONE_SLANT']
- },
- {
-  concept:['Какая величина имеет формулу 4πR² и какая — 4/3·πR³?','4πR² — площадь сферы; 4/3·πR³ — объём шара.','AREA_VOLUME'],
-  cyl:()=>cylinder(5,4),cone:()=>coneSlant(5,12,13),fr:()=>frustum(6,3,3),sphere:()=>({text:'Шар радиуса 4. Найдите площадь сферы и объём шара.',answer:'S=64π; V=256π/3.',solution:'S=4π·4²=64π; V=4/3·π·4³=256π/3.'}),seg:()=>segment(6,3),part:()=>layer(5,-1,2),sim:()=>similar(216,27),comp:()=>compositeCone(3,5,4),
-  error:['Ученик записал 4πR² как объём шара. Исправьте.','4πR² — площадь сферы. Объём шара равен 4/3·πR³.','AREA_VOLUME']
- },
- {
-  concept:['Как получить линейный коэффициент подобия по отношению объёмов?','Извлечь кубический корень из отношения объёмов.','SIMILAR_INVERSE'],
-  cyl:()=>cylinder(3,8),cone:()=>coneSlant(8,15,17),fr:()=>frustum(7,1,6),sphere:()=>({text:'Шар радиуса 5. Найдите площадь сферы и объём шара.',answer:'S=100π; V=500π/3.',solution:'S=4π·5²=100π; V=4/3·π·5³=500π/3.'}),seg:()=>segment(5,1),part:()=>sector(5,2),sim:()=>similar(343,125),comp:()=>cylinderCavity(6,2,5),
-  error:['Для усечённого конуса ученик использовал V=πh(R²+r²)/2. Исправьте модель.','Верно V=πh/3·(R²+Rr+r²); смешанный член Rr обязателен.','FRUSTUM_AVERAGE']
- },
- {
-  concept:['Что происходит с кругом сечения шара, когда расстояние d от центра достигает R?','Радиус сечения становится 0; секущая плоскость становится касательной.','TANGENT_LIMIT'],
-  cyl:()=>cylinder(6,3),cone:()=>coneSlant(7,24,25),fr:()=>frustum(4,2,9),sphere:()=>({text:'Шар радиуса 6. Найдите площадь сферы и объём шара.',answer:'S=144π; V=288π.',solution:'S=4π·6²=144π; V=4/3·π·6³=288π.'}),seg:()=>segment(8,4),part:()=>layer(6,-2,1),sim:()=>similar(64,8),comp:()=>compositeHemisphere(3,4),
-  error:['Диаметр шара 12. Ученик подставил R=12 в формулу объёма. Исправьте.','Радиус равен 6. Нужно использовать V=4/3·π·6³=288π.','DIAMETER_RADIUS']
- },
- {
-  concept:['Почему при подобии объём масштабируется как k³?','Тело масштабируется по трём независимым линейным направлениям, поэтому коэффициенты перемножаются: k·k·k=k³.','SIMILAR_K3'],
-  cyl:()=>cylinder(2,12),cone:()=>coneSlant(20,21,29),fr:()=>frustum(8,4,6),sphere:()=>({text:'Шар радиуса 2. Найдите площадь сферы и объём шара.',answer:'S=16π; V=32π/3.',solution:'S=4π·2²=16π; V=4/3·π·2³=32π/3.'}),seg:()=>segment(4,2),part:()=>sector(4,4),sim:()=>similar(729,216),comp:()=>compositeCone(4,6,3),
-  error:['Ученик при k=3 применил к объёму коэффициент 9. Исправьте.','9=k² относится к площадям. Объём масштабируется как k³=27.','SIMILAR_K2_K3']
- },
- {
-  concept:['Назовите надёжный порядок решения составной задачи на объём.','Разбить модель на стандартные тела, назначить знаки частям, привести единицы, вычислить объёмы, сложить или вычесть и проверить результат.','COMPOSITE_ROUTE'],
-  cyl:()=>cylinder(7,2),cone:()=>coneSlant(12,35,37),fr:()=>frustum(5,3,12),sphere:()=>({text:'Шар радиуса 7. Найдите площадь сферы и объём шара.',answer:'S=196π; V=1372π/3.',solution:'S=4π·7²=196π; V=4/3·π·7³=1372π/3.'}),seg:()=>segment(10,4),part:()=>layer(5,-2,2),sim:()=>similar(512,125),comp:()=>cylinderCavity(5,3,6),
-  error:['Ученик измерил радиус шара линейкой на SVG-проекции и использовал это значение в формуле. Почему решение ненадёжно?','Перспективная проекция зависит от камеры и не сохраняет истинные длины. Радиус должен быть получен из условия или математической модели.','PROJECTION_METRIC']
- }
+ {cyl:[4,5],cone:[3,4,5],fr:[5,2,6],sphere:3,seg:[5,2],layer:[5,-1,2],similar:[125,64],comp:[2,5],cavity:[5,2,4]},
+ {cyl:[5,4],cone:[5,12,13],fr:[6,3,3],sphere:4,seg:[6,3],layer:[5,-2,1],similar:[216,27],comp:[3,4],cavity:[6,2,3]},
+ {cyl:[3,8],cone:[8,15,17],fr:[7,1,6],sphere:5,seg:[5,1],layer:[6,-2,1],similar:[343,125],comp:[3,5],cavity:[6,3,5]},
+ {cyl:[6,3],cone:[7,24,25],fr:[4,2,9],sphere:6,seg:[8,4],layer:[6,-1,2],similar:[64,8],comp:[4,3],cavity:[7,3,4]},
+ {cyl:[2,12],cone:[20,21,29],fr:[8,4,6],sphere:2,seg:[4,2],layer:[5,-2,2],similar:[729,216],comp:[4,6],cavity:[8,2,3]},
+ {cyl:[7,2],cone:[12,35,37],fr:[5,3,12],sphere:7,seg:[10,4],layer:[7,-1,3],similar:[512,125],comp:[5,4],cavity:[9,4,5]}
 ];
-
-function control(v){
- const q=C[v-1],a=q.cyl(),b=q.cone(),c=q.fr(),d=q.sphere(),e=q.seg(),f=q.part(),g=q.sim(),h=q.comp();
- return{id:v,tasks:[
-  task(q.concept[0],q.concept[1],1,q.concept[2],'1 балл за точную формулировку свойства или метода.'),
-  task(a.text,a.answer,2,a.text.includes('канал')?'CYLINDER_CAVITY':'CYLINDER_VOLUME',a.solution),
-  task(b.text,b.answer,2,'CONE_SLANT',b.solution),
-  task(c.text,c.answer,2,'FRUSTUM_VOLUME',c.solution),
-  task(d.text,d.answer,2,'SPHERE_BALL',d.solution),
-  task(e.text,e.answer,2,'SPHERICAL_SEGMENT',e.solution),
-  task(f.text,f.answer,2,f.text.includes('слоя')?'SPHERICAL_LAYER':'SPHERICAL_SECTOR',f.solution),
-  task(g.text,g.answer,2,'SIMILAR_SOLIDS',g.solution),
-  task(h.text,h.answer,2,h.text.includes('канал')?'CYLINDER_CAVITY':'COMPOSITE_VOLUME',h.solution),
-  task(q.error[0],q.error[1],3,q.error[2],'3 балла: обнаружить ошибку, дать корректное вычисление или правило и объяснить геометрический смысл.')
+function independent(v){
+ if(!Number.isInteger(v)||v<1||v>6)throw new RangeError('Independent variant 1..6 required');
+ const a=I[v-1];
+ return {id:v,tasks:[
+  volumeConcept(a.m),cylinder(...a.cyl),coneSlant(...a.cone),
+  frustum(...a.fr),sector(...a.sector),similar(...a.similar),coneError(...a.error)
  ]};
 }
-
+function control(v){
+ if(!Number.isInteger(v)||v<1||v>6)throw new RangeError('Control variant 1..6 required');
+ const a=C[v-1];
+ return {id:v,tasks:[
+  // One-point prerequisite: same proof of 3:1, with distinct dimensions.
+  make('У цилиндра и конуса одинаковые радиус r='+a.cyl[0]+' и высота h='+a.cyl[1]+'. Во сколько раз объём цилиндра больше объёма конуса?',
+   'В 3 раза.','CYLINDER_CONE_RATIO','Vцил=πr²h, Vкон=πr²h/3; отношение 3:1.',{
+    family:'cylinder-cone-ratio',dok:1,method:'formula-comparison',criteria:['Указать отношение 3:1']
+   },{kind:'ratio',r:a.cyl[0],h:a.cyl[1]}),
+  cylinder(...a.cyl,P.shortCylinder),coneSlant(...a.cone),frustum(...a.fr),
+  sphereBall(a.sphere),segment(...a.seg),layer(...a.layer),
+  similar(...a.similar),compositeHemisphere(...a.comp),cavityError(...a.cavity)
+ ]};
+}
 window.KTP_ASSESSMENT_DATA={
  meta:{
-  rowId:'11-geometry-atanasyan',
-  grade:11,
-  subject:'Геометрия',
-  book:'Атанасян · Бутузов · Кадомцев и др. + ФРП-2025',
-  year:'2026/27',
-  topic:'03',
+  rowId:'11-geometry-atanasyan',grade:11,subject:'Геометрия',
+  book:'Атанасян · Бутузов · Кадомцев и др. + ФРП-2025',year:'2026/27',topic:'03',
   sourceNote:'Тема «Объёмы тел вращения»: глава V, п. 55 и пп. 59–62* проверяемого оглавления Атанасяна 2019/2026; ФРП-2025 — объёмы цилиндра, конуса, шара, усечённого конуса, шаровых частей, площадь сферы, подобные тела и практические задачи. Пункт 56 с определённым интегралом не входит в обязательный контроль; векторы и координаты относятся к следующим сериям. Все задания разработаны специально для KTP 3.0.'
  },
  topic:{
   title:'Объёмы тел вращения',
   source:'Атанасян Л. С. и др., «Геометрия. 10–11 классы»: глава V, п. 55, пп. 59–62*; ФРП-2025.',
-  independent:{
-   duration:'30–35 минут',
-   maxScore:14,
-   purpose:'Проверить цилиндр, конус, усечённый конус, шар и его части, подобие или составную модель, а также анализ типичной ошибки.',
-   variants:Array.from({length:6},(_,i)=>independent(i+1))
-  },
-  control:{
-   duration:'45 минут',
-   maxScore:20,
-   purpose:'Развёрнутый контроль: цилиндр, конус с осевым сечением, усечённый конус, сфера и шар, шаровой сегмент, сектор или слой, подобие, составная модель и анализ ошибки.',
-   variants:Array.from({length:6},(_,i)=>control(i+1))
-  }
+  independent:{duration:'30–35 минут',maxScore:14,
+   purpose:'Проверить свойства объёма, цилиндр, конус с восстановлением высоты, усечённый конус, шаровой сектор, подобие и объяснение ошибки.',
+   variants:Array.from({length:6},(_,i)=>independent(i+1))},
+  control:{duration:'45 минут',maxScore:20,
+   purpose:'Сопоставимые варианты: цилиндр и конус, усечённый конус, сфера и шар, сегмент, слой, подобие, составное тело и доказательное исправление ошибки.',
+   variants:Array.from({length:6},(_,i)=>control(i+1))}
  }
 };
 })();
