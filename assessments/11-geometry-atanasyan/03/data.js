@@ -33,7 +33,7 @@ const P={
 };
 function volumeConcept(multiplier){
  const n=multiplier**3;
- return make('Все линейные размеры тела увеличили в '+multiplier+' раза. Во сколько раз изменится его объём? Обоснуйте степень.',n+' раз.','VOLUME_SCALE',
+ return make('Все линейные размеры тела увеличили в '+multiplier+' раза. Во сколько раз изменится его объём? Обоснуйте степень.',n+' '+(n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?'раза':'раз')+'.','VOLUME_SCALE',
   'V′/V='+multiplier+'³='+n+'; объём масштабируется в третьей степени.',P.concept,{kind:'scale',factor:multiplier});
 }
 function cylinder(r,h,profile=P.cylinder){
@@ -113,9 +113,9 @@ const I=[
 ];
 const C=[
  {cyl:[4,5],cone:[3,4,5],fr:[5,2,6],sphere:3,seg:[5,2],layer:[5,-1,2],similar:[125,64],comp:[2,5],cavity:[5,2,4]},
- {cyl:[5,4],cone:[5,12,13],fr:[6,3,3],sphere:4,seg:[6,3],layer:[5,-2,1],similar:[216,27],comp:[3,4],cavity:[6,2,3]},
+ {cyl:[5,4],cone:[5,12,13],fr:[6,3,3],sphere:4,seg:[6,3],layer:[5,-2,0],similar:[216,27],comp:[3,4],cavity:[6,2,3]},
  {cyl:[3,8],cone:[8,15,17],fr:[7,1,6],sphere:5,seg:[5,1],layer:[6,-2,1],similar:[343,125],comp:[3,5],cavity:[6,3,5]},
- {cyl:[6,3],cone:[7,24,25],fr:[4,2,9],sphere:6,seg:[8,4],layer:[6,-1,2],similar:[64,8],comp:[4,3],cavity:[7,3,4]},
+ {cyl:[6,3],cone:[7,24,25],fr:[4,2,9],sphere:6,seg:[8,4],layer:[6,-1,3],similar:[64,8],comp:[4,3],cavity:[7,3,4]},
  {cyl:[2,12],cone:[20,21,29],fr:[8,4,6],sphere:2,seg:[4,2],layer:[5,-2,2],similar:[729,216],comp:[4,6],cavity:[8,2,3]},
  {cyl:[7,2],cone:[12,35,37],fr:[5,3,12],sphere:7,seg:[10,4],layer:[7,-1,3],similar:[512,125],comp:[5,4],cavity:[9,4,5]}
 ];
