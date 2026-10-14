@@ -70,7 +70,7 @@ try{
     if(!zeroReport.includes('Оценено 1 из')||!zeroReport.includes('0 баллов'))throw Error(kind+': awarded zero is not tracked');
     await scoring.first().selectOption('1');
     const gained=await page.locator('.variant.active .diagnostic-summary').innerText();
-    if(!gained.includes('Оценено 1 из')||!gained.includes('1 баллов'))throw Error(kind+': partial score missing');
+    if(!gained.includes('Оценено 1 из')||!gained.includes('1 балл'))throw Error(kind+': partial score missing');
     await page.locator('[data-pick="5"]').click();
     if(!(await page.locator('.variant.active .diagnostic-summary').innerText()).includes('Оценено 0 из'))throw Error(kind+': grading leaked across variants');
     await page.locator('[data-pick="6"]').click();
