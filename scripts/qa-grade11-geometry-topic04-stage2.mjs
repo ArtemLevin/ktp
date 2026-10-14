@@ -1,3 +1,5 @@
+import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
+const progress=grade11GeometryProgress();
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -128,7 +130,7 @@ const review=read('content/11-geometry-atanasyan/04-methodical-review.md');
 for(const token of ['Саакян','Зив','Глазков','пп. 63–70','С-19–С-22','79–95','2015','2009','2010'])check(review.includes(token),'methodical evidence '+token);
 for(const p of ['README.md','Plan.md']){
   const doc=read(p);
-  check(doc.includes('3/6, 32/68, 3/6'),'partial-series counts '+p);
-  check(doc.includes('04-methodical-review.md')&&doc.includes('Этапы 0–2'),'current stage and methodical review '+p);
+  check(doc.includes(progress.summary),'partial-series counts '+p);
+  check(doc.includes('04-methodical-review.md')&&/Этапы 0–[2-5]/.test(doc),'current stage and methodical review '+p);
 }
 console.log(`Grade 11 geometry topic 04 stage 2 QA passed: ${checks} checks, 61 answer audits, 12 scenes.`);

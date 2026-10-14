@@ -1,3 +1,5 @@
+import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
+const progress=grade11GeometryProgress();
 import fs from 'node:fs';
 
 const read=file=>fs.readFileSync(file,'utf8');
@@ -17,20 +19,20 @@ const A=read('assessments/README.md');
 const B=read('content/11-geometry-atanasyan/01-methodical-plan.md');
 const T=read('assessments/topic-links.js');
 
-assert(/\| 3\/6 \| 32\/68 \| 3\/6 \| в работе \|/.test(row(R,'11-geometry-atanasyan')),'README grade11 row');
-assert(/\| 3\/6 \| 32\/68 \| 3\/6 \| в работе \|/.test(row(P,'11-geometry-atanasyan')),'Plan grade11 row');
-assert(/\| 3\/6 \| 32\/68 \| 1–32 \| в работе \|/.test(row(L,'11-geometry-atanasyan')),'lessons grade11 row');
+assert(row(R,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'README grade11 row');
+assert(row(P,'11-geometry-atanasyan').includes(progress.row+' в работе |'),'Plan grade11 row');
+assert(row(L,'11-geometry-atanasyan').includes(progress.lessonRow+' в работе |'),'lessons grade11 row');
 assert(/\| 3\/6 \| в работе \|/.test(row(A,'11-geometry-atanasyan')),'assessments grade11 row');
 
 for(const [text,re,expected,label] of [
- [R,/Суммарно опубликовано \*\*(\d+) полноценных/,1154,'README lessons'],
+ [R,/Суммарно опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'README lessons'],
  [R,/и \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README assessments'],
  [R,/Сейчас опубликован(?:о)? \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'README current assessments'],
  [P,/полностью готовых тематических серий: \*\*(\d+)\*\*/,84,'Plan series'],
- [P,/опубликованных уроков: \*\*(\d+)\*\*/,1154,'Plan lessons'],
+ [P,/опубликованных уроков: \*\*(\d+)\*\*/,progress.totalLessons,'Plan lessons'],
  [P,/assessment-комплектов: \*\*(\d+)\*\*/,84,'Plan assessments'],
  [P,/оставшихся тематических каркасов: \*\*(\d+)\*\*/,37,'Plan skeletons'],
- [L,/Всего опубликовано \*\*(\d+) полноценных/,1154,'lessons total'],
+ [L,/Всего опубликовано \*\*(\d+) полноценных/,progress.totalLessons,'lessons total'],
  [A,/Всего опубликовано \*\*(\d+) тематическ(?:их|ий) assessment-комплект/,84,'assessment total']
 ])assert(metric(text,re,label)===expected,label+': expected '+expected);
 

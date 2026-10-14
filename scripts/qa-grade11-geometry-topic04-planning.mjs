@@ -1,3 +1,5 @@
+import {grade11GeometryProgress} from './grade11-geometry-progress.mjs';
+const progress=grade11GeometryProgress();
 import fs from 'node:fs';
 import vm from 'node:vm';
 
@@ -23,7 +25,7 @@ for(const token of ['`11-geometry-atanasyan`','`3` / `04` / 4 из 6','33–44',
   '34 часа','24 урока','координатный метод','скалярное произведение','серии 05',
   '144 поурочных варианта / 792 оцениваемых задания','6+2',
   '6 вариантов × 7 заданий / 14 баллов','6 вариантов × 10 заданий / 20 баллов',
-  '12 тематических вариантов / 102 задания','3/6, 32/68, 3/6','4/6, 44/68, 4/6',
+  '12 тематических вариантов / 102 задания',progress.summary,'4/6, 44/68, 4/6',
   'Нулевой вектор не имеет определённого направления','сонаправлен с любым вектором',
   'OA − OB = BA','неколлинеарности','некомпланарных','единственно','почти вырожденная',
   'planning QA','browser/mobile/print/PDF','регрессии 01–03/геометрии 10'])
@@ -43,7 +45,7 @@ for(let lesson=33;lesson<=44;lesson++)check(section?.includes(lesson+'. **'),'ap
 check(read('content/11-geometry-atanasyan/content-map.md').includes('| 04 «Векторы в пространстве» | 33–44 |'),'source-map row');
 for(const p of ['README.md','Plan.md']){
   const text=read(p);
-  check(text.includes('| `11-geometry-atanasyan` | **3/6** | **32/68** | **3/6** |'),'published metrics preserved '+p);
+  check(text.replaceAll('**','').includes('| `11-geometry-atanasyan` '+progress.row),'published metrics preserved '+p);
   check(text.includes('04-methodical-plan.md')&&text.includes('VECTOR_CONTRACT.md'),'new foundation documented '+p);
 }
 console.log(`Grade 11 geometry topic 04 planning QA passed: ${checks} checks.`);
