@@ -82,8 +82,20 @@ function linePoints(scene,obj){
 function drawLinear(svg,scene,obj,camera,arrowId){
   const pts=linePoints(scene,obj).map(p=>projectPoint(p,camera));
   const attrs={x1:pts[0].x,y1:pts[0].y,x2:pts[1].x,y2:pts[1].y,class:classFor(obj,'spatial-edge')};
-  if(obj.type==='ray'||obj.arrow===true)attrs['marker-end']=`url(#${arrowId})`;
-  svg.append(svgEl('line',attrs));
+  const directed=obj.type==='vector';
+  const zero=directed&&distance3(point3(scene,obj.points[0]),point3(scene,obj.points[1]))===0;
+  if((obj.type==='ray'||obj.arrow===true||directed)&&!zero)attrs['marker-end']=`url(#${arrowId})`;
+  if(directed)attrs['data-vector-id']=obj.vectorId||`${obj.points[0]}-${obj.points[1]}`;
+  if(zero){
+    svg.append(svgEl('circle',{cx:pts[0].x,cy:pts[0].y,r:6,class:'spatial-zero-vector',
+      'data-vector-id':attrs['data-vector-id']}));
+  }else svg.append(svgEl('line',attrs));
+  if(directed&&obj.label){
+    const offset=obj.labelOffset||[0,-10];
+    const label=svgEl('text',{x:(pts[0].x+pts[1].x)/2+finite(offset[0]),
+      y:(pts[0].y+pts[1].y)/2+finite(offset[1],-10),class:'spatial-vector-label','text-anchor':'middle'});
+    label.textContent=obj.label;svg.append(label);
+  }
 }
 function drawPolyline(svg,scene,obj,camera){
   const pts=(obj.points||[]).map(n=>projected(scene,n,camera)).map(p=>`${p.x},${p.y}`).join(' ');
@@ -94,6 +106,7 @@ function drawFace(svg,scene,obj,camera){
   svg.append(svgEl('polygon',{points:pts,class:classFor(obj,obj.type==='plane'?'spatial-plane':'spatial-face')}));
 }
 function drawObject(svg,scene,obj,camera,arrowId){
+  if(obj.type==='vector')return drawLinear(svg,scene,obj,camera,arrowId);
   if(['segment','line','ray'].includes(obj.type))return drawLinear(svg,scene,obj,camera,arrowId);
   if(obj.type==='polyline')return drawPolyline(svg,scene,obj,camera);
   if(obj.type==='face'||obj.type==='plane')return drawFace(svg,scene,obj,camera);

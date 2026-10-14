@@ -1,0 +1,107 @@
+name: Grade 11 Atanasyan Topic 04 Foundation QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'content/11-geometry-atanasyan/04-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/content-map.md'
+      - 'lessons/11-geometry-atanasyan/lesson-plan.md'
+      - 'js/data.js'
+      - 'geometry/vector-math.js'
+      - 'geometry/grade11-vector-scenes.js'
+      - 'geometry/spatial-scene.*'
+      - 'geometry/fixtures/grade11-vectors.html'
+      - 'geometry/VECTOR_CONTRACT.md'
+      - 'geometry/SPATIAL_RENDERING.md'
+      - 'geometry/README.md'
+      - 'README.md'
+      - 'Plan.md'
+      - 'scripts/qa-grade11-geometry-topic04-*.mjs'
+      - '.github/workflows/grade11-geometry-topic04-foundation-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/11-geometry-atanasyan/04-methodical-plan.md'
+      - 'content/11-geometry-atanasyan/content-map.md'
+      - 'lessons/11-geometry-atanasyan/lesson-plan.md'
+      - 'js/data.js'
+      - 'geometry/vector-math.js'
+      - 'geometry/grade11-vector-scenes.js'
+      - 'geometry/spatial-scene.*'
+      - 'geometry/fixtures/grade11-vectors.html'
+      - 'geometry/VECTOR_CONTRACT.md'
+      - 'geometry/SPATIAL_RENDERING.md'
+      - 'geometry/README.md'
+      - 'README.md'
+      - 'Plan.md'
+      - 'scripts/qa-grade11-geometry-topic04-*.mjs'
+      - '.github/workflows/grade11-geometry-topic04-foundation-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Planning and vector foundation
+        run: |
+          node --check geometry/vector-math.js
+          node --check geometry/grade11-vector-scenes.js
+          node --check geometry/spatial-scene.js
+          node scripts/qa-grade11-geometry-topic04-planning.mjs
+          node scripts/qa-grade11-geometry-topic04-stage1.mjs
+      - name: Grade 11 published regressions
+        run: |
+          node scripts/qa-grade11-geometry-foundation.mjs
+          node scripts/qa-grade11-geometry-topic01-lessons.mjs
+          node scripts/qa-grade11-geometry-topic01-assessments.mjs
+          node scripts/qa-grade11-geometry-topic02-foundation.mjs
+          node scripts/qa-grade11-geometry-topic02-lessons.mjs
+          node scripts/qa-grade11-geometry-topic02-lab.mjs
+          node scripts/qa-grade11-geometry-topic02-assessments.mjs
+          node scripts/qa-grade11-geometry-topic03-planning.mjs
+          node scripts/qa-grade11-geometry-topic03-stage1.mjs
+          node scripts/qa-grade11-geometry-topic03-stage2.mjs
+          node scripts/qa-grade11-geometry-topic03-lessons.mjs
+          node scripts/qa-grade11-geometry-topic03-lab.mjs
+          node scripts/qa-grade11-geometry-topic03-assessments.mjs
+          node scripts/qa-grade11-geometry-topic03-docs.mjs
+      - name: Grade 10 published regressions
+        run: |
+          node scripts/qa-grade10-geometry-foundation.mjs
+          node scripts/qa-grade10-geometry-topic05-final.mjs
+          node scripts/qa-grade10-geometry-topic05-final-docs.mjs
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Vector desktop/mobile/print/PDF
+        env:
+          KTP_QA_ARTIFACT_DIR: qa-artifacts
+        run: node scripts/qa-grade11-geometry-topic04-stage1-browser.mjs
+      - name: Spatial topic and lesson regressions
+        run: |
+          node scripts/qa-grade10-geometry-foundation-browser.mjs
+          node scripts/qa-grade11-geometry-topic01-lessons-browser.mjs
+          node scripts/qa-grade11-geometry-topic02-foundation-browser.mjs
+          node scripts/qa-grade11-geometry-topic03-stage2-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: grade11-vector-foundation-qa
+          path: qa-artifacts/
+          if-no-files-found: warn
