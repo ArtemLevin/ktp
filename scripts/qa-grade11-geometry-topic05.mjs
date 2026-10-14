@@ -21,7 +21,11 @@ same(M.central([2,1,1],[1,2,3]),[0,3,5],'central image');
 same(M.mirror([3,1,2],M.plane([2,-1,2],-3)),[3-8/3,1+4/3,2-8/3],'oblique mirror');
 for(const [point,expected] of [[[2,0,0],'surface'],[[1,0,0],'inside'],[[3,0,0],'outside']])check(M.spherePosition(point,M.sphere([0,0,0],2))===expected,'sphere position');
 const audit=createCoordinateAuditor(check),modes=ctx.window.KTP_G11_COORDINATE_DEFINITIONS.map(d=>d.mode);
-for(const mode of modes)for(let v=1;v<=15;v++){const pool=ctx.window.KTP_G11_COORDINATE_QUESTION_POOL(mode,v);check(pool.length===10&&pool[4].errorAnalysis,'bank contract '+mode);pool.forEach((q,i)=>audit(q,mode+'/'+v+'/'+i));}
+for(const mode of modes)for(let v=1;v<=60;v++){const pool=ctx.window.KTP_G11_COORDINATE_QUESTION_POOL(mode,v);check(pool.length===10&&pool[4].errorAnalysis,'bank contract '+mode);pool.forEach((q,i)=>audit(q,mode+'/'+v+'/'+i));}
+for(let v=1;v<=60;v++){
+ const q=ctx.window.KTP_G11_COORDINATE_QUESTION_POOL('planeDistance',v)[0];
+ check(q.answerCore==='2.'&&q.audit.result===2,'exact distance P-to-plane answer for variant '+v);
+}
 check(S.lessons.length===12&&S.meta.courseLessonStart===45&&S.meta.courseLessonEnd===56,'12 lessons 45–56');
 let assessed=0;
 for(const [i,L] of S.lessons.entries()){
