@@ -1,3 +1,4 @@
+import './qa-grade11-geometry-p13.mjs';
 import fs from 'node:fs';
 import vm from 'node:vm';
 

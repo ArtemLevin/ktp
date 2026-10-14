@@ -67,13 +67,26 @@ const rubric={
  'section-oblique':['В рабочем сечении найти высоту','По высоте найти объём'],
  'similar-cube-root':['Извлечь кубические корни объёмов','Упростить линейное отношение'],
  'inverse-pyramid':['Выразить высоту из формулы V=Sосн·h/3','Получить численное значение'],
- 'oblique-error-proof':['Объяснить отличие высоты от бокового ребра','Найти высоту через проекцию','Вычислить правильный объём и обосновать'],
- 'frustum-mean-proof':['Обнаружить ошибку арифметического среднего','Найти средний член √(S₁S₂) и объём','Объяснить квадратичную зависимость площадей сечений']
+ 'oblique-error-proof':['Обосновать формулу h²=e²−p² рабочего сечения','Найти h и объём','Доказать 0<h<e для 0<p<e'],
+ 'frustum-mean-proof':['Исправить формулу с членом √(S₁S₂)','Вычислить правильный объём','Доказать Vош>V по формуле h(√S₁−√S₂)²/6']
+};
+const diagnosticByFamily={
+ 'cube-scaling':'Подобие и размерность',
+ 'similar-cube-root':'Подобие и размерность',
+ 'triangle-prism':'Призмы и перпендикулярная высота',
+ 'oblique-prism':'Призмы и перпендикулярная высота',
+ 'section-oblique':'Призмы и перпендикулярная высота',
+ 'triangle-pyramid':'Пирамиды и формулы объёма',
+ 'frustum-volume':'Пирамиды и формулы объёма',
+ 'inverse-pyramid':'Пирамиды и формулы объёма',
+ 'remove-cavity':'Составной объём',
+ 'oblique-error-proof':'Доказательство и исправление ошибок',
+ 'frustum-mean-proof':'Доказательство и исправление ошибок'
 };
 const grade=(tasks,kind)=>tasks.map((q,i)=>{
  const [family,points]=cognitive[kind][i],criteria=rubric[family];
  if(q.points!==points||criteria.length!==points)throw Error('Rubric '+kind+'/'+i);
- return {...q,cognitive:{family,method:family,dok:points===3?3:points===1?1:2,steps:points},criteria:criteria.map(text=>({points:1,text}))};
+ return {...q,cognitive:{family,method:family,dok:points===3?3:points===1?1:2,steps:points},criteria:criteria.map(text=>({points:1,text})),diagnostic:{domain:diagnosticByFamily[family]||family,goal:family}};
 });
 const trianglesI=[[6,8,5],[7,10,6],[10,6,7],[9,8,5],[8,10,9],[12,5,8]];
 const trianglesC=[[8,15,6],[9,10,8],[12,8,7],[10,12,9],[11,6,5],[15,8,6]];
@@ -98,8 +111,8 @@ function independent(v){
   task(y.text,y.V+'.',2,'PYRAMID_VOLUME',y.solution),
   task(f.text,f.V+'.',2,'FRUSTUM_VOLUME',f.solution),
   task(c.text,c.V+'.',2,'COMPOSITE_VOLUME',c.solution),
-  task('Наклонная призма: Sосн='+errorCfg.S+', ребро '+errorCfg.edge+', проекция '+errorCfg.proj+'. Ученик использовал ребро вместо высоты. Найдите ошибку, высоту и правильный объём с обоснованием.',
-   'Боковое ребро — гипотенуза, h='+er.h+'; V='+er.V+'.',3,'ERROR_OBLIQUE_HEIGHT','h=√('+errorCfg.edge+'²−'+errorCfg.proj+'²)='+er.h+'; V=Sосн·h='+er.V+'.')
+  task('Наклонная призма: Sосн='+errorCfg.S+', ребро '+errorCfg.edge+', проекция '+errorCfg.proj+'. Ученик использовал ребро вместо высоты. Найдите h, правильный объём и докажите 0<h<e.',
+   'Боковое ребро — гипотенуза, h='+er.h+'; V='+er.V+'. При 0<p<e: 0<h<e.',3,'ERROR_OBLIQUE_HEIGHT','h=√('+errorCfg.edge+'²−'+errorCfg.proj+'²)='+er.h+'; V=Sосн·h='+er.V+'.')
  ],'independent')};
 }
 
@@ -149,8 +162,8 @@ function control(v){
   task(sim.text,sim.answer,2,'SIMILAR_SOLIDS',sim.solution),
   task(c.text,c.V+'.',2,'COMPOSITE_VOLUME',c.solution),
   task(inv.text,inv.answer,2,'INVERSE_VOLUME',inv.solution),
-  task('Усечённая пирамида S₁='+cfg.S1+', S₂='+cfg.S2+', h='+cfg.h+'. Ученик использовал V=h(S₁+S₂)/2. Найдите ошибку, правильный объём и обоснуйте необходимость дополнительного члена.',
-   'Требуется √(S₁S₂)='+correct.g+'; V='+correct.V+'. Площади подобных сечений изменяются квадратично.',
+  task('Усечённая пирамида S₁='+cfg.S1+', S₂='+cfg.S2+', h='+cfg.h+'. Ученик использовал V=h(S₁+S₂)/2. Найдите правильный объём и докажите, что ошибочная формула завышает результат.',
+   'Требуется √(S₁S₂)='+correct.g+'; V='+correct.V+'. Завышение составляет '+(cfg.h*(cfg.S1+cfg.S2-2*correct.g)/6)+', поскольку Vош−V=h(√S₁−√S₂)²/6>0.',
    3,'ERROR_FRUSTUM_MEAN','V=h(S₁+√(S₁S₂)+S₂)/3='+cfg.h+'/3·('+cfg.S1+'+'+correct.g+'+'+cfg.S2+')='+correct.V+'.')
  ],'control')};
 }
