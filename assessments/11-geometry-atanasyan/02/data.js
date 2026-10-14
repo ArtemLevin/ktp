@@ -136,7 +136,7 @@ function inverseTask(cfg){
 function control(v){
  const q=C[v-1],p=prismSpec(triangle(trianglesC[v-1])),o=obliqueSpec(q.oblique),y=pyramidSpec(triangle(pyramidsC[v-1])),f=frustumSpec(q.frustum);
  const arr=sectionsC[v-1],section=sectionTask({type:'prism',S:arr[0],edge:arr[1],proj:arr[2]});
- const cube=similarC[v-1],linear=cube.map(x=>Math.round(Math.cbrt(x))),sim=similarTask({ratio:cube,linear});
+ const cube=similarC[v-1],roots=cube.map(x=>Math.round(Math.cbrt(x))),g=(function gcd(a,b){return b?gcd(b,a%b):a;})(roots[0],roots[1]),linear=roots.map(x=>x/g),sim=similarTask({ratio:cube,linear});
  const c=cavitySpec(q.cavity),h=inverseC[v-1],inv=inverseTask({type:'pyramid',S:h[0],V:h[0]*h[1]/3});
  const cfg=C[v%6].frustum,correct=frustumSpec(cfg);
  return{id:v,tasks:grade([
