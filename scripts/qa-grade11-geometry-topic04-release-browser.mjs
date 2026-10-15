@@ -1,3 +1,5 @@
+import {execFileSync} from 'node:child_process';
+execFileSync(process.execPath,['scripts/export-grade11-teacher-pages.mjs']);
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
@@ -59,6 +61,9 @@ try{
  }
  for(const kind of ['independent','control'])for(const width of [1280,390,320]){
   await page.setViewportSize({width,height:900});await page.goto(base+'/assessments/11-geometry-atanasyan/04/'+kind+'.html',{waitUntil:'networkidle'});
+  check(await page.locator('[data-answers],.teacher-key').count()===0,'student key absent');
+  check(!await page.evaluate(()=>performance.getEntriesByType('resource').some(x=>/\/(?:data|question-bank)\.js$/.test(x.name))),'student response has no answer scripts');
+  await page.goto(base+'/assessments/11-geometry-atanasyan/04/teacher-'+kind+'.html',{waitUntil:'networkidle'});
   check(await page.locator('h1').innerText()==='Векторы в пространстве','assessment title');check(await page.locator('.variant:visible').count()===1,'one variant initially');check(await page.locator('.teacher-key:visible').count()===0,'answers hidden');
   for(let v=1;v<=6;v++){
    await page.locator('[data-pick="'+v+'"]').click();const active=page.locator('.variant.active');
