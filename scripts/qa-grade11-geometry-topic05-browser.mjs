@@ -1,3 +1,5 @@
+import {execFileSync} from 'node:child_process';
+execFileSync(process.execPath,['scripts/export-grade11-teacher-pages.mjs']);
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
@@ -39,7 +41,9 @@ try{
   await page.locator('#t').focus();await page.keyboard.press('ArrowLeft');check((await page.evaluate(()=>window.KTP_COORDINATE_LAB_CURRENT.t))<3,'keyboard range');await page.locator('#onPlane').click();check((await page.locator('#observation').innerText()).includes('равны 0'),'zero boundary');
  }
  for(const kind of ['independent','control'])for(const width of [1280,390,320]){
-  await page.setViewportSize({width,height:900});await open('assessments/11-geometry-atanasyan/05/'+kind+'.html');check(await page.locator('.teacher-key:visible').count()===0,'initial answers hidden');
+  await page.setViewportSize({width,height:900});await open('assessments/11-geometry-atanasyan/05/'+kind+'.html');
+  check(await page.locator('[data-answers],.teacher-key').count()===0,'student key absent');
+  await open('assessments/11-geometry-atanasyan/05/teacher-'+kind+'.html');check(await page.locator('.teacher-key:visible').count()===0,'initial answers hidden');
   for(let v=1;v<=6;v++){
    await page.locator('[data-pick="'+v+'"]').click();const active=page.locator('.variant.active');check(await active.locator('.task').count()===(kind==='independent'?7:10),'task count');check(!await overflow(),'assessment mobile');await page.locator('[data-answers]').click();check(await active.locator('.teacher-key').isVisible(),'teacher key');check((await active.locator('.teacher-key').innerText()).includes('Критерии:'),'criteria');check(!await overflow(),'answers responsive');await page.locator('[data-answers]').click();
   }
