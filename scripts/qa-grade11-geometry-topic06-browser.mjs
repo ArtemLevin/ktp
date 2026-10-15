@@ -1,3 +1,5 @@
+import {execFileSync} from 'node:child_process';
+execFileSync(process.execPath,['scripts/export-grade11-teacher-pages.mjs']);
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
@@ -63,7 +65,9 @@ try{
  await page.evaluate(()=>localStorage.setItem('ktp:g11:review:v1','{bad json'));await page.reload({waitUntil:'networkidle'});check(await page.locator('.score').count()===0&&await page.locator('.question').count()===10,'corrupt state recovered');
  await page.evaluate(()=>localStorage.setItem('ktp:g11:review:v1',JSON.stringify({version:1,variant:1,answers:[],submitted:false,corrections:{},counters:{},history:[]})));await page.reload({waitUntil:'networkidle'});check(await page.evaluate(()=>!Array.isArray(window.KTP_G11_REVIEW_STATE.answers)),'invalid saved shape replaced with fresh object');
  for(const kind of ['independent','control'])for(const width of [1280,390,320]){
-  await page.setViewportSize({width,height:900});await open('assessments/11-geometry-atanasyan/06/'+kind+'.html');check(await page.locator('.teacher-key:visible').count()===0,'answers hidden');
+  await page.setViewportSize({width,height:900});await open('assessments/11-geometry-atanasyan/06/'+kind+'.html');
+  check(await page.locator('[data-answers],.teacher-key').count()===0,'student key absent');
+  await open('assessments/11-geometry-atanasyan/06/teacher-'+kind+'.html');check(await page.locator('.teacher-key:visible').count()===0,'answers hidden');
   for(let v=1;v<=6;v++){await page.locator('[data-pick="'+v+'"]').click();const active=page.locator('.variant.active');check(await active.locator('.task').count()===(kind==='independent'?7:10),'thematic task count');check(!await overflow(),'thematic responsive');await page.locator('[data-answers]').click();check((await active.locator('.teacher-key').innerText()).includes('Критерии:'),'criteria shown');check(!await overflow(),'teacher key responsive');await page.locator('[data-answers]').click();}
   await page.locator('[data-all]').click();check(await page.locator('.variant:visible').count()===6,'all thematic variants');
   if(width===1280){for(const answers of [false,true]){if(answers)await page.locator('[data-answers]').click();await page.emulateMedia({media:'print'});check(await page.locator('.teacher-key:visible').count()===(answers?6:0),'print answer visibility');await page.pdf({path:path.join(out,'review-'+kind+(answers?'-answers':'')+'.pdf'),format:'A4'});await page.emulateMedia({media:'screen'});}}

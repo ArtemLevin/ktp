@@ -1,3 +1,5 @@
+import {execFileSync} from 'node:child_process';
+execFileSync(process.execPath,['scripts/export-grade11-teacher-pages.mjs']);
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
@@ -62,6 +64,11 @@ try{
     if(width.scroll>width.client+4)throw Error(kind+': mobile overflow '+JSON.stringify(width));
     await page.locator('[data-pick="6"]').click();
     if(!((await page.locator('[data-pick="6"]').getAttribute('class'))||'').includes('selected'))throw Error(kind+': variant switching');
+    if(await page.locator('[data-answers],.teacher-key').count()!==0)throw Error(kind+': student exposed answer controls');
+    const resources=await page.evaluate(()=>performance.getEntriesByType('resource').map(r=>r.name));
+    if(resources.some(u=>/\/(?:data|question-bank)\.js$/.test(u)))throw Error(kind+': answer script loaded');
+    await page.goto('http://127.0.0.1:'+port+'/assessments/11-geometry-atanasyan/03/teacher-'+kind+'.html',{waitUntil:'networkidle'});
+    await page.locator('[data-pick="6"]').click();
     await page.locator('[data-answers]').click();
     if(!((await page.locator('body').getAttribute('class'))||'').includes('answers-on'))throw Error(kind+': answers toggle');
     const key=await page.locator('.variant.active .teacher-key').innerText();
@@ -86,6 +93,7 @@ try{
     const pdf=await page.pdf({format:'A4',printBackground:true});
     if(pdf.length<18000)throw Error(kind+': print PDF too small '+pdf.length);
     await page.emulateMedia({media:'screen'});
+    await page.goBack({waitUntil:'networkidle'});
     await page.goBack({waitUntil:'networkidle'});
     await card.waitFor({state:'visible'});
   }
