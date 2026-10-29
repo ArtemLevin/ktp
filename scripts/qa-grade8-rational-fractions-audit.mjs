@@ -38,6 +38,27 @@ for(let i=1;i<=6;i++){
   questions++;
 }
 
+// Lesson 01 (classify): independently evaluate every numerical substitution
+// in the 6+6 assessment variants; check intended classifications.
+const classify=pack('Grade 8 first-lesson mathematical audit','classify');
+const numericFraction=(answer)=>{
+  const match=String(answer).match(/^(-?\d+)\/(-?\d+)$/);
+  assert.ok(match,'expected explicit numerical fraction: '+answer);
+  assert.notEqual(Number(match[2]),0,'fraction denominator is nonzero');
+  return Number(match[1])/Number(match[2]);
+};
+for(let i=1;i<=6;i++){
+  const a=i+1,b=i+3,c=i+5;
+  const q=classify.independent.variants[i-1].tasks;
+  const r=classify.control.variants[i-1].tasks;
+  assert.equal(numericFraction(q[3].answer),(a+b)/c,'independent substitution '+i);
+  assert.equal(numericFraction(r[3].answer),(2*a-b)/c,'control substitution '+i);
+  assert.match(q[1].answer,/целое рациональное/,'polynomial classified as entire');
+  assert.match(r[1].answer,/дробное рациональное/,'rational fraction classified as fractional');
+  assert.match(q[4].answer,/знаменатель равен нулю/,'denominator-zero safeguard');
+  assert.match(r[5].answer,/выражение целое/,'constant denominator is allowed');
+}
+
 const kinds=['classify','domain','zero','property','cancel','same_den','common_den','diff_den','multiply','power','divide','transform1','transform2','inverse','review'];
 let variants=0;
 for(const kind of kinds){
