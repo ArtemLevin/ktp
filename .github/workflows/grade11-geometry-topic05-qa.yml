@@ -53,7 +53,7 @@ permissions:
   contents: read
 jobs:
   structural:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -75,7 +75,7 @@ jobs:
           node scripts/qa-grade10-geometry-topic05-final.mjs
           node scripts/qa-grade10-geometry-topic05-final-docs.mjs
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
