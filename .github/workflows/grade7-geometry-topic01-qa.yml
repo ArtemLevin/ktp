@@ -13,6 +13,7 @@ on:
       - 'geometry/**'
       - 'scripts/qa-grade7-geometry-topic01.mjs'
       - 'scripts/qa-grade7-geometry-topic01-full.mjs'
+      - 'scripts/qa-grade7-geometry-lesson01-audit.mjs'
       - 'scripts/qa-grade7-geometry-browser.mjs'
       - 'scripts/qa-grade7-geometry-lessons-browser.mjs'
       - '.github/workflows/grade7-geometry-topic01-qa.yml'
@@ -33,6 +34,7 @@ on:
       - 'geometry/**'
       - 'scripts/qa-grade7-geometry-topic01.mjs'
       - 'scripts/qa-grade7-geometry-topic01-full.mjs'
+      - 'scripts/qa-grade7-geometry-lesson01-audit.mjs'
       - 'scripts/qa-grade7-geometry-browser.mjs'
       - 'scripts/qa-grade7-geometry-lessons-browser.mjs'
       - '.github/workflows/grade7-geometry-topic01-qa.yml'
@@ -57,6 +59,8 @@ jobs:
         run: node scripts/qa-grade7-geometry-topic01.mjs
       - name: Validate 12 lessons and thematic assessments
         run: node scripts/qa-grade7-geometry-topic01-full.mjs
+      - name: Verify generated first-lesson geometry answers
+        run: node scripts/qa-grade7-geometry-lesson01-audit.mjs
 
   browser:
     runs-on: ubuntu-24.04
