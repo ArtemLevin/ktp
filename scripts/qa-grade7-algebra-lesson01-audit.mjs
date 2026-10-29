@@ -64,7 +64,7 @@ for(let i=1;i<=6;i++){
   assert.equal(ad,targetD,'specified target denominator');
   assert.equal(an*cd,cn*ad,'equivalent fraction changed value');
   assert.equal(c[3].answer,'первое больше','negative fractions order');
-  assert.match(c[6].answer,/-4 и 2\/3/,'integer and noninteger rational numbers');
+  assert.match(c[6].answer,/[−-]4 и 2\/3/,'integer and noninteger rational numbers');
   variants++;
 }
 assert.equal(variants,6);
