@@ -37,6 +37,7 @@ on:
       - 'labs/10-algebra-alimov/**'
       - 'labs/11-algebra-alimov/**'
       - 'scripts/qa-reference-lines.mjs'
+      - 'scripts/qa-grade8-rational-fractions-audit.mjs'
       - '.github/workflows/reference-lines-regression-qa.yml'
   push:
     branches:
@@ -75,6 +76,7 @@ on:
       - 'labs/10-algebra-alimov/**'
       - 'labs/11-algebra-alimov/**'
       - 'scripts/qa-reference-lines.mjs'
+      - 'scripts/qa-grade8-rational-fractions-audit.mjs'
       - '.github/workflows/reference-lines-regression-qa.yml'
 
 permissions:
@@ -91,3 +93,5 @@ jobs:
           node-version: '22'
       - name: Validate five reference lines
         run: node scripts/qa-reference-lines.mjs
+      - name: Validate rational fractions variants and LCM answers
+        run: node scripts/qa-grade8-rational-fractions-audit.mjs
