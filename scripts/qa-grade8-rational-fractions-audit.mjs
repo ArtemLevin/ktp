@@ -57,7 +57,6 @@ for(let i=1;i<=6;i++){
   assert.match(r[1].answer,/дробное рациональное/,'rational fraction classified as fractional');
   assert.match(q[4].answer,/знаменатель равен нулю/,'denominator-zero safeguard');
   assert.match(r[5].answer,/выражение целое/,'constant denominator is allowed');
-  questions+=q.length+r.length;
 }
 
 const kinds=['classify','domain','zero','property','cancel','same_den','common_den','diff_den','multiply','power','divide','transform1','transform2','inverse','review'];
