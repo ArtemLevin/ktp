@@ -28,7 +28,7 @@ on:
       - 'scripts/qa-grade9-geometry-topic05*.mjs'
 jobs:
   structural:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -56,7 +56,7 @@ jobs:
       - name: Foundation regression
         run: node scripts/qa-grade9-geometry-foundation.mjs
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
