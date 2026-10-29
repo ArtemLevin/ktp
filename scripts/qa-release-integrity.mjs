@@ -129,6 +129,14 @@ for(const p of new Set(pages)){
   }
 }
 
+// Browser QA must not silently move to an unsupported new runner image.
+for(const workflow of fs.readdirSync(file('.github/workflows')).filter(name=>/\.ya?ml$/.test(name))){
+  const yaml=read('.github/workflows/'+workflow);
+  if(/playwright|chromium/i.test(yaml)&&/\bruns-on:\s*ubuntu-latest\b/.test(yaml)){
+    failures.push('.github/workflows/'+workflow+': pin a supported Ubuntu runner for Playwright');
+  }
+}
+
 console.log('KTP release integrity inventory:');
 for(const r of inventory)console.log(r.id+': topics '+r.content+'/'+r.topics+', lessons '+r.lessons+', assessments '+r.assessments);
 console.log('Totals: '+JSON.stringify(stats)+'; static HTML pages checked: '+new Set(pages).size);
