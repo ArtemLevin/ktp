@@ -71,7 +71,14 @@ assert.equal(lesson.practice.length,8);
 assert.equal(lesson.homework.required.length,6);
 assert.equal(lesson.homework.optional.length,2);
 assert.equal(visible.length,85);
-for(const item of visible)val(item);
+for(let i=0;i<3;i++){
+ const expected=pool('cylinder',1)[i];
+ assert.equal(ex[i].problem,expected.text);
+ assert.equal(ex[i].answer,expected.answer);
+ assert.equal(ex[i].solution,expected.solution);
+ val(expected);
+}
+for(const item of visible.slice(3))val(item);
 for(const [kind,taskCount,score] of [['independent',5,10],['control',6,14]]){
  const variants=lesson[kind].variants;
  assert.equal(variants.length,6);
