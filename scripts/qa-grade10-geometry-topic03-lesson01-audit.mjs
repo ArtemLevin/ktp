@@ -58,7 +58,8 @@ for(const k of ['independent','control']){
    assert.match(v.tasks[0].answer,/перпендикулярны/);
    assert.match(v.tasks[1].text,/проекции/);
    assert.match(v.tasks[1].answer,/нужен истинный угол 90°/);
-   assert.match(v.tasks[2].answer,/скрещивающиеся/);
+   assert.match(v.tasks[2].text,/скрещивающиеся/);
+   assert.match(v.tasks[2].answer,/угол между их направлениями равен 90°/);
    assert.match(v.tasks[3].answer,/перпендикулярны/);
    assert.match(v.tasks[4].answer,/меньший угол/);
    if(k==='control')assert.equal(v.tasks[5].answer,'0°…90°.');
