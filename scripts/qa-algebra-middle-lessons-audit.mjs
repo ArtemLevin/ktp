@@ -143,13 +143,13 @@ function check9(o){
 function check10(o){
  const t=o.text,a=o.answer;let m;
  if((m=t.match(/^Переведите (\d+)° в радианы\.$/))){
-  const d=+m[1];let x;const v=a.trim().match(/^π(?:\/(\d+))?$/);
+  const d=+m[1];let x;const v=a.trim().match(/^(\d*)π(?:\/(\d+))?$/);
   assert.ok(v,'wrong radian notation '+a);
-  x=Math.PI/(v[1]?+v[1]:1);
+  x=(v[1]?+v[1]:1)*Math.PI/(v[2]?+v[2]:1);
   return assert.ok(Math.abs(x-d*Math.PI/180)<1e-9,'wrong degree→radian '+t);
  }
- if((m=t.match(/^Переведите (2?π)(?:\/(\d+))? рад в градусы\.$/))){
-  const x=(m[1]==='2π'?2:1)*180/(m[2]?+m[2]:1);
+ if((m=t.match(/^Переведите (\d*π)(?:\/(\d+))? рад в градусы\.$/))){
+  const x=(m[1]==='π'?1:Number(m[1].replace('π','')))*180/(m[2]?+m[2]:1);
   return eq(a,x+'°');
  }
  if(t.includes('Что означает 1 радиан'))return assert.match(a,/дугу длиной, равной радиусу/);
