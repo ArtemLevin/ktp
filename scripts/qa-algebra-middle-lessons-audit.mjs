@@ -86,7 +86,7 @@ function check8(o){
  }
  if((m=t.match(/^(?:Найдите знак|Знак) (\d+)-(\d+)\.$/)))return assert.equal(a,(+m[1]-+m[2])<0?'отрицательный':'положительный');
  if((m=t.match(/^Верно ли (\d+)>(\d+)\?$/)))return assert.equal(a,(+m[1]>+m[2])?'Да':'Нет');
- if((m=t.match(/^(?:Если |Известно, что )([a-z])−([a-z])=(−?[\d,]+)[,.]?/))){
+ if((m=t.match(/^(?:Если |Известно, что )([a-z])−([a-z])=(−?\d+(?:,\d+)?)/))){
   const op=num(m[3])<0?'<':num(m[3])>0?'>':'=';
   return eq(a,m[1]+op+m[2],'g8 difference '+t);
  }
