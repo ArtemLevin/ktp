@@ -86,7 +86,7 @@ function g9(item){
  if((m=t.match(/^Какие множества содержат число (\d+)\?$/)))return assert.match(a,/N, Z, Q и R/);
  if(t.includes('периодическая бесконечная')||t.includes('бесконечна'))return assert.match(a,/рациональн/);
  if(t.includes('смысл включения Q⊂R'))return assert.match(a,/Каждое рациональное.*действительным/);
- if(t.includes('цепочку включений'))return equal(a,'N⊂Z⊂Q⊂R',t);
+ if(t.includes('цепочку включений')||t.includes('Запишите цепочку N, Z, Q, R'))return equal(a,'N⊂Z⊂Q⊂R',t);
  if(t.includes('Классифицируйте √49'))return assert.match(a,/√49∈N; √7∈R\\Q/);
  if(t.includes('число −12'))return equal(a,'Z',t);
  if(t.includes('Вычислите 2,7+13,4+7,3'))return equal(a,'23,4',t);
