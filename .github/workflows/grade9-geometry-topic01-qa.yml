@@ -16,6 +16,7 @@ on:
       - 'lessons/README.md'
       - 'assessments/README.md'
       - 'scripts/qa-grade9-geometry-topic01*.mjs'
+      - 'scripts/qa-grade9-geometry-lesson01-audit.mjs'
       - '.github/workflows/grade9-geometry-topic01-qa.yml'
   push:
     branches: [ main ]
@@ -26,6 +27,7 @@ on:
       - 'assessments/9-geometry-atanasyan/01/**'
       - 'labs/9-geometry-atanasyan/vector-operations/**'
       - 'scripts/qa-grade9-geometry-topic01*.mjs'
+      - 'scripts/qa-grade9-geometry-lesson01-audit.mjs'
 
 jobs:
   structural:
@@ -37,6 +39,8 @@ jobs:
           node-version: 22
       - name: Structural and source QA
         run: node scripts/qa-grade9-geometry-topic01.mjs
+      - name: Check vector direction and zero-vector examples in lesson 01
+        run: node scripts/qa-grade9-geometry-lesson01-audit.mjs
       - name: Documentation QA
         run: node scripts/qa-grade9-geometry-topic01-docs.mjs
       - name: Foundation regression
