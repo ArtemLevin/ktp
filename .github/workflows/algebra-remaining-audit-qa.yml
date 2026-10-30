@@ -1,0 +1,39 @@
+name: Algebra Remaining Sample QA
+on:
+  pull_request:
+    paths:
+      - 'lessons/7-algebra-makarychev/07/**'
+      - 'lessons/8-algebra-makarychev/07/**'
+      - 'lessons/9-algebra-makarychev/01/**'
+      - 'scripts/qa-algebra-remaining-*.mjs'
+      - '.github/workflows/algebra-remaining-audit-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'lessons/7-algebra-makarychev/07/**'
+      - 'lessons/8-algebra-makarychev/07/**'
+      - 'lessons/9-algebra-makarychev/01/**'
+      - 'scripts/qa-algebra-remaining-*.mjs'
+      - '.github/workflows/algebra-remaining-audit-qa.yml'
+permissions:
+  contents: read
+jobs:
+  math:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/qa-algebra-remaining-sample-audit.mjs
+  browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - run: node scripts/qa-algebra-remaining-browser.mjs
