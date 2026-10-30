@@ -43,6 +43,7 @@ for(const [key,l] of Object.entries(lessons)){
  }
  const displayed=[...l.examples.map(e=>({text:e.problem,answer:e.answer})),...l.practice,...l.homework.required,...l.homework.optional,...l.independent.variants.flatMap(v=>v.tasks),...l.control.variants.flatMap(v=>v.tasks)];
  assert.ok(displayed.every(e=>e.text&&String(e.answer).trim()),key+' blank answer');
+ const norms=new Map();for(const task of displayed){const k=task.text.replace(/[−-]?\d+(?:[,\.]\d+)?/g,'#');if(!norms.has(k))norms.set(k,{q:task.text,a:task.answer});}console.log('PATTERNS',JSON.stringify({key,count:norms.size,patterns:[...norms.values()]}));
  console.log('MIDDLE_LESSON',JSON.stringify({key,title:l.title,global:l.globalNumber,section:l.source?.section,total:displayed.length,prerequisites:l.prerequisites,examples:l.examples.slice(0,2),practice:l.practice.slice(0,8),required:l.homework.required.slice(0,6),optional:l.homework.optional.slice(0,2),independent:l.independent.variants[0].tasks,control:l.control.variants[0].tasks}));
 }
 console.log('Five algebra middle-lesson loaders/assessments initial QA PASS');
