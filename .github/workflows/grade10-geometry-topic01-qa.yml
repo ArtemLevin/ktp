@@ -20,6 +20,7 @@ on:
       - 'assessments/README.md'
       - 'scripts/qa-grade10-geometry-foundation.mjs'
       - 'scripts/qa-grade10-geometry-topic01*.mjs'
+      - 'scripts/qa-grade10-geometry-lesson01-audit.mjs'
       - '.github/workflows/grade10-geometry-topic01-qa.yml'
   push:
     branches: [ main ]
@@ -32,6 +33,7 @@ on:
       - 'assessments/10-geometry-atanasyan/01/**'
       - 'assessments/topic-links.js'
       - 'scripts/qa-grade10-geometry-topic01*.mjs'
+      - 'scripts/qa-grade10-geometry-lesson01-audit.mjs'
 
 jobs:
   structural:
@@ -43,6 +45,8 @@ jobs:
           node-version: 22
       - name: Topic 01 structural/source QA
         run: node scripts/qa-grade10-geometry-topic01.mjs
+      - name: Verify first stereometry lesson projection and cube examples
+        run: node scripts/qa-grade10-geometry-lesson01-audit.mjs
       - name: Topic 01 documentation QA
         run: node scripts/qa-grade10-geometry-topic01-docs.mjs
       - name: Foundation regression
