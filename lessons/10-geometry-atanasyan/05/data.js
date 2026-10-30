@@ -285,9 +285,9 @@ defs.forEach((d,i)=>{
     objectives:d.objectives,
     theory:d.theory.map((x,j)=>({title:x[0],html:x[1],spatialFigure:j===0?d.scene:null})),
     examples:[
-      example('Базовый разбор',p[0],d.scene),
-      example('Выбор метода',p[1],d.scene),
-      example('Контроль условия',p[2],d.scene)
+      i===0?{...example('Базовый разбор',p[0],d.scene),check:'Проверка: при рёбрах 3, 4, 5 объём 3·4·5=60 кубических единиц; каждая длина положительна.'}:example('Базовый разбор',p[0],d.scene),
+      i===0?{...example('Выбор метода',p[1],d.scene),check:'Проверка: 18·7=126; боковое ребро 10 нельзя подставлять вместо высоты 7, иначе получилось бы 180.'}:example('Выбор метода',p[1],d.scene),
+      i===0?{...example('Контроль условия',p[2],d.scene),check:'Проверка: пирамида занимает треть объёма призмы с теми же основанием 30 и высотой 6: 30·6/3=60.'}:example('Контроль условия',p[2],d.scene)
     ],
     mistakes:d.mistakes.map(x=>({title:x[0],explanation:x[1]})),
     practice:pool(d.mode,2).slice(0,8),
