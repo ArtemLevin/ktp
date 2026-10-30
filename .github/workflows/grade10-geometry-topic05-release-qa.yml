@@ -39,6 +39,7 @@ jobs:
       - name: Topic 05 final assessment, mathematics and documentation
         run: |
           node scripts/qa-grade10-geometry-topic05-final.mjs
+          node scripts/qa-grade10-geometry-topic05-lesson01-audit.mjs
           node scripts/qa-grade10-geometry-topic05-final-docs.mjs
       - name: Topic 05 staged regressions
         run: |
