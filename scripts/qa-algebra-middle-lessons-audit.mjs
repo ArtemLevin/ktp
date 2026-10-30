@@ -133,7 +133,7 @@ function check9(o){
  if(t.includes('x³−4x=0'))return eq(a,'−2; 0; 2');
  if(t.includes('x³−16x=0'))return eq(a,'−4; 0; 4');
  if(t.includes('(x−2)(x+4)=0'))return eq(a,'2; −4');
- if(t.includes('(x−2)²(x+4)=0'))return eq(a,2);
+ if((m=t.match(/Сколько различных действительных корней имеет \(x−(\d+)\)²\(x\+(\d+)\)=0/))){assert.notEqual(+m[1],-(+m[2]));return eq(a,2);}
  if(t.includes('x=0 нельзя проверять в 1/x'))return assert.match(a,/не определена/);
  if(t.includes('Придумайте целое уравнение третьей степени'))return assert.match(a,/x\(x\+1\)\(x−2\)=0/);
  if(t.includes('число корней не обязано совпадать')||t.includes('степень уравнения равна числу его корней'))return assert.match(a,/корней может быть меньше/);
