@@ -2,7 +2,7 @@
 
 **Дата актуализации:** 30.10.2026  
 **План:** 36 поурочных модулей (12 линий × 3 урока) по протоколу [INDEPENDENT_AUDIT_PROTOCOL.md](../INDEPENDENT_AUDIT_PROTOCOL.md).  
-**Состояние:** 10 уроков прошли выборочную экспертизу с замечаниями; 26 поурочных модулей ожидают проверки.
+**Состояние:** 11 уроков прошли выборочную экспертизу с замечаниями; 25 поурочных модулей ожидают проверки.
 
 | Учебная линия | Начальный урок | Средний урок | Заключительный урок |
 | --- | --- | --- | --- |
@@ -17,7 +17,7 @@
 | 8-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](8-geometry-atanasyan-01-01.md)** | 03/01 — ожидает | 05/01 — ожидает |
 | 9-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](9-geometry-atanasyan-01-01.md)** | 04/01 — ожидает | 07/01 — ожидает |
 | 10-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](10-geometry-atanasyan-01-01.md)** | **[03/01 — PASS_WITH_NOTES](10-geometry-atanasyan-03-01.md)** | **[05/01 — PASS_WITH_NOTES](10-geometry-atanasyan-05-01.md)** |
-| 11-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](11-geometry-atanasyan-01-01.md)** | **[03/01 — PASS_WITH_NOTES](11-geometry-atanasyan-03-01.md)** | 06/01 — ожидает |
+| 11-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](11-geometry-atanasyan-01-01.md)** | **[03/01 — PASS_WITH_NOTES](11-geometry-atanasyan-03-01.md)** | **[06/01 — PASS_WITH_NOTES](11-geometry-atanasyan-06-01.md)** |
 
 ## Дополнительные предметные проверки (вне 36-урочной выборки)
 

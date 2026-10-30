@@ -11,7 +11,11 @@ for(const [i,d] of defs.entries()){
  prerequisites:['Результаты серий 01–05 и выбор метода по геометрической модели.','Чтение пространственного рисунка и проверка условий правила.'],
  objectives:['Применять правило: '+d.title.toLowerCase()+'.','Обосновывать ход решения и исправлять типичную ошибку.'],
  theory:d.theory.map((html,j)=>({title:['Основное правило','Применение и условия','Проверка и границы'][j],html,spatialFigure:j===0&&d.sceneType==='spatial'?d.scene:null,revolutionFigure:j===0&&d.sceneType==='revolution'?d.scene:null})),
- examples:[0,1,4].map((n,j)=>({title:['Полный разбор','Другая ситуация','Анализ ошибки'][j],problem:p[n].text,idea:'Определите объект и условия используемого правила.',solution:p[n].solution,answer:p[n].answerCore,check:'Выполните обратную подстановку или проверьте геометрический инвариант.',audit:p[n].audit,auditOrigin:p[n].auditOrigin,skillId:p[n].skillId})),
+ examples:[0,1,4].map((n,j)=>({title:['Полный разбор','Другая ситуация','Анализ ошибки'][j],problem:p[n].text,idea:'Определите объект и условия используемого правила.',solution:p[n].solution,answer:p[n].answerCore,check:i===0?[
+  'Подстановка r=2 см, h=6 см: Sбок=2π·2·6=24π см². Это площадь боковой поверхности без оснований.',
+  'Образующая: l=√(6²+8²)=10 см; Sбок=π·6·10=60π см². Высоту h нельзя подставлять вместо l.',
+  'Для полной поверхности замкнутого цилиндра нужны два основания: Sполн=2πrh+2πr²; одно основание оставит площадь неполной.'
+ ][j]:'Выполните обратную подстановку или проверьте геометрический инвариант.',audit:p[n].audit,auditOrigin:p[n].auditOrigin,skillId:p[n].skillId})),
  mistakes:[{title:d.mistake,explanation:p[4].answerCore},{title:'Объект не определён',explanation:'Укажите тело, рабочую плоскость и искомую величину.'},{title:'Ответ без условия',explanation:'Проверьте ненулевые направления, ортонормированность системы и тип геометрического объекта.'},{title:'Размер снят с рисунка',explanation:'Вычисляйте по модели; экранная проекция зависит от камеры.'}],
  practice:pool(d.mode,13).slice(0,8),homework:{required:pool(d.mode,14).slice(0,6),optional:pool(d.mode,15).slice(8,10)},
  independent:work(d.mode,'independent'),control:work(d.mode,'control'),summary:[...d.theory,'Объект → условия → формула → результат → проверка.'],
