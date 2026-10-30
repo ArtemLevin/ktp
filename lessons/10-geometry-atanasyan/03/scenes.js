@@ -87,6 +87,27 @@ const box=(title,caption)=>{
 
 S.spatialScenes={
  'g10-p03-01':{title:'Перпендикулярные прямые',ariaLabel:'Две прямые через O с углом 90 градусов',camera:{yaw:-28,pitch:28,scale:74,origin:[210,155]},points:{A:[-1.2,0,0],O:[0,0,0],B:[1.2,0,0],C:[0,-1.2,0],D:[0,1.2,0]},labels:{A:false,B:false,C:false,D:false},objects:[{type:'line',points:['A','B'],extent:.2,style:'emphasis'},{type:'line',points:['C','D'],extent:.2}],caption:'Перпендикулярность задана истинным углом 90°, а не внешним видом проекции.'},
+ 'g10-p03-01-skew':{
+  title:'Скрещивающиеся перпендикулярные прямые в кубе',
+  ariaLabel:'Куб ABCDA1B1C1D1: ребро AB перпендикулярно ребру CC1, их прямые скрещиваются',
+  camera:{yaw:-33,pitch:24,scale:69,origin:[220,172]},
+  points:{A:[0,0,0],B:[2,0,0],C:[2,2,0],D:[0,2,0],A1:[0,0,2],B1:[2,0,2],C1:[2,2,2],D1:[0,2,2]},
+  objects:[
+   {type:'segment',points:['A','B'],style:'emphasis'},
+   {type:'segment',points:['B','C']},
+   {type:'segment',points:['C','D'],visibility:'hidden'},
+   {type:'segment',points:['D','A'],visibility:'hidden'},
+   {type:'segment',points:['A1','B1']},
+   {type:'segment',points:['B1','C1']},
+   {type:'segment',points:['C1','D1']},
+   {type:'segment',points:['D1','A1']},
+   {type:'segment',points:['A','A1']},
+   {type:'segment',points:['B','B1']},
+   {type:'segment',points:['C','C1'],style:'emphasis'},
+   {type:'segment',points:['D','D1'],visibility:'hidden'}
+  ],
+  caption:'AB⊥BB₁ (квадратная грань), BB₁∥CC₁; значит, угол между скрещивающимися AB и CC₁ равен 90°.'
+ },
  'g10-p03-02':planeBase('Параллельные нормальные направления','Если одно из параллельных направлений перпендикулярно α, второе также перпендикулярно α.',{hidden:true}),
  'g10-p03-03':planeBase('Признак перпендикулярности прямой и плоскости','Две пересекающиеся прямые плоскости через O дают достаточную проверку a⊥α.',{cross:true}),
  'g10-p03-04':planeBase('Единственный перпендикуляр к плоскости','Через заданную точку проходит единственная прямая, перпендикулярная данной плоскости.',{}),
