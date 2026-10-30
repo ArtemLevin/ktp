@@ -53,7 +53,7 @@ function g8(item){
  const t=item.text.replace(/^\d+\.\s*/,'').trim(),a=item.answer;let m;
  if((m=t.match(/^ОДЗ \d+\/\(x²−(\d+)\)\.$/))){const k=Math.sqrt(+m[1]);assert.ok(Number.isInteger(k));return equal(a,'x≠±'+k,t);}
  if((m=t.match(/^ОДЗ \d+\/\(x−(\d+)\)\.$/)))return equal(a,'x≠'+m[1],t);
- if((m=t.match(/^Сократите \(x²−(\d+)\)\/\(x([−+])(\d+)\)\.$/))){const k=Math.sqrt(+m[1]);assert.ok(Number.isInteger(k)&&k===+m[3]);return equal(a,(m[2]==='−'?'x+':'x−')+k+', x≠'+(m[2]==='−'?'':'−')+k,t);}
+ if((m=t.match(/^(?:Сократите|Упростите) \(x²−(\d+)\)\/\(x([−+])(\d+)\)\.$/))){const k=Math.sqrt(+m[1]);assert.ok(Number.isInteger(k)&&k===+m[3]);return equal(a,(m[2]==='−'?'x+':'x−')+k+', x≠'+(m[2]==='−'?'':'−')+k,t);}
  if((m=t.match(/^Сократите \(a²−b²\)\/\(a−b\)\.$/)))return equal(a,'a+b, a≠b',t);
  if((m=t.match(/^Сократите \(a²−4a\)\/\(a\)\.$/)))return equal(a,'a−4, a≠0',t);
  if((m=t.match(/^Решите \(x([+−])(\d+)\)\/\(x([+−])(\d+)\)=0\.$/))){const root=m[1]==='+'?- +m[2]:+m[2];const exc=m[3]==='+'?- +m[4]:+m[4];assert.notEqual(root,exc);return equal(a,root===7?'x=7':root+'',t);}
