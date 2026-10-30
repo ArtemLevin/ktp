@@ -31,3 +31,17 @@ jobs:
           node-version: 22
       - name: Independent first-lesson checks of all five middle algebra topics
         run: node scripts/qa-algebra-middle-lessons-audit.mjs
+
+  browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright for five-algebra lesson browser QA
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Desktop, 390px mobile and print smoke for five central lessons
+        run: node scripts/qa-algebra-middle-browser.mjs
