@@ -1,0 +1,47 @@
+name: Algebra Middle Lessons Independent Audit
+on:
+  pull_request:
+    paths:
+      - 'lessons/7-algebra-makarychev/04/**'
+      - 'lessons/8-algebra-makarychev/04/**'
+      - 'lessons/9-algebra-makarychev/03/**'
+      - 'lessons/10-algebra-alimov/05/**'
+      - 'lessons/11-algebra-alimov/04/**'
+      - 'scripts/qa-algebra-middle-*.mjs'
+      - '.github/workflows/algebra-middle-audit-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'lessons/7-algebra-makarychev/04/**'
+      - 'lessons/8-algebra-makarychev/04/**'
+      - 'lessons/9-algebra-makarychev/03/**'
+      - 'lessons/10-algebra-alimov/05/**'
+      - 'lessons/11-algebra-alimov/04/**'
+      - 'scripts/qa-algebra-middle-*.mjs'
+      - '.github/workflows/algebra-middle-audit-qa.yml'
+permissions:
+  contents: read
+jobs:
+  source-and-math:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Independent first-lesson checks of all five middle algebra topics
+        run: node scripts/qa-algebra-middle-lessons-audit.mjs
+
+  browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright for five-algebra lesson browser QA
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Desktop, 390px mobile and print smoke for five central lessons
+        run: node scripts/qa-algebra-middle-browser.mjs

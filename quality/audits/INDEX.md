@@ -2,17 +2,17 @@
 
 **Дата актуализации:** 30.10.2026  
 **План:** 36 поурочных модулей (12 линий × 3 урока) по протоколу [INDEPENDENT_AUDIT_PROTOCOL.md](../INDEPENDENT_AUDIT_PROTOCOL.md).  
-**Состояние:** 11 уроков прошли выборочную экспертизу с замечаниями; 25 поурочных модулей ожидают проверки.
+**Состояние:** 16 уроков прошли выборочную экспертизу с замечаниями; 20 поурочных модулей ожидают проверки.
 
 | Учебная линия | Начальный урок | Средний урок | Заключительный урок |
 | --- | --- | --- | --- |
 | 5-math-vilenkin | 01/01 — ожидает | 07/01 — ожидает | 13/01 — ожидает |
 | 6-math-vilenkin | 01/01 — ожидает | 06/01 — ожидает | 10/01 — ожидает |
-| 7-algebra-makarychev | **[01/01 — PASS_WITH_NOTES](7-algebra-makarychev-01-01.md)** | 04/01 — ожидает | 07/01 — ожидает |
-| 8-algebra-makarychev | **[01/01 — PASS_WITH_NOTES](8-algebra-makarychev-01-01.md)** | 04/01 — ожидает | 07/01 — ожидает |
-| 9-algebra-makarychev | 01/01 — ожидает | 03/01 — ожидает | 06/01 — ожидает |
-| 10-algebra-alimov | 01/01 — ожидает | 05/01 — ожидает | 08/01 — ожидает |
-| 11-algebra-alimov | 01/01 — ожидает | 04/01 — ожидает | 07/01 — ожидает |
+| 7-algebra-makarychev | **[01/01 — PASS_WITH_NOTES](7-algebra-makarychev-01-01.md)** | **[04/01 — PASS_WITH_NOTES](7-algebra-makarychev-04-01.md)** | 07/01 — ожидает |
+| 8-algebra-makarychev | **[01/01 — PASS_WITH_NOTES](8-algebra-makarychev-01-01.md)** | **[04/01 — PASS_WITH_NOTES](8-algebra-makarychev-04-01.md)** | 07/01 — ожидает |
+| 9-algebra-makarychev | 01/01 — ожидает | **[03/01 — PASS_WITH_NOTES](9-algebra-makarychev-03-01.md)** | 06/01 — ожидает |
+| 10-algebra-alimov | 01/01 — ожидает | **[05/01 — PASS_WITH_NOTES](10-algebra-alimov-05-01.md)** | 08/01 — ожидает |
+| 11-algebra-alimov | 01/01 — ожидает | **[04/01 — PASS_WITH_NOTES](11-algebra-alimov-04-01.md)** | 07/01 — ожидает |
 | 7-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](7-geometry-atanasyan-01-01.md)** | 03/01 — ожидает | 06/01 — ожидает |
 | 8-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](8-geometry-atanasyan-01-01.md)** | 03/01 — ожидает | 05/01 — ожидает |
 | 9-geometry-atanasyan | **[01/01 — PASS_WITH_NOTES](9-geometry-atanasyan-01-01.md)** | 04/01 — ожидает | 07/01 — ожидает |
