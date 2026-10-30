@@ -104,6 +104,11 @@ function check8(o){
 }
 function check9(o){
  const t=o.text.replace(/^\d+\.\s*/,'').trim(),a=o.answer;let m;
+ if((m=t.match(/^Является ли x=(−?\d+) корнем \(x−(\d+)\)\(x\+(\d+)\)=0\?$/))){const x=+m[1];return assert.equal(/^Да/.test(a),(x-(+m[2]))*(x+(+m[3]))===0,'root test '+t);}
+ if((m=t.match(/^Решите x\(x−(\d+)\)=0\.$/)))return eq(a,'0; '+m[1]);
+ if((m=t.match(/^Решите x³−(\d+)x=0\.$/))){const root=Math.sqrt(+m[1]);assert.ok(Number.isInteger(root));return eq(a,'−'+root+'; 0; '+root);}
+ if((m=t.match(/^Решите \(x−(\d+)\)\(x\+(\d+)\)=0\.$/)))return eq(a,m[1]+'; −'+m[2]);
+ if((m=t.match(/^Проверьте x=−(\d+) для \(x−(\d+)\)\(x\+(\d+)\)=0\.$/))){const x=-(+m[1]);return assert.equal(/^Да/.test(a),(x-(+m[2]))*(x+(+m[3]))===0);}
  if(t.includes('(x²+1)²−x⁴+3x'))return eq(a,2);
  if(t.includes('(x²+1)−x²+5'))return assert.match(a,/^0:/);
  if(t.includes('(x³−1)(x+1)'))return eq(a,4);
