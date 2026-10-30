@@ -8,6 +8,7 @@ on:
       - 'topics/11-geometry-atanasyan/01.html'
       - 'geometry/lesson-revolution.js'
       - 'scripts/qa-grade11-geometry-topic01-lessons*.mjs'
+      - 'scripts/qa-grade11-geometry-lesson01-audit.mjs'
       - 'scripts/qa-grade11-geometry-foundation.mjs'
       - '.github/workflows/grade11-geometry-topic01-lessons-qa.yml'
   push:
@@ -18,6 +19,7 @@ on:
       - 'topics/11-geometry-atanasyan/01.html'
       - 'geometry/lesson-revolution.js'
       - 'scripts/qa-grade11-geometry-topic01-lessons*.mjs'
+      - 'scripts/qa-grade11-geometry-lesson01-audit.mjs'
       - 'scripts/qa-grade11-geometry-foundation.mjs'
       - '.github/workflows/grade11-geometry-topic01-lessons-qa.yml'
 
@@ -30,6 +32,8 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/qa-grade11-geometry-topic01-lessons.mjs
+      - name: Validate cylinder, sphere and ball first-lesson invariants
+        run: node scripts/qa-grade11-geometry-lesson01-audit.mjs
       - run: node scripts/qa-grade11-geometry-foundation.mjs
       - run: node scripts/qa-grade11-revolution-core.mjs
       - run: node scripts/qa-grade10-geometry-topic05-final.mjs
