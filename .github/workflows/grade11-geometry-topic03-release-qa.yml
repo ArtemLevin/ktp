@@ -52,6 +52,7 @@ jobs:
           node scripts/qa-grade11-geometry-topic03-docs.mjs
           node scripts/qa-grade11-geometry-topic03-lab.mjs
           node scripts/qa-grade11-geometry-topic03-lessons.mjs
+          node scripts/qa-grade11-geometry-topic03-lesson01-audit.mjs
           node scripts/qa-grade11-geometry-topic03-stage2.mjs
           node scripts/qa-grade11-geometry-topic03-stage1.mjs
           node scripts/qa-grade11-geometry-topic03-planning.mjs
