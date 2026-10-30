@@ -24,11 +24,11 @@ const check=(item)=>{
  if((m=t.match(/^У цилиндра r=(\d+) см, h=(\d+) см\. Найдите (полную|боковую)/))){
   const r=+m[1],h=+m[2];expected=(m[3]==='полную'?2*r*(h+r):2*r*h)+'π см².';
  }else if((m=t.match(/^Конус: r=(\d+) см, h=(\d+) см\. Найдите (полную|боковую)/))){
-  const r=+m[1],h=+m[2];const l=Math.hypot(r,h);expected=(r*l+(m[3]==='полную'?r*r:0))+'π см².';
+  const r=+m[1],h=+m[2];const l=Math.hypot(r,h);expected=Math.round((r*l+(m[3]==='полную'?r*r:0))*1e8)/1e8+'π см².';
  }else if((m=t.match(/^Радиус сферы (\d+) см\. Найдите площадь/))){
   expected=(4*(+m[1])**2)+'π см².';
  }else if((m=t.match(/^Усечённый конус: R=(\d+), r=(\d+), h=(\d+) см/))){
-  const R=+m[1],r=+m[2],h=+m[3];expected=((R+r)*Math.hypot(h,R-r)+R*R+r*r)+'π см².';
+  const R=+m[1],r=+m[2],h=+m[3];expected=Math.round(((R+r)*Math.hypot(h,R-r)+R*R+r*r)*1e8)/1e8+'π см².';
  }else if(t.startsWith('Ученик включил только одно основание')){
   expected='Полная поверхность: 2πrh+2πr²; оснований два.';
  }else assert.fail('Unrecognized surface question: '+t);
