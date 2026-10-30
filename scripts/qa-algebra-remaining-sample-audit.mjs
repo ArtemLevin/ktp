@@ -12,7 +12,7 @@ const data={
  g8:load('8-algebra-makarychev/07',['assessment-factory.js','data/block-1.js']),
  g9:load('9-algebra-makarychev/01',['assessment-common.js','assessments/block-1.js','data/01.js'])
 };
-const norm=s=>String(s).replace(/\s+/g,'').replace(/−/g,'-').replace(/[.]$/,'');
+const norm=s=>String(s).replace(/\s+/g,'').replace(/−/g,'-').replace(/\.(?=\d)/g,',').replace(/[.]$/,'');
 const equal=(a,b,q)=>assert.equal(norm(a),norm(b),'Answer differs: '+q);
 const decimal=x=>Number(x.replace(',','.').replace(/−/g,'-'));
 const frac=(n,d)=>{const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);const g=gcd(n,d);n/=g;d/=g;return d===1?String(n):n+'/'+d;};
