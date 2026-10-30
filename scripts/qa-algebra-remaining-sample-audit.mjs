@@ -13,7 +13,7 @@ const data={
  g9:load('9-algebra-makarychev/01',['assessment-common.js','assessments/block-1.js','data/01.js'])
 };
 const norm=s=>String(s).replace(/\s+/g,'').replace(/−/g,'-').replace(/\.(?=\d)/g,',').replace(/[.]$/,'');
-const equal=(a,b,q)=>assert.equal(norm(a),norm(b),'Answer differs: '+q);
+const equal=(a,b,q)=>{const left=String(a).trim().replace(',','.');if(typeof b==='number'&&Number.isFinite(b)&&Number.isFinite(Number(left))){assert.ok(Math.abs(Number(left)-b)<1e-8,'Numeric answer differs: '+q+' '+a+' versus '+b);return;}assert.equal(norm(a),norm(b),'Answer differs: '+q);};
 const decimal=x=>Number(x.replace(',','.').replace(/−/g,'-'));
 const frac=(n,d)=>{const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);const g=gcd(n,d);n/=g;d/=g;return d===1?String(n):n+'/'+d;};
 const count=p=>p.trim().replace(/^\d+\.\s*/,'').split(/[+\-−]/g).filter(Boolean).length;
