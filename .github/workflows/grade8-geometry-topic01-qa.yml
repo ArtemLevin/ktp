@@ -13,6 +13,7 @@ on:
       - 'assessments/topic-links.js'
       - 'geometry/**'
       - 'scripts/qa-grade8-geometry-topic01.mjs'
+      - 'scripts/qa-grade8-geometry-lesson01-audit.mjs'
       - 'scripts/qa-grade8-geometry-topic01-browser.mjs'
       - 'scripts/qa-grade8-geometry-topic01-docs.mjs'
       - '.github/workflows/grade8-geometry-topic01-qa.yml'
@@ -33,6 +34,7 @@ on:
       - 'assessments/topic-links.js'
       - 'geometry/**'
       - 'scripts/qa-grade8-geometry-topic01.mjs'
+      - 'scripts/qa-grade8-geometry-lesson01-audit.mjs'
       - 'scripts/qa-grade8-geometry-topic01-browser.mjs'
       - 'scripts/qa-grade8-geometry-topic01-docs.mjs'
       - '.github/workflows/grade8-geometry-topic01-qa.yml'
@@ -55,6 +57,8 @@ jobs:
           node-version: '22'
       - name: Validate topic 01 content, lessons, assessments, lab and links
         run: node scripts/qa-grade8-geometry-topic01.mjs
+      - name: Check polygon lesson source mapping, example solutions and 6+6 variants
+        run: node scripts/qa-grade8-geometry-lesson01-audit.mjs
       - name: Validate documentation status
         run: node scripts/qa-grade8-geometry-topic01-docs.mjs
 
